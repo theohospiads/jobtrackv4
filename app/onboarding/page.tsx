@@ -454,65 +454,76 @@ export default function OnboardingPage() {
           </div>
         ) : (
           <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-            {question.options?.map((option, idx) => (
-              <button
-                key={option.value}
-                onClick={() =>
-                  isProfileSelectionStep
-                    ? handleProfileSelect(option.value)
-                    : handleChoice(option.value)
-                }
-                style={{
-                  padding: '14px 16px',
-                  borderRadius: '10px',
-                  border: '2px solid #E5E7EB',
-                  background: answers[question.id] === option.value ? '#EFF6FF' : '#FFFFFF',
-                  color: answers[question.id] === option.value ? '#0369A1' : '#0F172A',
-                  fontSize: '15px',
-                  fontWeight: answers[question.id] === option.value ? '600' : '500',
-                  cursor: 'pointer',
-                  transition: 'all 200ms ease',
-                  textAlign: 'left',
-                  borderColor: answers[question.id] === option.value ? '#2563EB' : '#E5E7EB',
-                  letterSpacing: '-0.2px',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  gap: '4px',
-                  animationDelay: `${idx * 50}ms`,
-                  animation: fadeIn ? 'slideUp 300ms ease forwards' : 'none',
-                  transform: fadeIn ? 'translateY(0)' : 'translateY(10px)',
-                  opacity: fadeIn ? 1 : 0.5,
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.borderColor = '#2563EB'
-                  if (answers[question.id] !== option.value) {
-                    e.currentTarget.style.background = '#F8FAFC'
-                    e.currentTarget.style.transform = 'translateY(-1px)'
+            {question.options?.map((option, idx) => {
+              const isSelected = answers[question.id] === option.value
+              const altBg = idx % 2 === 0 ? '#FAFBFC' : '#EFF6FF'
+              const defaultBg = isSelected ? '#DBEAFE' : altBg
+              const defaultBorder = isSelected ? '#2563EB' : '#E5E7EB'
+
+              return (
+                <button
+                  key={option.value}
+                  onClick={() =>
+                    isProfileSelectionStep
+                      ? handleProfileSelect(option.value)
+                      : handleChoice(option.value)
                   }
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.borderColor =
-                    answers[question.id] === option.value ? '#2563EB' : '#E5E7EB'
-                  if (answers[question.id] !== option.value) {
-                    e.currentTarget.style.background = '#FFFFFF'
-                    e.currentTarget.style.transform = 'translateY(0)'
-                  }
-                }}
-              >
-                <span>{resolveLabel(option.labelKey)}</span>
-                {option.hintKey && (
-                  <span
-                    style={{
-                      fontSize: '12px',
-                      color: answers[question.id] === option.value ? '#0369A1' : '#94A3B8',
-                      fontWeight: '400',
-                    }}
-                  >
-                    {t(option.hintKey)}
-                  </span>
-                )}
-              </button>
-            ))}
+                  style={{
+                    padding: '16px 20px',
+                    borderRadius: '14px',
+                    border: `1.5px solid ${defaultBorder}`,
+                    background: defaultBg,
+                    color: isSelected ? '#1E40AF' : '#0F172A',
+                    fontSize: '15px',
+                    fontWeight: isSelected ? '600' : '500',
+                    cursor: 'pointer',
+                    transition: 'all 200ms ease',
+                    textAlign: 'left',
+                    letterSpacing: '-0.2px',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: '4px',
+                    boxShadow: isSelected
+                      ? '0 4px 12px rgba(37, 99, 235, 0.12), 0 1px 3px rgba(37, 99, 235, 0.06)'
+                      : '0 1px 3px rgba(0, 0, 0, 0.04)',
+                    animationDelay: `${idx * 50}ms`,
+                    animation: fadeIn ? 'slideUp 300ms ease forwards' : 'none',
+                    transform: fadeIn ? 'translateY(0)' : 'translateY(10px)',
+                    opacity: fadeIn ? 1 : 0.5,
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.borderColor = '#93C5FD'
+                    if (!isSelected) {
+                      e.currentTarget.style.background = idx % 2 === 0 ? '#F0F4F8' : '#E0EDFB'
+                      e.currentTarget.style.transform = 'translateY(-2px)'
+                      e.currentTarget.style.boxShadow = '0 6px 16px rgba(37, 99, 235, 0.1), 0 2px 4px rgba(0, 0, 0, 0.04)'
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.borderColor = defaultBorder
+                    if (!isSelected) {
+                      e.currentTarget.style.background = altBg
+                      e.currentTarget.style.transform = 'translateY(0)'
+                      e.currentTarget.style.boxShadow = '0 1px 3px rgba(0, 0, 0, 0.04)'
+                    }
+                  }}
+                >
+                  <span>{resolveLabel(option.labelKey)}</span>
+                  {option.hintKey && (
+                    <span
+                      style={{
+                        fontSize: '12px',
+                        color: isSelected ? '#3B82F6' : '#94A3B8',
+                        fontWeight: '400',
+                        lineHeight: '1.4',
+                      }}
+                    >
+                      {t(option.hintKey)}
+                    </span>
+                  )}
+                </button>
+              )
+            })}
           </div>
         )}
 
