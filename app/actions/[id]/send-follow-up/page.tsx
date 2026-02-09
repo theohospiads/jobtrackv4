@@ -7,22 +7,22 @@ import { useLanguage } from "@/components/language-provider"
 
 const actionJobs: Record<string, any> = {
   "1": {
-    title: "Product Analyst Intern",
-    company: "Acme Corp",
-    currentStage: "Application Review",
-    appliedDate: "3 days ago",
+    titleKey: "opp.data.role.productAnalystIntern",
+    companyKey: "opp.data.company.acmeCorp",
+    currentStageKey: "actionDetail.data.applicationReview",
+    appliedDateKey: "opp.data.3daysAgo",
   },
   "2": {
-    title: "Data Analyst",
-    company: "TechStart Inc",
-    currentStage: "Technical Assessment",
-    appliedDate: "5 days ago",
+    titleKey: "opp.data.role.dataAnalyst",
+    companyKey: "opp.data.company.techStart",
+    currentStageKey: "actionDetail.data.technicalAssessment",
+    appliedDateKey: "opp.data.5daysAgo",
   },
   "3": {
-    title: "Business Analyst",
-    company: "DataFlow",
-    currentStage: "Initial Review",
-    appliedDate: "2 days ago",
+    titleKey: "opp.data.role.businessAnalyst",
+    companyKey: "opp.data.company.dataFlow",
+    currentStageKey: "actionDetail.data.screeningCall",
+    appliedDateKey: "opp.data.2daysAgo",
   },
 }
 
@@ -33,8 +33,10 @@ export default function SendFollowUpPage() {
   const id = params.id as string
   const job = actionJobs[id] || actionJobs["1"]
 
+  const jobTitle = t(job.titleKey)
+  const jobCompany = t(job.companyKey)
   const [message, setMessage] = useState(
-    `Hi, I wanted to follow up on my application for the ${job.title} position at ${job.company}. I remain very interested in this opportunity and would love to discuss how my skills can contribute to your team. Thank you for considering my application.`
+    `Hi, I wanted to follow up on my application for the ${jobTitle} position at ${jobCompany}. I remain very interested in this opportunity and would love to discuss how my skills can contribute to your team. Thank you for considering my application.`
   )
   const [state, setState] = useState<"ready" | "sent" | "scheduled" | "cancelled">("ready")
 
@@ -105,7 +107,7 @@ export default function SendFollowUpPage() {
                   {t("followUp.role")}
                 </p>
                 <p style={{ fontSize: 13, color: "#0F172A", margin: 0 }}>
-                  {job.title}
+                  {jobTitle}
                 </p>
               </div>
               <div>
@@ -113,7 +115,7 @@ export default function SendFollowUpPage() {
                   {t("followUp.company")}
                 </p>
                 <p style={{ fontSize: 13, color: "#0F172A", margin: 0 }}>
-                  {job.company}
+                  {jobCompany}
                 </p>
               </div>
               <div>
@@ -121,7 +123,7 @@ export default function SendFollowUpPage() {
                   {t("followUp.stage")}
                 </p>
                 <p style={{ fontSize: 13, color: "#0F172A", margin: 0 }}>
-                  {job.currentStage}
+                  {t(job.currentStageKey)}
                 </p>
               </div>
               <div>
@@ -129,7 +131,7 @@ export default function SendFollowUpPage() {
                   {t("followUp.appliedOn")}
                 </p>
                 <p style={{ fontSize: 13, color: "#0F172A", margin: 0 }}>
-                  {job.appliedDate}
+                  {t(job.appliedDateKey)}
                 </p>
               </div>
             </div>

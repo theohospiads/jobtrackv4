@@ -7,27 +7,27 @@ import { useLanguage } from "@/components/language-provider"
 
 type FitLevel = "strong" | "good" | "stretch"
 
-interface Opportunity {
+interface OpportunityI18n {
   id: string
-  roleTitle: string
-  company: string
-  location: string
-  workStyle: string
+  roleTitleKey: string
+  companyKey: string
+  locationKey: string
+  workStyleKey: string
   fitLevel: FitLevel
   fitStrength: number
   explanation: string
   metaSignals: string[]
-  estimatedTime?: string
   estimatedSalary?: string
+  estimatedTime?: string
 }
 
-const opportunities: Record<string, Opportunity> = {
+const opportunitiesI18n: Record<string, OpportunityI18n> = {
   "1": {
     id: "1",
-    roleTitle: "Product Analyst Intern",
-    company: "Acme Corp",
-    location: "Paris",
-    workStyle: "Hybrid",
+    roleTitleKey: "opp.data.role.productAnalystIntern",
+    companyKey: "opp.data.company.acmeCorp",
+    locationKey: "opp.data.location.paris",
+    workStyleKey: "opp.data.workStyle.hybrid",
     fitLevel: "strong",
     fitStrength: 92,
     explanation: "Your profile closely matches the role's requirements, and similar candidates received interviews here within 2 weeks.",
@@ -37,10 +37,10 @@ const opportunities: Record<string, Opportunity> = {
   },
   "2": {
     id: "2",
-    roleTitle: "Data Analyst",
-    company: "TechStart Inc",
-    location: "London",
-    workStyle: "Remote",
+    roleTitleKey: "opp.data.role.dataAnalyst",
+    companyKey: "opp.data.company.techStart",
+    locationKey: "opp.data.location.london",
+    workStyleKey: "opp.data.workStyle.remote",
     fitLevel: "strong",
     fitStrength: 88,
     explanation: "Your analytical skills and Python experience align perfectly with their needs.",
@@ -55,7 +55,7 @@ export default function OpportunityDetailPage() {
   const router = useRouter()
   const { t } = useLanguage()
   const id = params.id as string
-  const job = opportunities[id] || opportunities["1"]
+  const job = opportunitiesI18n[id] || opportunitiesI18n["1"]
 
   const strongMatchReasons = [
     "Your profile matches 92% of job requirements",
@@ -159,10 +159,10 @@ Required qualifications include strong knowledge of engine mechanics and operati
               {/* Left Column - Title & Company */}
               <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
                 <h1 style={{ fontSize: 28, fontWeight: 700, color: "#0F172A", margin: 0 }}>
-                  {job.roleTitle}
+                  {t(job.roleTitleKey)}
                 </h1>
                 <p style={{ fontSize: 16, color: "#64748B", margin: 0, fontWeight: 400 }}>
-                  {job.company} · {job.location} · {job.workStyle}
+                  {t(job.companyKey)} · {t(job.locationKey)} · {t(job.workStyleKey)}
                 </p>
               </div>
               

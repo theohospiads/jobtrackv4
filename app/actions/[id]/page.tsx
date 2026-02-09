@@ -7,10 +7,10 @@ import { useLanguage } from "@/components/language-provider"
 
 interface ActionJobData {
   id: string
-  title: string
-  company: string
-  location: string
-  workType: string
+  titleKey: string
+  companyKey: string
+  locationKey: string
+  workTypeKey: string
   appliedDateKey: string
   currentStage: number
   totalStages: number
@@ -41,10 +41,10 @@ interface ActionJobData {
 const actionJobsData: Record<string, ActionJobData> = {
   "1": {
     id: "1",
-    title: "Product Analyst Intern",
-    company: "Acme Corp",
-    location: "Paris",
-    workType: "Hybrid",
+    titleKey: "opp.data.role.productAnalystIntern",
+    companyKey: "opp.data.company.acmeCorp",
+    locationKey: "opp.data.location.paris",
+    workTypeKey: "opp.data.workStyle.hybrid",
     appliedDateKey: "opp.data.3daysAgo",
     currentStage: 1,
     totalStages: 4,
@@ -75,10 +75,10 @@ const actionJobsData: Record<string, ActionJobData> = {
   },
   "2": {
     id: "2",
-    title: "Data Analyst",
-    company: "TechStart Inc",
-    location: "London",
-    workType: "Remote",
+    titleKey: "opp.data.role.dataAnalyst",
+    companyKey: "opp.data.company.techStart",
+    locationKey: "opp.data.location.london",
+    workTypeKey: "opp.data.workStyle.remote",
     appliedDateKey: "opp.data.5daysAgo",
     currentStage: 2,
     totalStages: 4,
@@ -106,10 +106,10 @@ const actionJobsData: Record<string, ActionJobData> = {
   },
   "3": {
     id: "3",
-    title: "Business Analyst",
-    company: "DataFlow",
-    location: "New York",
-    workType: "On-site",
+    titleKey: "opp.data.role.businessAnalyst",
+    companyKey: "opp.data.company.dataFlow",
+    locationKey: "opp.data.location.newYork",
+    workTypeKey: "opp.data.workStyle.onSite",
     appliedDateKey: "opp.data.2daysAgo",
     currentStage: 1,
     totalStages: 3,
@@ -139,18 +139,18 @@ const actionJobsData: Record<string, ActionJobData> = {
 // Alternative jobs for the Plan B cards
 const alternativeJobs = [
   {
-    title: "Junior Data Analyst",
-    company: "DataFlow",
+    titleKey: "opp.data.role.juniorDataAnalyst",
+    companyKey: "opp.data.company.dataFlow",
     salary: "$65-75k",
   },
   {
-    title: "Analytics Associate",
-    company: "TechStart",
+    titleKey: "opp.data.role.analyticsAssociate",
+    companyKey: "opp.data.company.techStart",
     salary: "$70-80k",
   },
   {
-    title: "Business Intelligence Intern",
-    company: "InsightCorp",
+    titleKey: "opp.data.role.biIntern",
+    companyKey: "opp.data.company.insightCorp",
     salary: "$55-65k",
   },
 ]
@@ -233,12 +233,12 @@ export default function ActionDetailPage() {
           >
             {/* Job Title */}
             <h1 style={{ fontSize: 32, fontWeight: 700, color: "#0F172A", margin: "0 0 6px 0", lineHeight: "1.2", letterSpacing: "-0.5px" }}>
-              {job.title}
+              {t(job.titleKey)}
             </h1>
 
             {/* Company Info */}
             <p style={{ fontSize: 13, color: "#64748B", margin: "0 0 24px 0", fontWeight: 500 }}>
-              {job.company} · {job.location} · {job.workType}
+              {t(job.companyKey)} · {t(job.locationKey)} · {t(job.workTypeKey)}
             </p>
 
             {/* Current Stage */}

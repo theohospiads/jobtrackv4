@@ -204,6 +204,45 @@ const translations: Record<Language, Record<string, string>> = {
     "opp.data.growingTeam": "Growing team",
     "opp.data.startupEnv": "Startup environment",
     "opp.data.competitive": "Competitive",
+
+    // Job listing data - role titles
+    "opp.data.role.productAnalystIntern": "Product Analyst Intern",
+    "opp.data.role.dataAnalyst": "Data Analyst",
+    "opp.data.role.biAssociate": "Business Intelligence Associate",
+    "opp.data.role.juniorPM": "Junior Product Manager",
+    "opp.data.role.strategyAnalyst": "Strategy Analyst",
+    "opp.data.role.businessAnalyst": "Business Analyst",
+    "opp.data.role.uxDesigner": "UX Designer",
+    "opp.data.role.seniorDeveloper": "Senior Developer",
+    "opp.data.role.marketingManager": "Marketing Manager",
+    "opp.data.role.juniorDataAnalyst": "Junior Data Analyst",
+    "opp.data.role.analyticsAssociate": "Analytics Associate",
+    "opp.data.role.biIntern": "Business Intelligence Intern",
+
+    // Job listing data - companies (kept same in both languages)
+    "opp.data.company.acmeCorp": "Acme Corp",
+    "opp.data.company.techStart": "TechStart Inc",
+    "opp.data.company.dataFlow": "DataFlow",
+    "opp.data.company.innovateLabs": "Innovate Labs",
+    "opp.data.company.consultCo": "ConsultCo",
+    "opp.data.company.creativeStudios": "Creative Studios",
+    "opp.data.company.techCorp": "TechCorp",
+    "opp.data.company.growthLabs": "Growth Labs",
+    "opp.data.company.insightCorp": "InsightCorp",
+
+    // Job listing data - locations
+    "opp.data.location.paris": "Paris",
+    "opp.data.location.london": "London",
+    "opp.data.location.berlin": "Berlin",
+    "opp.data.location.amsterdam": "Amsterdam",
+    "opp.data.location.newYork": "New York",
+    "opp.data.location.sanFrancisco": "San Francisco",
+    "opp.data.location.boston": "Boston",
+
+    // Job listing data - work styles
+    "opp.data.workStyle.hybrid": "Hybrid",
+    "opp.data.workStyle.remote": "Remote",
+    "opp.data.workStyle.onSite": "On-site",
     "opp.data.explanation1": "Your profile closely matches the role's requirements, and similar candidates received interviews here within 2 weeks.",
     "opp.data.explanation2": "Your SQL and Python skills match 90% of the requirements. This company has hired from your university before.",
     "opp.data.explanation3": "Your analytics background is relevant, and the team is actively expanding. Previous applicants with similar profiles advanced to interviews.",
@@ -371,6 +410,13 @@ const translations: Record<Language, Record<string, string>> = {
     "actionDetail.stepsForward": "Steps to Move Forward :",
     "actionDetail.estimatedSalary": "Estimated Salary:",
     "actionDetail.sendFollowUp": "Send a follow-up",
+
+    // Next Actions
+    "nextActions.title": "What to do next",
+    "nextActions.doIt": "Do it",
+    "nextActions.followUpAcme": "Follow up with Acme Corp",
+    "nextActions.followUpTechStart": "Follow up with TechStart",
+    "nextActions.updateResume": "Update resume keywords",
 
     // Send Follow-up
     "followUp.backToApp": "Back to Application",
@@ -587,6 +633,45 @@ const translations: Record<Language, Record<string, string>> = {
     "opp.data.growingTeam": "\u00C9quipe en croissance",
     "opp.data.startupEnv": "Environnement startup",
     "opp.data.competitive": "Comp\u00E9titif",
+
+    // Job listing data - role titles
+    "opp.data.role.productAnalystIntern": "Stagiaire Analyste Produit",
+    "opp.data.role.dataAnalyst": "Analyste de Donn\u00E9es",
+    "opp.data.role.biAssociate": "Associ\u00E9 Intelligence \u00C9conomique",
+    "opp.data.role.juniorPM": "Chef de Produit Junior",
+    "opp.data.role.strategyAnalyst": "Analyste Strat\u00E9gique",
+    "opp.data.role.businessAnalyst": "Analyste d\u2019Affaires",
+    "opp.data.role.uxDesigner": "Designer UX",
+    "opp.data.role.seniorDeveloper": "D\u00E9veloppeur Senior",
+    "opp.data.role.marketingManager": "Responsable Marketing",
+    "opp.data.role.juniorDataAnalyst": "Analyste de Donn\u00E9es Junior",
+    "opp.data.role.analyticsAssociate": "Associ\u00E9 Analytique",
+    "opp.data.role.biIntern": "Stagiaire Intelligence \u00C9conomique",
+
+    // Job listing data - companies (kept same in both languages)
+    "opp.data.company.acmeCorp": "Acme Corp",
+    "opp.data.company.techStart": "TechStart Inc",
+    "opp.data.company.dataFlow": "DataFlow",
+    "opp.data.company.innovateLabs": "Innovate Labs",
+    "opp.data.company.consultCo": "ConsultCo",
+    "opp.data.company.creativeStudios": "Creative Studios",
+    "opp.data.company.techCorp": "TechCorp",
+    "opp.data.company.growthLabs": "Growth Labs",
+    "opp.data.company.insightCorp": "InsightCorp",
+
+    // Job listing data - locations
+    "opp.data.location.paris": "Paris",
+    "opp.data.location.london": "Londres",
+    "opp.data.location.berlin": "Berlin",
+    "opp.data.location.amsterdam": "Amsterdam",
+    "opp.data.location.newYork": "New York",
+    "opp.data.location.sanFrancisco": "San Francisco",
+    "opp.data.location.boston": "Boston",
+
+    // Job listing data - work styles
+    "opp.data.workStyle.hybrid": "Hybride",
+    "opp.data.workStyle.remote": "T\u00E9l\u00E9travail",
+    "opp.data.workStyle.onSite": "Sur site",
     "opp.data.explanation1": "Votre profil correspond \u00E9troitement aux exigences du poste, et des candidats similaires ont obtenu des entretiens ici en 2 semaines.",
     "opp.data.explanation2": "Vos comp\u00E9tences en SQL et Python correspondent \u00E0 90% des exigences. Cette entreprise a d\u00E9j\u00E0 recrut\u00E9 dans votre universit\u00E9.",
     "opp.data.explanation3": "Votre exp\u00E9rience en analyse est pertinente et l\u2019\u00E9quipe est en pleine expansion. Des candidats au profil similaire ont avanc\u00E9 aux entretiens.",
@@ -754,6 +839,13 @@ const translations: Record<Language, Record<string, string>> = {
     "actionDetail.stepsForward": "\u00C9tapes pour avancer :",
     "actionDetail.estimatedSalary": "Salaire estim\u00E9 :",
     "actionDetail.sendFollowUp": "Envoyer une relance",
+
+    // Next Actions
+    "nextActions.title": "Prochaines actions",
+    "nextActions.doIt": "Faire",
+    "nextActions.followUpAcme": "Relancer Acme Corp",
+    "nextActions.followUpTechStart": "Relancer TechStart",
+    "nextActions.updateResume": "Mettre \u00E0 jour les mots-cl\u00E9s du CV",
 
     // Send Follow-up
     "followUp.backToApp": "Retour \u00E0 la candidature",

@@ -1,5 +1,7 @@
 "use client"
 
+import { useLanguage } from "@/components/language-provider"
+
 interface ActionItemProps {
   title: string
   subtext: string
@@ -31,32 +33,40 @@ function ActionItem({ title, subtext, isLast = false }: ActionItemProps) {
       </div>
 
       {/* Right Side Button */}
-      <button
-        className="h-8 cursor-pointer rounded-lg px-3 text-sm font-medium transition-all duration-[120ms]"
-        style={{
-          background: '#1D4ED8',
-          color: '#FFFFFF'
-        }}
-      >
-        Do it
-      </button>
+      <DoItButton />
     </div>
   )
 }
 
+function DoItButton() {
+  const { t } = useLanguage()
+  return (
+    <button
+      className="h-8 cursor-pointer rounded-lg px-3 text-sm font-medium transition-all duration-[120ms]"
+      style={{
+        background: '#1D4ED8',
+        color: '#FFFFFF'
+      }}
+    >
+      {t("nextActions.doIt")}
+    </button>
+  )
+}
+
 export function NextActions() {
+  const { t } = useLanguage()
   // Max 3 items, sorted by impact, always show time estimate
   const actions = [
     {
-      title: "Follow up with Acme Corp",
+      title: t("nextActions.followUpAcme"),
       subtext: "5 min"
     },
     {
-      title: "Follow up with TechStart",
+      title: t("nextActions.followUpTechStart"),
       subtext: "5 min"
     },
     {
-      title: "Update resume keywords",
+      title: t("nextActions.updateResume"),
       subtext: "10 min"
     }
   ]
@@ -68,7 +78,7 @@ export function NextActions() {
         className="mb-4 text-lg font-semibold"
         style={{ color: '#0F172A' }}
       >
-        What to do next
+        {t("nextActions.title")}
       </h3>
 
       {/* Action List Container */}
