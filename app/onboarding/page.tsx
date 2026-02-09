@@ -459,10 +459,11 @@ export default function OnboardingPage() {
             </button>
           </div>
         ) : (
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
             {question.options?.map((option, idx) => {
               const isSelected = answers[question.id] === option.value
-              const altBg = idx % 2 === 0 ? '#FAFBFC' : '#EFF6FF'
+              const isOdd = idx % 2 === 1
+              const altBg = isOdd ? '#EFF6FF' : '#FAFBFC'
               const defaultBg = isSelected ? '#DBEAFE' : altBg
               const defaultBorder = isSelected ? '#2563EB' : '#E5E7EB'
 
@@ -476,40 +477,38 @@ export default function OnboardingPage() {
                       : handleChoice(option.value)
                   }
                   style={{
-                    padding: '16px 20px',
-                    borderRadius: '14px',
-                    border: `1.5px solid ${defaultBorder}`,
+                    padding: '18px 22px',
+                    borderRadius: '16px',
+                    border: `1px solid ${defaultBorder}`,
                     background: mounted ? defaultBg : '#FFFFFF',
                     color: isSelected ? '#1E40AF' : '#0F172A',
                     fontSize: '15px',
                     fontWeight: isSelected ? '600' : '500',
                     cursor: 'pointer',
-                    transition: 'all 200ms ease',
+                    transition: 'all 300ms cubic-bezier(0.34, 1.56, 0.64, 1)',
                     textAlign: 'left' as const,
                     letterSpacing: '-0.2px',
                     display: 'flex',
                     flexDirection: 'column' as const,
-                    gap: '4px',
+                    gap: '5px',
                     boxShadow: isSelected
-                      ? '0 4px 12px rgba(37, 99, 235, 0.12), 0 1px 3px rgba(37, 99, 235, 0.06)'
-                      : '0 1px 3px rgba(0, 0, 0, 0.04)',
+                      ? '0 4px 12px rgba(37, 99, 235, 0.15), 0 1px 3px rgba(37, 99, 235, 0.08)'
+                      : '0 4px 12px rgba(0, 0, 0, 0.08), 0 1px 3px rgba(0, 0, 0, 0.04)',
                     opacity: mounted ? (fadeIn ? 1 : 0.5) : 1,
                     transform: mounted ? (fadeIn ? 'translateY(0px)' : 'translateY(10px)') : 'translateY(0px)',
                   }}
                   onMouseEnter={(e) => {
-                    e.currentTarget.style.borderColor = '#93C5FD'
+                    e.currentTarget.style.borderColor = isSelected ? '#2563EB' : '#CBD5E1'
                     if (!isSelected) {
-                      e.currentTarget.style.background = idx % 2 === 0 ? '#F0F4F8' : '#E0EDFB'
-                      e.currentTarget.style.transform = 'translateY(-2px)'
-                      e.currentTarget.style.boxShadow = '0 6px 16px rgba(37, 99, 235, 0.1), 0 2px 4px rgba(0, 0, 0, 0.04)'
+                      e.currentTarget.style.transform = 'translateY(-4px)'
+                      e.currentTarget.style.boxShadow = '0 12px 32px rgba(0, 0, 0, 0.15), 0 4px 12px rgba(0, 0, 0, 0.08)'
                     }
                   }}
                   onMouseLeave={(e) => {
                     e.currentTarget.style.borderColor = defaultBorder
                     if (!isSelected) {
-                      e.currentTarget.style.background = mounted ? altBg : '#FFFFFF'
                       e.currentTarget.style.transform = 'translateY(0px)'
-                      e.currentTarget.style.boxShadow = '0 1px 3px rgba(0, 0, 0, 0.04)'
+                      e.currentTarget.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.08), 0 1px 3px rgba(0, 0, 0, 0.04)'
                     }
                   }}
                 >
@@ -517,10 +516,10 @@ export default function OnboardingPage() {
                   {option.hintKey && (
                     <span
                       style={{
-                        fontSize: '12px',
-                        color: isSelected ? '#3B82F6' : '#94A3B8',
+                        fontSize: '13px',
+                        color: isSelected ? '#3B82F6' : '#64748B',
                         fontWeight: '400',
-                        lineHeight: '1.4',
+                        lineHeight: '1.5',
                       }}
                     >
                       {t(option.hintKey)}
