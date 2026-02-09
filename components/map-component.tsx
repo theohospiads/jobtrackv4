@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from 'react'
 import L from 'leaflet'
+import 'leaflet/dist/leaflet.css'
 
 interface MapComponentProps {
   coords: { lat: number; lng: number }
@@ -20,7 +21,10 @@ export default function MapComponent({ coords, radius, city }: MapComponentProps
 
     // Initialize map only once
     if (!mapRef.current) {
-      mapRef.current = L.map(containerRef.current).setView([coords.lat, coords.lng], 10)
+      mapRef.current = L.map(containerRef.current, {
+        zoomControl: true,
+        scrollWheelZoom: true,
+      }).setView([coords.lat, coords.lng], 11)
 
       // Add OpenStreetMap tiles
       L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -28,28 +32,29 @@ export default function MapComponent({ coords, radius, city }: MapComponentProps
         maxZoom: 19,
       }).addTo(mapRef.current)
 
-      // Add marker
+      // Add marker with custom styling
       markerRef.current = L.marker([coords.lat, coords.lng], {
         icon: L.icon({
           iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-icon.png',
           shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-shadow.png',
-          iconSize: [25, 41],
-          iconAnchor: [12, 41],
+          iconSize: [32, 41],
+          iconAnchor: [16, 41],
           shadowSize: [41, 41],
         }),
       }).addTo(mapRef.current)
 
-      // Add circle
+      // Add circle for radius
       circleRef.current = L.circle([coords.lat, coords.lng], {
         color: '#2563EB',
         fillColor: '#3B82F6',
-        fillOpacity: 0.2,
-        weight: 2,
+        fillOpacity: 0.15,
+        weight: 2.5,
         radius: radius * 1000, // Convert km to meters
+        dashArray: '5, 5',
       }).addTo(mapRef.current)
     } else {
       // Update existing map, marker, and circle
-      mapRef.current.setView([coords.lat, coords.lng], 10)
+      mapRef.current.setView([coords.lat, coords.lng], 11)
 
       if (markerRef.current) {
         markerRef.current.setLatLng([coords.lat, coords.lng])
@@ -67,11 +72,12 @@ export default function MapComponent({ coords, radius, city }: MapComponentProps
       ref={containerRef}
       style={{
         width: '100%',
-        height: '320px',
-        borderRadius: '12px',
+        height: '500px',
+        borderRadius: '14px',
         border: '1px solid #E5E7EB',
         overflow: 'hidden',
-        boxShadow: '0 4px 12px rgba(0,0,0,0.08)',
+        boxShadow: '0 8px 24px rgba(0,0,0,0.1)',
+        background: '#F5F5F5',
       }}
     />
   )
