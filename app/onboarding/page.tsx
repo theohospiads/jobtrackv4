@@ -91,6 +91,18 @@ export default function OnboardingPage() {
         ],
         recommended: 'remote',
       },
+      {
+        id: 'contract_type',
+        questionKey: 'onboarding.contractType',
+        subtitleKey: 'onboarding.contractTypeSub',
+        type: 'choice',
+        options: [
+          { labelKey: 'onboarding.contractInternship', value: 'internship', hintKey: 'onboarding.contractInternshipHint' },
+          { labelKey: 'onboarding.contractCDD', value: 'cdd', hintKey: 'onboarding.contractCDDHint' },
+          { labelKey: 'onboarding.contractCDI', value: 'cdi', hintKey: 'onboarding.contractCDIHint' },
+          { labelKey: 'onboarding.contractAny', value: 'any', hintKey: 'onboarding.contractAnyHint' },
+        ],
+      },
     ],
     employed: [
       {
@@ -148,6 +160,18 @@ export default function OnboardingPage() {
           { labelKey: '$250k+', value: '250+' },
         ],
       },
+      {
+        id: 'contract_type',
+        questionKey: 'onboarding.contractType',
+        subtitleKey: 'onboarding.contractTypeSub',
+        type: 'choice',
+        options: [
+          { labelKey: 'onboarding.contractCDI', value: 'cdi', hintKey: 'onboarding.contractCDIHint' },
+          { labelKey: 'onboarding.contractCDD', value: 'cdd', hintKey: 'onboarding.contractCDDHint' },
+          { labelKey: 'onboarding.contractFreelance', value: 'freelance', hintKey: 'onboarding.contractFreelanceHint' },
+          { labelKey: 'onboarding.contractAny', value: 'any', hintKey: 'onboarding.contractAnyHint' },
+        ],
+      },
     ],
     'job-seeker': [
       {
@@ -193,6 +217,18 @@ export default function OnboardingPage() {
         ],
         recommended: 'remote',
       },
+      {
+        id: 'contract_type',
+        questionKey: 'onboarding.contractType',
+        subtitleKey: 'onboarding.contractTypeSub',
+        type: 'choice',
+        options: [
+          { labelKey: 'onboarding.contractCDI', value: 'cdi', hintKey: 'onboarding.contractCDIHint' },
+          { labelKey: 'onboarding.contractCDD', value: 'cdd', hintKey: 'onboarding.contractCDDHint' },
+          { labelKey: 'onboarding.contractFreelance', value: 'freelance', hintKey: 'onboarding.contractFreelanceHint' },
+          { labelKey: 'onboarding.contractAny', value: 'any', hintKey: 'onboarding.contractAnyHint' },
+        ],
+      },
     ],
     'career-change': [
       {
@@ -231,6 +267,18 @@ export default function OnboardingPage() {
           { labelKey: 'onboarding.flexible', value: 'flexible' },
         ],
         recommended: 'remote',
+      },
+      {
+        id: 'contract_type',
+        questionKey: 'onboarding.contractType',
+        subtitleKey: 'onboarding.contractTypeSub',
+        type: 'choice',
+        options: [
+          { labelKey: 'onboarding.contractCDI', value: 'cdi', hintKey: 'onboarding.contractCDIHint' },
+          { labelKey: 'onboarding.contractCDD', value: 'cdd', hintKey: 'onboarding.contractCDDHint' },
+          { labelKey: 'onboarding.contractFreelance', value: 'freelance', hintKey: 'onboarding.contractFreelanceHint' },
+          { labelKey: 'onboarding.contractAny', value: 'any', hintKey: 'onboarding.contractAnyHint' },
+        ],
       },
     ],
   }
