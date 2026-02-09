@@ -191,69 +191,79 @@ export default function ConnectAccountsPage() {
 
   return (
     <div style={{ backgroundColor: '#F8FAFC', minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
+      {/* Skip / Continue — fixed top-right */}
+      <div style={{
+        position: 'fixed',
+        top: '20px',
+        right: '32px',
+        zIndex: 50,
+      }}>
+        <button
+          onClick={handleContinue}
+          style={{
+            padding: '9px 22px',
+            backgroundColor: connectedPlatforms.size > 0 ? '#2563EB' : '#FFFFFF',
+            color: connectedPlatforms.size > 0 ? '#FFFFFF' : '#64748B',
+            border: connectedPlatforms.size > 0 ? '1px solid #2563EB' : '1px solid #CBD5E1',
+            borderRadius: '9px',
+            fontSize: '13px',
+            fontWeight: '600',
+            cursor: 'pointer',
+            transition: 'all 0.2s',
+            boxShadow: connectedPlatforms.size > 0
+              ? '0 2px 8px rgba(37, 99, 235, 0.25)'
+              : '0 1px 4px rgba(0,0,0,0.06)',
+          }}
+          onMouseEnter={(e) => {
+            if (connectedPlatforms.size > 0) {
+              e.currentTarget.style.backgroundColor = '#1E40AF'
+              e.currentTarget.style.boxShadow = '0 4px 14px rgba(37, 99, 235, 0.35)'
+            } else {
+              e.currentTarget.style.color = '#0F172A'
+              e.currentTarget.style.borderColor = '#94A3B8'
+              e.currentTarget.style.boxShadow = '0 2px 8px rgba(0,0,0,0.1)'
+            }
+          }}
+          onMouseLeave={(e) => {
+            if (connectedPlatforms.size > 0) {
+              e.currentTarget.style.backgroundColor = '#2563EB'
+              e.currentTarget.style.boxShadow = '0 2px 8px rgba(37, 99, 235, 0.25)'
+            } else {
+              e.currentTarget.style.color = '#64748B'
+              e.currentTarget.style.borderColor = '#CBD5E1'
+              e.currentTarget.style.boxShadow = '0 1px 4px rgba(0,0,0,0.06)'
+            }
+          }}
+        >
+          {connectedPlatforms.size > 0 ? t('connect.continue') : t('connect.skipForNow')}
+        </button>
+      </div>
+
       {/* Header */}
       <div style={{ borderBottom: '1px solid #E2E8F0', backgroundColor: '#FFFFFF' }}>
         <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '24px 32px' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-            <button
-              onClick={() => router.push('/onboarding')}
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '6px',
-                background: 'none',
-                border: 'none',
-                color: '#64748B',
-                fontSize: '13px',
-                fontWeight: '500',
-                cursor: 'pointer',
-                padding: '0',
-                marginBottom: '16px',
-                transition: 'color 0.15s ease',
-              }}
-              onMouseEnter={(e) => { e.currentTarget.style.color = '#0F172A' }}
-              onMouseLeave={(e) => { e.currentTarget.style.color = '#64748B' }}
-            >
-              <ArrowLeft size={16} />
-              {t('connect.backToOnboarding')}
-            </button>
-            <button
-              onClick={handleContinue}
-              style={{
-                padding: '8px 20px',
-                backgroundColor: connectedPlatforms.size > 0 ? '#2563EB' : 'transparent',
-                color: connectedPlatforms.size > 0 ? '#FFFFFF' : '#64748B',
-                border: connectedPlatforms.size > 0 ? 'none' : '1px solid #CBD5E1',
-                borderRadius: '8px',
-                fontSize: '13px',
-                fontWeight: '600',
-                cursor: 'pointer',
-                transition: 'all 0.2s',
-                flexShrink: 0,
-                boxShadow: connectedPlatforms.size > 0 ? '0 2px 8px rgba(37, 99, 235, 0.2)' : 'none',
-              }}
-              onMouseEnter={(e) => {
-                if (connectedPlatforms.size > 0) {
-                  e.currentTarget.style.backgroundColor = '#1E40AF'
-                  e.currentTarget.style.boxShadow = '0 4px 12px rgba(37, 99, 235, 0.3)'
-                } else {
-                  e.currentTarget.style.color = '#0F172A'
-                  e.currentTarget.style.borderColor = '#94A3B8'
-                }
-              }}
-              onMouseLeave={(e) => {
-                if (connectedPlatforms.size > 0) {
-                  e.currentTarget.style.backgroundColor = '#2563EB'
-                  e.currentTarget.style.boxShadow = '0 2px 8px rgba(37, 99, 235, 0.2)'
-                } else {
-                  e.currentTarget.style.color = '#64748B'
-                  e.currentTarget.style.borderColor = '#CBD5E1'
-                }
-              }}
-            >
-              {connectedPlatforms.size > 0 ? t('connect.continue') : t('connect.skipForNow')}
-            </button>
-          </div>
+          <button
+            onClick={() => router.push('/onboarding')}
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '6px',
+              background: 'none',
+              border: 'none',
+              color: '#64748B',
+              fontSize: '13px',
+              fontWeight: '500',
+              cursor: 'pointer',
+              padding: '0',
+              marginBottom: '16px',
+              transition: 'color 0.15s ease',
+            }}
+            onMouseEnter={(e) => { e.currentTarget.style.color = '#0F172A' }}
+            onMouseLeave={(e) => { e.currentTarget.style.color = '#64748B' }}
+          >
+            <ArrowLeft size={16} />
+            {t('connect.backToOnboarding')}
+          </button>
           <h1 style={{ fontSize: '28px', fontWeight: '600', margin: '0', color: '#0F172A', letterSpacing: '-0.5px' }}>
             {t('connect.title')}
           </h1>
