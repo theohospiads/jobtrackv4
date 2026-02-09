@@ -2,15 +2,15 @@
 
 import { useRouter } from 'next/navigation'
 import { useAuth } from '@/components/auth-provider'
+import { useLanguage } from '@/components/language-provider'
 import { useState, useEffect } from 'react'
 import { ArrowLeft } from 'lucide-react'
 
 const PLATFORMS = [
-  // Email
   {
     id: 'gmail',
-    name: 'Gmail',
-    description: 'Track offer emails & auto-organize correspondence',
+    nameKey: 'connect.gmail',
+    descriptionKey: 'connect.gmailDesc',
     category: 'Email',
     logo: (
       <svg width="40" height="40" viewBox="0 0 24 24" fill="none">
@@ -21,8 +21,8 @@ const PLATFORMS = [
   },
   {
     id: 'outlook',
-    name: 'Microsoft Outlook',
-    description: 'Email tracking & calendar sync',
+    nameKey: 'connect.outlook',
+    descriptionKey: 'connect.outlookDesc',
     category: 'Email',
     logo: (
       <svg width="40" height="40" viewBox="0 0 24 24" fill="#0078D4">
@@ -34,8 +34,8 @@ const PLATFORMS = [
   },
   {
     id: 'linkedin',
-    name: 'LinkedIn',
-    description: 'Auto-fill applications & track recruiter interactions',
+    nameKey: 'connect.linkedin',
+    descriptionKey: 'connect.linkedinDesc',
     category: 'Job Boards',
     logo: (
       <svg width="40" height="40" viewBox="0 0 24 24" fill="#0A66C2">
@@ -45,8 +45,8 @@ const PLATFORMS = [
   },
   {
     id: 'indeed',
-    name: 'Indeed',
-    description: 'Instant job alerts & application tracking',
+    nameKey: 'connect.indeed',
+    descriptionKey: 'connect.indeedDesc',
     category: 'Job Boards',
     logo: (
       <svg width="40" height="40" viewBox="0 0 24 24" fill="none">
@@ -62,6 +62,7 @@ const PLATFORMS = [
 export default function ConnectAccountsPage() {
   const router = useRouter()
   const { updateProfile } = useAuth()
+  const { t } = useLanguage()
   const [connectedPlatforms, setConnectedPlatforms] = useState<Set<string>>(new Set())
   const [mounted, setMounted] = useState(false)
 
@@ -90,6 +91,104 @@ export default function ConnectAccountsPage() {
   const emailPlatforms = PLATFORMS.filter(p => p.category === 'Email')
   const jobBoardPlatforms = PLATFORMS.filter(p => p.category === 'Job Boards')
 
+  const renderPlatformCard = (platform: typeof PLATFORMS[number]) => (
+    <div
+      key={platform.id}
+      style={{
+        backgroundColor: '#FFFFFF',
+        border: '1px solid #E2E8F0',
+        borderRadius: '12px',
+        padding: '24px',
+        transition: 'all 0.2s ease-out',
+        cursor: 'pointer',
+      }}
+      onMouseEnter={(e) => {
+        e.currentTarget.style.boxShadow = '0 8px 24px rgba(0, 0, 0, 0.1)'
+        e.currentTarget.style.borderColor = '#D4D4D8'
+      }}
+      onMouseLeave={(e) => {
+        e.currentTarget.style.boxShadow = 'none'
+        e.currentTarget.style.borderColor = '#E2E8F0'
+      }}
+    >
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '16px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '16px', flex: 1 }}>
+          <div style={{
+            width: '56px',
+            height: '56px',
+            borderRadius: '10px',
+            backgroundColor: '#F1F5F9',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            flexShrink: 0,
+          }}>
+            {platform.logo}
+          </div>
+          <div>
+            <h3 style={{ fontSize: '15px', fontWeight: '600', margin: '0', color: '#0F172A' }}>
+              {t(platform.nameKey)}
+            </h3>
+            <p style={{ fontSize: '13px', color: '#64748B', margin: '6px 0 0 0', lineHeight: '1.4' }}>
+              {t(platform.descriptionKey)}
+            </p>
+          </div>
+        </div>
+        {connectedPlatforms.has(platform.id) ? (
+          <button
+            onClick={() => handleDisconnect(platform.id)}
+            style={{
+              padding: '8px 16px',
+              backgroundColor: '#E0E7FF',
+              color: '#2563EB',
+              border: '1px solid #C7D2FE',
+              borderRadius: '7px',
+              fontSize: '13px',
+              fontWeight: '600',
+              cursor: 'pointer',
+              transition: 'all 0.2s',
+              whiteSpace: 'nowrap',
+              flexShrink: 0,
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.backgroundColor = '#C7D2FE'
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.backgroundColor = '#E0E7FF'
+            }}
+          >
+            {'✓ '}{t('connect.connected')}
+          </button>
+        ) : (
+          <button
+            onClick={() => handleConnect(platform.id)}
+            style={{
+              padding: '8px 16px',
+              backgroundColor: '#2563EB',
+              color: '#FFFFFF',
+              border: 'none',
+              borderRadius: '7px',
+              fontSize: '13px',
+              fontWeight: '600',
+              cursor: 'pointer',
+              transition: 'all 0.2s',
+              whiteSpace: 'nowrap',
+              flexShrink: 0,
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.backgroundColor = '#1E40AF'
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.backgroundColor = '#2563EB'
+            }}
+          >
+            {t('connect.connect')}
+          </button>
+        )}
+      </div>
+    </div>
+  )
+
   return (
     <div style={{ backgroundColor: '#F8FAFC', minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
       {/* Header */}
@@ -115,13 +214,13 @@ export default function ConnectAccountsPage() {
             onMouseLeave={(e) => { e.currentTarget.style.color = '#64748B' }}
           >
             <ArrowLeft size={16} />
-            Back to onboarding
+            {t('connect.backToOnboarding')}
           </button>
           <h1 style={{ fontSize: '28px', fontWeight: '600', margin: '0', color: '#0F172A', letterSpacing: '-0.5px' }}>
-            Connect Your Accounts
+            {t('connect.title')}
           </h1>
           <p style={{ fontSize: '15px', color: '#64748B', margin: '8px 0 0 0', lineHeight: '1.6' }}>
-            Link your job search platforms to track applications, opportunities, and communications in one place.
+            {t('connect.subtitle')}
           </p>
         </div>
       </div>
@@ -132,110 +231,14 @@ export default function ConnectAccountsPage() {
         <div style={{ marginBottom: '56px' }}>
           <div style={{ marginBottom: '24px' }}>
             <h2 style={{ fontSize: '13px', fontWeight: '700', color: '#64748B', textTransform: 'uppercase', letterSpacing: '0.5px', margin: '0 0 8px 0' }}>
-              Email & Communication
+              {t('connect.emailSection')}
             </h2>
             <p style={{ fontSize: '14px', color: '#94A3B8', margin: 0 }}>
-              Track offer emails and auto-organize job search correspondence
+              {t('connect.emailDesc')}
             </p>
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '20px' }}>
-            {emailPlatforms.map(platform => (
-              <div
-                key={platform.id}
-                style={{
-                  backgroundColor: '#FFFFFF',
-                  border: '1px solid #E2E8F0',
-                  borderRadius: '12px',
-                  padding: '24px',
-                  transition: 'all 0.2s ease-out',
-                  cursor: 'pointer',
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.boxShadow = '0 8px 24px rgba(0, 0, 0, 0.1)'
-                  e.currentTarget.style.borderColor = '#D4D4D8'
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.boxShadow = 'none'
-                  e.currentTarget.style.borderColor = '#E2E8F0'
-                }}
-              >
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '16px' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '16px', flex: 1 }}>
-                    <div style={{
-                      width: '56px',
-                      height: '56px',
-                      borderRadius: '10px',
-                      backgroundColor: '#F1F5F9',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      flexShrink: 0,
-                    }}>
-                      {platform.logo}
-                    </div>
-                    <div>
-                      <h3 style={{ fontSize: '15px', fontWeight: '600', margin: '0', color: '#0F172A' }}>
-                        {platform.name}
-                      </h3>
-                      <p style={{ fontSize: '13px', color: '#64748B', margin: '6px 0 0 0', lineHeight: '1.4' }}>
-                        {platform.description}
-                      </p>
-                    </div>
-                  </div>
-                  {connectedPlatforms.has(platform.id) ? (
-                    <button
-                      onClick={() => handleDisconnect(platform.id)}
-                      style={{
-                        padding: '8px 16px',
-                        backgroundColor: '#E0E7FF',
-                        color: '#2563EB',
-                        border: '1px solid #C7D2FE',
-                        borderRadius: '7px',
-                        fontSize: '13px',
-                        fontWeight: '600',
-                        cursor: 'pointer',
-                        transition: 'all 0.2s',
-                        whiteSpace: 'nowrap',
-                        flexShrink: 0,
-                      }}
-                      onMouseEnter={(e) => {
-                        e.currentTarget.style.backgroundColor = '#C7D2FE'
-                      }}
-                      onMouseLeave={(e) => {
-                        e.currentTarget.style.backgroundColor = '#E0E7FF'
-                      }}
-                    >
-                      ✓ Connected
-                    </button>
-                  ) : (
-                    <button
-                      onClick={() => handleConnect(platform.id)}
-                      style={{
-                        padding: '8px 16px',
-                        backgroundColor: '#2563EB',
-                        color: '#FFFFFF',
-                        border: 'none',
-                        borderRadius: '7px',
-                        fontSize: '13px',
-                        fontWeight: '600',
-                        cursor: 'pointer',
-                        transition: 'all 0.2s',
-                        whiteSpace: 'nowrap',
-                        flexShrink: 0,
-                      }}
-                      onMouseEnter={(e) => {
-                        e.currentTarget.style.backgroundColor = '#1E40AF'
-                      }}
-                      onMouseLeave={(e) => {
-                        e.currentTarget.style.backgroundColor = '#2563EB'
-                      }}
-                    >
-                      Connect
-                    </button>
-                  )}
-                </div>
-              </div>
-            ))}
+            {emailPlatforms.map(renderPlatformCard)}
           </div>
         </div>
 
@@ -243,110 +246,14 @@ export default function ConnectAccountsPage() {
         <div style={{ marginBottom: '56px' }}>
           <div style={{ marginBottom: '24px' }}>
             <h2 style={{ fontSize: '13px', fontWeight: '700', color: '#64748B', textTransform: 'uppercase', letterSpacing: '0.5px', margin: '0 0 8px 0' }}>
-              Job Boards
+              {t('connect.jobBoardsSection')}
             </h2>
             <p style={{ fontSize: '14px', color: '#94A3B8', margin: 0 }}>
-              Track applications and receive real-time job alerts from major job boards
+              {t('connect.jobBoardsDesc')}
             </p>
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '20px' }}>
-            {jobBoardPlatforms.map(platform => (
-              <div
-                key={platform.id}
-                style={{
-                  backgroundColor: '#FFFFFF',
-                  border: '1px solid #E2E8F0',
-                  borderRadius: '12px',
-                  padding: '24px',
-                  transition: 'all 0.2s ease-out',
-                  cursor: 'pointer',
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.boxShadow = '0 8px 24px rgba(0, 0, 0, 0.1)'
-                  e.currentTarget.style.borderColor = '#D4D4D8'
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.boxShadow = 'none'
-                  e.currentTarget.style.borderColor = '#E2E8F0'
-                }}
-              >
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '16px' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '16px', flex: 1 }}>
-                    <div style={{
-                      width: '56px',
-                      height: '56px',
-                      borderRadius: '10px',
-                      backgroundColor: '#F1F5F9',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      flexShrink: 0,
-                    }}>
-                      {platform.logo}
-                    </div>
-                    <div>
-                      <h3 style={{ fontSize: '15px', fontWeight: '600', margin: '0', color: '#0F172A' }}>
-                        {platform.name}
-                      </h3>
-                      <p style={{ fontSize: '13px', color: '#64748B', margin: '6px 0 0 0', lineHeight: '1.4' }}>
-                        {platform.description}
-                      </p>
-                    </div>
-                  </div>
-                  {connectedPlatforms.has(platform.id) ? (
-                    <button
-                      onClick={() => handleDisconnect(platform.id)}
-                      style={{
-                        padding: '8px 16px',
-                        backgroundColor: '#E0E7FF',
-                        color: '#2563EB',
-                        border: '1px solid #C7D2FE',
-                        borderRadius: '7px',
-                        fontSize: '13px',
-                        fontWeight: '600',
-                        cursor: 'pointer',
-                        transition: 'all 0.2s',
-                        whiteSpace: 'nowrap',
-                        flexShrink: 0,
-                      }}
-                      onMouseEnter={(e) => {
-                        e.currentTarget.style.backgroundColor = '#C7D2FE'
-                      }}
-                      onMouseLeave={(e) => {
-                        e.currentTarget.style.backgroundColor = '#E0E7FF'
-                      }}
-                    >
-                      ✓ Connected
-                    </button>
-                  ) : (
-                    <button
-                      onClick={() => handleConnect(platform.id)}
-                      style={{
-                        padding: '8px 16px',
-                        backgroundColor: '#2563EB',
-                        color: '#FFFFFF',
-                        border: 'none',
-                        borderRadius: '7px',
-                        fontSize: '13px',
-                        fontWeight: '600',
-                        cursor: 'pointer',
-                        transition: 'all 0.2s',
-                        whiteSpace: 'nowrap',
-                        flexShrink: 0,
-                      }}
-                      onMouseEnter={(e) => {
-                        e.currentTarget.style.backgroundColor = '#1E40AF'
-                      }}
-                      onMouseLeave={(e) => {
-                        e.currentTarget.style.backgroundColor = '#2563EB'
-                      }}
-                    >
-                      Connect
-                    </button>
-                  )}
-                </div>
-              </div>
-            ))}
+            {jobBoardPlatforms.map(renderPlatformCard)}
           </div>
         </div>
 
@@ -359,7 +266,7 @@ export default function ConnectAccountsPage() {
           marginBottom: '32px',
         }}>
           <p style={{ fontSize: '13px', color: '#0369A1', margin: 0, lineHeight: '1.6' }}>
-            <strong>Privacy First:</strong> We never post, apply, or access your accounts without explicit permission. All connections are encrypted and stored securely.
+            <strong>{t('connect.privacyFirst')}</strong> {t('connect.privacyNote')}
           </p>
         </div>
       </div>
@@ -394,7 +301,7 @@ export default function ConnectAccountsPage() {
               e.currentTarget.style.boxShadow = '0 2px 8px rgba(37, 99, 235, 0.2)'
             }}
           >
-            {connectedPlatforms.size > 0 ? 'Continue' : 'Skip for now'}
+            {connectedPlatforms.size > 0 ? t('connect.continue') : t('connect.skipForNow')}
           </button>
         </div>
       </div>
