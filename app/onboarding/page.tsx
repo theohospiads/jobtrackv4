@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { useAuth } from '@/components/auth-provider'
 import { useLanguage } from '@/components/language-provider'
@@ -25,7 +25,13 @@ export default function OnboardingPage() {
   const [currentStep, setCurrentStep] = useState(0)
   const [answers, setAnswers] = useState<Record<string, string>>({})
   const [isSubmitting, setIsSubmitting] = useState(false)
-  const [fadeIn, setFadeIn] = useState(true)
+  const [fadeIn, setFadeIn] = useState(false)
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => {
+    setMounted(true)
+    setFadeIn(true)
+  }, [])
 
   const PROFILE_SELECTION: Question = {
     id: 'profile_type',
@@ -463,6 +469,7 @@ export default function OnboardingPage() {
               return (
                 <button
                   key={option.value}
+                  suppressHydrationWarning
                   onClick={() =>
                     isProfileSelectionStep
                       ? handleProfileSelect(option.value)
@@ -472,24 +479,22 @@ export default function OnboardingPage() {
                     padding: '16px 20px',
                     borderRadius: '14px',
                     border: `1.5px solid ${defaultBorder}`,
-                    background: defaultBg,
+                    background: mounted ? defaultBg : '#FFFFFF',
                     color: isSelected ? '#1E40AF' : '#0F172A',
                     fontSize: '15px',
                     fontWeight: isSelected ? '600' : '500',
                     cursor: 'pointer',
                     transition: 'all 200ms ease',
-                    textAlign: 'left',
+                    textAlign: 'left' as const,
                     letterSpacing: '-0.2px',
                     display: 'flex',
-                    flexDirection: 'column',
+                    flexDirection: 'column' as const,
                     gap: '4px',
                     boxShadow: isSelected
                       ? '0 4px 12px rgba(37, 99, 235, 0.12), 0 1px 3px rgba(37, 99, 235, 0.06)'
                       : '0 1px 3px rgba(0, 0, 0, 0.04)',
-                    animationDelay: `${idx * 50}ms`,
-                    animation: fadeIn ? 'slideUp 300ms ease forwards' : 'none',
-                    transform: fadeIn ? 'translateY(0)' : 'translateY(10px)',
-                    opacity: fadeIn ? 1 : 0.5,
+                    opacity: mounted ? (fadeIn ? 1 : 0.5) : 1,
+                    transform: mounted ? (fadeIn ? 'translateY(0px)' : 'translateY(10px)') : 'translateY(0px)',
                   }}
                   onMouseEnter={(e) => {
                     e.currentTarget.style.borderColor = '#93C5FD'
@@ -502,8 +507,8 @@ export default function OnboardingPage() {
                   onMouseLeave={(e) => {
                     e.currentTarget.style.borderColor = defaultBorder
                     if (!isSelected) {
-                      e.currentTarget.style.background = altBg
-                      e.currentTarget.style.transform = 'translateY(0)'
+                      e.currentTarget.style.background = mounted ? altBg : '#FFFFFF'
+                      e.currentTarget.style.transform = 'translateY(0px)'
                       e.currentTarget.style.boxShadow = '0 1px 3px rgba(0, 0, 0, 0.04)'
                     }
                   }}
