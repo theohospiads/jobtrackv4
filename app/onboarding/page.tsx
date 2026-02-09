@@ -11,7 +11,7 @@ type Question = {
   id: string
   questionKey: string
   subtitleKey: string
-  type: 'choice' | 'input'
+  type: 'choice' | 'input' | 'location'
   options?: { labelKey: string; value: string; hintKey?: string }[]
   placeholderKey?: string
   recommended?: string
@@ -103,6 +103,12 @@ export default function OnboardingPage() {
           { labelKey: 'onboarding.contractAny', value: 'any', hintKey: 'onboarding.contractAnyHint' },
         ],
       },
+      {
+        id: 'job_location',
+        questionKey: 'onboarding.jobLocation',
+        subtitleKey: 'onboarding.jobLocationSub',
+        type: 'location',
+      },
     ],
     employed: [
       {
@@ -172,6 +178,12 @@ export default function OnboardingPage() {
           { labelKey: 'onboarding.contractAny', value: 'any', hintKey: 'onboarding.contractAnyHint' },
         ],
       },
+      {
+        id: 'job_location',
+        questionKey: 'onboarding.jobLocation',
+        subtitleKey: 'onboarding.jobLocationSub',
+        type: 'location',
+      },
     ],
     'job-seeker': [
       {
@@ -229,6 +241,12 @@ export default function OnboardingPage() {
           { labelKey: 'onboarding.contractAny', value: 'any', hintKey: 'onboarding.contractAnyHint' },
         ],
       },
+      {
+        id: 'job_location',
+        questionKey: 'onboarding.jobLocation',
+        subtitleKey: 'onboarding.jobLocationSub',
+        type: 'location',
+      },
     ],
     'career-change': [
       {
@@ -279,6 +297,12 @@ export default function OnboardingPage() {
           { labelKey: 'onboarding.contractFreelance', value: 'freelance', hintKey: 'onboarding.contractFreelanceHint' },
           { labelKey: 'onboarding.contractAny', value: 'any', hintKey: 'onboarding.contractAnyHint' },
         ],
+      },
+      {
+        id: 'job_location',
+        questionKey: 'onboarding.jobLocation',
+        subtitleKey: 'onboarding.jobLocationSub',
+        type: 'location',
       },
     ],
   }
@@ -341,7 +365,7 @@ export default function OnboardingPage() {
     }, 500)
   }
 
-  const canProceed = question.type === 'choice' || (answers[question.id]?.trim().length ?? 0) > 0
+  const canProceed = question.type === 'choice' || question.type === 'location' || (answers[question.id]?.trim().length ?? 0) > 0
 
   // Helper to resolve label - if key exists in translations use t(), otherwise show raw
   const resolveLabel = (key: string) => {
@@ -494,6 +518,150 @@ export default function OnboardingPage() {
               }}
               onMouseLeave={(e) => {
                 if (canProceed && !isSubmitting) {
+                  e.currentTarget.style.background = '#2563EB'
+                  e.currentTarget.style.transform = 'translateY(0)'
+                }
+              }}
+            >
+              {currentStep === adaptiveQuestions.length - 1
+                ? isSubmitting
+                  ? t('onboarding.settingUp')
+                  : t('onboarding.completeSetup')
+                : t('onboarding.continue')}
+            </button>
+          </div>
+        ) : question.type === 'location' ? (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+            {/* City/Location Input */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+              <label style={{ fontSize: '13px', fontWeight: '600', color: '#0F172A' }}>
+                {t('onboarding.jobLocationPlaceholder')}
+              </label>
+              <input
+                type="text"
+                value={answers[`${question.id}_city`] || ''}
+                onChange={(e) => setAnswers({ ...answers, [`${question.id}_city`]: e.target.value })}
+                placeholder={t('onboarding.jobLocationPlaceholder')}
+                autoFocus
+                style={{
+                  padding: '12px 14px',
+                  borderRadius: '10px',
+                  border: '2px solid #E5E7EB',
+                  background: '#FFFFFF',
+                  fontSize: '14px',
+                  color: '#0F172A',
+                  fontFamily: 'inherit',
+                  transition: 'all 200ms ease',
+                  outline: 'none',
+                }}
+                onFocus={(e) => {
+                  e.currentTarget.style.borderColor = '#2563EB'
+                  e.currentTarget.style.boxShadow = '0 0 0 3px rgba(37, 99, 235, 0.1)'
+                }}
+                onBlur={(e) => {
+                  e.currentTarget.style.borderColor = '#E5E7EB'
+                  e.currentTarget.style.boxShadow = 'none'
+                }}
+              />
+            </div>
+
+            {/* Distance Slider */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <label style={{ fontSize: '13px', fontWeight: '600', color: '#0F172A' }}>
+                  {t('onboarding.jobLocationRadius')}
+                </label>
+                <span style={{ fontSize: '14px', fontWeight: '600', color: '#2563EB' }}>
+                  {t('onboarding.jobLocationRadiusKm').replace('{km}', (answers[`${question.id}_radius`] || '50').toString())}
+                </span>
+              </div>
+              <input
+                type="range"
+                min="1"
+                max="200"
+                value={answers[`${question.id}_radius`] || '50'}
+                onChange={(e) => setAnswers({ ...answers, [`${question.id}_radius`]: e.target.value })}
+                style={{
+                  width: '100%',
+                  height: '6px',
+                  borderRadius: '3px',
+                  background: '#E5E7EB',
+                  outline: 'none',
+                  cursor: 'pointer',
+                  accentColor: '#2563EB',
+                }}
+              />
+              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px', color: '#94A3B8' }}>
+                <span>1 km</span>
+                <span>200 km</span>
+              </div>
+            </div>
+
+            {/* Remote Toggle */}
+            <label
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '10px',
+                padding: '12px 14px',
+                borderRadius: '10px',
+                border: '1px solid #E5E7EB',
+                background: '#FAFBFC',
+                cursor: 'pointer',
+                transition: 'all 200ms ease',
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.background = '#F1F5F9'
+                e.currentTarget.style.borderColor = '#CBD5E1'
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = '#FAFBFC'
+                e.currentTarget.style.borderColor = '#E5E7EB'
+              }}
+            >
+              <input
+                type="checkbox"
+                checked={answers[`${question.id}_remote`] === 'true'}
+                onChange={(e) =>
+                  setAnswers({ ...answers, [`${question.id}_remote`]: e.target.checked ? 'true' : 'false' })
+                }
+                style={{
+                  width: '18px',
+                  height: '18px',
+                  cursor: 'pointer',
+                  accentColor: '#2563EB',
+                }}
+              />
+              <span style={{ fontSize: '14px', fontWeight: '500', color: '#0F172A' }}>
+                {t('onboarding.jobLocationRemoteOK')}
+              </span>
+            </label>
+
+            {/* Continue Button */}
+            <button
+              onClick={handleNext}
+              disabled={!answers[`${question.id}_city`]?.trim() || isSubmitting}
+              style={{
+                padding: '14px 16px',
+                borderRadius: '10px',
+                background: answers[`${question.id}_city`]?.trim() ? '#2563EB' : '#E5E7EB',
+                color: answers[`${question.id}_city`]?.trim() ? 'white' : '#94A3B8',
+                border: 'none',
+                fontSize: '15px',
+                fontWeight: '600',
+                cursor: answers[`${question.id}_city`]?.trim() && !isSubmitting ? 'pointer' : 'not-allowed',
+                transition: 'all 200ms ease',
+                letterSpacing: '-0.2px',
+                boxShadow: answers[`${question.id}_city`]?.trim() && !isSubmitting ? '0 4px 12px rgba(37, 99, 235, 0.25)' : 'none',
+              }}
+              onMouseEnter={(e) => {
+                if (answers[`${question.id}_city`]?.trim() && !isSubmitting) {
+                  e.currentTarget.style.background = '#1E40AF'
+                  e.currentTarget.style.transform = 'translateY(-1px)'
+                }
+              }}
+              onMouseLeave={(e) => {
+                if (answers[`${question.id}_city`]?.trim() && !isSubmitting) {
                   e.currentTarget.style.background = '#2563EB'
                   e.currentTarget.style.transform = 'translateY(0)'
                 }
