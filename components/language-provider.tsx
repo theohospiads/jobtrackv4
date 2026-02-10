@@ -101,7 +101,7 @@ const translations: Record<Language, Record<string, string>> = {
     "profile.deepProfile": "Refine your recommendations",
     "profile.deepProfileDesc": "Answer a few quick questions so we can find jobs that truly fit you.",
     "profile.deepProfileCta": "Start quick questionnaire",
-    "profile.deepProfileTime": "2 min",
+    "profile.deepProfileTime": "5 min",
     "profile.deepProfileDone": "Questionnaire completed",
 
     // Deep Profile Questionnaire
@@ -158,6 +158,70 @@ const translations: Record<Language, Record<string, string>> = {
     "questionnaire.q6.opt1": "Mostly written (Slack, email)",
     "questionnaire.q6.opt2": "Mostly meetings & calls",
     "questionnaire.q6.opt3": "A mix of both",
+
+    "questionnaire.q7.question": "What kind of work pace do you thrive in?",
+    "questionnaire.q7.subtitle": "Some people love high speed, others prefer structure. Both are great.",
+    "questionnaire.q7.opt1": "Fast-paced, always evolving",
+    "questionnaire.q7.opt2": "Steady and well-organized",
+    "questionnaire.q7.opt3": "I adapt to either",
+
+    "questionnaire.q8.question": "How important is learning on the job?",
+    "questionnaire.q8.subtitle": "We can prioritize companies that invest in employee growth.",
+    "questionnaire.q8.opt1": "Very important - I want to keep learning",
+    "questionnaire.q8.opt2": "Nice to have, not essential",
+    "questionnaire.q8.opt3": "I prefer mastering what I already know",
+
+    "questionnaire.q9.question": "What team size do you work best in?",
+    "questionnaire.q9.subtitle": "Small teams feel different from large organizations.",
+    "questionnaire.q9.opt1": "Small team (2-5 people)",
+    "questionnaire.q9.opt2": "Medium team (6-20 people)",
+    "questionnaire.q9.opt3": "Large team (20+ people)",
+    "questionnaire.q9.opt4": "No preference",
+
+    "questionnaire.q10.question": "Are you open to business travel?",
+    "questionnaire.q10.subtitle": "Some roles require occasional or regular travel.",
+    "questionnaire.q10.opt1": "No travel preferred",
+    "questionnaire.q10.opt2": "Occasional travel is fine",
+    "questionnaire.q10.opt3": "I enjoy frequent travel",
+
+    "questionnaire.q11.question": "What benefits matter most to you?",
+    "questionnaire.q11.subtitle": "Beyond salary, what makes a job offer stand out?",
+    "questionnaire.q11.opt1": "Health insurance & wellness",
+    "questionnaire.q11.opt2": "Extra vacation days",
+    "questionnaire.q11.opt3": "Training budget & education",
+    "questionnaire.q11.opt4": "Flexible hours",
+    "questionnaire.q11.opt5": "Stock options or bonuses",
+
+    "questionnaire.q12.question": "What work schedule do you prefer?",
+    "questionnaire.q12.subtitle": "This helps us match roles with the right flexibility level.",
+    "questionnaire.q12.opt1": "Classic 9 to 5",
+    "questionnaire.q12.opt2": "Flexible hours, results-based",
+    "questionnaire.q12.opt3": "Part-time or 4-day week",
+
+    "questionnaire.q13.question": "Would you consider relocating?",
+    "questionnaire.q13.subtitle": "Opens up more opportunities if you are flexible.",
+    "questionnaire.q13.opt1": "Yes, I am open to relocating",
+    "questionnaire.q13.opt2": "Only for the right opportunity",
+    "questionnaire.q13.opt3": "No, I want to stay where I am",
+
+    "questionnaire.q14.question": "What is your biggest deal breaker?",
+    "questionnaire.q14.subtitle": "We will filter these out so you do not waste time.",
+    "questionnaire.q14.opt1": "Low salary for my level",
+    "questionnaire.q14.opt2": "No remote option at all",
+    "questionnaire.q14.opt3": "Poor management or culture",
+    "questionnaire.q14.opt4": "No growth or promotion path",
+
+    "questionnaire.q15.question": "How do you make decisions at work?",
+    "questionnaire.q15.subtitle": "Helps us understand the culture where you will shine.",
+    "questionnaire.q15.opt1": "Data and analysis first",
+    "questionnaire.q15.opt2": "Gut feeling and experience",
+    "questionnaire.q15.opt3": "Team discussion and consensus",
+
+    "questionnaire.q16.question": "How important is your job title?",
+    "questionnaire.q16.subtitle": "Some people care about titles, others focus on the work itself.",
+    "questionnaire.q16.opt1": "Very important for my career path",
+    "questionnaire.q16.opt2": "Nice to have, not critical",
+    "questionnaire.q16.opt3": "I do not care about titles at all",
 
     // Settings
     "settings.preferences": "Preferences",
@@ -935,7 +999,7 @@ const translations: Record<Language, Record<string, string>> = {
     "profile.deepProfile": "Affinez vos recommandations",
     "profile.deepProfileDesc": "R\u00E9pondez \u00E0 quelques questions rapides pour qu\u2019on trouve les emplois qui vous correspondent vraiment.",
     "profile.deepProfileCta": "Commencer le questionnaire rapide",
-    "profile.deepProfileTime": "2 min",
+    "profile.deepProfileTime": "5 min",
     "profile.deepProfileDone": "Questionnaire compl\u00E9t\u00E9",
 
     // Deep Profile Questionnaire FR
@@ -992,6 +1056,70 @@ const translations: Record<Language, Record<string, string>> = {
     "questionnaire.q6.opt1": "Principalement \u00E9crit (Slack, email)",
     "questionnaire.q6.opt2": "Principalement r\u00E9unions et appels",
     "questionnaire.q6.opt3": "Un m\u00E9lange des deux",
+
+    "questionnaire.q7.question": "Quel rythme de travail vous convient le mieux ?",
+    "questionnaire.q7.subtitle": "Certains adorent la vitesse, d\u2019autres pr\u00E9f\u00E8rent la structure. Les deux sont bien.",
+    "questionnaire.q7.opt1": "Rapide, en constante \u00E9volution",
+    "questionnaire.q7.opt2": "Stable et bien organis\u00E9",
+    "questionnaire.q7.opt3": "Je m\u2019adapte aux deux",
+
+    "questionnaire.q8.question": "Quelle importance accordez-vous \u00E0 la formation continue ?",
+    "questionnaire.q8.subtitle": "Nous pouvons prioriser les entreprises qui investissent dans le d\u00E9veloppement.",
+    "questionnaire.q8.opt1": "Tr\u00E8s important - je veux continuer \u00E0 apprendre",
+    "questionnaire.q8.opt2": "Appr\u00E9ci\u00E9 mais pas essentiel",
+    "questionnaire.q8.opt3": "Je pr\u00E9f\u00E8re ma\u00EEtriser ce que je sais d\u00E9j\u00E0",
+
+    "questionnaire.q9.question": "Quelle taille d\u2019\u00E9quipe vous convient le mieux ?",
+    "questionnaire.q9.subtitle": "Les petites \u00E9quipes et les grandes organisations ont des dynamiques tr\u00E8s diff\u00E9rentes.",
+    "questionnaire.q9.opt1": "Petite \u00E9quipe (2-5 personnes)",
+    "questionnaire.q9.opt2": "\u00C9quipe moyenne (6-20 personnes)",
+    "questionnaire.q9.opt3": "Grande \u00E9quipe (20+ personnes)",
+    "questionnaire.q9.opt4": "Pas de pr\u00E9f\u00E9rence",
+
+    "questionnaire.q10.question": "\u00CAtes-vous ouvert aux d\u00E9placements professionnels ?",
+    "questionnaire.q10.subtitle": "Certains postes n\u00E9cessitent des voyages occasionnels ou r\u00E9guliers.",
+    "questionnaire.q10.opt1": "Pas de d\u00E9placements de pr\u00E9f\u00E9rence",
+    "questionnaire.q10.opt2": "Des d\u00E9placements occasionnels, \u00E7a me va",
+    "questionnaire.q10.opt3": "J\u2019aime les d\u00E9placements fr\u00E9quents",
+
+    "questionnaire.q11.question": "Quels avantages comptent le plus pour vous ?",
+    "questionnaire.q11.subtitle": "Au-del\u00E0 du salaire, qu\u2019est-ce qui fait la diff\u00E9rence dans une offre ?",
+    "questionnaire.q11.opt1": "Mutuelle sant\u00E9 et bien-\u00EAtre",
+    "questionnaire.q11.opt2": "Jours de cong\u00E9s suppl\u00E9mentaires",
+    "questionnaire.q11.opt3": "Budget formation et \u00E9ducation",
+    "questionnaire.q11.opt4": "Horaires flexibles",
+    "questionnaire.q11.opt5": "Stock-options ou primes",
+
+    "questionnaire.q12.question": "Quel emploi du temps pr\u00E9f\u00E9rez-vous ?",
+    "questionnaire.q12.subtitle": "Pour trouver les postes avec le bon niveau de flexibilit\u00E9.",
+    "questionnaire.q12.opt1": "Horaires classiques 9h-18h",
+    "questionnaire.q12.opt2": "Horaires flexibles, bas\u00E9s sur les r\u00E9sultats",
+    "questionnaire.q12.opt3": "Temps partiel ou semaine de 4 jours",
+
+    "questionnaire.q13.question": "Seriez-vous pr\u00EAt \u00E0 d\u00E9m\u00E9nager ?",
+    "questionnaire.q13.subtitle": "Ouvre plus d\u2019opportunit\u00E9s si vous \u00EAtes flexible.",
+    "questionnaire.q13.opt1": "Oui, je suis ouvert \u00E0 d\u00E9m\u00E9nager",
+    "questionnaire.q13.opt2": "Seulement pour la bonne opportunit\u00E9",
+    "questionnaire.q13.opt3": "Non, je veux rester o\u00F9 je suis",
+
+    "questionnaire.q14.question": "Quel est votre plus grand r\u00E9dhibitoire ?",
+    "questionnaire.q14.subtitle": "On les filtrera pour ne pas vous faire perdre de temps.",
+    "questionnaire.q14.opt1": "Salaire trop bas pour mon niveau",
+    "questionnaire.q14.opt2": "Aucune option de t\u00E9l\u00E9travail",
+    "questionnaire.q14.opt3": "Management ou culture toxique",
+    "questionnaire.q14.opt4": "Aucune possibilit\u00E9 d\u2019\u00E9volution",
+
+    "questionnaire.q15.question": "Comment prenez-vous vos d\u00E9cisions au travail ?",
+    "questionnaire.q15.subtitle": "Pour comprendre la culture dans laquelle vous brillerez.",
+    "questionnaire.q15.opt1": "Donn\u00E9es et analyses d\u2019abord",
+    "questionnaire.q15.opt2": "Intuition et exp\u00E9rience",
+    "questionnaire.q15.opt3": "Discussion d\u2019\u00E9quipe et consensus",
+
+    "questionnaire.q16.question": "Quelle importance accordez-vous \u00E0 votre titre de poste ?",
+    "questionnaire.q16.subtitle": "Certains y tiennent pour leur carri\u00E8re, d\u2019autres se concentrent sur le travail.",
+    "questionnaire.q16.opt1": "Tr\u00E8s important pour ma carri\u00E8re",
+    "questionnaire.q16.opt2": "Appr\u00E9ci\u00E9 mais pas d\u00E9terminant",
+    "questionnaire.q16.opt3": "Le titre ne m\u2019int\u00E9resse pas du tout",
 
     // Settings
     "settings.preferences": "Pr\u00E9f\u00E9rences",

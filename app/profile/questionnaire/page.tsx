@@ -79,6 +79,110 @@ const QUESTIONS: Question[] = [
       { labelKey: 'questionnaire.q6.opt3', value: 'mixed' },
     ],
   },
+  {
+    id: 'work_pace',
+    questionKey: 'questionnaire.q7.question',
+    subtitleKey: 'questionnaire.q7.subtitle',
+    options: [
+      { labelKey: 'questionnaire.q7.opt1', value: 'fast' },
+      { labelKey: 'questionnaire.q7.opt2', value: 'steady' },
+      { labelKey: 'questionnaire.q7.opt3', value: 'adaptable' },
+    ],
+  },
+  {
+    id: 'learning',
+    questionKey: 'questionnaire.q8.question',
+    subtitleKey: 'questionnaire.q8.subtitle',
+    options: [
+      { labelKey: 'questionnaire.q8.opt1', value: 'very_important' },
+      { labelKey: 'questionnaire.q8.opt2', value: 'nice_to_have' },
+      { labelKey: 'questionnaire.q8.opt3', value: 'master_existing' },
+    ],
+  },
+  {
+    id: 'team_size',
+    questionKey: 'questionnaire.q9.question',
+    subtitleKey: 'questionnaire.q9.subtitle',
+    options: [
+      { labelKey: 'questionnaire.q9.opt1', value: 'small' },
+      { labelKey: 'questionnaire.q9.opt2', value: 'medium' },
+      { labelKey: 'questionnaire.q9.opt3', value: 'large' },
+      { labelKey: 'questionnaire.q9.opt4', value: 'any' },
+    ],
+  },
+  {
+    id: 'travel',
+    questionKey: 'questionnaire.q10.question',
+    subtitleKey: 'questionnaire.q10.subtitle',
+    options: [
+      { labelKey: 'questionnaire.q10.opt1', value: 'none' },
+      { labelKey: 'questionnaire.q10.opt2', value: 'occasional' },
+      { labelKey: 'questionnaire.q10.opt3', value: 'frequent' },
+    ],
+  },
+  {
+    id: 'benefits',
+    questionKey: 'questionnaire.q11.question',
+    subtitleKey: 'questionnaire.q11.subtitle',
+    options: [
+      { labelKey: 'questionnaire.q11.opt1', value: 'health' },
+      { labelKey: 'questionnaire.q11.opt2', value: 'vacation' },
+      { labelKey: 'questionnaire.q11.opt3', value: 'training' },
+      { labelKey: 'questionnaire.q11.opt4', value: 'flexible_hours' },
+      { labelKey: 'questionnaire.q11.opt5', value: 'equity' },
+    ],
+  },
+  {
+    id: 'schedule',
+    questionKey: 'questionnaire.q12.question',
+    subtitleKey: 'questionnaire.q12.subtitle',
+    options: [
+      { labelKey: 'questionnaire.q12.opt1', value: '9to5' },
+      { labelKey: 'questionnaire.q12.opt2', value: 'flexible' },
+      { labelKey: 'questionnaire.q12.opt3', value: 'part_time' },
+    ],
+  },
+  {
+    id: 'relocation',
+    questionKey: 'questionnaire.q13.question',
+    subtitleKey: 'questionnaire.q13.subtitle',
+    options: [
+      { labelKey: 'questionnaire.q13.opt1', value: 'yes' },
+      { labelKey: 'questionnaire.q13.opt2', value: 'maybe' },
+      { labelKey: 'questionnaire.q13.opt3', value: 'no' },
+    ],
+  },
+  {
+    id: 'deal_breaker',
+    questionKey: 'questionnaire.q14.question',
+    subtitleKey: 'questionnaire.q14.subtitle',
+    options: [
+      { labelKey: 'questionnaire.q14.opt1', value: 'low_salary' },
+      { labelKey: 'questionnaire.q14.opt2', value: 'no_remote' },
+      { labelKey: 'questionnaire.q14.opt3', value: 'bad_culture' },
+      { labelKey: 'questionnaire.q14.opt4', value: 'no_growth' },
+    ],
+  },
+  {
+    id: 'decision_style',
+    questionKey: 'questionnaire.q15.question',
+    subtitleKey: 'questionnaire.q15.subtitle',
+    options: [
+      { labelKey: 'questionnaire.q15.opt1', value: 'data' },
+      { labelKey: 'questionnaire.q15.opt2', value: 'intuition' },
+      { labelKey: 'questionnaire.q15.opt3', value: 'consensus' },
+    ],
+  },
+  {
+    id: 'title_importance',
+    questionKey: 'questionnaire.q16.question',
+    subtitleKey: 'questionnaire.q16.subtitle',
+    options: [
+      { labelKey: 'questionnaire.q16.opt1', value: 'very_important' },
+      { labelKey: 'questionnaire.q16.opt2', value: 'nice_to_have' },
+      { labelKey: 'questionnaire.q16.opt3', value: 'dont_care' },
+    ],
+  },
 ]
 
 export default function QuestionnairePage() {

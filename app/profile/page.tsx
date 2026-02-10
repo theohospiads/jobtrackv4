@@ -70,6 +70,78 @@ export default function ProfilePage() {
           </p>
         </header>
 
+        {/* Deep Profile Questionnaire CTA */}
+        <section
+          className="rounded-2xl p-5 transition-all duration-300 mb-8"
+          style={{
+            background: "linear-gradient(135deg, #EFF6FF 0%, #F8FAFC 100%)",
+            border: "1.5px solid #BFDBFE",
+            boxShadow: "0 4px 12px rgba(37, 99, 235, 0.08)",
+            cursor: "pointer",
+          }}
+          onClick={() => router.push("/profile/questionnaire")}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.boxShadow = "0 8px 24px rgba(37, 99, 235, 0.15)"
+            e.currentTarget.style.transform = "translateY(-2px)"
+            e.currentTarget.style.borderColor = "#93C5FD"
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.boxShadow = "0 4px 12px rgba(37, 99, 235, 0.08)"
+            e.currentTarget.style.transform = "translateY(0)"
+            e.currentTarget.style.borderColor = "#BFDBFE"
+          }}
+        >
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+            <div style={{ display: "flex", alignItems: "flex-start", gap: "14px", flex: 1 }}>
+              <div
+                style={{
+                  width: 40,
+                  height: 40,
+                  borderRadius: "10px",
+                  background: "#FFFFFF",
+                  border: "1px solid #DBEAFE",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  flexShrink: 0,
+                }}
+              >
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                  <path d="M12 3V21M3 12H21M7.5 7.5L16.5 16.5M16.5 7.5L7.5 16.5" stroke="#2563EB" strokeWidth="2" strokeLinecap="round"/>
+                  <circle cx="12" cy="12" r="3" stroke="#2563EB" strokeWidth="2"/>
+                </svg>
+              </div>
+              <div>
+                <h2 className="text-base font-semibold" style={{ color: "#0F172A", margin: "0 0 4px 0" }}>
+                  {t("profile.deepProfile")}
+                </h2>
+                <p style={{ fontSize: "13px", color: "#64748B", margin: 0, lineHeight: "1.5" }}>
+                  {t("profile.deepProfileDesc")}
+                </p>
+              </div>
+            </div>
+            <div style={{ display: "flex", alignItems: "center", gap: "12px", flexShrink: 0, marginLeft: "16px" }}>
+              <span
+                style={{
+                  fontSize: "11px",
+                  fontWeight: "600",
+                  color: "#2563EB",
+                  background: "#FFFFFF",
+                  border: "1px solid #DBEAFE",
+                  borderRadius: "100px",
+                  padding: "4px 10px",
+                  whiteSpace: "nowrap",
+                }}
+              >
+                {t("profile.deepProfileTime")}
+              </span>
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" style={{ flexShrink: 0 }}>
+                <path d="M7 4L13 10L7 16" stroke="#2563EB" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </div>
+          </div>
+        </section>
+
         <div className="flex flex-col gap-8">
           {/* 1. Your Best Assets */}
           <section
@@ -378,78 +450,6 @@ export default function ProfilePage() {
           </section>
 
 
-
-          {/* Deep Profile Questionnaire CTA */}
-          <section
-            className="rounded-2xl p-6 transition-all duration-300"
-            style={{
-              background: "linear-gradient(135deg, #EFF6FF 0%, #F8FAFC 100%)",
-              border: "1.5px solid #BFDBFE",
-              boxShadow: "0 4px 12px rgba(37, 99, 235, 0.08)",
-              cursor: "pointer",
-            }}
-            onClick={() => router.push("/profile/questionnaire")}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.boxShadow = "0 8px 24px rgba(37, 99, 235, 0.15)"
-              e.currentTarget.style.transform = "translateY(-2px)"
-              e.currentTarget.style.borderColor = "#93C5FD"
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.boxShadow = "0 4px 12px rgba(37, 99, 235, 0.08)"
-              e.currentTarget.style.transform = "translateY(0)"
-              e.currentTarget.style.borderColor = "#BFDBFE"
-            }}
-          >
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-              <div style={{ display: "flex", alignItems: "flex-start", gap: "14px", flex: 1 }}>
-                <div
-                  style={{
-                    width: 40,
-                    height: 40,
-                    borderRadius: "10px",
-                    background: "#FFFFFF",
-                    border: "1px solid #DBEAFE",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    flexShrink: 0,
-                  }}
-                >
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                    <path d="M12 3V21M3 12H21M7.5 7.5L16.5 16.5M16.5 7.5L7.5 16.5" stroke="#2563EB" strokeWidth="2" strokeLinecap="round"/>
-                    <circle cx="12" cy="12" r="3" stroke="#2563EB" strokeWidth="2"/>
-                  </svg>
-                </div>
-                <div>
-                  <h2 className="text-base font-semibold" style={{ color: "#0F172A", margin: "0 0 4px 0" }}>
-                    {t("profile.deepProfile")}
-                  </h2>
-                  <p style={{ fontSize: "13px", color: "#64748B", margin: 0, lineHeight: "1.5" }}>
-                    {t("profile.deepProfileDesc")}
-                  </p>
-                </div>
-              </div>
-              <div style={{ display: "flex", alignItems: "center", gap: "12px", flexShrink: 0, marginLeft: "16px" }}>
-                <span
-                  style={{
-                    fontSize: "11px",
-                    fontWeight: "600",
-                    color: "#2563EB",
-                    background: "#FFFFFF",
-                    border: "1px solid #DBEAFE",
-                    borderRadius: "100px",
-                    padding: "4px 10px",
-                    whiteSpace: "nowrap",
-                  }}
-                >
-                  {t("profile.deepProfileTime")}
-                </span>
-                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" style={{ flexShrink: 0 }}>
-                  <path d="M7 4L13 10L7 16" stroke="#2563EB" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
-              </div>
-            </div>
-          </section>
 
           {/* Action History */}
           <section
