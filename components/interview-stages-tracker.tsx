@@ -24,128 +24,47 @@ interface InterviewTrackerProps {
 // Lightweight button for setting interview rounds - shown before interviews
 export function InterviewRoundsSetup({ totalRounds, onTotalRoundsChange }: InterviewRoundsSetupProps) {
   const { t } = useLanguage()
-  const [isOpen, setIsOpen] = useState(false)
 
   return (
-    <div style={{ position: 'relative', display: 'inline-block' }}>
-      <button
-        onClick={() => setIsOpen(!isOpen)}
-        style={{
-          padding: '10px 14px',
-          fontSize: 14,
-          fontWeight: 600,
-          color: totalRounds > 0 ? '#2563EB' : '#2563EB',
-          background: totalRounds > 0 ? '#EFF6FF' : '#EFF6FF',
-          border: `2px solid ${totalRounds > 0 ? '#93C5FD' : '#BFDBFE'}`,
-          borderRadius: 8,
-          cursor: 'pointer',
-          transition: 'all 0.3s ease',
-          display: 'flex',
-          alignItems: 'center',
-          gap: 10,
-          whiteSpace: 'nowrap',
-          position: 'relative',
-          fontFamily: 'inherit',
-        }}
-        onMouseEnter={(e) => {
-          e.currentTarget.style.transform = 'translateY(-2px)'
-          e.currentTarget.style.boxShadow = '0 6px 16px rgba(37, 99, 235, 0.25)'
-          e.currentTarget.style.borderColor = '#93C5FD'
-          e.currentTarget.style.backgroundColor = '#F0F7FF'
-        }}
-        onMouseLeave={(e) => {
-          e.currentTarget.style.transform = 'translateY(0)'
-          e.currentTarget.style.boxShadow = 'none'
-          e.currentTarget.style.borderColor = totalRounds > 0 ? '#93C5FD' : '#BFDBFE'
-          e.currentTarget.style.backgroundColor = '#EFF6FF'
-        }}
-      >
-        <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-          <span style={{ fontSize: 16, fontWeight: 700 }}>{totalRounds > 0 ? totalRounds : '?'}</span>
-          <span>{t('actionDetail.interviewRounds') || 'Rounds'}</span>
-        </div>
-        
-        {/* Dropdown Chevron Icon */}
-        <svg 
-          width="16" 
-          height="16" 
-          viewBox="0 0 16 16" 
-          fill="none"
-          style={{
-            transition: 'transform 0.3s ease',
-            transform: isOpen ? 'rotate(180deg)' : 'rotate(0deg)',
-            marginLeft: '4px',
-            flexShrink: 0,
-          }}
-        >
-          <path 
-            d="M4 6L8 10L12 6" 
-            stroke="currentColor" 
-            strokeWidth="2" 
-            strokeLinecap="round" 
-            strokeLinejoin="round" 
-          />
-        </svg>
-      </button>
-
-      {isOpen && (
-        <div
-          style={{
-            position: 'absolute',
-            top: '100%',
-            right: 0,
-            marginTop: 10,
-            background: '#FFFFFF',
-            border: '1px solid #E5E7EB',
-            borderRadius: 10,
-            padding: 14,
-            boxShadow: '0 10px 25px rgba(0, 0, 0, 0.12), 0 4px 8px rgba(0, 0, 0, 0.06)',
-            zIndex: 1000,
-            minWidth: 200,
-          }}
-        >
-          <p style={{ fontSize: 11, fontWeight: 600, color: '#64748B', margin: '0 0 10px 0', textTransform: 'uppercase', letterSpacing: 0.5 }}>
-            {t('actionDetail.selectRounds') || 'SELECT ROUNDS'}
-          </p>
-          <div style={{ display: 'flex', gap: 8, alignItems: 'center', justifyContent: 'space-around' }}>
-            {[1, 2, 3, 4, 5].map((round) => (
-              <button
-                key={round}
-                onClick={() => {
-                  onTotalRoundsChange(round)
-                  setIsOpen(false)
-                }}
-                style={{
-                  width: 36,
-                  height: 36,
-                  borderRadius: 8,
-                  border: `2px solid ${totalRounds === round ? '#2563EB' : '#E5E7EB'}`,
-                  background: totalRounds === round ? '#2563EB' : '#FFFFFF',
-                  color: totalRounds === round ? '#FFFFFF' : '#0F172A',
-                  fontWeight: 700,
-                  fontSize: 13,
-                  cursor: 'pointer',
-                  transition: 'all 0.2s ease',
-                }}
-                onMouseEnter={(e) => {
-                  if (totalRounds !== round) {
-                    e.currentTarget.style.borderColor = '#BFDBFE'
-                    e.currentTarget.style.background = '#F0F9FF'
-                  }
-                }}
-                onMouseLeave={(e) => {
-                  if (totalRounds !== round) {
-                    e.currentTarget.style.borderColor = '#E5E7EB'
-                    e.currentTarget.style.background = '#FFFFFF'
-                  }
-                }}
-              >
-                {round}
-              </button>
-            ))}
-          </div>
-        </div>
-      )}
+    <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+      <span style={{ fontSize: 12, fontWeight: 600, color: '#64748B', textTransform: 'uppercase', letterSpacing: 0.5, whiteSpace: 'nowrap' }}>
+        {t('actionDetail.selectRounds') || 'SELECT ROUNDS'}
+      </span>
+      <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
+        {[1, 2, 3, 4, 5].map((round) => (
+          <button
+            key={round}
+            onClick={() => onTotalRoundsChange(round)}
+            style={{
+              width: 36,
+              height: 36,
+              borderRadius: 8,
+              border: `2px solid ${totalRounds === round ? '#2563EB' : '#E5E7EB'}`,
+              background: totalRounds === round ? '#2563EB' : '#FFFFFF',
+              color: totalRounds === round ? '#FFFFFF' : '#0F172A',
+              fontWeight: 700,
+              fontSize: 14,
+              cursor: 'pointer',
+              transition: 'all 0.2s ease',
+              fontFamily: 'inherit',
+            }}
+            onMouseEnter={(e) => {
+              if (totalRounds !== round) {
+                e.currentTarget.style.borderColor = '#BFDBFE'
+                e.currentTarget.style.background = '#F0F9FF'
+              }
+            }}
+            onMouseLeave={(e) => {
+              if (totalRounds !== round) {
+                e.currentTarget.style.borderColor = '#E5E7EB'
+                e.currentTarget.style.background = '#FFFFFF'
+              }
+            }}
+          >
+            {round}
+          </button>
+        ))}
+      </div>
     </div>
   )
 }
