@@ -31,18 +31,64 @@ export function InterviewRoundsSetup({ totalRounds, onTotalRoundsChange }: Inter
       <button
         onClick={() => setIsOpen(!isOpen)}
         style={{
-          padding: '8px 16px',
+          padding: '8px 14px',
           fontSize: 13,
-          fontWeight: 500,
+          fontWeight: 600,
           color: totalRounds > 0 ? '#10B981' : '#2563EB',
           background: totalRounds > 0 ? '#ECFDF5' : '#EFF6FF',
-          border: `1px solid ${totalRounds > 0 ? '#86EFAC' : '#BFDBFE'}`,
-          borderRadius: 6,
+          border: `1.5px solid ${totalRounds > 0 ? '#86EFAC' : '#BFDBFE'}`,
+          borderRadius: 8,
           cursor: 'pointer',
-          transition: 'all 0.2s ease',
+          transition: 'all 0.3s ease',
+          display: 'flex',
+          alignItems: 'center',
+          gap: 8,
+          whiteSpace: 'nowrap',
+          position: 'relative',
+        }}
+        onMouseEnter={(e) => {
+          e.currentTarget.style.transform = 'translateY(-1px)'
+          e.currentTarget.style.boxShadow = '0 4px 12px rgba(37, 99, 235, 0.2)'
+          e.currentTarget.style.borderColor = totalRounds > 0 ? '#6EE7B7' : '#93C5FD'
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.transform = 'translateY(0)'
+          e.currentTarget.style.boxShadow = 'none'
+          e.currentTarget.style.borderColor = totalRounds > 0 ? '#86EFAC' : '#BFDBFE'
         }}
       >
-        {totalRounds > 0 ? `${totalRounds} ${t('actionDetail.interviewRounds') || 'Interview Rounds'}` : `${t('actionDetail.setInterviewRounds') || 'Set Rounds'}`}
+        <span>{totalRounds > 0 ? `${totalRounds}` : '?'}</span>
+        <span>{t('actionDetail.interviewRounds') || 'Rounds'}</span>
+        
+        {/* Edit/Pencil Icon */}
+        <svg 
+          width="14" 
+          height="14" 
+          viewBox="0 0 16 16" 
+          fill="none"
+          style={{
+            marginLeft: '2px',
+            opacity: 0.7,
+            transition: 'transform 0.2s ease',
+          }}
+        >
+          <path 
+            d="M2.5 11.5L11 3L13 5L4.5 13.5M2.5 11.5H1.5V12.5M11 3L14 0M11 3L14 6" 
+            stroke="currentColor" 
+            strokeWidth="1.2" 
+            strokeLinecap="round" 
+            strokeLinejoin="round" 
+            fill="none"
+          />
+          <rect 
+            x="1.5" 
+            y="13" 
+            width="2" 
+            height="2" 
+            fill={totalRounds > 0 ? '#10B981' : '#2563EB'} 
+            opacity="0.3"
+          />
+        </svg>
       </button>
 
       {isOpen && (
@@ -50,18 +96,21 @@ export function InterviewRoundsSetup({ totalRounds, onTotalRoundsChange }: Inter
           style={{
             position: 'absolute',
             top: '100%',
-            left: 0,
-            marginTop: 8,
+            right: 0,
+            marginTop: 10,
             background: '#FFFFFF',
             border: '1px solid #E5E7EB',
-            borderRadius: 8,
-            padding: 12,
-            boxShadow: '0 4px 12px rgba(0, 0, 0, 0.08)',
+            borderRadius: 10,
+            padding: 14,
+            boxShadow: '0 10px 25px rgba(0, 0, 0, 0.12), 0 4px 8px rgba(0, 0, 0, 0.06)',
             zIndex: 1000,
-            minWidth: 180,
+            minWidth: 200,
           }}
         >
-          <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+          <p style={{ fontSize: 11, fontWeight: 600, color: '#64748B', margin: '0 0 10px 0', textTransform: 'uppercase', letterSpacing: 0.5 }}>
+            {t('actionDetail.selectRounds') || 'SELECT ROUNDS'}
+          </p>
+          <div style={{ display: 'flex', gap: 8, alignItems: 'center', justifyContent: 'space-around' }}>
             {[1, 2, 3, 4, 5].map((round) => (
               <button
                 key={round}
@@ -70,15 +119,28 @@ export function InterviewRoundsSetup({ totalRounds, onTotalRoundsChange }: Inter
                   setIsOpen(false)
                 }}
                 style={{
-                  width: 32,
-                  height: 32,
-                  borderRadius: 6,
+                  width: 36,
+                  height: 36,
+                  borderRadius: 8,
                   border: `2px solid ${totalRounds === round ? '#2563EB' : '#E5E7EB'}`,
                   background: totalRounds === round ? '#2563EB' : '#FFFFFF',
                   color: totalRounds === round ? '#FFFFFF' : '#0F172A',
-                  fontWeight: 600,
+                  fontWeight: 700,
+                  fontSize: 13,
                   cursor: 'pointer',
                   transition: 'all 0.2s ease',
+                }}
+                onMouseEnter={(e) => {
+                  if (totalRounds !== round) {
+                    e.currentTarget.style.borderColor = '#BFDBFE'
+                    e.currentTarget.style.background = '#F0F9FF'
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  if (totalRounds !== round) {
+                    e.currentTarget.style.borderColor = '#E5E7EB'
+                    e.currentTarget.style.background = '#FFFFFF'
+                  }
                 }}
               >
                 {round}

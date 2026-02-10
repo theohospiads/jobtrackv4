@@ -646,6 +646,7 @@ const translations: Record<Language, Record<string, string>> = {
     "actionDetail.saveNotes": "Save Notes",
     "actionDetail.expectedInterviews": "Expected Interview Rounds",
     "actionDetail.setRoundsInfo": "Let us know how many interview rounds to prepare for",
+    "actionDetail.selectRounds": "SELECT ROUNDS",
 
     // Stage Preparation Guide
     "stage.applicationSubmitted": "Application Submitted",
@@ -1364,6 +1365,7 @@ const translations: Record<Language, Record<string, string>> = {
     "actionDetail.saveNotes": "Enregistrer les notes",
     "actionDetail.expectedInterviews": "Tours d'entretien attendus",
     "actionDetail.setRoundsInfo": "Dites-nous combien de tours d'entretien vous attendre",
+    "actionDetail.selectRounds": "SÉLECTIONNER LES TOURS",
     "stage.applicationSubmitted": "Candidature soumise",
     "stage.applicationReview": "Examen de la Candidature",
     "stage.interview": "Processus d'entretien",
