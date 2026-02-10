@@ -556,9 +556,6 @@ const translations: Record<Language, Record<string, string>> = {
     "actionDetail.preparationTips": "Preparation Tips",
     "actionDetail.actionItems": "Action Items",
     "actionDetail.progress": "Progress",
-    "stage.impact.researchCompany": "Increases response rate by 25%",
-    "stage.impact.linkedIn": "Personalize your approach by 40%",
-    "stage.impact.prepareQuestions": "Shows engagement & improves success by ~30%",
 
     // Stage Preparation Guide
     "stage.applicationSubmitted": "Application Submitted",
@@ -1187,9 +1184,6 @@ const translations: Record<Language, Record<string, string>> = {
     "actionDetail.preparationTips": "Conseils de pr\u00E9paration",
     "actionDetail.actionItems": "\u00C9l\u00E9ments d'action",
     "actionDetail.progress": "Progression",
-    "stage.impact.researchCompany": "Augmente le taux de r\u00E9ponse de 25%",
-    "stage.impact.linkedIn": "Personnalisez votre approche de 40%",
-    "stage.impact.prepareQuestions": "Montre votre engagement et am\u00E9liore le succ\u00E8s de ~30%",
 
     // Stage Preparation Guide
     "stage.applicationSubmitted": "Candidature soumise",

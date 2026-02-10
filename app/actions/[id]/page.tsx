@@ -613,6 +613,62 @@ export default function ActionDetailPage() {
           </div>
         )}
 
+        {/* Tasks Section - Below Timeline */}
+        <div
+          style={{
+            background: "#FFFFFF",
+            border: "1px solid #E5E7EB",
+            borderRadius: 12,
+            padding: 24,
+            boxShadow: "0 4px 12px rgba(0, 0, 0, 0.08), 0 1px 3px rgba(0, 0, 0, 0.04)",
+            marginTop: 24,
+          }}
+        >
+          {/* Steps to Move Forward - Title */}
+          <h3 style={{ fontSize: 16, fontWeight: 600, color: "#0F172A", margin: "0 0 16px 0" }}>
+            {t("actionDetail.stepsForward")}
+          </h3>
+
+          {/* All tasks in single container */}
+          <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+            {job.tasks.map((task, index) => {
+              const actualIndex = job.tasks.indexOf(task)
+              return (
+                <div
+                  key={actualIndex}
+                  style={{
+                    display: "flex",
+                    alignItems: "flex-start",
+                    gap: 12,
+                    fontSize: 14,
+                    color: completedTasks[actualIndex] ? "#94A3B8" : "#0F172A",
+                    padding: "12px 16px",
+                    background: completedTasks[actualIndex] ? "#F1F5F9" : "#F8FAFC",
+                    borderRadius: 8,
+                    border: "1px solid #E5E7EB",
+                    transition: "all 0.2s",
+                  }}
+                >
+                  <input
+                    type="checkbox"
+                    checked={completedTasks[actualIndex] || false}
+                    onChange={(e) => setCompletedTasks({ ...completedTasks, [actualIndex]: e.target.checked })}
+                    style={{ width: 20, height: 20, cursor: "pointer", marginTop: 2, flexShrink: 0 }}
+                  />
+                  <div style={{ flex: 1 }}>
+                    <p style={{ margin: "0 0 4px 0", textDecoration: completedTasks[actualIndex] ? "line-through" : "none", fontWeight: 500 }}>
+                      {t(task.textKey)}
+                    </p>
+                    <p style={{ fontSize: 12, color: "#2563EB", margin: 0 }}>
+                      {t(task.impactKey)}
+                    </p>
+                  </div>
+                </div>
+              )
+            })}
+          </div>
+        </div>
+
         {/* Bottom Section - Salary and Action Button */}
         <div style={{ marginBottom: 32, display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginTop: 24, gap: 24 }}>
           {/* Salary Container */}
