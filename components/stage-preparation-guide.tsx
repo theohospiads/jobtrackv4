@@ -96,7 +96,6 @@ export function StagePrepGuide({ currentStageIndex, stageName, stageStatus }: St
                 borderBottom: index < items.length - 1 ? '1px solid #F1F5F9' : 'none',
                 cursor: 'pointer',
                 transition: 'opacity 0.2s ease',
-                justifyContent: 'space-between',
               }}
               onClick={() => toggleCheck(item.key)}
               onMouseEnter={(e) => {
@@ -106,33 +105,6 @@ export function StagePrepGuide({ currentStageIndex, stageName, stageStatus }: St
                 e.currentTarget.style.opacity = '1'
               }}
             >
-              <div style={{ flex: 1 }}>
-                <span
-                  style={{
-                    fontSize: 14,
-                    color: checkedItems[item.key] ? '#94A3B8' : '#0F172A',
-                    fontWeight: 500,
-                    textDecoration: checkedItems[item.key] ? 'line-through' : 'none',
-                    transition: 'all 0.2s ease',
-                    display: 'block',
-                    marginBottom: item.impact ? 4 : 0,
-                  }}
-                >
-                  {item.label}
-                </span>
-                {item.impact && (
-                  <span
-                    style={{
-                      fontSize: 12,
-                      color: '#2563EB',
-                      fontWeight: 500,
-                      display: 'block',
-                    }}
-                  >
-                    {item.impact}
-                  </span>
-                )}
-              </div>
               <div
                 style={{
                   width: 18,
@@ -158,6 +130,33 @@ export function StagePrepGuide({ currentStageIndex, stageName, stageStatus }: St
                       strokeLinejoin="round"
                     />
                   </svg>
+                )}
+              </div>
+              <div style={{ flex: 1 }}>
+                <span
+                  style={{
+                    fontSize: 14,
+                    color: checkedItems[item.key] ? '#94A3B8' : '#0F172A',
+                    fontWeight: 500,
+                    textDecoration: checkedItems[item.key] ? 'line-through' : 'none',
+                    transition: 'all 0.2s ease',
+                    display: 'block',
+                    marginBottom: item.impact ? 4 : 0,
+                  }}
+                >
+                  {item.label}
+                </span>
+                {item.impact && (
+                  <span
+                    style={{
+                      fontSize: 12,
+                      color: '#2563EB',
+                      fontWeight: 500,
+                      display: 'block',
+                    }}
+                  >
+                    {item.impact}
+                  </span>
                 )}
               </div>
             </div>
