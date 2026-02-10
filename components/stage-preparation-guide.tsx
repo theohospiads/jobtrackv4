@@ -141,26 +141,32 @@ export function StagePrepGuide({ currentStageIndex, stageName, stageStatus }: St
         </div>
 
         {/* Checklist Items */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
           {items.map((item, index) => (
             <div
               key={item.key}
               style={{
                 display: 'flex',
                 alignItems: 'flex-start',
-                gap: 12,
-                padding: '12px 0',
-                borderBottom: index < items.length - 1 ? '1px solid #F1F5F9' : 'none',
-                cursor: 'pointer',
-                transition: 'opacity 0.2s ease',
                 justifyContent: 'space-between',
+                gap: 12,
+                padding: '12px 16px',
+                background: checkedItems[item.key] ? '#F1F5F9' : '#F8FAFC',
+                borderRadius: 8,
+                border: '1px solid #E5E7EB',
+                cursor: 'pointer',
+                transition: 'all 0.2s ease',
               }}
               onClick={() => toggleCheck(item.key)}
               onMouseEnter={(e) => {
-                e.currentTarget.style.opacity = '0.7'
+                if (!checkedItems[item.key]) {
+                  e.currentTarget.style.background = '#F0F4F8'
+                  e.currentTarget.style.borderColor = '#CBD5E1'
+                }
               }}
               onMouseLeave={(e) => {
-                e.currentTarget.style.opacity = '1'
+                e.currentTarget.style.background = checkedItems[item.key] ? '#F1F5F9' : '#F8FAFC'
+                e.currentTarget.style.borderColor = '#E5E7EB'
               }}
             >
               <div style={{ flex: 1 }}>
