@@ -318,7 +318,7 @@ function NoteDisplay({ stageId, note, interviewer, date, status, onEdit, onCompl
             e.currentTarget.style.background = '#E0E7FF'
           }}
         >
-          {note ? 'Edit Notes' : 'Add Notes'}
+          {note ? t('actionDetail.editNotes') || 'Edit Notes' : t('actionDetail.addNotes') || 'Add Notes'}
         </button>
 
         {status === 'current' && (
@@ -345,7 +345,7 @@ function NoteDisplay({ stageId, note, interviewer, date, status, onEdit, onCompl
               e.currentTarget.style.transform = 'translateY(0)'
             }}
           >
-            ✓ Mark Complete
+            ✓ {t('actionDetail.markComplete') || 'Mark Complete'}
           </button>
         )}
 
@@ -407,7 +407,7 @@ function NoteEditor({ stageId, initialNote, initialInterviewer, initialDate, onS
     <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
       <div>
         <label style={{ fontSize: 12, fontWeight: 600, color: '#0F172A', display: 'block', marginBottom: 6 }}>
-          Interviewer Name
+          {t('actionDetail.interviewerName') || 'Interviewer Name'}
         </label>
         <input
           type="text"
@@ -428,7 +428,7 @@ function NoteEditor({ stageId, initialNote, initialInterviewer, initialDate, onS
 
       <div>
         <label style={{ fontSize: 12, fontWeight: 600, color: '#0F172A', display: 'block', marginBottom: 6 }}>
-          Interview Date
+          {t('actionDetail.interviewDate') || 'Interview Date'}
         </label>
         <input
           type="date"
@@ -448,7 +448,7 @@ function NoteEditor({ stageId, initialNote, initialInterviewer, initialDate, onS
 
       <div>
         <label style={{ fontSize: 12, fontWeight: 600, color: '#0F172A', display: 'block', marginBottom: 6 }}>
-          Interview Notes
+          {t('actionDetail.interviewNotes') || 'Interview Notes'}
         </label>
         <textarea
           value={note}
@@ -495,7 +495,7 @@ function NoteEditor({ stageId, initialNote, initialInterviewer, initialDate, onS
             e.currentTarget.style.background = '#2563EB'
           }}
         >
-          Save Notes
+          {t('actionDetail.saveNotes') || 'Save Notes'}
         </button>
         <button
           onClick={onCancel}
@@ -518,7 +518,7 @@ function NoteEditor({ stageId, initialNote, initialInterviewer, initialDate, onS
             e.currentTarget.style.background = '#F1F5F9'
           }}
         >
-          Cancel
+          {t('actionDetail.cancel') || 'Cancel'}
         </button>
       </div>
     </div>
