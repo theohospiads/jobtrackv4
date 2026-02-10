@@ -541,6 +541,10 @@ const translations: Record<Language, Record<string, string>> = {
     "actionDetail.inProgress": "In progress",
     "actionDetail.your": "Your ",
     "actionDetail.stepsForward": "Steps to Move Forward :",
+    "actionDetail.interviewStages": "Interview Rounds",
+    "actionDetail.interview": "Interview",
+    "actionDetail.with": "With",
+    "actionDetail.noNotesYet": "No notes yet. Add details about this interview to prepare better.",
     "actionDetail.estimatedSalary": "Estimated Salary:",
     "actionDetail.sendFollowUp": "Send a follow-up",
 
@@ -1103,6 +1107,10 @@ const translations: Record<Language, Record<string, string>> = {
     "actionDetail.inProgress": "En cours",
     "actionDetail.your": "Votre ",
     "actionDetail.stepsForward": "\u00C9tapes pour avancer :",
+    "actionDetail.interviewStages": "Rounds d'entretien",
+    "actionDetail.interview": "Entretien",
+    "actionDetail.with": "Avec",
+    "actionDetail.noNotesYet": "Pas de notes pour l'instant. Ajoutez des d\u00E9tails sur cet entretien pour mieux vous pr\u00E9parer.",
     "actionDetail.estimatedSalary": "Salaire estim\u00E9 :",
     "actionDetail.sendFollowUp": "Envoyer une relance",
 

@@ -4,6 +4,7 @@ import { TopNav } from "@/components/top-nav"
 import { useParams, useRouter } from "next/navigation"
 import { useState } from "react"
 import { useLanguage } from "@/components/language-provider"
+import { InterviewStagesTracker } from "@/components/interview-stages-tracker"
 
 interface ActionJobData {
   id: string
@@ -18,6 +19,13 @@ interface ActionJobData {
   stages: {
     nameKey: string
     status: "completed" | "current" | "upcoming"
+    date?: string
+  }[]
+  interviewStages: {
+    id: number
+    status: "completed" | "current" | "upcoming"
+    notes: string
+    interviewer?: string
     date?: string
   }[]
   tasks: {
@@ -55,6 +63,10 @@ const actionJobsData: Record<string, ActionJobData> = {
       { nameKey: "actionDetail.data.interview", status: "upcoming" },
       { nameKey: "actionDetail.data.decision", status: "upcoming" }
     ],
+    interviewStages: [
+      { id: 1, status: "upcoming", notes: "" },
+      { id: 2, status: "upcoming", notes: "" },
+    ],
     tasks: [
       { textKey: "actionDetail.data.sendFollowUp", completed: false, duration: "15", impactKey: "actionDetail.data.sendFollowUpImpact" },
       { textKey: "actionDetail.data.prepareQuestions", completed: false, duration: "30-45", impactKey: "actionDetail.data.prepareQuestionsImpact" },
@@ -89,6 +101,10 @@ const actionJobsData: Record<string, ActionJobData> = {
       { nameKey: "actionDetail.data.technicalAssessment", status: "current" },
       { nameKey: "actionDetail.data.finalInterview", status: "upcoming" }
     ],
+    interviewStages: [
+      { id: 1, status: "completed", notes: "Discussed project architecture. Asked about scalability and performance optimization. Strong technical foundation required.", interviewer: "Sarah Chen", date: "2026-01-30" },
+      { id: 2, status: "current", notes: "" },
+    ],
     tasks: [
       { textKey: "actionDetail.data.completeCoding", completed: false, duration: "30-45", impactKey: "actionDetail.data.completeCodingImpact" },
       { textKey: "actionDetail.data.scheduleTechnical", completed: false, duration: "15", impactKey: "actionDetail.data.scheduleTechnicalImpact" }
@@ -118,6 +134,9 @@ const actionJobsData: Record<string, ActionJobData> = {
       { nameKey: "actionDetail.data.applicationSubmitted", status: "completed", date: "Jan 29, 2026" },
       { nameKey: "actionDetail.data.screeningCall", status: "current" },
       { nameKey: "actionDetail.data.finalRound", status: "upcoming" }
+    ],
+    interviewStages: [
+      { id: 1, status: "current", notes: "" },
     ],
     tasks: [
       { textKey: "actionDetail.data.reviewJobReq", completed: false, duration: "15", impactKey: "actionDetail.data.reviewJobReqImpact" },
@@ -164,6 +183,7 @@ export default function ActionDetailPage() {
   const [completedTasks, setCompletedTasks] = useState<Record<number, boolean>>(
     job.tasks.reduce((acc, _, i) => ({ ...acc, [i]: false }), {})
   )
+  const [interviewStages, setInterviewStages] = useState(job.interviewStages)
   const [showHealthInfo, setShowHealthInfo] = useState(false)
 
   const progressPercentage = (job.currentStage / job.totalStages) * 100
@@ -442,6 +462,13 @@ export default function ActionDetailPage() {
             })()}
           </div>
         </div>
+
+        {/* Interview Stages Section */}
+        {job.stages.some((s: { nameKey: string; status: string }) => s.nameKey.includes("interview") || s.nameKey.includes("screening")) && (
+          <div style={{ marginBottom: 32 }}>
+            <InterviewStagesTracker stages={interviewStages} onStageUpdate={setInterviewStages} />
+          </div>
+        )}
 
         {/* Tasks Section - Below Timeline */}
         <div
