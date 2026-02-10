@@ -59,8 +59,12 @@ export default function MapComponent({ coords, radius, city }: MapComponentProps
       dashArray: '5, 5',
     }).addTo(mapRef.current)
 
-    // Fit map to circle with padding for good UX
-    fitMapToCircle(mapRef.current, circleRef.current)
+    // Fit map to circle with padding for good UX (after render)
+    setTimeout(() => {
+      if (mapRef.current && circleRef.current) {
+        fitMapToCircle(mapRef.current, circleRef.current)
+      }
+    }, 0)
 
     // Add recenter button control
     const RecenterControl = L.Control.extend({
