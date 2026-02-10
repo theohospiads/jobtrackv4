@@ -4,7 +4,10 @@ import { useState, useEffect } from 'react'
 import { useLanguage } from '@/components/language-provider'
 import dynamic from 'next/dynamic'
 
-const MapComponent = dynamic(() => import('./map-component'), { ssr: false })
+const MapComponent = dynamic(() => import('./map-component'), { 
+  ssr: false,
+  loading: () => <div style={{ height: '500px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#94A3B8' }}>Loading map...</div>
+})
 
 interface LocationPickerProps {
   onLocationSelect: (city: string, coords: { lat: number; lng: number }, radius: string) => void
@@ -80,7 +83,6 @@ export function LocationPicker({
   }, [city])
 
   const handleSelectSuggestion = (suggestion: CityOption) => {
-    console.log('[v0] Selected suggestion:', suggestion)
     setCity(suggestion.name)
     setCoords({ lat: suggestion.lat, lng: suggestion.lon })
     setSuggestions([])
@@ -188,7 +190,6 @@ export function LocationPicker({
       </div>
 
       {/* Map */}
-      {console.log('[v0] Map render - coords:', coords, 'city:', city)}
       {coords && (
         <MapComponent coords={coords} radius={parseInt(radius)} city={city} />
       )}
