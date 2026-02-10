@@ -553,6 +553,8 @@ const translations: Record<Language, Record<string, string>> = {
     "actionDetail.saveNotes": "Save Notes",
     "actionDetail.cancel": "Cancel",
     "actionDetail.interview": "Interview",
+    "actionDetail.preparationTips": "Preparation Tips",
+    "actionDetail.actionItems": "Action Items",
 
     // Stage Preparation Guide
     "stage.applicationSubmitted": "Application Submitted",
@@ -1178,6 +1180,8 @@ const translations: Record<Language, Record<string, string>> = {
     "actionDetail.saveNotes": "Enregistrer les notes",
     "actionDetail.cancel": "Annuler",
     "actionDetail.interview": "Entretien",
+    "actionDetail.preparationTips": "Conseils de pr\u00E9paration",
+    "actionDetail.actionItems": "\u00C9l\u00E9ments d'action",
 
     // Stage Preparation Guide
     "stage.applicationSubmitted": "Candidature soumise",
