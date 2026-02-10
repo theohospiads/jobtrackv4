@@ -20,6 +20,7 @@ export function InterviewStagesTracker({ stages, onStageUpdate }: InterviewTrack
   const { t } = useLanguage()
   const [expandedStage, setExpandedStage] = useState<number | null>(null)
   const [editingStage, setEditingStage] = useState<number | null>(null)
+  const maxStages = 5 // Maximum interview rounds allowed
 
   const handleAddNote = (stageId: number, note: string, interviewer: string, date: string) => {
     const updatedStages = stages.map((stage) =>
@@ -42,11 +43,52 @@ export function InterviewStagesTracker({ stages, onStageUpdate }: InterviewTrack
     setExpandedStage(stageId + 1)
   }
 
+  const handleAddStage = () => {
+    if (stages.length >= maxStages) return
+    const nextId = Math.max(...stages.map((s) => s.id), 0) + 1
+    const updatedStages = [
+      ...stages,
+      { id: nextId, status: 'upcoming' as const, notes: '' },
+    ]
+    onStageUpdate(updatedStages)
+  }
+
   return (
     <div style={{ marginBottom: 32 }}>
-      <p style={{ fontSize: 14, fontWeight: 600, color: '#0F172A', margin: '0 0 16px 0' }}>
-        {t('actionDetail.interviewStages') || 'Interview Rounds'}
-      </p>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
+        <p style={{ fontSize: 14, fontWeight: 600, color: '#0F172A', margin: 0 }}>
+          {t('actionDetail.interviewStages') || 'Interview Rounds'}
+        </p>
+        {stages.length < maxStages && (
+          <button
+            onClick={handleAddStage}
+            style={{
+              padding: '6px 12px',
+              background: '#E0E7FF',
+              color: '#2563EB',
+              border: '1px solid #C7D2FE',
+              borderRadius: 6,
+              fontSize: 12,
+              fontWeight: 600,
+              cursor: 'pointer',
+              transition: 'all 0.2s ease',
+              display: 'flex',
+              alignItems: 'center',
+              gap: 4,
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.background = '#C7D2FE'
+              e.currentTarget.style.borderColor = '#A5B4FC'
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.background = '#E0E7FF'
+              e.currentTarget.style.borderColor = '#C7D2FE'
+            }}
+          >
+            <span style={{ fontSize: 14 }}>+</span> Add Round
+          </button>
+        )}
+      </div>
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
         {stages.map((stage) => (

@@ -445,7 +445,7 @@ export default function ActionDetailPage() {
                                 )}
                               </div>
 
-                              {/* Sub-interview stages */}
+                              {/* Sub-interview stages - Show up to 3, then add + button */}
                               {displayInterviewStages && (
                                 <div
                                   style={{
@@ -456,7 +456,7 @@ export default function ActionDetailPage() {
                                     width: "100%",
                                   }}
                                 >
-                                  {interviewStages.map((interview: any, iIdx: number) => (
+                                  {interviewStages.slice(0, 3).map((interview: any, iIdx: number) => (
                                     <div
                                       key={iIdx}
                                       style={{
@@ -500,6 +500,38 @@ export default function ActionDetailPage() {
                                       {iIdx + 1}
                                     </div>
                                   ))}
+                                  
+                                  {/* Show + button if there are more than 3 rounds */}
+                                  {interviewStages.length > 3 && (
+                                    <div
+                                      style={{
+                                        width: 20,
+                                        height: 20,
+                                        borderRadius: "50%",
+                                        display: "flex",
+                                        alignItems: "center",
+                                        justifyContent: "center",
+                                        fontSize: 11,
+                                        fontWeight: 600,
+                                        background: "#94A3B8",
+                                        color: "#FFFFFF",
+                                        border: "2px solid #CBD5E1",
+                                        cursor: "pointer",
+                                        transition: "all 200ms ease",
+                                      }}
+                                      onMouseEnter={(e) => {
+                                        e.currentTarget.style.background = "#64748B"
+                                        e.currentTarget.style.transform = "scale(1.1)"
+                                      }}
+                                      onMouseLeave={(e) => {
+                                        e.currentTarget.style.background = "#94A3B8"
+                                        e.currentTarget.style.transform = "scale(1)"
+                                      }}
+                                      title={`${interviewStages.length - 3} more round${interviewStages.length - 3 > 1 ? 's' : ''}`}
+                                    >
+                                      +
+                                    </div>
+                                  )}
                                 </div>
                               )}
 
