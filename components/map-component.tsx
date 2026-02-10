@@ -15,55 +15,58 @@ export default function MapComponent({ coords, radius, city }: MapComponentProps
   const circleRef = useRef<L.Circle | null>(null)
   const markerRef = useRef<L.Marker | null>(null)
   const containerRef = useRef<HTMLDivElement>(null)
+  const initializedRef = useRef(false)
 
+  // Initialize map only once
   useEffect(() => {
-    if (!containerRef.current) return
+    if (!containerRef.current || initializedRef.current) return
 
-    // Initialize map only once
-    if (!mapRef.current) {
-      mapRef.current = L.map(containerRef.current, {
-        zoomControl: true,
-        scrollWheelZoom: true,
-      }).setView([coords.lat, coords.lng], 11)
+    mapRef.current = L.map(containerRef.current, {
+      zoomControl: true,
+      scrollWheelZoom: true,
+    }).setView([coords.lat, coords.lng], 11)
 
-      // Add OpenStreetMap tiles
-      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '© OpenStreetMap contributors',
-        maxZoom: 19,
-      }).addTo(mapRef.current)
+    // Add OpenStreetMap tiles
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '© OpenStreetMap contributors',
+      maxZoom: 19,
+    }).addTo(mapRef.current)
 
-      // Add marker with custom styling
-      markerRef.current = L.marker([coords.lat, coords.lng], {
-        icon: L.icon({
-          iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-icon.png',
-          shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-shadow.png',
-          iconSize: [32, 41],
-          iconAnchor: [16, 41],
-          shadowSize: [41, 41],
-        }),
-      }).addTo(mapRef.current)
+    // Add marker with custom styling
+    markerRef.current = L.marker([coords.lat, coords.lng], {
+      icon: L.icon({
+        iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-icon.png',
+        shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-shadow.png',
+        iconSize: [32, 41],
+        iconAnchor: [16, 41],
+        shadowSize: [41, 41],
+      }),
+    }).addTo(mapRef.current)
 
-      // Add circle for radius
-      circleRef.current = L.circle([coords.lat, coords.lng], {
-        color: '#2563EB',
-        fillColor: '#3B82F6',
-        fillOpacity: 0.15,
-        weight: 2.5,
-        radius: radius * 1000, // Convert km to meters
-        dashArray: '5, 5',
-      }).addTo(mapRef.current)
-    } else {
-      // Update existing map, marker, and circle
-      mapRef.current.setView([coords.lat, coords.lng], 11)
+    // Add circle for radius
+    circleRef.current = L.circle([coords.lat, coords.lng], {
+      color: '#2563EB',
+      fillColor: '#3B82F6',
+      fillOpacity: 0.15,
+      weight: 2.5,
+      radius: radius * 1000, // Convert km to meters
+      dashArray: '5, 5',
+    }).addTo(mapRef.current)
 
-      if (markerRef.current) {
-        markerRef.current.setLatLng([coords.lat, coords.lng])
-      }
+    initializedRef.current = true
+  }, []) // Empty dependency array - only initialize once
 
-      if (circleRef.current) {
-        circleRef.current.setLatLng([coords.lat, coords.lng])
-        circleRef.current.setRadius(radius * 1000)
-      }
+  // Update marker and circle position/radius without resetting view
+  useEffect(() => {
+    if (!mapRef.current) return
+
+    if (markerRef.current) {
+      markerRef.current.setLatLng([coords.lat, coords.lng])
+    }
+
+    if (circleRef.current) {
+      circleRef.current.setLatLng([coords.lat, coords.lng])
+      circleRef.current.setRadius(radius * 1000)
     }
   }, [coords, radius])
 
