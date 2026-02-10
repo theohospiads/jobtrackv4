@@ -5,6 +5,7 @@ import { useParams, useRouter } from "next/navigation"
 import { useState } from "react"
 import { useLanguage } from "@/components/language-provider"
 import { InterviewStagesTracker } from "@/components/interview-stages-tracker"
+import { StagePrepGuide } from "@/components/stage-preparation-guide"
 
 interface ActionJobData {
   id: string
@@ -597,6 +598,13 @@ export default function ActionDetailPage() {
             })()}
           </div>
         </div>
+
+        {/* Stage Preparation Guide - NEW */}
+        <StagePrepGuide
+          currentStageIndex={job.currentStage}
+          stageName={t(job.stages[job.currentStage]?.nameKey) || 'Current Stage'}
+          stageStatus={job.stages[job.currentStage]?.status || 'current'}
+        />
 
         {/* Interview Stages Section */}
         {job.stages.some((s: { nameKey: string; status: string }) => s.nameKey.includes("interview") || s.nameKey.includes("screening")) && (
