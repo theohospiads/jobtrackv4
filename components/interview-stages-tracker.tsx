@@ -53,6 +53,12 @@ export function InterviewStagesTracker({ stages, onStageUpdate }: InterviewTrack
     onStageUpdate(updatedStages)
   }
 
+  const handleRemoveStage = (stageId: number) => {
+    if (stages.length <= 1) return // Don't allow removing if only one stage left
+    const updatedStages = stages.filter((stage) => stage.id !== stageId)
+    onStageUpdate(updatedStages)
+  }
+
   return (
     <div style={{ marginBottom: 32 }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
@@ -214,6 +220,8 @@ export function InterviewStagesTracker({ stages, onStageUpdate }: InterviewTrack
                     status={stage.status}
                     onEdit={() => setEditingStage(stage.id)}
                     onComplete={() => handleCompleteStage(stage.id)}
+                    onRemove={() => handleRemoveStage(stage.id)}
+                    canRemove={stages.length > 1}
                   />
                 )}
               </div>
@@ -233,9 +241,11 @@ interface NoteDisplayProps {
   status: 'completed' | 'current' | 'upcoming'
   onEdit: () => void
   onComplete: () => void
+  onRemove: () => void
+  canRemove: boolean
 }
 
-function NoteDisplay({ stageId, note, interviewer, date, status, onEdit, onComplete }: NoteDisplayProps) {
+function NoteDisplay({ stageId, note, interviewer, date, status, onEdit, onComplete, onRemove, canRemove }: NoteDisplayProps) {
   const { t } = useLanguage()
 
   return (
@@ -336,6 +346,42 @@ function NoteDisplay({ stageId, note, interviewer, date, status, onEdit, onCompl
             }}
           >
             ✓ Mark Complete
+          </button>
+        )}
+
+        {canRemove && (
+          <button
+            onClick={onRemove}
+            title="Remove this interview round"
+            style={{
+              width: '40px',
+              height: '40px',
+              padding: '10px',
+              background: '#FEE2E2',
+              color: '#DC2626',
+              border: '1px solid #FECACA',
+              borderRadius: 8,
+              cursor: 'pointer',
+              transition: 'all 0.2s ease',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              flexShrink: 0,
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.background = '#FECACA'
+              e.currentTarget.style.borderColor = '#F87171'
+              e.currentTarget.style.transform = 'scale(1.05)'
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.background = '#FEE2E2'
+              e.currentTarget.style.borderColor = '#FECACA'
+              e.currentTarget.style.transform = 'scale(1)'
+            }}
+          >
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+              <path d="M2 4V14C2 14.5304 2.21071 15.0391 2.58579 15.4142C2.96086 15.7893 3.46957 16 4 16H12C12.5304 16 13.0391 15.7893 13.4142 15.4142C13.7893 15.0391 14 14.5304 14 14V4M1 4H15M6.5 7V13M9.5 7V13M3 4H13L12.5 1.5C12.4906 1.42481 12.4522 1.35774 12.3932 1.31224C12.3342 1.26675 12.2589 1.24442 12.1825 1.25H3.8175C3.74113 1.24442 3.66585 1.26675 3.60684 1.31224C3.54783 1.35774 3.50941 1.42481 3.5 1.5L3 4Z" />
+            </svg>
           </button>
         )}
       </div>
