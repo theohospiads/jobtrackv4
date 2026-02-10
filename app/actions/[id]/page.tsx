@@ -270,9 +270,42 @@ export default function ActionDetailPage() {
               <p style={{ fontSize: 11, fontWeight: 700, color: "#64748B", margin: "0 0 8px 0", textTransform: "uppercase", letterSpacing: "0.5px" }}>
                 {t("actionDetail.currentStage")}
               </p>
-              <p style={{ fontSize: 16, fontWeight: 600, color: "#0F172A", margin: 0 }}>
-                {job.stages[job.currentStage] ? t(job.stages[job.currentStage].nameKey) : ""}
-              </p>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12 }}>
+                <p style={{ fontSize: 16, fontWeight: 600, color: "#0F172A", margin: 0 }}>
+                  {job.stages[job.currentStage] ? t(job.stages[job.currentStage].nameKey) : ""}
+                </p>
+                <button
+                  onClick={() => {
+                    const nextStage = Math.min(job.currentStage + 1, job.totalStages - 1)
+                    setJob({ ...job, currentStage: nextStage })
+                  }}
+                  style={{
+                    padding: "8px 14px",
+                    fontSize: 12,
+                    fontWeight: 600,
+                    color: "#2563EB",
+                    background: "#FFFFFF",
+                    border: "1px solid #BFDBFE",
+                    borderRadius: 6,
+                    cursor: "pointer",
+                    transition: "all 0.2s",
+                    whiteSpace: "nowrap",
+                    flexShrink: 0,
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.background = "#EFF6FF"
+                    e.currentTarget.style.borderColor = "#93C5FD"
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.background = "#FFFFFF"
+                    e.currentTarget.style.borderColor = "#BFDBFE"
+                  }}
+                  disabled={job.currentStage >= job.totalStages - 1}
+                  title={job.currentStage >= job.totalStages - 1 ? "Already at final stage" : "Move to next stage"}
+                >
+                  {t("actionDetail.nextStage") || "Next stage"}
+                </button>
+              </div>
             </div>
 
             {/* Progress Bar */}
