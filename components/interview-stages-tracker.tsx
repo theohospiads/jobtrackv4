@@ -31,62 +31,59 @@ export function InterviewRoundsSetup({ totalRounds, onTotalRoundsChange }: Inter
       <button
         onClick={() => setIsOpen(!isOpen)}
         style={{
-          padding: '8px 14px',
-          fontSize: 13,
+          padding: '10px 14px',
+          fontSize: 14,
           fontWeight: 600,
           color: totalRounds > 0 ? '#10B981' : '#2563EB',
           background: totalRounds > 0 ? '#ECFDF5' : '#EFF6FF',
-          border: `1.5px solid ${totalRounds > 0 ? '#86EFAC' : '#BFDBFE'}`,
+          border: `2px solid ${totalRounds > 0 ? '#86EFAC' : '#BFDBFE'}`,
           borderRadius: 8,
           cursor: 'pointer',
           transition: 'all 0.3s ease',
           display: 'flex',
           alignItems: 'center',
-          gap: 8,
+          gap: 10,
           whiteSpace: 'nowrap',
           position: 'relative',
+          fontFamily: 'inherit',
         }}
         onMouseEnter={(e) => {
-          e.currentTarget.style.transform = 'translateY(-1px)'
-          e.currentTarget.style.boxShadow = '0 4px 12px rgba(37, 99, 235, 0.2)'
+          e.currentTarget.style.transform = 'translateY(-2px)'
+          e.currentTarget.style.boxShadow = '0 6px 16px rgba(37, 99, 235, 0.25)'
           e.currentTarget.style.borderColor = totalRounds > 0 ? '#6EE7B7' : '#93C5FD'
+          e.currentTarget.style.backgroundColor = totalRounds > 0 ? '#D1FAE5' : '#EFF6FF'
         }}
         onMouseLeave={(e) => {
           e.currentTarget.style.transform = 'translateY(0)'
           e.currentTarget.style.boxShadow = 'none'
           e.currentTarget.style.borderColor = totalRounds > 0 ? '#86EFAC' : '#BFDBFE'
+          e.currentTarget.style.backgroundColor = totalRounds > 0 ? '#ECFDF5' : '#EFF6FF'
         }}
       >
-        <span>{totalRounds > 0 ? `${totalRounds}` : '?'}</span>
-        <span>{t('actionDetail.interviewRounds') || 'Rounds'}</span>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+          <span style={{ fontSize: 16, fontWeight: 700 }}>{totalRounds > 0 ? totalRounds : '?'}</span>
+          <span>{t('actionDetail.interviewRounds') || 'Rounds'}</span>
+        </div>
         
-        {/* Edit/Pencil Icon */}
+        {/* Dropdown Chevron Icon */}
         <svg 
-          width="14" 
-          height="14" 
+          width="16" 
+          height="16" 
           viewBox="0 0 16 16" 
           fill="none"
           style={{
-            marginLeft: '2px',
-            opacity: 0.7,
-            transition: 'transform 0.2s ease',
+            transition: 'transform 0.3s ease',
+            transform: isOpen ? 'rotate(180deg)' : 'rotate(0deg)',
+            marginLeft: '4px',
+            flexShrink: 0,
           }}
         >
           <path 
-            d="M2.5 11.5L11 3L13 5L4.5 13.5M2.5 11.5H1.5V12.5M11 3L14 0M11 3L14 6" 
+            d="M4 6L8 10L12 6" 
             stroke="currentColor" 
-            strokeWidth="1.2" 
+            strokeWidth="2" 
             strokeLinecap="round" 
             strokeLinejoin="round" 
-            fill="none"
-          />
-          <rect 
-            x="1.5" 
-            y="13" 
-            width="2" 
-            height="2" 
-            fill={totalRounds > 0 ? '#10B981' : '#2563EB'} 
-            opacity="0.3"
           />
         </svg>
       </button>
