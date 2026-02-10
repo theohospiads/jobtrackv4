@@ -151,7 +151,10 @@ export function LocationPicker({
             {suggestions.map((suggestion, idx) => (
               <button
                 key={`${suggestion.lat}-${suggestion.lon}-${idx}`}
-                onClick={() => handleSelectSuggestion(suggestion)}
+                onMouseDown={(e) => {
+                  e.preventDefault()
+                  handleSelectSuggestion(suggestion)
+                }}
                 style={{
                   width: '100%',
                   padding: '12px 14px',
