@@ -372,88 +372,191 @@ export default function ActionDetailPage() {
                       }}
                     >
                       {job.stages.map(
-                        (stage: { status: string; nameKey: string; date?: string }, index: number) => (
-                          <div
-                            key={index}
-                            style={{
-                              display: "flex",
-                              flexDirection: "column",
-                              alignItems: "center",
-                              gap: 12,
-                            }}
-                          >
-                            {/* Circle */}
+                        (stage: { status: string; nameKey: string; date?: string }, index: number) => {
+                          const isInterviewStage = stage.nameKey.toLowerCase().includes("interview") || 
+                                                   stage.nameKey.toLowerCase().includes("screening")
+                          const displayInterviewStages = isInterviewStage && interviewStages.length > 0
+                          
+                          return (
                             <div
+                              key={index}
                               style={{
-                                width: 32,
-                                height: 32,
-                                borderRadius: "50%",
                                 display: "flex",
+                                flexDirection: "column",
                                 alignItems: "center",
-                                justifyContent: "center",
-                                flexShrink: 0,
-                                background:
-                                  stage.status === "completed" ? "#2563EB" : "#FFFFFF",
-                                border:
-                                  stage.status === "completed"
-                                    ? "2px solid #2563EB"
-                                    : stage.status === "current"
-                                      ? "2px solid #2563EB"
-                                      : "2px solid #E5E7EB",
-                                color:
-                                  stage.status === "completed"
-                                    ? "#FFFFFF"
-                                    : stage.status === "current"
-                                      ? "#2563EB"
-                                      : "#94A3B8",
-                                fontSize: 13,
-                                fontWeight: 600,
+                                gap: 12,
                               }}
                             >
-                              {index + 1}
-                            </div>
-
-                            {/* Label */}
-                            <div style={{ textAlign: "center" }}>
-                              <p
+                              {/* Main Circle */}
+                              <div
                                 style={{
-                                  fontSize: 12,
+                                  width: 32,
+                                  height: 32,
+                                  borderRadius: "50%",
+                                  display: "flex",
+                                  alignItems: "center",
+                                  justifyContent: "center",
+                                  flexShrink: 0,
+                                  background:
+                                    stage.status === "completed" ? "#2563EB" : "#FFFFFF",
+                                  border:
+                                    stage.status === "completed"
+                                      ? "2px solid #2563EB"
+                                      : stage.status === "current"
+                                        ? "2px solid #2563EB"
+                                        : "2px solid #E5E7EB",
                                   color:
-                                    stage.status === "upcoming" ? "#94A3B8" : "#0F172A",
-                                  margin: 0,
-                                  fontWeight: stage.status === "current" ? 600 : 400,
-                                  lineHeight: 1.4,
+                                    stage.status === "completed"
+                                      ? "#FFFFFF"
+                                      : stage.status === "current"
+                                        ? "#2563EB"
+                                        : "#94A3B8",
+                                  fontSize: 13,
+                                  fontWeight: 600,
+                                  position: "relative",
+                                  cursor: displayInterviewStages ? "pointer" : "default",
                                 }}
                               >
-                                {stage.status === "completed" ? t("actionDetail.your") : ""}
-                                {t(stage.nameKey)}
-                              </p>
-                              {stage.date && (
-                                <p
+                                {index + 1}
+                                
+                                {/* Interview badge indicator */}
+                                {displayInterviewStages && (
+                                  <div
+                                    style={{
+                                      position: "absolute",
+                                      top: -4,
+                                      right: -4,
+                                      width: 16,
+                                      height: 16,
+                                      borderRadius: "50%",
+                                      background: "#2563EB",
+                                      border: "2px solid #FFFFFF",
+                                      display: "flex",
+                                      alignItems: "center",
+                                      justifyContent: "center",
+                                      fontSize: 10,
+                                      color: "#FFFFFF",
+                                      fontWeight: 700,
+                                    }}
+                                    title={`${interviewStages.length} interview rounds`}
+                                  >
+                                    {interviewStages.length}
+                                  </div>
+                                )}
+                              </div>
+
+                              {/* Sub-interview stages */}
+                              {displayInterviewStages && (
+                                <div
                                   style={{
-                                    fontSize: 11,
-                                    color: "#64748B",
-                                    margin: "4px 0 0 0",
+                                    display: "flex",
+                                    gap: 6,
+                                    justifyContent: "center",
+                                    flexWrap: "wrap",
+                                    width: "100%",
                                   }}
                                 >
-                                  {stage.date}
-                                </p>
+                                  {interviewStages.map((interview: any, iIdx: number) => (
+                                    <div
+                                      key={iIdx}
+                                      style={{
+                                        width: 20,
+                                        height: 20,
+                                        borderRadius: "50%",
+                                        display: "flex",
+                                        alignItems: "center",
+                                        justifyContent: "center",
+                                        fontSize: 10,
+                                        fontWeight: 600,
+                                        background:
+                                          interview.status === "completed"
+                                            ? "#10B981"
+                                            : interview.status === "current"
+                                              ? "#F59E0B"
+                                              : "#E5E7EB",
+                                        color:
+                                          interview.status === "completed"
+                                            ? "#FFFFFF"
+                                            : interview.status === "current"
+                                              ? "#FFFFFF"
+                                              : "#94A3B8",
+                                        border:
+                                          interview.status === "completed"
+                                            ? "2px solid #10B981"
+                                            : interview.status === "current"
+                                              ? "2px solid #F59E0B"
+                                              : "2px solid #CBD5E1",
+                                        cursor: "pointer",
+                                        transition: "all 200ms ease",
+                                      }}
+                                      onMouseEnter={(e) => {
+                                        e.currentTarget.style.transform = "scale(1.2)"
+                                      }}
+                                      onMouseLeave={(e) => {
+                                        e.currentTarget.style.transform = "scale(1)"
+                                      }}
+                                      title={`Interview ${iIdx + 1}: ${interview.status}`}
+                                    >
+                                      {iIdx + 1}
+                                    </div>
+                                  ))}
+                                </div>
                               )}
-                              {stage.status === "current" && (
+
+                              {/* Label */}
+                              <div style={{ textAlign: "center" }}>
                                 <p
                                   style={{
-                                    fontSize: 11,
-                                    color: "#2563EB",
-                                    margin: "4px 0 0 0",
-                                    fontWeight: 500,
+                                    fontSize: 12,
+                                    color:
+                                      stage.status === "upcoming" ? "#94A3B8" : "#0F172A",
+                                    margin: 0,
+                                    fontWeight: stage.status === "current" ? 600 : 400,
+                                    lineHeight: 1.4,
                                   }}
                                 >
+                                  {stage.status === "completed" ? t("actionDetail.your") : ""}
+                                  {t(stage.nameKey)}
+                                </p>
+                                {displayInterviewStages && (
+                                  <p
+                                    style={{
+                                      fontSize: 10,
+                                      color: "#64748B",
+                                      margin: "2px 0 0 0",
+                                      fontStyle: "italic",
+                                    }}
+                                  >
+                                    {interviewStages.length} rounds
+                                  </p>
+                                )}
+                                {stage.date && (
+                                  <p
+                                    style={{
+                                      fontSize: 11,
+                                      color: "#64748B",
+                                      margin: "4px 0 0 0",
+                                    }}
+                                  >
+                                    {stage.date}
+                                  </p>
+                                )}
+                                {stage.status === "current" && (
+                                  <p
+                                    style={{
+                                      fontSize: 11,
+                                      color: "#2563EB",
+                                      margin: "4px 0 0 0",
+                                      fontWeight: 500,
+                                    }}
+                                    >
                                   {t("actionDetail.inProgress")}
                                 </p>
                               )}
                             </div>
                           </div>
                         )
+                      }
                       )}
                     </div>
                   </div>
