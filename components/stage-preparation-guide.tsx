@@ -170,7 +170,9 @@ export function StagePrepGuide({ currentStageIndex, stageName, stageStatus }: St
                 justifyContent: 'space-between',
                 gap: 12,
                 padding: '12px 16px',
-                background: checkedItems[item.key] ? '#F1F5F9' : '#F8FAFC',
+                background: checkedItems[item.key] 
+                  ? index % 2 === 0 ? '#E8F2FF' : '#F3F8FF'
+                  : index % 2 === 0 ? '#EFF6FF' : '#F8FAFC',
                 borderRadius: 8,
                 border: '1px solid #E5E7EB',
                 cursor: 'pointer',
@@ -179,12 +181,14 @@ export function StagePrepGuide({ currentStageIndex, stageName, stageStatus }: St
               onClick={() => toggleCheck(item.key)}
               onMouseEnter={(e) => {
                 if (!checkedItems[item.key]) {
-                  e.currentTarget.style.background = '#F0F4F8'
+                  e.currentTarget.style.background = index % 2 === 0 ? '#E0EBFF' : '#EFF4FF'
                   e.currentTarget.style.borderColor = '#CBD5E1'
                 }
               }}
               onMouseLeave={(e) => {
-                e.currentTarget.style.background = checkedItems[item.key] ? '#F1F5F9' : '#F8FAFC'
+                e.currentTarget.style.background = checkedItems[item.key] 
+                  ? index % 2 === 0 ? '#E8F2FF' : '#F3F8FF'
+                  : index % 2 === 0 ? '#EFF6FF' : '#F8FAFC'
                 e.currentTarget.style.borderColor = '#E5E7EB'
               }}
             >
