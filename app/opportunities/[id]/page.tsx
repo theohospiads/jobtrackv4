@@ -407,9 +407,7 @@ Required qualifications include strong knowledge of engine mechanics and operati
                 </p>
               </div>
             </div>
-            <p style={{ fontSize: 12, color: "#64748B", margin: 0, fontStyle: "italic" }}>
-              {t("oppDetail.noNeed")}
-            </p>
+
           </div>
 
           {/* Missing Skills */}
@@ -656,52 +654,7 @@ Required qualifications include strong knowledge of engine mechanics and operati
           </button>
         </div>
 
-        {/* Job Information Section */}
-        <p style={{ fontSize: 14, fontWeight: 600, color: "#0F172A", margin: "0 0 12px 0" }}>
-          {t("oppDetail.jobInfo")}
-        </p>
-        <div
-          style={{
-            background: "#FFFFFF",
-            border: "1px solid #E5E7EB",
-            borderRadius: 12,
-            padding: 24,
-            marginBottom: 24,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            minHeight: 100,
-          }}
-        >
-          <button
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: 8,
-              padding: "12px 24px",
-              fontSize: 14,
-              fontWeight: 400,
-              color: "#2563EB",
-              background: "#FFFFFF",
-              border: "1px solid #2563EB",
-              borderRadius: 8,
-              cursor: "pointer",
-              transition: "all 0.2s",
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.background = "#F0F4F8";
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.background = "#FFFFFF";
-            }}
-            onClick={() => window.open("https://www.safran.fr", "_blank")}
-          >
-            {t("oppDetail.openOriginal")}
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M3 13H13V3H8M13 3L3 13" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
-          </button>
-        </div>
+
       </main>
     </div>
   )

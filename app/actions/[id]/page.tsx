@@ -6,6 +6,8 @@ import { useState } from "react"
 import { useLanguage } from "@/components/language-provider"
 import { InterviewStagesTracker, InterviewRoundsSetup } from "@/components/interview-stages-tracker"
 import { StagePrepGuide } from "@/components/stage-preparation-guide"
+import { SalaryNegotiationGuide } from "@/components/salary-negotiation-guide"
+import { InterviewQuestionsGuide } from "@/components/interview-questions-guide"
 
 interface ActionJobData {
   id: string
@@ -613,6 +615,12 @@ export default function ActionDetailPage() {
           stageName={t(job.stages[job.currentStage]?.nameKey) || 'Current Stage'}
           stageStatus={job.stages[job.currentStage]?.status || 'current'}
         />
+
+        {/* Interview Questions Guide */}
+        <InterviewQuestionsGuide />
+
+        {/* Salary Negotiation Guide */}
+        <SalaryNegotiationGuide salaryRange={job.salary} jobTitle={t(job.titleKey)} />
 
         {/* Bottom Section - Salary and Action Button */}
         <div style={{ marginBottom: 32, display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginTop: 24, gap: 24 }}>

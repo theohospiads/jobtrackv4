@@ -28,7 +28,7 @@ interface CityOption {
 export function LocationPicker({
   onLocationSelect,
   initialCity = '',
-  initialRadius = '50',
+  initialRadius = '15',
   onNext,
   isSubmitting,
   isLastQuestion,

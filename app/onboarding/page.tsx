@@ -542,7 +542,7 @@ export default function OnboardingPage() {
               })
             }}
             initialCity={answers[`${question.id}_city`] || ''}
-            initialRadius={answers[`${question.id}_radius`] || '50'}
+            initialRadius={answers[`${question.id}_radius`] || '15'}
             onNext={handleNext}
             isSubmitting={isSubmitting}
             isLastQuestion={currentStep === adaptiveQuestions.length - 1}

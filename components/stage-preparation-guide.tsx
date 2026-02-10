@@ -134,9 +134,14 @@ export function StagePrepGuide({ currentStageIndex, stageName, stageStatus }: St
         }}
       >
         {/* Section Title */}
-        <p style={{ fontSize: 13, fontWeight: 600, color: '#64748B', margin: '0 0 16px 0', textTransform: 'uppercase', letterSpacing: 0.5 }}>
-          {t('actionDetail.stageTips') || 'STAGE TIPS'}
-        </p>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8, margin: '0 0 16px 0' }}>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" style={{ flexShrink: 0 }}>
+            <path d="M9 21H15M12 3C8.68629 3 6 5.68629 6 9C6 11.2208 7.20983 13.1599 9 14.1973V17C9 17.5523 9.44772 18 10 18H14C14.5523 18 15 17.5523 15 17V14.1973C16.7902 13.1599 18 11.2208 18 9C18 5.68629 15.3137 3 12 3Z" stroke="#F59E0B" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+          </svg>
+          <p style={{ fontSize: 13, fontWeight: 600, color: '#64748B', margin: 0, textTransform: 'uppercase', letterSpacing: 0.5 }}>
+            {t('actionDetail.stageTips') || 'TIPS FOR THIS STEP'}
+          </p>
+        </div>
 
         {/* Progress Bar */}
         <div style={{ marginBottom: 20 }}>
