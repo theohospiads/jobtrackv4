@@ -324,6 +324,32 @@ Required qualifications include strong knowledge of engine mechanics and operati
           </div>
         </div>
 
+        {/* Original Job Description Section */}
+        <p style={{ fontSize: 14, fontWeight: 600, color: "#0F172A", margin: "0 0 12px 0" }}>
+          {t("oppDetail.jobDescription")}
+        </p>
+        <div
+          style={{
+            background: "#FFFFFF",
+            border: "1px solid #E5E7EB",
+            borderRadius: 12,
+            padding: 24,
+            marginBottom: 32,
+            boxShadow: "0 4px 12px rgba(0, 0, 0, 0.08), 0 1px 3px rgba(0, 0, 0, 0.04)",
+            transition: "box-shadow 0.3s ease",
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.boxShadow = "0 8px 24px rgba(0, 0, 0, 0.12), 0 2px 6px rgba(0, 0, 0, 0.06)"
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.boxShadow = "0 4px 12px rgba(0, 0, 0, 0.08), 0 1px 3px rgba(0, 0, 0, 0.04)"
+          }}
+        >
+          <p style={{ fontSize: 14, color: "#0F172A", lineHeight: 1.6, margin: 0, whiteSpace: "pre-line" }}>
+            {jobDescription}
+          </p>
+        </div>
+
         {/* Why It's a Strong Match Section */}
         <p style={{ fontSize: 14, fontWeight: 600, color: "#0F172A", margin: "0 0 12px 0" }}>
           {t("oppDetail.whyStrongMatch")}
