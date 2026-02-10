@@ -1,12 +1,34 @@
 'use client'
 
 import { useLanguage } from '@/components/language-provider'
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 
 interface StagePrepGuideProps {
   currentStageIndex: number
   stageName: string
   stageStatus: 'completed' | 'current' | 'upcoming'
+}
+
+const STAGE_ITEMS_CONFIG: Record<number, Array<{ key: string; labelKey: string; impactKey?: string }>> = {
+  0: [
+    { key: 'profile', labelKey: 'stage.tip.profile' },
+    { key: 'trackSubmission', labelKey: 'stage.action.trackSubmission' },
+  ],
+  1: [
+    { key: 'researchCompany', labelKey: 'stage.tip.researchCompany', impactKey: 'stage.impact.researchCompany' },
+    { key: 'linkedIn', labelKey: 'stage.tip.linkedIn', impactKey: 'stage.impact.linkedIn' },
+    { key: 'prepareQuestions', labelKey: 'stage.tip.prepareQuestions', impactKey: 'stage.impact.prepareQuestions' },
+  ],
+  2: [
+    { key: 'practiceInterview', labelKey: 'stage.tip.practiceInterview' },
+    { key: 'technicalPrep', labelKey: 'stage.tip.technicalPrep' },
+    { key: 'firstImpressions', labelKey: 'stage.tip.firstImpressions' },
+  ],
+  3: [
+    { key: 'negotiation', labelKey: 'stage.tip.negotiation' },
+    { key: 'reference', labelKey: 'stage.tip.reference' },
+    { key: 'background', labelKey: 'stage.tip.background' },
+  ],
 }
 
 export function StagePrepGuide({ currentStageIndex, stageName, stageStatus }: StagePrepGuideProps) {
@@ -16,29 +38,17 @@ export function StagePrepGuide({ currentStageIndex, stageName, stageStatus }: St
   // Only show for current stage
   if (stageStatus !== 'current') return null
 
-  const stageItems: Record<number, Array<{ key: string; label: string }>> = {
-    0: [
-      { key: 'profile', label: t('stage.tip.profile') || 'Complete Profile' },
-      { key: 'trackSubmission', label: t('stage.action.trackSubmission') || 'Track your submission' },
-    ],
-    1: [
-      { key: 'researchCompany', label: t('stage.tip.researchCompany') || 'Research the Company' },
-      { key: 'linkedIn', label: t('stage.tip.linkedIn') || 'Check LinkedIn' },
-      { key: 'prepareQuestions', label: t('stage.tip.prepareQuestions') || 'Prepare Smart Questions' },
-    ],
-    2: [
-      { key: 'practiceInterview', label: t('stage.tip.practiceInterview') || 'Practice Interview Scenarios' },
-      { key: 'technicalPrep', label: t('stage.tip.technicalPrep') || 'Technical Preparation' },
-      { key: 'firstImpressions', label: t('stage.tip.firstImpressions') || 'First Impressions Matter' },
-    ],
-    3: [
-      { key: 'negotiation', label: t('stage.tip.negotiation') || 'Know Your Worth' },
-      { key: 'reference', label: t('stage.tip.reference') || 'Prepare References' },
-      { key: 'background', label: t('stage.tip.background') || 'Expect Background Checks' },
-    ],
-  }
+  const itemsConfig = STAGE_ITEMS_CONFIG[currentStageIndex] || []
+  
+  const items = useMemo(() => 
+    itemsConfig.map(item => ({
+      ...item,
+      label: t(item.labelKey) || 'Item',
+      impact: item.impactKey ? t(item.impactKey) : undefined,
+    })),
+    [currentStageIndex, t]
+  )
 
-  const items = stageItems[currentStageIndex] || []
   const completedCount = items.filter(item => checkedItems[item.key]).length
   const progressPercentage = items.length > 0 ? Math.round((completedCount / items.length) * 100) : 0
 
@@ -52,7 +62,7 @@ export function StagePrepGuide({ currentStageIndex, stageName, stageStatus }: St
   return (
     <div style={{ marginBottom: 32 }}>
       <p style={{ fontSize: 14, fontWeight: 600, color: '#0F172A', margin: '0 0 12px 0' }}>
-        {t('actionDetail.preparationTips')}
+        {t('actionDetail.preparationTips') || 'Preparation Tips'}
       </p>
 
       <div
@@ -67,7 +77,7 @@ export function StagePrepGuide({ currentStageIndex, stageName, stageStatus }: St
         {/* Progress Bar */}
         <div style={{ marginBottom: 20 }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
-            <span style={{ fontSize: 12, color: '#64748B', fontWeight: 500 }}>{t('actionDetail.progress')}</span>
+            <span style={{ fontSize: 12, color: '#64748B', fontWeight: 500 }}>{t('actionDetail.progress') || 'Progress'}</span>
             <span style={{ fontSize: 13, fontWeight: 700, color: '#0F172A' }}>{progressPercentage}%</span>
           </div>
           <div style={{ height: 6, background: '#E5E7EB', borderRadius: 3 }}>
@@ -90,12 +100,13 @@ export function StagePrepGuide({ currentStageIndex, stageName, stageStatus }: St
               key={item.key}
               style={{
                 display: 'flex',
-                alignItems: 'center',
+                alignItems: 'flex-start',
                 gap: 12,
                 padding: '12px 0',
                 borderBottom: index < items.length - 1 ? '1px solid #F1F5F9' : 'none',
                 cursor: 'pointer',
                 transition: 'opacity 0.2s ease',
+                justifyContent: 'space-between',
               }}
               onClick={() => toggleCheck(item.key)}
               onMouseEnter={(e) => {
@@ -105,6 +116,33 @@ export function StagePrepGuide({ currentStageIndex, stageName, stageStatus }: St
                 e.currentTarget.style.opacity = '1'
               }}
             >
+              <div style={{ flex: 1 }}>
+                <span
+                  style={{
+                    fontSize: 14,
+                    color: checkedItems[item.key] ? '#94A3B8' : '#0F172A',
+                    fontWeight: 500,
+                    textDecoration: checkedItems[item.key] ? 'line-through' : 'none',
+                    transition: 'all 0.2s ease',
+                    display: 'block',
+                    marginBottom: item.impact ? 4 : 0,
+                  }}
+                >
+                  {item.label}
+                </span>
+                {item.impact && (
+                  <span
+                    style={{
+                      fontSize: 12,
+                      color: '#2563EB',
+                      fontWeight: 500,
+                      display: 'block',
+                    }}
+                  >
+                    {item.impact}
+                  </span>
+                )}
+              </div>
               <div
                 style={{
                   width: 18,
@@ -117,6 +155,7 @@ export function StagePrepGuide({ currentStageIndex, stageName, stageStatus }: St
                   justifyContent: 'center',
                   flexShrink: 0,
                   transition: 'all 0.2s ease',
+                  marginTop: 2,
                 }}
               >
                 {checkedItems[item.key] && (
@@ -131,17 +170,6 @@ export function StagePrepGuide({ currentStageIndex, stageName, stageStatus }: St
                   </svg>
                 )}
               </div>
-              <span
-                style={{
-                  fontSize: 14,
-                  color: checkedItems[item.key] ? '#94A3B8' : '#0F172A',
-                  fontWeight: 500,
-                  textDecoration: checkedItems[item.key] ? 'line-through' : 'none',
-                  transition: 'all 0.2s ease',
-                }}
-              >
-                {item.label}
-              </span>
             </div>
           ))}
         </div>
