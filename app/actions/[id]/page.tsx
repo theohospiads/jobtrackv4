@@ -308,6 +308,41 @@ export default function ActionDetailPage() {
           </div>
         )}
 
+        {/* Interview Setup/Tracker - Conditional Rendering */}
+        {job.stages.some((s: { nameKey: string; status: string }) => s.nameKey.includes("interview") || s.nameKey.includes("screening")) ? (
+          // If in interview stage or beyond, show full tracker
+          job.currentStage >= 2 ? (
+            <div style={{ marginBottom: 32 }}>
+              <InterviewStagesTracker stages={interviewStages} onStageUpdate={setInterviewStages} />
+            </div>
+          ) : (
+            // Before interview stage, show lightweight setup button in the header
+            <div style={{ marginBottom: 32, display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '16px', background: '#F9FAFB', borderRadius: 8, border: '1px solid #E5E7EB' }}>
+              <div>
+                <p style={{ fontSize: 14, fontWeight: 600, color: '#0F172A', margin: 0 }}>
+                  {t('actionDetail.expectedInterviews') || 'Expected Interview Rounds'}
+                </p>
+                <p style={{ fontSize: 12, color: '#64748B', margin: '4px 0 0 0' }}>
+                  {t('actionDetail.setRoundsInfo') || 'Let us know how many interview rounds to prepare for'}
+                </p>
+              </div>
+              <InterviewRoundsSetup 
+                totalRounds={totalInterviewRounds} 
+                onTotalRoundsChange={(rounds) => {
+                  setTotalInterviewRounds(rounds)
+                  // Generate interview stages based on number of rounds
+                  const newStages = Array.from({ length: rounds }, (_, i) => ({
+                    id: i + 1,
+                    status: i === 0 ? 'current' as const : 'upcoming' as const,
+                    notes: '',
+                  }))
+                  setInterviewStages(newStages)
+                }}
+              />
+            </div>
+          )
+        ) : null}
+
         {/* Timeline Section */}
         <div style={{ marginBottom: 24 }}>
           <p style={{ fontSize: 14, fontWeight: 600, color: "#0F172A", margin: "0 0 12px 0" }}>
@@ -606,41 +641,6 @@ export default function ActionDetailPage() {
           stageName={t(job.stages[job.currentStage]?.nameKey) || 'Current Stage'}
           stageStatus={job.stages[job.currentStage]?.status || 'current'}
         />
-
-        {/* Interview Setup/Tracker - Conditional Rendering */}
-        {job.stages.some((s: { nameKey: string; status: string }) => s.nameKey.includes("interview") || s.nameKey.includes("screening")) ? (
-          // If in interview stage or beyond, show full tracker
-          job.currentStage >= 2 ? (
-            <div style={{ marginBottom: 32 }}>
-              <InterviewStagesTracker stages={interviewStages} onStageUpdate={setInterviewStages} />
-            </div>
-          ) : (
-            // Before interview stage, show lightweight setup button in the header
-            <div style={{ marginBottom: 32, display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '16px', background: '#F9FAFB', borderRadius: 8, border: '1px solid #E5E7EB' }}>
-              <div>
-                <p style={{ fontSize: 14, fontWeight: 600, color: '#0F172A', margin: 0 }}>
-                  {t('actionDetail.expectedInterviews') || 'Expected Interview Rounds'}
-                </p>
-                <p style={{ fontSize: 12, color: '#64748B', margin: '4px 0 0 0' }}>
-                  {t('actionDetail.setRoundsInfo') || 'Let us know how many interview rounds to prepare for'}
-                </p>
-              </div>
-              <InterviewRoundsSetup 
-                totalRounds={totalInterviewRounds} 
-                onTotalRoundsChange={(rounds) => {
-                  setTotalInterviewRounds(rounds)
-                  // Generate interview stages based on number of rounds
-                  const newStages = Array.from({ length: rounds }, (_, i) => ({
-                    id: i + 1,
-                    status: i === 0 ? 'current' as const : 'upcoming' as const,
-                    notes: '',
-                  }))
-                  setInterviewStages(newStages)
-                }}
-              />
-            </div>
-          )
-        ) : null}
 
         {/* Bottom Section - Salary and Action Button */}
         <div style={{ marginBottom: 32, display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginTop: 24, gap: 24 }}>
