@@ -555,6 +555,7 @@ const translations: Record<Language, Record<string, string>> = {
     "actionDetail.interview": "Interview",
     "actionDetail.preparationTips": "Preparation Tips",
     "actionDetail.actionItems": "Action Items",
+    "actionDetail.progress": "Progress",
 
     // Stage Preparation Guide
     "stage.applicationSubmitted": "Application Submitted",
@@ -1182,6 +1183,7 @@ const translations: Record<Language, Record<string, string>> = {
     "actionDetail.interview": "Entretien",
     "actionDetail.preparationTips": "Conseils de pr\u00E9paration",
     "actionDetail.actionItems": "\u00C9l\u00E9ments d'action",
+    "actionDetail.progress": "Progression",
 
     // Stage Preparation Guide
     "stage.applicationSubmitted": "Candidature soumise",
