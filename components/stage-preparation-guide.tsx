@@ -22,11 +22,9 @@ const STAGE_ITEMS_CONFIG: Record<number, Array<{ key: string; labelKey: string; 
     { key: 'researchCompany', labelKey: 'action.researchCompanyDetails', impactKey: 'impact.researchCompany' },
     { key: 'readRecentNews', labelKey: 'action.readRecentNews', impactKey: 'impact.readRecentNews' },
     { key: 'identifyLinkedInRecruiter', labelKey: 'action.identifyLinkedInRecruiter', impactKey: 'impact.linkedIn' },
-    { key: 'prepareCompanyQuestions', labelKey: 'action.prepareCompanyQuestions', impactKey: 'impact.prepareQuestions' },
     { key: 'studyJobDescription', labelKey: 'action.studyJobDescription', impactKey: 'impact.studyJobDescription' },
     { key: 'prepareSTARStories', labelKey: 'action.prepareSTARStories', impactKey: 'impact.prepareSTAR' },
-    { key: 'prepareWeaknesses', labelKey: 'action.prepareWeaknesses', impactKey: 'impact.prepareWeaknesses' },
-    { key: 'createCheatSheet', labelKey: 'action.createCheatSheet', impactKey: 'impact.createCheatSheet' },
+    { key: 'practiceIntroduction', labelKey: 'action.practiceIntroduction', impactKey: 'impact.practiceIntroduction' },
   ],
   2: [
     { key: 'recordMockInterview', labelKey: 'action.recordMockInterview', impactKey: 'impact.recordMockInterview' },
