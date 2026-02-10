@@ -559,7 +559,7 @@ export default function ActionDetailPage() {
                                       fontStyle: "italic",
                                     }}
                                   >
-                                    {interviewStages.length} rounds
+                                    {interviewStages.length} {t('actionDetail.rounds')}
                                   </p>
                                 )}
                                 {stage.date && (

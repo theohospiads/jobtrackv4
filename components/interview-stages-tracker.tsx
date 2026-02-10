@@ -85,7 +85,7 @@ export function InterviewStagesTracker({ stages, onStageUpdate }: InterviewTrack
               e.currentTarget.style.borderColor = '#C7D2FE'
             }}
           >
-            <span style={{ fontSize: 14 }}>+</span> Add Round
+            <span style={{ fontSize: 14 }}>+</span> {t('actionDetail.addRound') || 'Add Round'}
           </button>
         )}
       </div>
