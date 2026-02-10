@@ -11,16 +11,91 @@ interface InterviewStage {
   date?: string
 }
 
+interface InterviewRoundsSetupProps {
+  totalRounds: number
+  onTotalRoundsChange: (rounds: number) => void
+}
+
 interface InterviewTrackerProps {
   stages: InterviewStage[]
   onStageUpdate: (stages: InterviewStage[]) => void
 }
 
+// Lightweight button for setting interview rounds - shown before interviews
+export function InterviewRoundsSetup({ totalRounds, onTotalRoundsChange }: InterviewRoundsSetupProps) {
+  const { t } = useLanguage()
+  const [isOpen, setIsOpen] = useState(false)
+
+  return (
+    <div style={{ position: 'relative', display: 'inline-block' }}>
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        style={{
+          padding: '8px 16px',
+          fontSize: 13,
+          fontWeight: 500,
+          color: totalRounds > 0 ? '#10B981' : '#2563EB',
+          background: totalRounds > 0 ? '#ECFDF5' : '#EFF6FF',
+          border: `1px solid ${totalRounds > 0 ? '#86EFAC' : '#BFDBFE'}`,
+          borderRadius: 6,
+          cursor: 'pointer',
+          transition: 'all 0.2s ease',
+        }}
+      >
+        {totalRounds > 0 ? `${totalRounds} ${t('actionDetail.interviewRounds') || 'Interview Rounds'}` : `${t('actionDetail.setInterviewRounds') || 'Set Rounds'}`}
+      </button>
+
+      {isOpen && (
+        <div
+          style={{
+            position: 'absolute',
+            top: '100%',
+            left: 0,
+            marginTop: 8,
+            background: '#FFFFFF',
+            border: '1px solid #E5E7EB',
+            borderRadius: 8,
+            padding: 12,
+            boxShadow: '0 4px 12px rgba(0, 0, 0, 0.08)',
+            zIndex: 1000,
+            minWidth: 180,
+          }}
+        >
+          <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+            {[1, 2, 3, 4, 5].map((round) => (
+              <button
+                key={round}
+                onClick={() => {
+                  onTotalRoundsChange(round)
+                  setIsOpen(false)
+                }}
+                style={{
+                  width: 32,
+                  height: 32,
+                  borderRadius: 6,
+                  border: `2px solid ${totalRounds === round ? '#2563EB' : '#E5E7EB'}`,
+                  background: totalRounds === round ? '#2563EB' : '#FFFFFF',
+                  color: totalRounds === round ? '#FFFFFF' : '#0F172A',
+                  fontWeight: 600,
+                  cursor: 'pointer',
+                  transition: 'all 0.2s ease',
+                }}
+              >
+                {round}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+    </div>
+  )
+}
+
+// Full tracker shown once user advances to interview stage
 export function InterviewStagesTracker({ stages, onStageUpdate }: InterviewTrackerProps) {
   const { t } = useLanguage()
   const [expandedStage, setExpandedStage] = useState<number | null>(null)
   const [editingStage, setEditingStage] = useState<number | null>(null)
-  const maxStages = 5 // Maximum interview rounds allowed
 
   const handleAddNote = (stageId: number, note: string, interviewer: string, date: string) => {
     const updatedStages = stages.map((stage) =>
@@ -43,58 +118,17 @@ export function InterviewStagesTracker({ stages, onStageUpdate }: InterviewTrack
     setExpandedStage(stageId + 1)
   }
 
-  const handleAddStage = () => {
-    if (stages.length >= maxStages) return
-    const nextId = Math.max(...stages.map((s) => s.id), 0) + 1
-    const updatedStages = [
-      ...stages,
-      { id: nextId, status: 'upcoming' as const, notes: '' },
-    ]
-    onStageUpdate(updatedStages)
-  }
-
   const handleRemoveStage = (stageId: number) => {
-    if (stages.length <= 1) return // Don't allow removing if only one stage left
+    if (stages.length <= 1) return
     const updatedStages = stages.filter((stage) => stage.id !== stageId)
     onStageUpdate(updatedStages)
   }
 
   return (
     <div style={{ marginBottom: 32 }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
-        <p style={{ fontSize: 14, fontWeight: 600, color: '#0F172A', margin: 0 }}>
-          {t('actionDetail.interviewStages') || 'Interview Rounds'}
-        </p>
-        {stages.length < maxStages && (
-          <button
-            onClick={handleAddStage}
-            style={{
-              padding: '6px 12px',
-              background: '#E0E7FF',
-              color: '#2563EB',
-              border: '1px solid #C7D2FE',
-              borderRadius: 6,
-              fontSize: 12,
-              fontWeight: 600,
-              cursor: 'pointer',
-              transition: 'all 0.2s ease',
-              display: 'flex',
-              alignItems: 'center',
-              gap: 4,
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.background = '#C7D2FE'
-              e.currentTarget.style.borderColor = '#A5B4FC'
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.background = '#E0E7FF'
-              e.currentTarget.style.borderColor = '#C7D2FE'
-            }}
-          >
-            <span style={{ fontSize: 14 }}>+</span> {t('actionDetail.addRound') || 'Add Round'}
-          </button>
-        )}
-      </div>
+      <p style={{ fontSize: 14, fontWeight: 600, color: '#0F172A', margin: '0 0 16px 0' }}>
+        {t('actionDetail.interviewStages') || 'Interview Rounds'}
+      </p>
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
         {stages.map((stage) => (
@@ -147,16 +181,14 @@ export function InterviewStagesTracker({ stages, onStageUpdate }: InterviewTrack
                     fontWeight: 600,
                     background:
                       stage.status === 'completed'
-                        ? '#2563EB'
+                        ? '#10B981'
                         : stage.status === 'current'
                           ? '#2563EB'
                           : '#E5E7EB',
                     color:
-                      stage.status === 'completed'
+                      stage.status === 'completed' || stage.status === 'current'
                         ? '#FFFFFF'
-                        : stage.status === 'current'
-                          ? '#FFFFFF'
-                          : '#94A3B8',
+                        : '#94A3B8',
                     flexShrink: 0,
                   }}
                 >
@@ -267,7 +299,7 @@ function NoteDisplay({ stageId, note, interviewer, date, status, onEdit, onCompl
         </div>
       ) : (
         <p style={{ fontSize: 13, color: '#94A3B8', fontStyle: 'italic', margin: 0 }}>
-          {t('actionDetail.noNotesYet') || 'No notes yet. Add details about this interview to prepare better.'}
+          {t('actionDetail.noNotesYet') || 'No notes yet. Add details about this interview.'}
         </p>
       )}
 
@@ -454,12 +486,12 @@ function NoteEditor({ stageId, initialNote, initialInterviewer, initialDate, onS
         <textarea
           value={note}
           onChange={(e) => setNote(e.target.value)}
-          placeholder="Add key points to remember:
-• Company values & culture
-• Key skills they're looking for
-• Technical questions to prepare
-• Questions to ask them
-• Follow-up items"
+          placeholder="Add key points from the interview:
+• Key questions asked
+• Your answers
+• Red flags or positives
+• Follow-up items
+• Next steps discussed"
           style={{
             width: '100%',
             padding: '12px',
