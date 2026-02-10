@@ -399,6 +399,7 @@ interface NoteEditorProps {
 }
 
 function NoteEditor({ stageId, initialNote, initialInterviewer, initialDate, onSave, onCancel }: NoteEditorProps) {
+  const { t } = useLanguage()
   const [note, setNote] = useState(initialNote)
   const [interviewer, setInterviewer] = useState(initialInterviewer || '')
   const [date, setDate] = useState(initialDate || '')
