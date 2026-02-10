@@ -80,6 +80,7 @@ export function LocationPicker({
   }, [city])
 
   const handleSelectSuggestion = (suggestion: CityOption) => {
+    console.log('[v0] Selected suggestion:', suggestion)
     setCity(suggestion.name)
     setCoords({ lat: suggestion.lat, lng: suggestion.lon })
     setSuggestions([])
@@ -187,6 +188,7 @@ export function LocationPicker({
       </div>
 
       {/* Map */}
+      {console.log('[v0] Map render - coords:', coords, 'city:', city)}
       {coords && (
         <MapComponent coords={coords} radius={parseInt(radius)} city={city} />
       )}
