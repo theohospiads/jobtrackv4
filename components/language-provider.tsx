@@ -24,7 +24,7 @@ const translations: Record<Language, Record<string, string>> = {
 
     // Dashboard
     "dashboard.title": "Dashboard",
-    "dashboard.matchesFound": "Jobs Found",
+    "dashboard.matchesFound": "Applications",
     "dashboard.outreachSent": "Applications Sent",
     "dashboard.responsesReceived": "Replies Received",
     "dashboard.interviewRate": "Interview Offers",
@@ -88,6 +88,16 @@ const translations: Record<Language, Record<string, string>> = {
     "profile.workPreference": "work preference",
     "profile.academicBackground": "Academic background",
     "profile.careerDirection": "Career direction",
+    "profile.subtitle": "To get to know you better",
+    "profile.crmExplanation": "Your profile helps us find jobs that truly match your skills and ambitions. The more complete it is, the better your recommendations.",
+    "profile.actionHistory": "Action History",
+    "profile.actionHistoryDesc": "Your recent job search activity",
+    "profile.viewAllHistory": "View all activity",
+    "profile.history.applied": "Applied to",
+    "profile.history.interview": "Interview scheduled at",
+    "profile.history.3daysAgo": "3 days ago",
+    "profile.history.5daysAgo": "5 days ago",
+    "profile.history.1weekAgo": "1 week ago",
 
     // Settings
     "settings.preferences": "Preferences",
@@ -458,8 +468,8 @@ const translations: Record<Language, Record<string, string>> = {
     "oppDetail.interviews": "2 interviews",
     "oppDetail.fastDecision": "Fast decision",
     "oppDetail.weeks": "\u22482\u20133 weeks",
-    "oppDetail.jobDescription": "ORIGINAL JOB DESCRIPTION",
-    "oppDetail.whyStrongMatch": "WHY IT'S A SUPER STRONG MATCH:",
+    "oppDetail.jobDescription": "JOB DESCRIPTION",
+    "oppDetail.whyStrongMatch": "WHY IT'S A GREAT OPPORTUNITY:",
     "oppDetail.matchDesc1": "Your profile aligns well with this role, both in terms of skills and experience. The hiring process is short, competition remains limited, and the team is actively moving candidates forward.",
     "oppDetail.matchDesc2": "You are already competitive for this position, and applying now is a low-risk, high-potential step in your job search.",
     "oppDetail.optionalSkills": "SKILLS TO STRENGTHEN YOUR APPLICATION:",
@@ -788,7 +798,7 @@ const translations: Record<Language, Record<string, string>> = {
 
     // Dashboard
     "dashboard.title": "Tableau de bord",
-    "dashboard.matchesFound": "Postes trouv\u00E9s",
+    "dashboard.matchesFound": "Candidatures",
     "dashboard.outreachSent": "Candidatures envoyées",
     "dashboard.responsesReceived": "Réponses reçues",
     "dashboard.interviewRate": "Offres d'entretien",
@@ -852,6 +862,16 @@ const translations: Record<Language, Record<string, string>> = {
     "profile.workPreference": "pr\u00E9f\u00E9rence de travail",
     "profile.academicBackground": "Formation acad\u00E9mique",
     "profile.careerDirection": "Direction de carri\u00E8re",
+    "profile.subtitle": "Pour mieux vous conna\u00EEtre",
+    "profile.crmExplanation": "Votre profil nous aide \u00E0 trouver des emplois qui correspondent vraiment \u00E0 vos comp\u00E9tences et ambitions. Plus il est complet, meilleures sont vos recommandations.",
+    "profile.actionHistory": "Historique de vos actions",
+    "profile.actionHistoryDesc": "Votre activit\u00E9 r\u00E9cente de recherche d\u2019emploi",
+    "profile.viewAllHistory": "Voir toute l\u2019activit\u00E9",
+    "profile.history.applied": "Candidature envoy\u00E9e \u00E0",
+    "profile.history.interview": "Entretien pr\u00E9vu chez",
+    "profile.history.3daysAgo": "Il y a 3 jours",
+    "profile.history.5daysAgo": "Il y a 5 jours",
+    "profile.history.1weekAgo": "Il y a 1 semaine",
 
     // Settings
     "settings.preferences": "Pr\u00E9f\u00E9rences",
@@ -1222,8 +1242,8 @@ const translations: Record<Language, Record<string, string>> = {
     "oppDetail.interviews": "2 entretiens",
     "oppDetail.fastDecision": "D\u00E9cision rapide",
     "oppDetail.weeks": "\u22482\u20133 semaines",
-    "oppDetail.jobDescription": "DESCRIPTION D'EMPLOI ORIGINALE",
-    "oppDetail.whyStrongMatch": "POURQUOI C\u2019EST UNE EXCELLENTE CORRESPONDANCE :",
+    "oppDetail.jobDescription": "DESCRIPTION D'EMPLOI",
+    "oppDetail.whyStrongMatch": "POURQUOI C\u2019EST UNE EXCELLENTE OPPORTUNIT\u00C9 :",
     "oppDetail.matchDesc1": "Votre profil correspond bien \u00E0 ce poste, tant en termes de comp\u00E9tences que d\u2019exp\u00E9rience. Le processus de recrutement est court, la concurrence reste limit\u00E9e et l\u2019\u00E9quipe fait avancer activement les candidats.",
     "oppDetail.matchDesc2": "Vous \u00EAtes d\u00E9j\u00E0 comp\u00E9titif pour ce poste, et postuler maintenant est une \u00E9tape \u00E0 faible risque et \u00E0 fort potentiel dans votre recherche d\u2019emploi.",
     "oppDetail.optionalSkills": "COMP\u00C9TENCES POUR RENFORCER VOTRE CANDIDATURE :",

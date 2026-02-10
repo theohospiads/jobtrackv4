@@ -228,7 +228,7 @@ Required qualifications include strong knowledge of engine mechanics and operati
 
         {/* Hiring Transparency Cards Section */}
         <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 12, marginBottom: 32 }}>
-          {/* Ghosting Risk Card */}
+          {/* No Response Risk Card */}
           <div
             style={{
               background: "#FFFFFF",
@@ -324,7 +324,7 @@ Required qualifications include strong knowledge of engine mechanics and operati
           </div>
         </div>
 
-        {/* Original Job Description Section */}
+        {/* Job Description Section */}
         <p style={{ fontSize: 14, fontWeight: 600, color: "#0F172A", margin: "0 0 12px 0" }}>
           {t("oppDetail.jobDescription")}
         </p>

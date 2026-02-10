@@ -62,6 +62,12 @@ export default function ProfilePage() {
           >
             {t("profile.title")}
           </h1>
+          <p style={{ fontSize: 14, color: "#64748B", margin: "6px 0 0 0", fontWeight: 500 }}>
+            {t("profile.subtitle")}
+          </p>
+          <p style={{ fontSize: 13, color: "#94A3B8", margin: "8px 0 0 0", lineHeight: 1.5, maxWidth: 600 }}>
+            {t("profile.crmExplanation")}
+          </p>
         </header>
 
         <div className="flex flex-col gap-8">
@@ -372,6 +378,93 @@ export default function ProfilePage() {
           </section>
 
 
+
+          {/* Action History */}
+          <section
+            className="rounded-2xl p-6 transition-all duration-300"
+            style={{
+              background: "#FFFFFF",
+              border: "1px solid #E5E7EB",
+              boxShadow: "0 4px 12px rgba(0, 0, 0, 0.08), 0 1px 3px rgba(0, 0, 0, 0.04)",
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.boxShadow = "0 8px 24px rgba(0, 0, 0, 0.12), 0 2px 6px rgba(0, 0, 0, 0.06)"
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.boxShadow = "0 4px 12px rgba(0, 0, 0, 0.08), 0 1px 3px rgba(0, 0, 0, 0.04)"
+            }}
+          >
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "16px" }}>
+              <div>
+                <h2 className="text-base font-semibold" style={{ color: "#0F172A", margin: "0 0 4px 0" }}>
+                  {t("profile.actionHistory")}
+                </h2>
+                <p style={{ fontSize: "13px", color: "#64748B", margin: 0 }}>
+                  {t("profile.actionHistoryDesc")}
+                </p>
+              </div>
+            </div>
+            <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+              {[
+                { action: t("profile.history.applied"), company: "Safran", date: t("profile.history.3daysAgo"), status: "sent" },
+                { action: t("profile.history.applied"), company: "Acme Corp", date: t("profile.history.5daysAgo"), status: "sent" },
+                { action: t("profile.history.interview"), company: "TechStart Inc", date: t("profile.history.1weekAgo"), status: "interview" },
+              ].map((item, index) => (
+                <div
+                  key={index}
+                  style={{
+                    padding: "14px 16px",
+                    background: index % 2 === 0 ? "#FAFBFF" : "#FFFFFF",
+                    borderRadius: "8px",
+                    border: "1px solid #E5E7EB",
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                  }}
+                >
+                  <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+                    <div style={{
+                      width: 8, height: 8, borderRadius: "50%",
+                      background: item.status === "interview" ? "#F59E0B" : "#2563EB",
+                      flexShrink: 0,
+                    }} />
+                    <div>
+                      <p style={{ fontSize: 14, fontWeight: 500, color: "#0F172A", margin: 0 }}>
+                        {item.action} <span style={{ fontWeight: 600 }}>{item.company}</span>
+                      </p>
+                    </div>
+                  </div>
+                  <span style={{ fontSize: 12, color: "#94A3B8", whiteSpace: "nowrap" }}>{item.date}</span>
+                </div>
+              ))}
+            </div>
+            <button
+              style={{
+                marginTop: "16px",
+                background: "transparent",
+                color: "#2563EB",
+                border: "1px solid #E5E7EB",
+                padding: "10px 16px",
+                borderRadius: "8px",
+                fontSize: "13px",
+                fontWeight: "500",
+                cursor: "pointer",
+                transition: "all 0.2s",
+                width: "100%",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.background = "#F8FAFC"
+                e.currentTarget.style.borderColor = "#BFDBFE"
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = "transparent"
+                e.currentTarget.style.borderColor = "#E5E7EB"
+              }}
+              onClick={() => router.push("/actions")}
+            >
+              {t("profile.viewAllHistory")}
+            </button>
+          </section>
 
           {/* 6. CV Generator */}
           <section
