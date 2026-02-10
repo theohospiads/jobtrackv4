@@ -30,7 +30,7 @@ export default function MapComponent({ coords, radius, city }: MapComponentProps
     mapRef.current = L.map(containerRef.current, {
       zoomControl: true,
       scrollWheelZoom: true,
-    })
+    }).setView([coords.lat, coords.lng], 11) // Set initial view before any operations
 
     // Add OpenStreetMap tiles
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -59,8 +59,8 @@ export default function MapComponent({ coords, radius, city }: MapComponentProps
       dashArray: '5, 5',
     }).addTo(mapRef.current)
 
-    // Fit map to circle with padding for good UX - wait for map to be ready
-    mapRef.current.once('load', () => {
+    // Fit map to circle with padding for good UX - use setTimeout to ensure map is rendered
+    setTimeout(() => {
       if (mapRef.current && circleRef.current) {
         try {
           fitMapToCircle(mapRef.current, circleRef.current)
@@ -68,7 +68,7 @@ export default function MapComponent({ coords, radius, city }: MapComponentProps
           console.error('[v0] Failed to fit map bounds:', e)
         }
       }
-    })
+    }, 100)
 
     // Add recenter button control
     const RecenterControl = L.Control.extend({
