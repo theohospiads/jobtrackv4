@@ -24,7 +24,7 @@ const translations: Record<Language, Record<string, string>> = {
 
     // Dashboard
     "dashboard.title": "Dashboard",
-    "dashboard.matchesFound": "Matches Found",
+    "dashboard.matchesFound": "Jobs Found",
     "dashboard.outreachSent": "Outreach Sent",
     "dashboard.responsesReceived": "Responses Received",
     "dashboard.interviewRate": "Interview Rate",
@@ -586,7 +586,7 @@ const translations: Record<Language, Record<string, string>> = {
 
     // Dashboard
     "dashboard.title": "Tableau de bord",
-    "dashboard.matchesFound": "Correspondances",
+    "dashboard.matchesFound": "Postes trouv\u00E9s",
     "dashboard.outreachSent": "Messages envoy\u00E9s",
     "dashboard.responsesReceived": "R\u00E9ponses re\u00E7ues",
     "dashboard.interviewRate": "Taux d\u2019entretien",
