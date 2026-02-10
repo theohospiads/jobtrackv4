@@ -189,6 +189,7 @@ export default function ActionDetailPage() {
   const [interviewStages, setInterviewStages] = useState(job.interviewStages)
   const [totalInterviewRounds, setTotalInterviewRounds] = useState(job.interviewStages.length)
   const [showHealthInfo, setShowHealthInfo] = useState(false)
+  const [currentStage, setCurrentStage] = useState(job.currentStage)
 
   const progressPercentage = (job.currentStage / job.totalStages) * 100
   const completedTaskCount = Object.values(completedTasks).filter(Boolean).length
@@ -272,36 +273,40 @@ export default function ActionDetailPage() {
               </p>
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12 }}>
                 <p style={{ fontSize: 16, fontWeight: 600, color: "#0F172A", margin: 0 }}>
-                  {job.stages[job.currentStage] ? t(job.stages[job.currentStage].nameKey) : ""}
+                  {job.stages[currentStage] ? t(job.stages[currentStage].nameKey) : ""}
                 </p>
                 <button
                   onClick={() => {
-                    const nextStage = Math.min(job.currentStage + 1, job.totalStages - 1)
-                    setJob({ ...job, currentStage: nextStage })
+                    const nextStage = Math.min(currentStage + 1, job.totalStages - 1)
+                    setCurrentStage(nextStage)
                   }}
                   style={{
                     padding: "8px 14px",
                     fontSize: 12,
                     fontWeight: 600,
-                    color: "#2563EB",
+                    color: currentStage >= job.totalStages - 1 ? "#C4B5FD" : "#2563EB",
                     background: "#FFFFFF",
-                    border: "1px solid #BFDBFE",
+                    border: `1px solid ${currentStage >= job.totalStages - 1 ? "#E5E7EB" : "#BFDBFE"}`,
                     borderRadius: 6,
-                    cursor: "pointer",
+                    cursor: currentStage >= job.totalStages - 1 ? "not-allowed" : "pointer",
                     transition: "all 0.2s",
                     whiteSpace: "nowrap",
                     flexShrink: 0,
                   }}
                   onMouseEnter={(e) => {
-                    e.currentTarget.style.background = "#EFF6FF"
-                    e.currentTarget.style.borderColor = "#93C5FD"
+                    if (currentStage < job.totalStages - 1) {
+                      e.currentTarget.style.background = "#EFF6FF"
+                      e.currentTarget.style.borderColor = "#93C5FD"
+                    }
                   }}
                   onMouseLeave={(e) => {
-                    e.currentTarget.style.background = "#FFFFFF"
-                    e.currentTarget.style.borderColor = "#BFDBFE"
+                    if (currentStage < job.totalStages - 1) {
+                      e.currentTarget.style.background = "#FFFFFF"
+                      e.currentTarget.style.borderColor = "#BFDBFE"
+                    }
                   }}
-                  disabled={job.currentStage >= job.totalStages - 1}
-                  title={job.currentStage >= job.totalStages - 1 ? "Already at final stage" : "Move to next stage"}
+                  disabled={currentStage >= job.totalStages - 1}
+                  title={currentStage >= job.totalStages - 1 ? "Already at final stage" : "Move to next stage"}
                 >
                   {t("actionDetail.nextStage") || "Next stage"}
                 </button>
