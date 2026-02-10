@@ -34,9 +34,9 @@ export function InterviewRoundsSetup({ totalRounds, onTotalRoundsChange }: Inter
           padding: '10px 14px',
           fontSize: 14,
           fontWeight: 600,
-          color: totalRounds > 0 ? '#10B981' : '#2563EB',
-          background: totalRounds > 0 ? '#ECFDF5' : '#EFF6FF',
-          border: `2px solid ${totalRounds > 0 ? '#86EFAC' : '#BFDBFE'}`,
+          color: totalRounds > 0 ? '#2563EB' : '#2563EB',
+          background: totalRounds > 0 ? '#EFF6FF' : '#EFF6FF',
+          border: `2px solid ${totalRounds > 0 ? '#93C5FD' : '#BFDBFE'}`,
           borderRadius: 8,
           cursor: 'pointer',
           transition: 'all 0.3s ease',
@@ -50,14 +50,14 @@ export function InterviewRoundsSetup({ totalRounds, onTotalRoundsChange }: Inter
         onMouseEnter={(e) => {
           e.currentTarget.style.transform = 'translateY(-2px)'
           e.currentTarget.style.boxShadow = '0 6px 16px rgba(37, 99, 235, 0.25)'
-          e.currentTarget.style.borderColor = totalRounds > 0 ? '#6EE7B7' : '#93C5FD'
-          e.currentTarget.style.backgroundColor = totalRounds > 0 ? '#D1FAE5' : '#EFF6FF'
+          e.currentTarget.style.borderColor = '#93C5FD'
+          e.currentTarget.style.backgroundColor = '#F0F7FF'
         }}
         onMouseLeave={(e) => {
           e.currentTarget.style.transform = 'translateY(0)'
           e.currentTarget.style.boxShadow = 'none'
-          e.currentTarget.style.borderColor = totalRounds > 0 ? '#86EFAC' : '#BFDBFE'
-          e.currentTarget.style.backgroundColor = totalRounds > 0 ? '#ECFDF5' : '#EFF6FF'
+          e.currentTarget.style.borderColor = totalRounds > 0 ? '#93C5FD' : '#BFDBFE'
+          e.currentTarget.style.backgroundColor = '#EFF6FF'
         }}
       >
         <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
