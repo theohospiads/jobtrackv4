@@ -1,0 +1,13 @@
+node_modules/
+.next/
+dist/
+build/
+*.log
+.env
+.env.local
+.env.*.local
+.DS_Store
+.pnpm-debug.log*
+coverage/
+.turbo/
+.vercel
