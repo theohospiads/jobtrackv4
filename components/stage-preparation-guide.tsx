@@ -96,6 +96,7 @@ export function StagePrepGuide({ currentStageIndex, stageName, stageStatus }: St
                 borderBottom: index < items.length - 1 ? '1px solid #F1F5F9' : 'none',
                 cursor: 'pointer',
                 transition: 'opacity 0.2s ease',
+                justifyContent: 'space-between',
               }}
               onClick={() => toggleCheck(item.key)}
               onMouseEnter={(e) => {
@@ -105,33 +106,6 @@ export function StagePrepGuide({ currentStageIndex, stageName, stageStatus }: St
                 e.currentTarget.style.opacity = '1'
               }}
             >
-              <div
-                style={{
-                  width: 18,
-                  height: 18,
-                  borderRadius: 4,
-                  border: `2px solid ${checkedItems[item.key] ? '#10B981' : '#CBD5E1'}`,
-                  background: checkedItems[item.key] ? '#10B981' : 'transparent',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  flexShrink: 0,
-                  transition: 'all 0.2s ease',
-                  marginTop: 2,
-                }}
-              >
-                {checkedItems[item.key] && (
-                  <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-                    <path
-                      d="M1 6L4.5 9.5L11 3"
-                      stroke="white"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  </svg>
-                )}
-              </div>
               <div style={{ flex: 1 }}>
                 <span
                   style={{
@@ -157,6 +131,33 @@ export function StagePrepGuide({ currentStageIndex, stageName, stageStatus }: St
                   >
                     {item.impact}
                   </span>
+                )}
+              </div>
+              <div
+                style={{
+                  width: 18,
+                  height: 18,
+                  borderRadius: 4,
+                  border: `2px solid ${checkedItems[item.key] ? '#10B981' : '#CBD5E1'}`,
+                  background: checkedItems[item.key] ? '#10B981' : 'transparent',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  flexShrink: 0,
+                  transition: 'all 0.2s ease',
+                  marginTop: 2,
+                }}
+              >
+                {checkedItems[item.key] && (
+                  <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                    <path
+                      d="M1 6L4.5 9.5L11 3"
+                      stroke="white"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
                 )}
               </div>
             </div>
