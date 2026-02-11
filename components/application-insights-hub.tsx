@@ -26,7 +26,6 @@ export function ApplicationInsightsHub({
   salaryRange,
 }: ApplicationInsightsHubProps) {
   const { t } = useLanguage()
-  const [showGovernance, setShowGovernance] = useState(false)
   const [done, setDone] = useState<number[]>([])
   const [mounted, setMounted] = useState(false)
 
@@ -255,43 +254,7 @@ export function ApplicationInsightsHub({
             ))}
           </div>
 
-      {/* MODEL TRANSPARENCY */}
-      <div style={{ padding: '0 4px' }}>
-        <button
-          type="button"
-          onClick={() => setShowGovernance(!showGovernance)}
-          style={{
-            background: 'none', border: 'none', padding: 0,
-            cursor: 'pointer', display: 'flex', gap: 6, alignItems: 'center',
-          }}
-        >
-          <p style={{ fontSize: 11, fontWeight: 500, color: '#CBD5E1', margin: 0 }}>
-            {t('insights.howThisWorks')}
-          </p>
-          <svg width="12" height="12" viewBox="0 0 16 16" fill="none"
-            style={{ transition: 'transform 0.2s', transform: showGovernance ? 'rotate(180deg)' : 'rotate(0deg)' }}>
-            <path d="M4 6L8 10L12 6" stroke="#CBD5E1" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-          </svg>
-        </button>
 
-        {showGovernance && (
-          <div style={{ marginTop: 12 }}>
-            <p style={{ fontSize: 12, color: '#94A3B8', margin: '0 0 8px 0' }}>
-              {t('insights.modelDescription')}
-            </p>
-            <div style={{ display: 'flex', gap: 16 }}>
-              {[t('insights.noRecruiterTracking'), t('insights.noEmployerScraping'), t('insights.gdprCompliant')].map((label, i) => (
-                <span key={i} style={{ fontSize: 11, color: '#CBD5E1' }}>{label}</span>
-              ))}
-            </div>
-          </div>
-        )}
-      </div>
-
-      {/* Metadata */}
-      <p style={{ fontSize: 10, color: '#CBD5E1', margin: 0, textAlign: 'center' }}>
-        {t('insights.lastRefresh')}
-      </p>
     </div>
   )
 }
