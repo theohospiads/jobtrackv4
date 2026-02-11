@@ -537,12 +537,13 @@ const translations: Record<Language, Record<string, string>> = {
     "actions.data.caseStudy": "Case study",
     "actions.data.finalRound": "Final round",
 
-    // Action detail data - stages
-    "actionDetail.data.applicationSubmitted": "Application Submitted",
-    "actionDetail.data.applicationReview": "Application Review",
-    "actionDetail.data.interview": "Interview",
-    "actionDetail.data.decision": "Decision",
-    "actionDetail.data.technicalAssessment": "Technical Assessment",
+  // Action detail data - stages
+  "actionDetail.data.applicationSubmitted": "Application Submitted",
+  "actionDetail.data.proactivePrep": "Proactive Preparation",
+  "actionDetail.data.interview": "Interview",
+  "actionDetail.data.decisionPending": "Decision Pending",
+  "actionDetail.data.finalResult": "Final Result",
+  "actionDetail.data.technicalAssessment": "Technical Assessment",
     "actionDetail.data.finalInterview": "Final Interview",
     "actionDetail.data.screeningCall": "Screening Call",
     "actionDetail.data.finalRound": "Final Round",
@@ -1541,10 +1542,11 @@ const translations: Record<Language, Record<string, string>> = {
     "actions.data.finalRound": "Dernier tour",
 
     // Action detail data - stages
-    "actionDetail.data.applicationSubmitted": "Candidature envoy\u00E9e",
-    "actionDetail.data.applicationReview": "Examen de la candidature",
+    "actionDetail.data.applicationSubmitted": "Candidature soumise",
+    "actionDetail.data.proactivePrep": "Préparation proactive",
     "actionDetail.data.interview": "Entretien",
-    "actionDetail.data.decision": "D\u00E9cision",
+    "actionDetail.data.decisionPending": "Décision en attente",
+    "actionDetail.data.finalResult": "Résultat final",
     "actionDetail.data.technicalAssessment": "\u00C9valuation technique",
     "actionDetail.data.finalInterview": "Entretien final",
     "actionDetail.data.screeningCall": "Appel de pr\u00E9s\u00E9lection",

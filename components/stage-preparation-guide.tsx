@@ -18,14 +18,7 @@ const STAGE_ITEMS_CONFIG: Record<number, Array<{ key: string; labelKey: string; 
     { key: 'addToCalendar', labelKey: 'action.addToCalendar', impactKey: 'impact.addToCalendar' },
     { key: 'confirmEmail', labelKey: 'action.confirmEmail', impactKey: 'impact.confirmEmail' },
   ],
-  1: [
-    { key: 'researchCompany', labelKey: 'action.researchCompanyDetails', impactKey: 'impact.researchCompany' },
-    { key: 'readRecentNews', labelKey: 'action.readRecentNews', impactKey: 'impact.readRecentNews' },
-    { key: 'identifyLinkedInRecruiter', labelKey: 'action.identifyLinkedInRecruiter', impactKey: 'impact.linkedIn' },
-    { key: 'studyJobDescription', labelKey: 'action.studyJobDescription', impactKey: 'impact.studyJobDescription' },
-    { key: 'prepareSTARStories', labelKey: 'action.prepareSTARStories', impactKey: 'impact.prepareSTAR' },
-    { key: 'practiceIntroduction', labelKey: 'action.practiceIntroduction', impactKey: 'impact.practiceIntroduction' },
-  ],
+  1: [],
   2: [
     { key: 'recordMockInterview', labelKey: 'action.recordMockInterview', impactKey: 'impact.recordMockInterview' },
     { key: 'reviewTechStack', labelKey: 'action.reviewTechStack', impactKey: 'impact.reviewTechStack' },

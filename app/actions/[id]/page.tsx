@@ -57,13 +57,14 @@ const actionJobsData: Record<string, ActionJobData> = {
     workTypeKey: "opp.data.workStyle.hybrid",
     appliedDateKey: "opp.data.3daysAgo",
     currentStage: 0,
-    totalStages: 4,
+    totalStages: 5,
     salary: "$65,000 - $75,000",
     stages: [
       { nameKey: "actionDetail.data.applicationSubmitted", status: "current", date: "Jan 28, 2026" },
-      { nameKey: "actionDetail.data.applicationReview", status: "upcoming" },
+      { nameKey: "actionDetail.data.proactivePrep", status: "upcoming" },
       { nameKey: "actionDetail.data.interview", status: "upcoming" },
-      { nameKey: "actionDetail.data.decision", status: "upcoming" }
+      { nameKey: "actionDetail.data.decisionPending", status: "upcoming" },
+      { nameKey: "actionDetail.data.finalResult", status: "upcoming" }
     ],
     interviewStages: [
       { id: 1, status: "upcoming", notes: "" },
@@ -95,13 +96,14 @@ const actionJobsData: Record<string, ActionJobData> = {
     workTypeKey: "opp.data.workStyle.remote",
     appliedDateKey: "opp.data.5daysAgo",
     currentStage: 2,
-    totalStages: 4,
+    totalStages: 5,
     salary: "$72,000 - $88,000",
     stages: [
       { nameKey: "actionDetail.data.applicationSubmitted", status: "completed", date: "Jan 26, 2026" },
-      { nameKey: "actionDetail.data.applicationReview", status: "completed", date: "Jan 28, 2026" },
-      { nameKey: "actionDetail.data.technicalAssessment", status: "current" },
-      { nameKey: "actionDetail.data.finalInterview", status: "upcoming" }
+      { nameKey: "actionDetail.data.proactivePrep", status: "completed", date: "Jan 28, 2026" },
+      { nameKey: "actionDetail.data.interview", status: "current" },
+      { nameKey: "actionDetail.data.decisionPending", status: "upcoming" },
+      { nameKey: "actionDetail.data.finalResult", status: "upcoming" }
     ],
     interviewStages: [
       { id: 1, status: "completed", notes: "Discussed project architecture. Asked about scalability and performance optimization. Strong technical foundation required.", interviewer: "Sarah Chen", date: "2026-01-30" },
@@ -130,12 +132,14 @@ const actionJobsData: Record<string, ActionJobData> = {
     workTypeKey: "opp.data.workStyle.onSite",
     appliedDateKey: "opp.data.2daysAgo",
     currentStage: 1,
-    totalStages: 3,
+    totalStages: 5,
     salary: "$78,000 - $95,000",
     stages: [
       { nameKey: "actionDetail.data.applicationSubmitted", status: "completed", date: "Jan 29, 2026" },
-      { nameKey: "actionDetail.data.screeningCall", status: "current" },
-      { nameKey: "actionDetail.data.finalRound", status: "upcoming" }
+      { nameKey: "actionDetail.data.proactivePrep", status: "current" },
+      { nameKey: "actionDetail.data.interview", status: "upcoming" },
+      { nameKey: "actionDetail.data.decisionPending", status: "upcoming" },
+      { nameKey: "actionDetail.data.finalResult", status: "upcoming" }
     ],
     interviewStages: [
       { id: 1, status: "current", notes: "" },
@@ -446,7 +450,7 @@ export default function ActionDetailPage() {
                           background: "#2563EB",
                           borderRadius: 2,
                           zIndex: 1,
-                          width: `${((currentStage + 0.7) / (job.stages.length - 1)) * 100}%`,
+                          width: `${((currentStage) / (job.stages.length - 1)) * 100}%`,
                           transition: "width 0.5s ease",
                         }}
                       />
@@ -467,6 +471,8 @@ export default function ActionDetailPage() {
                           const isInterviewStage = stage.nameKey.toLowerCase().includes("interview") || 
                                                    stage.nameKey.toLowerCase().includes("screening")
                           const displayInterviewStages = isInterviewStage && interviewStages.length > 0
+                          const isCompleted = index < currentStage
+                          const isCurrent = index === currentStage
                           
                           return (
                             <div
@@ -489,17 +495,17 @@ export default function ActionDetailPage() {
                                   justifyContent: "center",
                                   flexShrink: 0,
                                   background:
-                                    stage.status === "completed" ? "#2563EB" : "#FFFFFF",
+                                    isCompleted ? "#2563EB" : isCurrent ? "#FFFFFF" : "#FFFFFF",
                                   border:
-                                    stage.status === "completed"
+                                    isCompleted
                                       ? "2px solid #2563EB"
-                                      : stage.status === "current"
+                                      : isCurrent
                                         ? "2px solid #2563EB"
                                         : "2px solid #E5E7EB",
                                   color:
-                                    stage.status === "completed"
+                                    isCompleted
                                       ? "#FFFFFF"
-                                      : stage.status === "current"
+                                      : isCurrent
                                         ? "#2563EB"
                                         : "#94A3B8",
                                   fontSize: 13,
@@ -542,13 +548,13 @@ export default function ActionDetailPage() {
                                   style={{
                                     fontSize: 12,
                                     color:
-                                      stage.status === "upcoming" ? "#94A3B8" : "#0F172A",
+                                      !isCompleted && !isCurrent ? "#94A3B8" : "#0F172A",
                                     margin: 0,
-                                    fontWeight: stage.status === "current" ? 600 : 400,
+                                    fontWeight: isCurrent ? 600 : 400,
                                     lineHeight: 1.4,
                                   }}
                                 >
-                                  {stage.status === "completed" && `${t("actionDetail.your")} `}
+                                  {isCompleted && `${t("actionDetail.your")} `}
                                   {t(stage.nameKey)}
                                 </p>
                                 {stage.date && (
@@ -562,7 +568,7 @@ export default function ActionDetailPage() {
                                     {stage.date}
                                   </p>
                                 )}
-                                {stage.status === "current" && (
+                                {isCurrent && (
                                   <p
                                     style={{
                                       fontSize: 11,
