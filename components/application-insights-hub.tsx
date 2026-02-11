@@ -115,21 +115,20 @@ export function ApplicationInsightsHub({
             </div>
           </div>
 
-          {/* Right: Metrics */}
-          <div style={{ display: 'flex', gap: 24 }}>
-            <div style={{ textAlign: 'center' }}>
-              <p style={{ fontSize: 12, color: '#94A3B8', margin: '0 0 4px 0', fontWeight: 500 }}>Interview Likelihood</p>
-              <p style={{ fontSize: 22, fontWeight: 700, color: '#2563EB', margin: 0 }}>{baseInterviewProbability}%</p>
-              <p style={{ fontSize: 10, color: '#64748B', margin: '2px 0 0 0' }}>Based on 1,200+ patterns</p>
+          {/* Right: Metrics - Interview Likelihood is the emotional anchor */}
+          <div style={{ display: 'flex', gap: 24, alignItems: 'center' }}>
+            <div style={{ textAlign: 'center', paddingRight: 24, borderRight: '1px solid #E5E7EB' }}>
+              <p style={{ fontSize: 12, color: '#2563EB', margin: '0 0 4px 0', fontWeight: 600 }}>Interview Likelihood</p>
+              <p style={{ fontSize: 32, fontWeight: 800, color: '#2563EB', margin: 0, lineHeight: 1 }}>{baseInterviewProbability}%</p>
+              <p style={{ fontSize: 10, color: '#64748B', margin: '6px 0 0 0' }}>Based on 1,200+ patterns</p>
             </div>
-            <div style={{ textAlign: 'center' }}>
-              <p style={{ fontSize: 12, color: '#94A3B8', margin: '0 0 4px 0', fontWeight: 500 }}>Confidence</p>
-              <p style={{ fontSize: 22, fontWeight: 700, color: '#10B981', margin: 0 }}>{applicationConfidence}</p>
-            </div>
-            <div style={{ textAlign: 'center' }}>
-              <p style={{ fontSize: 12, color: '#94A3B8', margin: '0 0 4px 0', fontWeight: 500 }}>Percentile</p>
-              <p style={{ fontSize: 22, fontWeight: 700, color: '#0F172A', margin: 0 }}>Top {100 - percentileRank}%</p>
-              <p style={{ fontSize: 10, color: '#64748B', margin: '2px 0 0 0' }}>vs. similar applicants</p>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+              <p style={{ fontSize: 12, color: '#64748B', margin: 0 }}>
+                Confidence: <span style={{ fontWeight: 600, color: '#10B981' }}>{applicationConfidence} (High)</span>
+              </p>
+              <p style={{ fontSize: 12, color: '#64748B', margin: 0 }}>
+                Outperforming <span style={{ fontWeight: 600, color: '#0F172A' }}>{percentileRank}%</span> of similar applicants
+              </p>
             </div>
           </div>
         </div>
@@ -141,6 +140,11 @@ export function ApplicationInsightsHub({
           </p>
         </div>
       </div>
+
+      {/* YOUR CONTROL group label */}
+      <p style={{ fontSize: 10, fontWeight: 700, color: '#10B981', textTransform: 'uppercase', letterSpacing: '1px', margin: '4px 0 -12px 0' }}>
+        Your Control
+      </p>
 
       {/* ACTION COMMAND CENTER */}
       <div
@@ -167,7 +171,7 @@ export function ApplicationInsightsHub({
         </div>
 
         <p style={{ fontSize: 12, color: '#10B981', fontWeight: 600, margin: '0 0 16px 0' }}>
-          +20% projected interview likelihood if all completed
+          Move from {baseInterviewProbability}% to {projectedProbability}% interview likelihood if completed
         </p>
 
         <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: 12 }}>
@@ -261,12 +265,20 @@ export function ApplicationInsightsHub({
           </div>
         </div>
 
-        <div style={{ padding: 12, background: '#FFFFFF', borderRadius: 8, border: '1px solid #FBBF24' }}>
-          <p style={{ fontSize: 12, color: '#92400E', margin: 0 }}>
-            +{projectedProbability - baseInterviewProbability}% projected improvement. You outperform {percentileRank}% of similar applicants at this stage.
+        <div style={{ padding: 12, background: '#FFFFFF', borderRadius: 8, border: '1px solid #FBBF24', display: 'flex', flexDirection: 'column', gap: 6 }}>
+          <p style={{ fontSize: 12, fontWeight: 600, color: '#92400E', margin: 0 }}>
+            +{projectedProbability - baseInterviewProbability}% projected improvement. Would move you into strong interview range.
+          </p>
+          <p style={{ fontSize: 11, color: '#B45309', margin: 0 }}>
+            Current position: you outperform {percentileRank}% of similar applicants.
           </p>
         </div>
       </div>
+
+      {/* SITUATION group label */}
+      <p style={{ fontSize: 10, fontWeight: 700, color: '#2563EB', textTransform: 'uppercase', letterSpacing: '1px', margin: '4px 0 -12px 0' }}>
+        Situation
+      </p>
 
       {/* STRATEGIC TIMING ENGINE */}
       <div style={{ background: '#FFFFFF', borderRadius: 12, border: '1px solid #E5E7EB', padding: 24 }}>
@@ -278,23 +290,24 @@ export function ApplicationInsightsHub({
         <div style={{ marginBottom: 20 }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 0, position: 'relative' }}>
             {[
-              { day: '0', label: 'Submitted', past: true },
-              { day: '1', label: 'Queued', past: true },
+              { day: '0', label: '', past: true },
+              { day: '1', label: '', past: true },
               { day: '2', label: '', past: true },
               { day: '3', label: 'You are here', current: true },
               { day: '4', label: '', peak: true },
-              { day: '5', label: 'Follow-up unlocks', peak: true },
+              { day: '5', label: 'Unlock', peak: true },
               { day: '6', label: '', peak: true },
-              { day: '7', label: 'Decision threshold', future: true },
+              { day: '7', label: 'Decision', future: true },
             ].map((item, idx) => (
               <div key={idx} style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', position: 'relative' }}>
                 <div
                   style={{
-                    width: item.current ? 14 : 10,
-                    height: item.current ? 14 : 10,
+                    width: item.current ? 16 : 10,
+                    height: item.current ? 16 : 10,
                     borderRadius: '50%',
                     background: item.current ? '#2563EB' : item.past ? '#10B981' : item.peak ? '#F59E0B' : '#E5E7EB',
-                    border: item.current ? '3px solid #BFDBFE' : 'none',
+                    border: item.current ? '3px solid #93B4F8' : 'none',
+                    boxShadow: item.current ? '0 0 0 4px rgba(37, 99, 235, 0.2), 0 0 8px rgba(37, 99, 235, 0.3)' : 'none',
                     zIndex: 1,
                   }}
                 />
