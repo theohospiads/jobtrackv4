@@ -55,7 +55,7 @@ const actionJobsData: Record<string, ActionJobData> = {
     locationKey: "opp.data.location.paris",
     workTypeKey: "opp.data.workStyle.hybrid",
     appliedDateKey: "opp.data.3daysAgo",
-    currentStage: 1,
+    currentStage: 0,
     totalStages: 4,
     salary: "$65,000 - $75,000",
     stages: [
@@ -285,7 +285,7 @@ export default function ActionDetailPage() {
               </p>
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12 }}>
                 <p style={{ fontSize: 16, fontWeight: 600, color: "#0F172A", margin: 0 }}>
-                  {job.stages[currentStage - 1] ? t(job.stages[currentStage - 1].nameKey) : ""}
+                  {job.stages[currentStage] ? t(job.stages[currentStage].nameKey) : ""}
                 </p>
                 <div style={{ display: "flex", gap: 8 }}>
                   {/* Previous Stage Button */}
