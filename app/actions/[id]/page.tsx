@@ -547,7 +547,7 @@ export default function ActionDetailPage() {
                                     lineHeight: 1.4,
                                   }}
                                 >
-                                  {stage.status === "completed" ? t("actionDetail.your") : ""}
+                                  {stage.status === "completed" && `${t("actionDetail.your")} `}
                                   {t(stage.nameKey)}
                                 </p>
                                 {stage.date && (
