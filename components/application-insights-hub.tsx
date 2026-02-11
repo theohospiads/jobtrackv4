@@ -168,7 +168,6 @@ export function ApplicationInsightsHub({
             </li>
           </ul>
         </div>
-        </div>
       </div>
 
       {/* Risk Factors Identified - with severity tags */}
