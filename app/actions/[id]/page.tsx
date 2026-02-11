@@ -5,7 +5,7 @@ import { useLanguage } from "@/components/language-provider"
 import { useState } from "react"
 import { TopNav } from "@/components/top-nav"
 import { StagePrepGuide } from "@/components/stage-preparation-guide"
-import { InterviewIntelligenceHub } from "@/components/interview-intelligence-hub"
+import { DecisionGuidanceBand } from "@/components/decision-guidance-band"
 import { ApplicationStatusHub } from "@/components/application-status-hub"
 
 interface ActionJobData {
@@ -605,17 +605,19 @@ export default function ActionDetailPage() {
           recruiterSignals={job.recruiterSignals}
         />
 
-        {/* Interview Intelligence Hub - Elite Guidance for Interview Stage */}
-        {currentStage >= 2 && (
-          <InterviewIntelligenceHub
-            currentStage={currentStage}
-            stageName={t(job.stages[currentStage]?.nameKey) || 'Current Stage'}
-            jobTitle={t(job.titleKey)}
-            companyName={job.companyName}
-            jobDescription={job.jobDescription}
-            interviewCount={interviewStages.length}
-          />
-        )}
+        {/* Decision Guidance Band - Elite Decision Support */}
+        <DecisionGuidanceBand
+          currentStage={currentStage}
+          stageName={t(job.stages[currentStage]?.nameKey) || 'Current Stage'}
+          daysSinceApplication={Math.floor(
+            (new Date().getTime() - new Date().getTime()) /
+            (1000 * 60 * 60 * 24)
+          )}
+          companyName={job.companyName}
+          jobTitle={t(job.titleKey)}
+        />
+
+        {/* Bottom Section - Action Button */}
 
         {/* Bottom Section - Salary and Action Button */}
         <div style={{ marginBottom: 32, display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginTop: 24, gap: 24 }}>
