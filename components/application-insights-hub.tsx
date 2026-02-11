@@ -21,6 +21,8 @@ export function ApplicationInsightsHub({
   const { t } = useLanguage()
   const [expandedRisks, setExpandedRisks] = useState(false)
   const [simulationActive, setSimulationActive] = useState(false)
+  const [referralActivated, setReferralActivated] = useState(false)
+  const [prepProgress, setPrepProgress] = useState(2)
 
   if (currentStage !== 0) return null
 
@@ -30,9 +32,7 @@ export function ApplicationInsightsHub({
   const projectedProbability = 47
   const applicationConfidence = 74
   const percentileRank = 68
-  const [referralActivated, setReferralActivated] = useState(false)
-  const [prepProgress, setPrepProgress] = useState(2) // 2/3 modules
-  const followUpLocked = true // Day 3, locked until Day 5
+  const followUpLocked = true
 
   return (
     <div style={{ marginBottom: 32, display: 'flex', flexDirection: 'column', gap: 28 }}>
