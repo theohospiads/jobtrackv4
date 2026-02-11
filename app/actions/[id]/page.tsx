@@ -598,16 +598,6 @@ export default function ActionDetailPage() {
           stageStatus={job.stages[currentStage]?.status || 'current'}
         />
 
-        {/* Interview Questions Guide */}
-        <InterviewQuestionsGuide />
-
-        {/* Stage Preparation Guide - NEW */}
-        <StagePrepGuide
-          currentStageIndex={currentStage}
-          stageName={t(job.stages[currentStage]?.nameKey) || 'Current Stage'}
-          stageStatus={job.stages[currentStage]?.status || 'current'}
-        />
-
         {/* Bottom Section - Salary and Action Button */}
         <div style={{ marginBottom: 32, display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginTop: 24, gap: 24 }}>
           {/* Salary Container */}
