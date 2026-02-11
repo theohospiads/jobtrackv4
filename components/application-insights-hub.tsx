@@ -19,350 +19,130 @@ export function ApplicationInsightsHub({
   salaryRange,
 }: ApplicationInsightsHubProps) {
   const { t } = useLanguage()
-  const [expandedRisks, setExpandedRisks] = useState(false)
+  const [strategicView, setStrategicView] = useState(true)
   const [simulationActive, setSimulationActive] = useState(false)
-  const [referralActivated, setReferralActivated] = useState(false)
-  const [prepProgress, setPrepProgress] = useState(2)
+  const [expandedDecisionModel, setExpandedDecisionModel] = useState(false)
+  const [expandedGovernance, setExpandedGovernance] = useState(false)
+  const [actionsCompleted, setActionsCompleted] = useState<number[]>([])
 
   if (currentStage !== 0) return null
 
   const daysSinceSubmission = 3
   const typicalReviewDays = 7
   const baseInterviewProbability = 42
-  const projectedProbability = 47
+  const projectedProbability = 58
   const applicationConfidence = 74
   const percentileRank = 68
-  const followUpLocked = true
+
+  const completedCount = actionsCompleted.length
+  const totalActions = 3
+
+  const toggleAction = (idx: number) => {
+    setActionsCompleted(prev =>
+      prev.includes(idx) ? prev.filter(i => i !== idx) : [...prev, idx]
+    )
+  }
 
   return (
-    <div style={{ marginBottom: 32, display: 'flex', flexDirection: 'column', gap: 28 }}>
-      
-      {/* LAYER 1: SYSTEM STATUS - Three Clear Semantic Layers */}
+    <div style={{ marginBottom: 32, display: 'flex', flexDirection: 'column', gap: 20 }}>
+
+      {/* VIEW TOGGLE */}
+      <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+        <div style={{ display: 'flex', background: '#F1F5F9', borderRadius: 8, padding: 2, gap: 2 }}>
+          <button
+            type="button"
+            onClick={() => setStrategicView(false)}
+            style={{
+              fontSize: 12,
+              fontWeight: 600,
+              padding: '6px 14px',
+              borderRadius: 6,
+              border: 'none',
+              cursor: 'pointer',
+              background: !strategicView ? '#FFFFFF' : 'transparent',
+              color: !strategicView ? '#0F172A' : '#94A3B8',
+              boxShadow: !strategicView ? '0 1px 3px rgba(0,0,0,0.1)' : 'none',
+            }}
+          >
+            Basic
+          </button>
+          <button
+            type="button"
+            onClick={() => setStrategicView(true)}
+            style={{
+              fontSize: 12,
+              fontWeight: 600,
+              padding: '6px 14px',
+              borderRadius: 6,
+              border: 'none',
+              cursor: 'pointer',
+              background: strategicView ? '#FFFFFF' : 'transparent',
+              color: strategicView ? '#0F172A' : '#94A3B8',
+              boxShadow: strategicView ? '0 1px 3px rgba(0,0,0,0.1)' : 'none',
+            }}
+          >
+            Strategic
+          </button>
+        </div>
+      </div>
+
+      {/* MISSION CONTROL CARD */}
       <div
         style={{
           background: '#FFFFFF',
           border: '2px solid #2563EB',
           borderRadius: 14,
-          padding: 24,
+          overflow: 'hidden',
           boxShadow: '0 2px 8px rgba(37, 99, 235, 0.1)',
         }}
       >
-        {/* Operational Layer */}
-        <div style={{ marginBottom: 24, paddingBottom: 24, borderBottom: '1px solid #E5E7EB' }}>
-          <p style={{ fontSize: 11, fontWeight: 700, color: '#0F172A', textTransform: 'uppercase', margin: '0 0 12px 0', letterSpacing: '0.5px' }}>
-            System Status - Operational
-          </p>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 24 }}>
-            <div>
-              <p style={{ fontSize: 12, color: '#94A3B8', margin: '0 0 4px 0', fontWeight: 500 }}>Status</p>
-              <p style={{ fontSize: 16, fontWeight: 700, color: '#10B981', margin: 0 }}>Active</p>
-              <p style={{ fontSize: 11, color: '#64748B', margin: '4px 0 0 0' }}>Under Recruiter Review</p>
-            </div>
-            <div>
-              <p style={{ fontSize: 12, color: '#94A3B8', margin: '0 0 4px 0', fontWeight: 500 }}>Review Window</p>
-              <p style={{ fontSize: 16, fontWeight: 700, color: '#0F172A', margin: 0 }}>Day {daysSinceSubmission} of {typicalReviewDays}</p>
-            </div>
-            <div>
-              <p style={{ fontSize: 12, color: '#94A3B8', margin: '0 0 4px 0', fontWeight: 500 }}>Follow-up Access</p>
-              <p style={{ fontSize: 16, fontWeight: 700, color: followUpLocked ? '#EF4444' : '#10B981', margin: 0 }}>
-                {followUpLocked ? 'Locked' : 'Available'}
-              </p>
-              <p style={{ fontSize: 11, color: '#64748B', margin: '4px 0 0 0' }}>
-                {followUpLocked ? 'Unlock on Day 5' : 'Ready to send'}
-              </p>
+        <div style={{ padding: 24, display: 'flex', gap: 32 }}>
+          {/* Left: Status */}
+          <div style={{ flex: 1 }}>
+            <p style={{ fontSize: 11, fontWeight: 700, color: '#2563EB', textTransform: 'uppercase', margin: '0 0 12px 0', letterSpacing: '0.5px' }}>
+              Mission Control
+            </p>
+            <div style={{ display: 'flex', gap: 24, alignItems: 'flex-start' }}>
+              <div>
+                <p style={{ fontSize: 12, color: '#94A3B8', margin: '0 0 4px 0', fontWeight: 500 }}>Status</p>
+                <p style={{ fontSize: 16, fontWeight: 700, color: '#10B981', margin: 0 }}>Active</p>
+              </div>
+              <div>
+                <p style={{ fontSize: 12, color: '#94A3B8', margin: '0 0 4px 0', fontWeight: 500 }}>Review Window</p>
+                <p style={{ fontSize: 16, fontWeight: 700, color: '#0F172A', margin: 0 }}>Day {daysSinceSubmission} of {typicalReviewDays}</p>
+                <p style={{ fontSize: 10, color: '#64748B', margin: '2px 0 0 0' }}>Recruiter attention peaks Days 4-6</p>
+              </div>
             </div>
           </div>
-        </div>
 
-        {/* Predictive Metrics Layer */}
-        <div style={{ marginBottom: 24, paddingBottom: 24, borderBottom: '1px solid #E5E7EB' }}>
-          <p style={{ fontSize: 11, fontWeight: 700, color: '#0F172A', textTransform: 'uppercase', margin: '0 0 12px 0', letterSpacing: '0.5px' }}>
-            Performance Metrics - Predictive
-          </p>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 24 }}>
-            <div>
+          {/* Right: Metrics */}
+          <div style={{ display: 'flex', gap: 24 }}>
+            <div style={{ textAlign: 'center' }}>
               <p style={{ fontSize: 12, color: '#94A3B8', margin: '0 0 4px 0', fontWeight: 500 }}>Interview Likelihood</p>
-              <p style={{ fontSize: 20, fontWeight: 700, color: '#2563EB', margin: 0 }}>{baseInterviewProbability}%</p>
+              <p style={{ fontSize: 22, fontWeight: 700, color: '#2563EB', margin: 0 }}>{baseInterviewProbability}%</p>
+              <p style={{ fontSize: 10, color: '#64748B', margin: '2px 0 0 0' }}>Based on 1,200+ patterns</p>
             </div>
-            <div>
-              <p style={{ fontSize: 12, color: '#94A3B8', margin: '0 0 4px 0', fontWeight: 500 }}>Application Confidence</p>
-              <p style={{ fontSize: 20, fontWeight: 700, color: '#10B981', margin: 0 }}>{applicationConfidence}/100</p>
+            <div style={{ textAlign: 'center' }}>
+              <p style={{ fontSize: 12, color: '#94A3B8', margin: '0 0 4px 0', fontWeight: 500 }}>Confidence</p>
+              <p style={{ fontSize: 22, fontWeight: 700, color: '#10B981', margin: 0 }}>{applicationConfidence}</p>
             </div>
-            <div>
-              <p style={{ fontSize: 12, color: '#94A3B8', margin: '0 0 4px 0', fontWeight: 500 }}>Percentile Rank</p>
-              <p style={{ fontSize: 20, fontWeight: 700, color: '#0F172A', margin: 0 }}>Top {100 - percentileRank}%</p>
-            </div>
-          </div>
-        </div>
-
-        {/* Model Validation Layer */}
-        <div>
-          <p style={{ fontSize: 11, fontWeight: 700, color: '#0F172A', textTransform: 'uppercase', margin: '0 0 12px 0', letterSpacing: '0.5px' }}>
-            Model Validation - Governance
-          </p>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 24 }}>
-            <div>
-              <p style={{ fontSize: 12, color: '#94A3B8', margin: '0 0 4px 0', fontWeight: 500 }}>Model Confidence</p>
-              <p style={{ fontSize: 16, fontWeight: 700, color: '#10B981', margin: 0 }}>High statistical confidence</p>
-            </div>
-            <div>
-              <p style={{ fontSize: 12, color: '#94A3B8', margin: '0 0 4px 0', fontWeight: 500 }}>Sample Size</p>
-              <p style={{ fontSize: 16, fontWeight: 700, color: '#0F172A', margin: 0 }}>1,200+</p>
-              <p style={{ fontSize: 11, color: '#64748B', margin: '4px 0 0 0' }}>comparable cases</p>
-            </div>
-            <div>
-              <p style={{ fontSize: 12, color: '#94A3B8', margin: '0 0 4px 0', fontWeight: 500 }}>Methodology</p>
-              <p style={{ fontSize: 12, color: '#0F172A', margin: 0 }}>Validated probabilistic hiring outcome model</p>
+            <div style={{ textAlign: 'center' }}>
+              <p style={{ fontSize: 12, color: '#94A3B8', margin: '0 0 4px 0', fontWeight: 500 }}>Percentile</p>
+              <p style={{ fontSize: 22, fontWeight: 700, color: '#0F172A', margin: 0 }}>Top {100 - percentileRank}%</p>
+              <p style={{ fontSize: 10, color: '#64748B', margin: '2px 0 0 0' }}>vs. similar applicants</p>
             </div>
           </div>
         </div>
 
-        {/* System Recommendation - Improvement #2 */}
-        <div style={{ marginTop: 24, paddingTop: 24, borderTop: '1px solid #E5E7EB' }}>
-          <p style={{ fontSize: 11, fontWeight: 700, color: '#0F172A', textTransform: 'uppercase', margin: '0 0 12px 0', letterSpacing: '0.5px' }}>
-            System Recommendation
-          </p>
-          <div style={{ padding: 16, background: '#F0FDF4', borderRadius: 8, border: '1px solid #BBFFC7' }}>
-            <p style={{ fontSize: 13, fontWeight: 600, color: '#166534', margin: 0 }}>
-              Wait. Prepare quantified impact stories. Activate referral if available.
-            </p>
-            <p style={{ fontSize: 12, color: '#15803D', margin: '8px 0 0 0' }}>
-              Optimal positioning before Day 5 follow-up window unlock.
-            </p>
-          </div>
-        </div>
-      </div>
-
-      {/* LAYER 2: DECISION DYNAMICS - Core Intelligence Blocks */}
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20 }}>
-        
-        {/* Outcome Probability Model */}
-        <div
-          style={{
-            background: '#FFFFFF',
-            border: '1px solid #E5E7EB',
-            borderRadius: 12,
-            padding: 24,
-          }}
-        >
-          <p style={{ fontSize: 13, fontWeight: 600, color: '#0F172A', margin: '0 0 16px 0', textTransform: 'uppercase' }}>
-            Outcome Drivers
-          </p>
-          
-          <p style={{ fontSize: 12, color: '#64748B', margin: '0 0 16px 0' }}>
-            Why your application probability is 42% at this stage:
-          </p>
-
-          <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: 12 }}>
-            <li style={{ fontSize: 13, color: '#0F172A', paddingBottom: 12, borderBottom: '1px solid #E5E7EB' }}>
-              <span style={{ fontWeight: 600, color: '#10B981' }}>+15% Driver:</span>
-              <p style={{ margin: '4px 0 0 0', color: '#64748B' }}>Strong foundational skills match vs. role</p>
-            </li>
-            <li style={{ fontSize: 13, color: '#0F172A', paddingBottom: 12, borderBottom: '1px solid #E5E7EB' }}>
-              <span style={{ fontWeight: 600, color: '#F59E0B' }}>-8% Inhibitor:</span>
-              <p style={{ margin: '4px 0 0 0', color: '#64748B' }}>Limited quantified outcomes in CV</p>
-            </li>
-            <li style={{ fontSize: 13, color: '#0F172A' }}>
-              <span style={{ fontWeight: 600, color: '#10B981' }}>+5% Uplift:</span>
-              <p style={{ margin: '4px 0 0 0', color: '#64748B' }}>Referral network activation available (if used)</p>
-            </li>
-          </ul>
-        </div>
-      </div>
-
-      {/* Risk Factors Identified - with severity tags */}
-      <div
-        style={{
-          background: '#FFFFFF',
-          border: '1px solid #E5E7EB',
-          borderRadius: 12,
-          padding: 24,
-        }}
-      >
-        <button
-          type="button"
-          onClick={() => setExpandedRisks(!expandedRisks)}
-          style={{
-            width: '100%',
-            background: 'none',
-            border: 'none',
-            padding: 0,
-            cursor: 'pointer',
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-          }}
-        >
-          <p style={{ fontSize: 13, fontWeight: 600, color: '#0F172A', margin: 0, textTransform: 'uppercase' }}>
-            Risk Factors Identified
-          </p>
-          <span style={{ fontSize: 14, color: '#94A3B8', transition: 'transform 0.2s', transform: expandedRisks ? 'rotate(180deg)' : 'rotate(0deg)' }}>
-            v
-          </span>
-        </button>
-
-        {expandedRisks && (
-          <div style={{ marginTop: 16, paddingTop: 16, borderTop: '1px solid #E5E7EB' }}>
-            <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: 14 }}>
-              <li style={{ fontSize: 13, color: '#0F172A' }}>
-                <div style={{ display: 'flex', gap: 8, alignItems: 'center', marginBottom: 4 }}>
-                  <span style={{ fontWeight: 600, color: '#F59E0B' }}>Experience Depth</span>
-                  <span style={{ fontSize: 11, fontWeight: 500, background: '#FEF3C7', color: '#92400E', padding: '2px 8px', borderRadius: 4 }}>
-                    Moderate Impact
-                  </span>
-                </div>
-                <p style={{ margin: 0, color: '#64748B' }}>Limited direct experience in this role type. Mitigated by strong foundational skills.</p>
-              </li>
-              <li style={{ fontSize: 13, color: '#0F172A' }}>
-                <div style={{ display: 'flex', gap: 8, alignItems: 'center', marginBottom: 4 }}>
-                  <span style={{ fontWeight: 600, color: '#EF4444' }}>Quantified Impact</span>
-                  <span style={{ fontSize: 11, fontWeight: 500, background: '#FEE2E2', color: '#7F1D1D', padding: '2px 8px', borderRadius: 4 }}>
-                    High Impact
-                  </span>
-                </div>
-                <p style={{ margin: 0, color: '#64748B' }}>Few measurable outcomes in CV. Can improve by adding 1-2 specific metrics.</p>
-              </li>
-            </ul>
-          </div>
-        )}
-      </div>
-
-      {/* LAYER 3: USER ACTION - Preparation and Governance */}
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20 }}>
-        
-        {/* Contextual Prep Strategy */}
-        <div
-          style={{
-            background: '#FFFFFF',
-            border: '1px solid #E5E7EB',
-            borderRadius: 12,
-            padding: 24,
-          }}
-        >
-          <p style={{ fontSize: 13, fontWeight: 600, color: '#0F172A', margin: '0 0 16px 0', textTransform: 'uppercase' }}>
-            Screening Focus Areas
-          </p>
-          <p style={{ fontSize: 12, color: '#64748B', margin: '0 0 12px 0' }}>
-            Ranked by recruiter emphasis
-          </p>
-          <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: 12 }}>
-            <li style={{ fontSize: 13, color: '#0F172A', paddingBottom: 12, borderBottom: '1px solid #E5E7EB', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <div style={{ display: 'flex', gap: 12, alignItems: 'flex-start', flex: 1 }}>
-                <span style={{ fontSize: 13, fontWeight: 700, color: '#2563EB', lineHeight: '1.4', flexShrink: 0 }}>1.</span>
-                <div>
-                  <p style={{ margin: 0, fontWeight: 500 }}>Mission alignment</p>
-                  <p style={{ fontSize: 12, color: '#64748B', margin: '2px 0 0 0' }}>Why Acme Corp matters to you</p>
-                </div>
-              </div>
-              <span style={{ fontSize: 11, fontWeight: 600, color: '#EF4444', background: '#FEE2E2', padding: '2px 8px', borderRadius: 4, flexShrink: 0 }}>
-                High
-              </span>
-            </li>
-            <li style={{ fontSize: 13, color: '#0F172A', paddingBottom: 12, borderBottom: '1px solid #E5E7EB', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <div style={{ display: 'flex', gap: 12, alignItems: 'flex-start', flex: 1 }}>
-                <span style={{ fontSize: 13, fontWeight: 700, color: '#2563EB', lineHeight: '1.4', flexShrink: 0 }}>2.</span>
-                <div>
-                  <p style={{ margin: 0, fontWeight: 500 }}>Quantified impact stories</p>
-                  <p style={{ fontSize: 12, color: '#64748B', margin: '2px 0 0 0' }}>Projects with measurable outcomes</p>
-                </div>
-              </div>
-              <span style={{ fontSize: 11, fontWeight: 600, color: '#EF4444', background: '#FEE2E2', padding: '2px 8px', borderRadius: 4, flexShrink: 0 }}>
-                High
-              </span>
-            </li>
-            <li style={{ fontSize: 13, color: '#0F172A', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <div style={{ display: 'flex', gap: 12, alignItems: 'flex-start', flex: 1 }}>
-                <span style={{ fontSize: 13, fontWeight: 700, color: '#2563EB', lineHeight: '1.4', flexShrink: 0 }}>3.</span>
-                <div>
-                  <p style={{ margin: 0, fontWeight: 500 }}>Tool proficiency</p>
-                  <p style={{ fontSize: 12, color: '#64748B', margin: '2px 0 0 0' }}>Data analysis tools and frameworks</p>
-                </div>
-              </div>
-              <span style={{ fontSize: 11, fontWeight: 600, color: '#F59E0B', background: '#FEF3C7', padding: '2px 8px', borderRadius: 4, flexShrink: 0 }}>
-                Medium
-              </span>
-            </li>
-          </ul>
-        </div>
-
-        {/* Follow-up Governance State */}
-        <div
-          style={{
-            background: '#FFFFFF',
-            border: '1px solid #E5E7EB',
-            borderRadius: 12,
-            padding: 24,
-          }}
-        >
-          <p style={{ fontSize: 13, fontWeight: 600, color: '#0F172A', margin: '0 0 16px 0', textTransform: 'uppercase' }}>
-            Follow-Up Timing Optimization
-          </p>
-          <div style={{ padding: 16, background: '#F0F9FF', borderRadius: 8, marginBottom: 16, border: '1px solid #BFDBFE' }}>
-            <div style={{ display: 'flex', gap: 12, alignItems: 'flex-start', marginBottom: 12 }}>
-              <span style={{ fontSize: 18, color: followUpLocked ? '#EF4444' : '#10B981', lineHeight: '1' }}>
-                {followUpLocked ? 'L' : 'O'}
-              </span>
-              <div style={{ flex: 1 }}>
-                <p style={{ fontSize: 12, fontWeight: 600, color: '#0369A1', margin: 0 }}>
-                  Current State: {followUpLocked ? 'Locked' : 'Available'}
-                </p>
-                <p style={{ fontSize: 11, color: '#0369A1', margin: '4px 0 0 0' }}>
-                  {followUpLocked ? 'Optimizing for peak recruiter decision window' : 'Ready to send follow-up'}
-                </p>
-              </div>
-            </div>
-            <div style={{ borderTop: '1px solid #BFDBFE', paddingTop: 12, marginBottom: 12 }}>
-              <p style={{ fontSize: 11, fontWeight: 600, color: '#0369A1', margin: '0 0 6px 0', textTransform: 'uppercase' }}>
-                Unlocks
-              </p>
-              <p style={{ fontSize: 12, color: '#0369A1', margin: 0, fontWeight: 500 }}>
-                Day 5 post-submission
-              </p>
-            </div>
-            <div style={{ borderTop: '1px solid #BFDBFE', paddingTop: 12 }}>
-              <p style={{ fontSize: 11, fontWeight: 600, color: '#0369A1', margin: '0 0 6px 0', textTransform: 'uppercase' }}>
-                Why
-              </p>
-              <p style={{ fontSize: 12, color: '#0369A1', margin: 0 }}>
-                Peak recruiter decision window = Days 4-6. Risk if sent early: response probability decreases.
-              </p>
-            </div>
-          </div>
-          <p style={{ fontSize: 11, fontWeight: 600, color: '#475569', margin: '0 0 8px 0', textTransform: 'uppercase' }}>
-            Rationale
-          </p>
-          <p style={{ fontSize: 12, color: '#64748B', margin: 0 }}>
-            Peak recruiter decision window occurs Days 4-6. Sending before Day 5 introduces noise. Waiting maximizes response probability and demonstrates strategic timing awareness.
+        {/* Bottom Strip: Highest Leverage Action */}
+        <div style={{ padding: '12px 24px', background: '#F0FDF4', borderTop: '1px solid #BBFFC7' }}>
+          <p style={{ fontSize: 13, fontWeight: 600, color: '#166534', margin: 0 }}>
+            Highest leverage action: Activate referral before Day 5
           </p>
         </div>
       </div>
 
-      {/* Follow-up Window Status */}
-      <div
-        style={{
-          background: '#F0F9FF',
-          border: '1px solid #BFDBFE',
-          borderRadius: 12,
-          padding: 24,
-        }}
-      >
-        <p style={{ fontSize: 13, fontWeight: 600, color: '#0369A1', margin: '0 0 16px 0', textTransform: 'uppercase' }}>
-          Follow-up Window Status
-        </p>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 24 }}>
-          <div>
-            <p style={{ fontSize: 12, color: '#64748B', margin: '0 0 8px 0' }}>Window opens in</p>
-            <p style={{ fontSize: 20, fontWeight: 700, color: '#2563EB', margin: 0 }}>3 days</p>
-            <p style={{ fontSize: 12, color: '#64748B', margin: '8px 0 0 0' }}>Optimal timing: Day 5-7 post-submission</p>
-          </div>
-          <div>
-            <p style={{ fontSize: 12, color: '#64748B', margin: '0 0 8px 0' }}>Last follow-up sent</p>
-            <p style={{ fontSize: 20, fontWeight: 700, color: '#0F172A', margin: 0 }}>Never</p>
-          </div>
-        </div>
-      </div>
-
-      {/* Priority Action Panel - Convert Insight to Execution */}
+      {/* ACTION COMMAND CENTER */}
       <div
         style={{
           background: '#FFFFFF',
@@ -372,65 +152,76 @@ export function ApplicationInsightsHub({
           boxShadow: '0 2px 8px rgba(16, 185, 129, 0.1)',
         }}
       >
-        <p style={{ fontSize: 13, fontWeight: 600, color: '#0F172A', margin: '0 0 16px 0', textTransform: 'uppercase' }}>
-          Priority Actions - Ranked by Impact
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
+          <p style={{ fontSize: 13, fontWeight: 600, color: '#0F172A', margin: 0, textTransform: 'uppercase' }}>
+            Action Plan - Ranked by Expected Impact
+          </p>
+          <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
+            <span style={{ fontSize: 12, fontWeight: 600, color: '#10B981' }}>
+              {completedCount} / {totalActions} completed
+            </span>
+            <div style={{ width: 60, height: 6, background: '#E5E7EB', borderRadius: 3, overflow: 'hidden' }}>
+              <div style={{ height: '100%', width: `${(completedCount / totalActions) * 100}%`, background: '#10B981', transition: 'width 0.3s' }} />
+            </div>
+          </div>
+        </div>
+
+        <p style={{ fontSize: 12, color: '#10B981', fontWeight: 600, margin: '0 0 16px 0' }}>
+          +20% projected interview likelihood if all completed
         </p>
+
         <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: 12 }}>
-          <li style={{ fontSize: 13, color: '#0F172A', paddingBottom: 12, borderBottom: '1px solid #E5E7EB' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 8 }}>
-              <div style={{ flex: 1 }}>
-                <div style={{ display: 'flex', gap: 8, alignItems: 'center', marginBottom: 4 }}>
-                  <span style={{ fontWeight: 700, color: '#2563EB' }}>1.</span>
-                  <span style={{ fontWeight: 600 }}>Activate referral</span>
-                  <span style={{ fontSize: 11, fontWeight: 600, color: '#EF4444', background: '#FEE2E2', padding: '2px 8px', borderRadius: 4 }}>
-                    +12%
-                  </span>
+          {[
+            { label: 'Activate referral', impact: '+12%', severity: 'high', desc: 'Highest impact - use network connection before Day 5' },
+            { label: 'Add quantified achievement to CV', impact: '+5%', severity: 'high', desc: 'High impact - quantify one project result with numbers' },
+            { label: 'Complete screening prep module', impact: '+3%', severity: 'medium', desc: 'Medium impact - finish one more interview prep section' },
+          ].map((action, idx) => {
+            const done = actionsCompleted.includes(idx)
+            return (
+              <li key={idx} style={{ fontSize: 13, color: '#0F172A', paddingBottom: idx < 2 ? 12 : 0, borderBottom: idx < 2 ? '1px solid #E5E7EB' : 'none', opacity: done ? 0.5 : 1 }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+                  <div style={{ flex: 1 }}>
+                    <div style={{ display: 'flex', gap: 8, alignItems: 'center', marginBottom: 4 }}>
+                      <span style={{ fontWeight: 700, color: '#2563EB' }}>{idx + 1}.</span>
+                      <span style={{ fontWeight: 600, textDecoration: done ? 'line-through' : 'none' }}>{action.label}</span>
+                      <span style={{
+                        fontSize: 11,
+                        fontWeight: 600,
+                        color: action.severity === 'high' ? '#EF4444' : '#F59E0B',
+                        background: action.severity === 'high' ? '#FEE2E2' : '#FEF3C7',
+                        padding: '2px 8px',
+                        borderRadius: 4,
+                      }}>
+                        {action.impact}
+                      </span>
+                    </div>
+                    <p style={{ fontSize: 12, color: '#64748B', margin: 0 }}>{action.desc}</p>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => toggleAction(idx)}
+                    style={{
+                      fontSize: 12,
+                      fontWeight: 600,
+                      color: done ? '#94A3B8' : '#10B981',
+                      background: done ? '#F1F5F9' : '#F0FDF4',
+                      border: `1px solid ${done ? '#E5E7EB' : '#BBFFC7'}`,
+                      padding: '6px 12px',
+                      borderRadius: 6,
+                      cursor: 'pointer',
+                      flexShrink: 0,
+                    }}
+                  >
+                    {done ? 'Undo' : 'Complete'}
+                  </button>
                 </div>
-                <p style={{ fontSize: 12, color: '#64748B', margin: 0 }}>Highest impact - use network connection before Day 5</p>
-              </div>
-              <button style={{ fontSize: 12, fontWeight: 600, color: '#10B981', background: '#F0FDF4', border: '1px solid #BBFFC7', padding: '6px 12px', borderRadius: 6, cursor: 'pointer' }}>
-                Complete
-              </button>
-            </div>
-          </li>
-          <li style={{ fontSize: 13, color: '#0F172A', paddingBottom: 12, borderBottom: '1px solid #E5E7EB' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 8 }}>
-              <div style={{ flex: 1 }}>
-                <div style={{ display: 'flex', gap: 8, alignItems: 'center', marginBottom: 4 }}>
-                  <span style={{ fontWeight: 700, color: '#2563EB' }}>2.</span>
-                  <span style={{ fontWeight: 600 }}>Add quantified achievement to CV</span>
-                  <span style={{ fontSize: 11, fontWeight: 600, color: '#EF4444', background: '#FEE2E2', padding: '2px 8px', borderRadius: 4 }}>
-                    +5%
-                  </span>
-                </div>
-                <p style={{ fontSize: 12, color: '#64748B', margin: 0 }}>High impact - quantify one project result with numbers/percentage</p>
-              </div>
-              <button style={{ fontSize: 12, fontWeight: 600, color: '#10B981', background: '#F0FDF4', border: '1px solid #BBFFC7', padding: '6px 12px', borderRadius: 6, cursor: 'pointer' }}>
-                Complete
-              </button>
-            </div>
-          </li>
-          <li style={{ fontSize: 13, color: '#0F172A' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 8 }}>
-              <div style={{ flex: 1 }}>
-                <div style={{ display: 'flex', gap: 8, alignItems: 'center', marginBottom: 4 }}>
-                  <span style={{ fontWeight: 700, color: '#2563EB' }}>3.</span>
-                  <span style={{ fontWeight: 600 }}>Complete screening prep module</span>
-                  <span style={{ fontSize: 11, fontWeight: 600, color: '#F59E0B', background: '#FEF3C7', padding: '2px 8px', borderRadius: 4 }}>
-                    +3%
-                  </span>
-                </div>
-                <p style={{ fontSize: 12, color: '#64748B', margin: 0 }}>Medium impact - finish one more interview prep section</p>
-              </div>
-              <button style={{ fontSize: 12, fontWeight: 600, color: '#10B981', background: '#F0FDF4', border: '1px solid #BBFFC7', padding: '6px 12px', borderRadius: 6, cursor: 'pointer' }}>
-                Complete
-              </button>
-            </div>
-          </li>
+              </li>
+            )
+          })}
         </ul>
       </div>
 
-      {/* Outcome Simulation */}
+      {/* OUTCOME PROJECTION PANEL */}
       <div
         style={{
           background: '#FFFBEB',
@@ -439,159 +230,329 @@ export function ApplicationInsightsHub({
           padding: 24,
         }}
       >
+        <p style={{ fontSize: 13, fontWeight: 600, color: '#92400E', margin: '0 0 16px 0', textTransform: 'uppercase' }}>
+          Outcome Projection
+        </p>
+
+        <div style={{ display: 'flex', gap: 24, alignItems: 'stretch', marginBottom: 16 }}>
+          {/* Current */}
+          <div style={{ flex: 1, padding: 16, background: '#FFFFFF', borderRadius: 8, border: '1px solid #E5E7EB', textAlign: 'center' }}>
+            <p style={{ fontSize: 11, color: '#94A3B8', margin: '0 0 8px 0', fontWeight: 600, textTransform: 'uppercase' }}>Current</p>
+            <p style={{ fontSize: 28, fontWeight: 700, color: '#2563EB', margin: 0 }}>{baseInterviewProbability}%</p>
+            <div style={{ height: 8, background: '#E5E7EB', borderRadius: 4, overflow: 'hidden', marginTop: 12 }}>
+              <div style={{ height: '100%', width: `${baseInterviewProbability}%`, background: '#2563EB', borderRadius: 4 }} />
+            </div>
+            <p style={{ fontSize: 11, color: '#64748B', margin: '8px 0 0 0' }}>Moderate range</p>
+          </div>
+
+          {/* Arrow */}
+          <div style={{ display: 'flex', alignItems: 'center', fontSize: 20, color: '#F59E0B', fontWeight: 700 }}>
+            {'>'}
+          </div>
+
+          {/* Projected */}
+          <div style={{ flex: 1, padding: 16, background: '#F0FDF4', borderRadius: 8, border: '1px solid #BBFFC7', textAlign: 'center' }}>
+            <p style={{ fontSize: 11, color: '#059669', margin: '0 0 8px 0', fontWeight: 600, textTransform: 'uppercase' }}>If Actions Completed</p>
+            <p style={{ fontSize: 28, fontWeight: 700, color: '#10B981', margin: 0 }}>{projectedProbability}%</p>
+            <div style={{ height: 8, background: '#E5E7EB', borderRadius: 4, overflow: 'hidden', marginTop: 12 }}>
+              <div style={{ height: '100%', width: `${projectedProbability}%`, background: '#10B981', borderRadius: 4 }} />
+            </div>
+            <p style={{ fontSize: 11, color: '#059669', margin: '8px 0 0 0' }}>Strong range</p>
+          </div>
+        </div>
+
+        <div style={{ padding: 12, background: '#FFFFFF', borderRadius: 8, border: '1px solid #FBBF24' }}>
+          <p style={{ fontSize: 12, color: '#92400E', margin: 0 }}>
+            +{projectedProbability - baseInterviewProbability}% projected improvement. You outperform {percentileRank}% of similar applicants at this stage.
+          </p>
+        </div>
+      </div>
+
+      {/* STRATEGIC TIMING ENGINE */}
+      <div style={{ background: '#FFFFFF', borderRadius: 12, border: '1px solid #E5E7EB', padding: 24 }}>
+        <p style={{ fontSize: 13, fontWeight: 600, color: '#0F172A', margin: '0 0 16px 0', textTransform: 'uppercase' }}>
+          Strategic Timing Engine
+        </p>
+
+        {/* Visual Timeline */}
+        <div style={{ marginBottom: 20 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 0, position: 'relative' }}>
+            {[
+              { day: '0', label: 'Submitted', past: true },
+              { day: '1', label: 'Queued', past: true },
+              { day: '2', label: '', past: true },
+              { day: '3', label: 'You are here', current: true },
+              { day: '4', label: '', peak: true },
+              { day: '5', label: 'Follow-up unlocks', peak: true },
+              { day: '6', label: '', peak: true },
+              { day: '7', label: 'Decision threshold', future: true },
+            ].map((item, idx) => (
+              <div key={idx} style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', position: 'relative' }}>
+                <div
+                  style={{
+                    width: item.current ? 14 : 10,
+                    height: item.current ? 14 : 10,
+                    borderRadius: '50%',
+                    background: item.current ? '#2563EB' : item.past ? '#10B981' : item.peak ? '#F59E0B' : '#E5E7EB',
+                    border: item.current ? '3px solid #BFDBFE' : 'none',
+                    zIndex: 1,
+                  }}
+                />
+                {idx < 7 && (
+                  <div style={{
+                    position: 'absolute',
+                    top: item.current ? 6 : 4,
+                    left: '50%',
+                    width: '100%',
+                    height: 2,
+                    background: item.past || item.current ? '#10B981' : '#E5E7EB',
+                  }} />
+                )}
+                <p style={{ fontSize: 10, fontWeight: 600, color: item.current ? '#2563EB' : '#94A3B8', margin: '6px 0 0 0' }}>
+                  {item.day}
+                </p>
+                {item.label && (
+                  <p style={{
+                    fontSize: 9,
+                    color: item.current ? '#2563EB' : item.peak ? '#F59E0B' : '#94A3B8',
+                    margin: '2px 0 0 0',
+                    textAlign: 'center',
+                    fontWeight: item.current ? 700 : 400,
+                    whiteSpace: 'nowrap',
+                  }}>
+                    {item.label}
+                  </p>
+                )}
+              </div>
+            ))}
+          </div>
+
+          {/* Peak cluster indicator */}
+          <div style={{ marginTop: 12, marginLeft: '42%', width: '33%' }}>
+            <div style={{ height: 3, background: 'linear-gradient(90deg, #FDE68A, #F59E0B, #FDE68A)', borderRadius: 2 }} />
+            <p style={{ fontSize: 10, color: '#B45309', margin: '4px 0 0 0', textAlign: 'center', fontWeight: 600 }}>
+              Peak decision cluster
+            </p>
+          </div>
+        </div>
+
+        {/* Follow-up Status */}
+        <div style={{ display: 'flex', gap: 16, padding: 16, background: '#F0F9FF', borderRadius: 8, border: '1px solid #BFDBFE' }}>
+          <div style={{ flex: 1 }}>
+            <p style={{ fontSize: 12, fontWeight: 600, color: '#0369A1', margin: '0 0 4px 0' }}>Follow-up: Locked</p>
+            <p style={{ fontSize: 11, color: '#0369A1', margin: 0 }}>Unlocks Day 5. Peak recruiter decisions = Days 4-6.</p>
+          </div>
+          <div style={{ textAlign: 'right' }}>
+            <p style={{ fontSize: 18, fontWeight: 700, color: '#2563EB', margin: 0 }}>2 days</p>
+            <p style={{ fontSize: 11, color: '#64748B', margin: '2px 0 0 0' }}>until unlock</p>
+          </div>
+        </div>
+      </div>
+
+      {/* STRATEGIC VIEW: Recruiter Decision Model + Decision Flow */}
+      {strategicView && (
+        <>
+          {/* RECRUITER DECISION MODEL - Merged Section */}
+          <div style={{ background: '#FFFFFF', borderRadius: 12, border: '1px solid #E5E7EB', overflow: 'hidden' }}>
+            <button
+              type="button"
+              onClick={() => setExpandedDecisionModel(!expandedDecisionModel)}
+              style={{
+                width: '100%',
+                background: 'none',
+                border: 'none',
+                padding: 20,
+                cursor: 'pointer',
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+              }}
+            >
+              <p style={{ fontSize: 13, fontWeight: 600, color: '#0F172A', margin: 0, textTransform: 'uppercase' }}>
+                Recruiter Decision Model - What Matters Most
+              </p>
+              <span style={{ fontSize: 14, color: '#94A3B8', transition: 'transform 0.2s', transform: expandedDecisionModel ? 'rotate(180deg)' : 'rotate(0deg)' }}>
+                v
+              </span>
+            </button>
+
+            {expandedDecisionModel && (
+              <div style={{ padding: '0 20px 20px 20px' }}>
+                {/* A. Top Positive Signals */}
+                <div style={{ marginBottom: 20 }}>
+                  <p style={{ fontSize: 11, fontWeight: 700, color: '#10B981', margin: '0 0 10px 0', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+                    A. Top Positive Signals
+                  </p>
+                  <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: 8 }}>
+                    <li style={{ fontSize: 13, color: '#0F172A', display: 'flex', gap: 10, alignItems: 'center' }}>
+                      <span style={{ fontWeight: 600, color: '#10B981', flexShrink: 0 }}>+15%</span>
+                      <span>Strong foundational skills match vs. role requirements</span>
+                    </li>
+                    <li style={{ fontSize: 13, color: '#0F172A', display: 'flex', gap: 10, alignItems: 'center' }}>
+                      <span style={{ fontWeight: 600, color: '#10B981', flexShrink: 0 }}>+5%</span>
+                      <span>Referral network activation available (if used)</span>
+                    </li>
+                  </ul>
+                </div>
+
+                {/* B. Friction Points */}
+                <div style={{ marginBottom: 20 }}>
+                  <p style={{ fontSize: 11, fontWeight: 700, color: '#EF4444', margin: '0 0 10px 0', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+                    B. Friction Points
+                  </p>
+                  <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: 8 }}>
+                    <li style={{ fontSize: 13, color: '#0F172A', display: 'flex', gap: 10, alignItems: 'center' }}>
+                      <span style={{ fontWeight: 600, color: '#EF4444', flexShrink: 0 }}>-8%</span>
+                      <span>Limited quantified outcomes in CV</span>
+                    </li>
+                    <li style={{ fontSize: 13, color: '#0F172A', display: 'flex', gap: 10, alignItems: 'center' }}>
+                      <span style={{ fontSize: 11, fontWeight: 500, background: '#FEF3C7', color: '#92400E', padding: '2px 8px', borderRadius: 4, flexShrink: 0 }}>Moderate</span>
+                      <span>Experience depth in this specific role type</span>
+                    </li>
+                  </ul>
+                </div>
+
+                {/* C. Recruiter Screening Priorities */}
+                <div>
+                  <p style={{ fontSize: 11, fontWeight: 700, color: '#2563EB', margin: '0 0 10px 0', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+                    C. Recruiter Screening Priorities
+                  </p>
+                  <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: 8 }}>
+                    {[
+                      { label: 'Mission alignment', desc: 'Why this company matters to you', severity: 'High' },
+                      { label: 'Quantified impact stories', desc: 'Measurable project outcomes', severity: 'High' },
+                      { label: 'Tool proficiency', desc: 'Data analysis tools and frameworks', severity: 'Medium' },
+                    ].map((item, idx) => (
+                      <li key={idx} style={{ fontSize: 13, color: '#0F172A', display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingBottom: idx < 2 ? 8 : 0, borderBottom: idx < 2 ? '1px solid #F1F5F9' : 'none' }}>
+                        <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+                          <span style={{ fontWeight: 700, color: '#2563EB', fontSize: 12 }}>{idx + 1}.</span>
+                          <div>
+                            <span style={{ fontWeight: 500 }}>{item.label}</span>
+                            <p style={{ fontSize: 11, color: '#94A3B8', margin: '2px 0 0 0' }}>{item.desc}</p>
+                          </div>
+                        </div>
+                        <span style={{
+                          fontSize: 11,
+                          fontWeight: 600,
+                          color: item.severity === 'High' ? '#EF4444' : '#F59E0B',
+                          background: item.severity === 'High' ? '#FEE2E2' : '#FEF3C7',
+                          padding: '2px 8px',
+                          borderRadius: 4,
+                          flexShrink: 0,
+                        }}>
+                          {item.severity}
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* DECISION FLOW MODEL - Smart Timeline */}
+          <div style={{ background: '#FFFFFF', borderRadius: 12, border: '1px solid #E5E7EB', padding: 20 }}>
+            <p style={{ fontSize: 11, fontWeight: 700, color: '#475569', margin: '0 0 16px 0', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+              Decision Flow Model
+            </p>
+            <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: 0 }}>
+              {[
+                { day: 'Day 0', label: 'Application submitted', sub: 'Jan 28, 2026 at 2:14 PM', status: 'past' },
+                { day: 'Day 1', label: 'Screening queue entered', sub: 'Detected in recruiter intake', status: 'past' },
+                { day: 'Day 3', label: 'Under recruiter review', sub: 'YOU ARE HERE - active decision window', status: 'current' },
+                { day: 'Day 4-6', label: 'Decision clustering window', sub: 'Historical peak - recruiter decisions concentrate here', status: 'next' },
+                { day: 'Day 5', label: 'Follow-up window unlock', sub: 'Optimal follow-up timing', status: 'future' },
+                { day: 'Day 7', label: 'Decision threshold', sub: 'Decision probability plateaus', status: 'future' },
+              ].map((item, idx) => (
+                <li
+                  key={idx}
+                  style={{
+                    display: 'flex',
+                    gap: 16,
+                    fontSize: 13,
+                    padding: '10px 0',
+                    borderLeft: item.status === 'current' ? '3px solid #2563EB' : item.status === 'next' ? '3px solid #F59E0B' : '3px solid transparent',
+                    paddingLeft: 12,
+                    background: item.status === 'current' ? '#EFF6FF' : item.status === 'next' ? '#FFFBEB' : 'transparent',
+                    borderRadius: item.status === 'current' || item.status === 'next' ? 6 : 0,
+                    marginBottom: 2,
+                    opacity: item.status === 'past' ? 0.6 : 1,
+                  }}
+                >
+                  <div style={{
+                    fontSize: 12,
+                    fontWeight: 600,
+                    color: item.status === 'current' ? '#2563EB' : item.status === 'next' ? '#F59E0B' : item.status === 'past' ? '#94A3B8' : '#CBD5E1',
+                    minWidth: '60px',
+                  }}>
+                    {item.day}
+                  </div>
+                  <div style={{ flex: 1 }}>
+                    <p style={{ margin: 0, fontWeight: item.status === 'current' || item.status === 'next' ? 600 : 500, color: item.status === 'future' ? '#94A3B8' : '#0F172A' }}>
+                      {item.label}
+                    </p>
+                    <p style={{ fontSize: 11, color: item.status === 'current' ? '#2563EB' : item.status === 'next' ? '#B45309' : '#94A3B8', margin: '2px 0 0 0', fontWeight: item.status === 'current' ? 600 : 400 }}>
+                      {item.sub}
+                    </p>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </>
+      )}
+
+      {/* MODEL TRANSPARENCY & COMPLIANCE - Collapsible Footer */}
+      <div style={{ background: '#F8FAFC', borderRadius: 10, border: '1px solid #E5E7EB', overflow: 'hidden' }}>
         <button
           type="button"
-          onClick={() => setSimulationActive(!simulationActive)}
+          onClick={() => setExpandedGovernance(!expandedGovernance)}
           style={{
             width: '100%',
             background: 'none',
             border: 'none',
-            padding: 0,
+            padding: '12px 16px',
             cursor: 'pointer',
             display: 'flex',
             justifyContent: 'space-between',
             alignItems: 'center',
-            marginBottom: 0,
           }}
         >
-          <div style={{ textAlign: 'left' }}>
-            <p style={{ fontSize: 13, fontWeight: 600, color: '#92400E', margin: 0, textTransform: 'uppercase' }}>
-              Outcome Simulation
-            </p>
-            <p style={{ fontSize: 14, fontWeight: 500, color: '#B45309', margin: '4px 0 0 0' }}>
-              If all recommended actions are completed before Day 5
-            </p>
-          </div>
-          <span style={{ fontSize: 14, color: '#92400E', transition: 'transform 0.2s', transform: simulationActive ? 'rotate(180deg)' : 'rotate(0deg)' }}>
+          <p style={{ fontSize: 11, fontWeight: 600, color: '#94A3B8', margin: 0, textTransform: 'uppercase' }}>
+            Model Transparency & Compliance
+          </p>
+          <span style={{ fontSize: 12, color: '#94A3B8', transition: 'transform 0.2s', transform: expandedGovernance ? 'rotate(180deg)' : 'rotate(0deg)' }}>
             v
           </span>
         </button>
 
-        {simulationActive && (
-          <div style={{ marginTop: 16, paddingTop: 16, borderTop: '2px solid #F59E0B' }}>
-            <p style={{ fontSize: 12, color: '#92400E', margin: '0 0 14px 0', fontWeight: 500 }}>
-              Completing recommended actions increases outcomes by:
+        {expandedGovernance && (
+          <div style={{ padding: '0 16px 16px 16px' }}>
+            <p style={{ fontSize: 12, color: '#64748B', margin: '0 0 12px 0' }}>
+              Validated probabilistic hiring outcome model based on anonymized multi-company hiring data. Confidence intervals based on 1,200+ comparable cases.
             </p>
-            <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: 12 }}>
-              <li style={{ fontSize: 13, color: '#0F172A' }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 4 }}>
-                  <span>Interview probability</span>
-                  <span style={{ fontWeight: 700, color: '#10B981' }}>+5% (42% to 47%)</span>
-                </div>
-                <div style={{ height: 6, background: '#E5E7EB', borderRadius: 3, overflow: 'hidden' }}>
-                  <div style={{ height: '100%', width: '5%', background: '#10B981' }} />
-                </div>
-              </li>
-              <li style={{ fontSize: 13, color: '#0F172A' }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 4 }}>
-                  <span>Application confidence</span>
-                  <span style={{ fontWeight: 700, color: '#10B981' }}>+7 points (74 to 81)</span>
-                </div>
-                <div style={{ height: 6, background: '#E5E7EB', borderRadius: 3, overflow: 'hidden' }}>
-                  <div style={{ height: '100%', width: '7%', background: '#10B981' }} />
-                </div>
-              </li>
-              <li style={{ fontSize: 13, color: '#0F172A' }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 4 }}>
-                  <span>Your percentile rank</span>
-                  <span style={{ fontWeight: 700, color: '#10B981' }}>+8% better (Top 32% to 24%)</span>
-                </div>
-                <div style={{ height: 6, background: '#E5E7EB', borderRadius: 3, overflow: 'hidden' }}>
-                  <div style={{ height: '100%', width: '8%', background: '#10B981' }} />
-                </div>
-              </li>
-            </ul>
-            <div style={{ marginTop: 16, paddingTop: 16, borderTop: '1px solid #FBBF24', paddingLeft: 12, borderLeft: '3px solid #10B981' }}>
-              <p style={{ fontSize: 11, fontWeight: 600, color: '#10B981', margin: '0 0 6px 0', textTransform: 'uppercase' }}>
-                Summary
-              </p>
-              <p style={{ fontSize: 12, color: '#92400E', margin: 0 }}>
-                Projected interview probability moves from Moderate range (42%) to Strong range (47%). Statistically meaningful improvement.
-              </p>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 12 }}>
+              <div style={{ fontSize: 11, color: '#64748B' }}>
+                <p style={{ margin: '0 0 2px 0', fontWeight: 600 }}>No recruiter tracking</p>
+                <p style={{ margin: 0, fontSize: 10 }}>System is read-only</p>
+              </div>
+              <div style={{ fontSize: 11, color: '#64748B' }}>
+                <p style={{ margin: '0 0 2px 0', fontWeight: 600 }}>No employer data scraping</p>
+                <p style={{ margin: 0, fontSize: 10 }}>Fully anonymized modeling</p>
+              </div>
+              <div style={{ fontSize: 11, color: '#64748B' }}>
+                <p style={{ margin: '0 0 2px 0', fontWeight: 600 }}>GDPR compliant</p>
+                <p style={{ margin: 0, fontSize: 10 }}>Data privacy enforced</p>
+              </div>
             </div>
           </div>
         )}
       </div>
 
-      {/* Decision Flow Model - Predictive Timeline */}
-      <div style={{ padding: 20, background: '#FFFFFF', borderRadius: 12, border: '1px solid #E5E7EB' }}>
-        <p style={{ fontSize: 11, fontWeight: 700, color: '#475569', margin: '0 0 16px 0', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
-          Decision Flow Model
-        </p>
-        <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: 14 }}>
-          <li style={{ display: 'flex', gap: 16, fontSize: 13, color: '#0F172A' }}>
-            <div style={{ fontSize: 12, fontWeight: 600, color: '#2563EB', minWidth: '60px' }}>Day 0</div>
-            <div style={{ flex: 1 }}>
-              <p style={{ margin: 0, fontWeight: 500 }}>Application submitted</p>
-              <p style={{ fontSize: 11, color: '#94A3B8', margin: '2px 0 0 0' }}>Jan 28, 2026 at 2:14 PM</p>
-            </div>
-          </li>
-          <li style={{ display: 'flex', gap: 16, fontSize: 13, color: '#0F172A' }}>
-            <div style={{ fontSize: 12, fontWeight: 600, color: '#2563EB', minWidth: '60px' }}>Day 1</div>
-            <div style={{ flex: 1 }}>
-              <p style={{ margin: 0, fontWeight: 500 }}>Screening queue entered</p>
-              <p style={{ fontSize: 11, color: '#94A3B8', margin: '2px 0 0 0' }}>System detected in recruiter intake</p>
-            </div>
-          </li>
-          <li style={{ display: 'flex', gap: 16, fontSize: 13, color: '#0F172A' }}>
-            <div style={{ fontSize: 12, fontWeight: 600, color: '#2563EB', minWidth: '60px' }}>Day 3</div>
-            <div style={{ flex: 1 }}>
-              <p style={{ margin: 0, fontWeight: 500 }}>Under recruiter review</p>
-              <p style={{ fontSize: 11, color: '#94A3B8', margin: '2px 0 0 0' }}>Current stage - active decision window</p>
-            </div>
-          </li>
-          <li style={{ display: 'flex', gap: 16, fontSize: 13, color: '#10B981' }}>
-            <div style={{ fontSize: 12, fontWeight: 600, color: '#10B981', minWidth: '60px' }}>Day 4-6</div>
-            <div style={{ flex: 1 }}>
-              <p style={{ margin: 0, fontWeight: 500 }}>Decision clustering window</p>
-              <p style={{ fontSize: 11, color: '#059669', margin: '2px 0 0 0' }}>Historical peak - recruiter decision probability peaks</p>
-            </div>
-          </li>
-          <li style={{ display: 'flex', gap: 16, fontSize: 13, color: '#94A3B8' }}>
-            <div style={{ fontSize: 12, fontWeight: 600, color: '#BFDBFE', minWidth: '60px' }}>Day 5</div>
-            <div style={{ flex: 1 }}>
-              <p style={{ margin: 0, fontWeight: 500 }}>Follow-up window unlock</p>
-              <p style={{ fontSize: 11, color: '#D1D5DB', margin: '2px 0 0 0' }}>Expected - optimal follow-up timing</p>
-            </div>
-          </li>
-          <li style={{ display: 'flex', gap: 16, fontSize: 13, color: '#94A3B8' }}>
-            <div style={{ fontSize: 12, fontWeight: 600, color: '#BFDBFE', minWidth: '60px' }}>Day 7</div>
-            <div style={{ flex: 1 }}>
-              <p style={{ margin: 0, fontWeight: 500 }}>Decision threshold spike</p>
-              <p style={{ fontSize: 11, color: '#D1D5DB', margin: '2px 0 0 0' }}>Expected - recruiter decision probability plateaus</p>
-            </div>
-          </li>
-        </ul>
-      </div>
-
-      {/* Methodology Block - Government Credibility with Micro-Trust */}
-      <div style={{ padding: 16, background: '#F8FAFC', borderRadius: 12, border: '1px solid #E5E7EB' }}>
-        <p style={{ fontSize: 11, fontWeight: 600, color: '#475569', margin: '0 0 12px 0', textTransform: 'uppercase' }}>
-          System Methodology & Governance
-        </p>
-        <p style={{ fontSize: 12, color: '#64748B', margin: '0 0 12px 0' }}>
-          Validated probabilistic hiring outcome model based on anonymized multi-company hiring data. Confidence intervals based on 1,200+ comparable cases.
-        </p>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 12 }}>
-          <div style={{ fontSize: 11, color: '#64748B' }}>
-            <p style={{ margin: '0 0 4px 0', fontWeight: 600 }}>No recruiter tracking</p>
-            <p style={{ margin: 0, fontSize: 10 }}>System is read-only</p>
-          </div>
-          <div style={{ fontSize: 11, color: '#64748B' }}>
-            <p style={{ margin: '0 0 4px 0', fontWeight: 600 }}>No employer data scraping</p>
-            <p style={{ margin: 0, fontSize: 10 }}>Fully anonymized modeling</p>
-          </div>
-          <div style={{ fontSize: 11, color: '#64748B' }}>
-            <p style={{ margin: '0 0 4px 0', fontWeight: 600 }}>GDPR compliant</p>
-            <p style={{ margin: 0, fontSize: 10 }}>Data privacy enforced</p>
-          </div>
-        </div>
-      </div>
-
       {/* System Metadata Footer */}
-      <div style={{ padding: 12, background: '#F8FAFC', borderRadius: 8, textAlign: 'center' }}>
-        <p style={{ fontSize: 11, color: '#94A3B8', margin: 0 }}>
-          Last model refresh: 11:32 AM | Data confidence: High | System ID: v13-strategic-intelligence
+      <div style={{ padding: 10, textAlign: 'center' }}>
+        <p style={{ fontSize: 10, color: '#CBD5E1', margin: 0 }}>
+          Last model refresh: 11:32 AM | Data confidence: High | System ID: v14-strategic
         </p>
       </div>
     </div>
