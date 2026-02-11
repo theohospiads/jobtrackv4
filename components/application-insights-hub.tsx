@@ -160,8 +160,9 @@ export function ApplicationInsightsHub({
             </p>
           </div>
         </div>
+      </div>
 
-        {/* Risk Factors Identified - with severity tags */}
+      {/* Risk Factors Identified - with severity tags */}
       <div
         style={{
           background: '#FFFFFF',
