@@ -191,13 +191,13 @@ export default function ActionDetailPage() {
   const [showHealthInfo, setShowHealthInfo] = useState(false)
   const [currentStage, setCurrentStage] = useState(job.currentStage)
 
-  const progressPercentage = (job.currentStage / job.totalStages) * 100
+  const progressPercentage = (currentStage / job.totalStages) * 100
   const completedTaskCount = Object.values(completedTasks).filter(Boolean).length
   const taskCompletionPercent = (completedTaskCount / job.tasks.length) * 100
 
   // Application Health Score logic
   const getHealthScore = () => {
-    const stageBonus = (job.currentStage / job.totalStages) * 50
+    const stageBonus = (currentStage / job.totalStages) * 50
     const taskBonus = taskCompletionPercent * 0.3
     const score = stageBonus + taskBonus
     if (score > 75) return { score: "Strong", color: "#2563EB" }
@@ -349,7 +349,7 @@ export default function ActionDetailPage() {
         )}
 
         {/* Interview Tracker - Only shown when at interview stage or beyond */}
-        {job.currentStage >= 2 && job.stages.some((s: { nameKey: string; status: string }) => s.nameKey.includes("interview") || s.nameKey.includes("screening")) && (
+        {currentStage >= 2 && job.stages.some((s: { nameKey: string; status: string }) => s.nameKey.includes("interview") || s.nameKey.includes("screening")) && (
           <div style={{ marginBottom: 32 }}>
             <InterviewStagesTracker stages={interviewStages} onStageUpdate={setInterviewStages} />
           </div>
@@ -649,9 +649,9 @@ export default function ActionDetailPage() {
 
         {/* Stage Preparation Guide - NEW */}
         <StagePrepGuide
-          currentStageIndex={job.currentStage}
-          stageName={t(job.stages[job.currentStage]?.nameKey) || 'Current Stage'}
-          stageStatus={job.stages[job.currentStage]?.status || 'current'}
+          currentStageIndex={currentStage}
+          stageName={t(job.stages[currentStage]?.nameKey) || 'Current Stage'}
+          stageStatus={job.stages[currentStage]?.status || 'current'}
         />
 
         {/* Interview Questions Guide */}
