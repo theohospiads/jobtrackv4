@@ -881,6 +881,8 @@ const translations: Record<Language, Record<string, string>> = {
     "actionDetail.noNotesYet": "No notes yet. Add details about this interview to prepare better.",
     "actionDetail.estimatedSalary": "Estimated Salary:",
     "actionDetail.sendFollowUp": "Send a follow-up",
+    "actionDetail.followUpLockedDays": "Follow-up available in {days} days",
+    "actionDetail.sendFollowUpReady": "Send follow-up",
 
     // Insights Hub
     "insights.projectedOutcome": "Projected Outcome",
@@ -1868,6 +1870,8 @@ const translations: Record<Language, Record<string, string>> = {
     "actionDetail.noNotesYet": "Pas de notes pour l'instant. Ajoutez des d\u00E9tails sur cet entretien pour mieux vous pr\u00E9parer.",
     "actionDetail.estimatedSalary": "Salaire estim\u00E9 :",
     "actionDetail.sendFollowUp": "Envoyer une relance",
+    "actionDetail.followUpLockedDays": "Relance disponible dans {days} jours",
+    "actionDetail.sendFollowUpReady": "Envoyer la relance",
 
     // Next Actions
     "nextActions.title": "Prochaines actions",

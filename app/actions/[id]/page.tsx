@@ -601,63 +601,68 @@ export default function ActionDetailPage() {
           salaryRange={job.salary || 'Not specified'}
         />
 
-        {/* Bottom Section — Cleaner hierarchy: Follow-up timing left, Primary CTA right */}
-        <div style={{ marginBottom: 32, display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: 24, gap: 24 }}>
-          {/* Follow-up Timing State (Left) */}
-          <div
-            style={{
-              background: "#F0F9FF",
-              border: "1px solid #BFDBFE",
-              borderRadius: 8,
-              padding: "12px 16px",
-              fontSize: 13,
-              color: "#1E40AF",
-              fontWeight: 500,
-              flexShrink: 0,
-            }}
-          >
-            Follow-up window opens in 3 days
-          </div>
-
-          {/* Send a Follow-up Button (Right) */}
-          <button
-            type="button"
-            onClick={() => {
-              router.push(`/actions/${id}/send-follow-up`)
-            }}
-            style={{
-              background: "#2563EB",
-              color: "#FFFFFF",
-              fontSize: 15,
-              fontWeight: 400,
-              padding: "12px 24px",
-              borderRadius: 8,
-              border: "none",
-              cursor: "pointer",
-              transition: "all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)",
-              boxShadow: "0 4px 12px rgba(37, 99, 235, 0.25), 0 1px 3px rgba(0, 0, 0, 0.08)",
-              display: "flex",
-              alignItems: "center",
-              gap: 8,
-              flexShrink: 0,
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.background = "#1E40AF"
-              e.currentTarget.style.boxShadow = "0 12px 24px rgba(37, 99, 235, 0.35), 0 4px 8px rgba(0, 0, 0, 0.1)"
-              e.currentTarget.style.transform = "translateY(-2px)"
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.background = "#2563EB"
-              e.currentTarget.style.boxShadow = "0 4px 12px rgba(37, 99, 235, 0.25), 0 1px 3px rgba(0, 0, 0, 0.08)"
-              e.currentTarget.style.transform = "translateY(0)"
-            }}
-          >
-            {t("actionDetail.sendFollowUp")}
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M6 12L10 8L6 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
-          </button>
-        </div>
+        {/* Follow-up Button — locked at early stages, active when ready */}
+        {(() => {
+          const followUpReady = currentStage >= 2
+          const daysRemaining = Math.max(0, 3 - currentStage)
+          return (
+            <div style={{ marginBottom: 32, display: "flex", justifyContent: "flex-end", marginTop: 24 }}>
+              <button
+                type="button"
+                onClick={() => {
+                  if (followUpReady) router.push(`/actions/${id}/send-follow-up`)
+                }}
+                disabled={!followUpReady}
+                style={{
+                  background: followUpReady ? "#2563EB" : "#F1F5F9",
+                  color: followUpReady ? "#FFFFFF" : "#94A3B8",
+                  fontSize: 14,
+                  fontWeight: 500,
+                  padding: "12px 24px",
+                  borderRadius: 8,
+                  border: followUpReady ? "none" : "1px solid #E2E8F0",
+                  cursor: followUpReady ? "pointer" : "not-allowed",
+                  transition: "all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)",
+                  boxShadow: followUpReady ? "0 4px 12px rgba(37, 99, 235, 0.25), 0 1px 3px rgba(0, 0, 0, 0.08)" : "none",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 8,
+                  flexShrink: 0,
+                }}
+                onMouseEnter={(e) => {
+                  if (followUpReady) {
+                    e.currentTarget.style.background = "#1E40AF"
+                    e.currentTarget.style.boxShadow = "0 12px 24px rgba(37, 99, 235, 0.35), 0 4px 8px rgba(0, 0, 0, 0.1)"
+                    e.currentTarget.style.transform = "translateY(-2px)"
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  if (followUpReady) {
+                    e.currentTarget.style.background = "#2563EB"
+                    e.currentTarget.style.boxShadow = "0 4px 12px rgba(37, 99, 235, 0.25), 0 1px 3px rgba(0, 0, 0, 0.08)"
+                    e.currentTarget.style.transform = "translateY(0)"
+                  }
+                }}
+              >
+                {followUpReady ? (
+                  <>
+                    {t("actionDetail.sendFollowUpReady")}
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                      <path d="M6 12L10 8L6 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
+                  </>
+                ) : (
+                  <>
+                    <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
+                      <path d="M12 7V5C12 2.79 10.21 1 8 1S4 2.79 4 5V7M3 7H13C13.55 7 14 7.45 14 8V14C14 14.55 13.55 15 13 15H3C2.45 15 2 14.55 2 14V8C2 7.45 2.45 7 3 7Z" stroke="#94A3B8" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
+                    {t("actionDetail.followUpLockedDays").replace("{days}", String(daysRemaining))}
+                  </>
+                )}
+              </button>
+            </div>
+          )
+        })()}
       </main>
     </div>
   )
