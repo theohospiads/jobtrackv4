@@ -5,8 +5,7 @@ import { useLanguage } from "@/components/language-provider"
 import { useState } from "react"
 import { TopNav } from "@/components/top-nav"
 import { StagePrepGuide } from "@/components/stage-preparation-guide"
-import { DecisionGuidanceBand } from "@/components/decision-guidance-band"
-import { ApplicationStatusHub } from "@/components/application-status-hub"
+import { InterviewIntelligenceHub } from "@/components/interview-intelligence-hub"
 
 interface ActionJobData {
   id: string
@@ -587,37 +586,24 @@ export default function ActionDetailPage() {
           </div>
         </div>
 
-        {/* Stage Preparation Guide */}
+        {/* Stage Preparation Guide - NEW */}
         <StagePrepGuide
           currentStageIndex={currentStage}
           stageName={t(job.stages[currentStage]?.nameKey) || 'Current Stage'}
           stageStatus={job.stages[currentStage]?.status || 'current'}
         />
 
-        {/* Application Status Hub - Elite Status & Insights */}
-        <ApplicationStatusHub
-          currentStage={currentStage}
-          totalStages={job.totalStages}
-          stageName={t(job.stages[currentStage]?.nameKey) || 'Current Stage'}
-          appliedDate={job.appliedDateKey || 'Recently'}
-          company={job.companyName}
-          jobTitle={t(job.titleKey)}
-          recruiterSignals={job.recruiterSignals}
-        />
-
-        {/* Decision Guidance Band - Elite Decision Support */}
-        <DecisionGuidanceBand
-          currentStage={currentStage}
-          stageName={t(job.stages[currentStage]?.nameKey) || 'Current Stage'}
-          daysSinceApplication={Math.floor(
-            (new Date().getTime() - new Date().getTime()) /
-            (1000 * 60 * 60 * 24)
-          )}
-          companyName={job.companyName}
-          jobTitle={t(job.titleKey)}
-        />
-
-        {/* Bottom Section - Action Button */}
+        {/* Interview Intelligence Hub - Elite Guidance for Interview Stage */}
+        {currentStage >= 2 && (
+          <InterviewIntelligenceHub
+            currentStage={currentStage}
+            stageName={t(job.stages[currentStage]?.nameKey) || 'Current Stage'}
+            jobTitle={t(job.titleKey)}
+            companyName={job.companyName}
+            jobDescription={job.jobDescription}
+            interviewCount={interviewStages.length}
+          />
+        )}
 
         {/* Bottom Section - Salary and Action Button */}
         <div style={{ marginBottom: 32, display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginTop: 24, gap: 24 }}>
