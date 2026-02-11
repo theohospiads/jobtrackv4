@@ -193,16 +193,13 @@ export default function ActionDetailPage() {
   const [showHealthInfo, setShowHealthInfo] = useState(false)
   const [currentStage, setCurrentStage] = useState(job?.currentStage ?? 0)
 
-  if (!job) {
-    return <div>{t("common.loading") || "Loading..."}</div>
-  }
-
-  const progressPercentage = (currentStage / job.totalStages) * 100
-  const completedTaskCount = Object.values(completedTasks).filter(Boolean).length
-  const taskCompletionPercent = (completedTaskCount / job.tasks.length) * 100
+  const progressPercentage = job ? (currentStage / job.totalStages) * 100 : 0
+  const completedTaskCount = job ? Object.values(completedTasks).filter(Boolean).length : 0
+  const taskCompletionPercent = job ? (completedTaskCount / job.tasks.length) * 100 : 0
 
   // Application Health Score logic
   const getHealthScore = () => {
+    if (!job) return { score: "N/A", color: "#94A3B8" }
     const stageBonus = (currentStage / job.totalStages) * 50
     const taskBonus = taskCompletionPercent * 0.3
     const score = stageBonus + taskBonus
@@ -213,6 +210,17 @@ export default function ActionDetailPage() {
   }
 
   const health = getHealthScore()
+
+  if (!job) {
+    return (
+      <div style={{ background: "#F8FAFC", minHeight: "100vh", paddingBottom: 100 }}>
+        <TopNav />
+        <main style={{ maxWidth: "900px", margin: "0 auto", padding: "20px 16px", textAlign: "center", paddingTop: 100 }}>
+          <p style={{ color: "#64748B", fontSize: 16 }}>{t("common.loading") || "Loading..."}</p>
+        </main>
+      </div>
+    )
+  }
 
   return (
     <div style={{ background: "#F8FAFC", minHeight: "100vh", paddingBottom: 100 }}>
