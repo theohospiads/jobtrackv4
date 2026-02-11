@@ -831,9 +831,10 @@ const translations: Record<Language, Record<string, string>> = {
 
     // Stage Preparation Guide
     "stage.applicationSubmitted": "Application Submitted",
-    "stage.applicationReview": "Under Review",
-    "stage.interview": "Interview Process",
-    "stage.decision": "Final Decision",
+    "stage.proactivePrep": "Proactive Preparation",
+    "stage.interview": "Interview",
+    "stage.decisionPending": "Decision Pending",
+    "stage.finalResult": "Final Result",
     "stage.submitted": "Submitted",
     "stage.underReview": "Under Review",
     "stage.interviewing": "Interviewing",
@@ -1932,9 +1933,10 @@ const translations: Record<Language, Record<string, string>> = {
     "interview.danger3": "\"J'ai juste besoin d'un emploi\" - Montre du désespoir au lieu d'un intérêt réel. Concentrez-vous sur pourquoi CE poste.",
 
     "stage.applicationSubmitted": "Candidature soumise",
-    "stage.applicationReview": "Examen de la Candidature",
-    "stage.interview": "Processus d'entretien",
-    "stage.decision": "D\u00E9cision finale",
+    "stage.proactivePrep": "Préparation proactive",
+    "stage.interview": "Entretien",
+    "stage.decisionPending": "Décision en attente",
+    "stage.finalResult": "Résultat final",
     "stage.submitted": "Soumis",
     "stage.underReview": "En cours d'examen",
     "stage.interviewing": "En entretien",
