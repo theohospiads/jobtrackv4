@@ -143,44 +143,62 @@ export function ApplicationInsightsHub({
       </div>
 
           {/* What Recruiters Look For */}
-          <div style={{ ...card, overflow: 'hidden', padding: 24 }}>
-              <p style={{ fontSize: 11, fontWeight: 600, color: '#64748B', margin: '0 0 20px 0', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+          <div style={{ ...card, padding: 24 }}>
+              <p style={{ fontSize: 11, fontWeight: 600, color: '#64748B', margin: '0 0 8px 0', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
                 What Recruiters Look For
               </p>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
-                {/* Positive */}
-                <div style={{ paddingBottom: 20 }}>
-                  <p style={{ fontSize: 11, fontWeight: 600, color: '#10B981', margin: '0 0 12px 0', textTransform: 'uppercase', letterSpacing: '0.3px' }}>
-                    Working in your favor
-                  </p>
-                  {[
-                    { tag: '+15%', text: 'Strong foundational skills match vs. role requirements' },
-                    { tag: '+5%', text: 'Referral network activation available (if used)' },
-                  ].map((s, i) => (
-                    <div key={i} style={{ display: 'flex', gap: 10, alignItems: 'center', marginBottom: 8 }}>
-                      <span style={{ fontSize: 11, fontWeight: 500, color: '#10B981', background: '#F0FDF4', padding: '1px 6px', borderRadius: 10 }}>{s.tag}</span>
-                      <span style={{ fontSize: 13, color: '#0F172A' }}>{s.text}</span>
-                    </div>
-                  ))}
+              <p style={{ fontSize: 12, color: '#94A3B8', margin: '0 0 24px 0' }}>
+                Based on hiring patterns for similar roles at comparable companies.
+              </p>
+
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
+                {/* Working in your favor */}
+                <div style={{ padding: 20, background: '#FAFDFB', borderRadius: 12, border: '1px solid #E5E7EB' }}>
+                  <div style={{ display: 'flex', gap: 8, alignItems: 'center', marginBottom: 16 }}>
+                    <div style={{ width: 6, height: 6, borderRadius: '50%', background: '#10B981', flexShrink: 0 }} />
+                    <p style={{ fontSize: 12, fontWeight: 600, color: '#0F172A', margin: 0 }}>
+                      Working in your favor
+                    </p>
+                  </div>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+                    {[
+                      { tag: '+15%', text: 'Strong foundational skills match vs. role requirements' },
+                      { tag: '+5%', text: 'Referral network activation available (if used)' },
+                    ].map((s, i) => (
+                      <div key={i} style={{ display: 'flex', gap: 10, alignItems: 'flex-start' }}>
+                        <span style={{
+                          fontSize: 11, fontWeight: 600, color: '#10B981', background: '#F0FDF4',
+                          padding: '2px 8px', borderRadius: 6, flexShrink: 0, marginTop: 1,
+                        }}>{s.tag}</span>
+                        <span style={{ fontSize: 13, color: '#374151', lineHeight: '1.4' }}>{s.text}</span>
+                      </div>
+                    ))}
+                  </div>
                 </div>
 
-                {/* Friction */}
-                <div style={{ paddingTop: 20, paddingBottom: 20, borderTop: '1px solid #F1F5F9' }}>
-                  <p style={{ fontSize: 11, fontWeight: 600, color: '#EF4444', margin: '0 0 12px 0', textTransform: 'uppercase', letterSpacing: '0.3px' }}>
-                    Areas to strengthen
-                  </p>
-                  {[
-                    { tag: '-8%', text: 'Limited quantified outcomes in CV' },
-                    { tag: 'Gap', text: 'Experience depth in this specific role type' },
-                  ].map((s, i) => (
-                    <div key={i} style={{ display: 'flex', gap: 10, alignItems: 'center', marginBottom: 8 }}>
-                      <span style={{ fontSize: 11, fontWeight: 500, color: '#DC2626', background: '#FEF2F2', padding: '1px 6px', borderRadius: 10 }}>{s.tag}</span>
-                      <span style={{ fontSize: 13, color: '#0F172A' }}>{s.text}</span>
-                    </div>
-                  ))}
+                {/* Areas to strengthen */}
+                <div style={{ padding: 20, background: '#FFFBFB', borderRadius: 12, border: '1px solid #E5E7EB' }}>
+                  <div style={{ display: 'flex', gap: 8, alignItems: 'center', marginBottom: 16 }}>
+                    <div style={{ width: 6, height: 6, borderRadius: '50%', background: '#EF4444', flexShrink: 0 }} />
+                    <p style={{ fontSize: 12, fontWeight: 600, color: '#0F172A', margin: 0 }}>
+                      Areas to strengthen
+                    </p>
+                  </div>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+                    {[
+                      { tag: '-8%', text: 'Limited quantified outcomes in CV' },
+                      { tag: 'Gap', text: 'Experience depth in this specific role type' },
+                    ].map((s, i) => (
+                      <div key={i} style={{ display: 'flex', gap: 10, alignItems: 'flex-start' }}>
+                        <span style={{
+                          fontSize: 11, fontWeight: 600, color: '#DC2626', background: '#FEF2F2',
+                          padding: '2px 8px', borderRadius: 6, flexShrink: 0, marginTop: 1,
+                        }}>{s.tag}</span>
+                        <span style={{ fontSize: 13, color: '#374151', lineHeight: '1.4' }}>{s.text}</span>
+                      </div>
+                    ))}
+                  </div>
                 </div>
-
-
               </div>
           </div>
 
