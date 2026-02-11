@@ -1,5 +1,6 @@
 'use client'
 
+import { useState } from 'react'
 import { useLanguage } from './language-provider'
 
 interface ApplicationInsightsHubProps {
@@ -18,170 +19,204 @@ export function ApplicationInsightsHub({
   salaryRange,
 }: ApplicationInsightsHubProps) {
   const { t } = useLanguage()
+  const [showSubmissionDetails, setShowSubmissionDetails] = useState(false)
 
   // Only show on Application Submitted stage
   if (currentStage !== 0) return null
 
-  const hasActionRequired = false
   const daysUntilFollowUp = 3
   const followUpWindowOpen = false
-  const screeningProbability = 'Moderate'
+  const interviewProbability = 'Moderate'
+  const alignmentScore = 82
 
   return (
-    <div style={{ marginBottom: 32, display: 'flex', flexDirection: 'column', gap: 20 }}>
-      {/* PRIMARY ACTION BLOCK */}
-      <div
-        style={{
-          background: hasActionRequired ? '#FEF2F2' : '#F0F9FF',
-          border: `2px solid ${hasActionRequired ? '#FCA5A5' : '#BFDBFE'}`,
-          borderRadius: 12,
-          padding: 24,
-          boxShadow: '0 4px 16px rgba(37, 99, 235, 0.12)',
-        }}
-      >
-        <h2
-          style={{
-            fontSize: 18,
-            fontWeight: 700,
-            color: hasActionRequired ? '#991B1B' : '#1E40AF',
-            margin: '0 0 12px 0',
-          }}
-        >
-          Your focus right now
-        </h2>
-
-        <p
-          style={{
-            fontSize: 15,
-            fontWeight: 500,
-            color: hasActionRequired ? '#7F1D1D' : '#1E3A8A',
-            margin: '0 0 8px 0',
-            lineHeight: 1.5,
-          }}
-        >
-          {hasActionRequired
-            ? `Send a concise follow-up in ${daysUntilFollowUp} days to resurface your application.`
-            : 'No action required today.'}
-        </p>
-
-        <p
-          style={{
-            fontSize: 13,
-            color: hasActionRequired ? '#A16061' : '#0369A1',
-            margin: 0,
-          }}
-        >
-          {hasActionRequired
-            ? 'This is your priority at this stage.'
-            : "We'll notify you when action becomes beneficial."}
-        </p>
-
-        {!hasActionRequired && (
-          <p
-            style={{
-              fontSize: 12,
-              color: '#0369A1',
-              fontStyle: 'italic',
-              margin: '8px 0 0 0',
-            }}
-          >
-            Light preparation is recommended.
-          </p>
-        )}
-      </div>
-
-      {/* WHAT'S HAPPENING NOW */}
+    <div style={{ marginBottom: 32, display: 'flex', flexDirection: 'column', gap: 24 }}>
+      {/* 1️⃣ STAGE COMMAND CENTER — Unified Decision Block */}
       <div
         style={{
           background: '#FFFFFF',
-          border: '1px solid #E5E7EB',
-          borderRadius: 12,
-          padding: 24,
-          boxShadow: '0 1px 3px rgba(0, 0, 0, 0.08)',
+          border: '2px solid #BFDBFE',
+          borderRadius: 16,
+          padding: 32,
+          boxShadow: '0 4px 16px rgba(37, 99, 235, 0.12)',
         }}
       >
-        <h3
-          style={{
-            fontSize: 16,
-            fontWeight: 600,
-            color: '#0F172A',
-            margin: '0 0 20px 0',
-          }}
-        >
-          What's happening right now
-        </h3>
+        {/* Header */}
+        <div style={{ marginBottom: 28 }}>
+          <h2
+            style={{
+              fontSize: 20,
+              fontWeight: 700,
+              color: '#0F172A',
+              margin: '0 0 4px 0',
+            }}
+          >
+            Application Submitted — Monitoring Phase
+          </h2>
+          <p
+            style={{
+              fontSize: 14,
+              color: '#64748B',
+              fontWeight: 400,
+              margin: 0,
+            }}
+          >
+            Your application is in the recruiter screening queue.
+          </p>
+        </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 32, marginBottom: 16 }}>
+        {/* Two-Column Layout: Situation Snapshot | Intelligent Forecast */}
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 40, marginBottom: 32 }}>
+          {/* Left: Situation Snapshot */}
           <div>
-            <div style={{ marginBottom: 16 }}>
-              <p style={{ fontSize: 13, color: '#64748B', margin: '0 0 4px 0' }}>Status</p>
-              <p style={{ fontSize: 15, fontWeight: 500, color: '#0F172A', margin: 0 }}>
-                Application received
-              </p>
-            </div>
-            <div style={{ marginBottom: 16 }}>
-              <p style={{ fontSize: 13, color: '#64748B', margin: '0 0 4px 0' }}>Likely state</p>
-              <p style={{ fontSize: 15, fontWeight: 500, color: '#0F172A', margin: 0 }}>
-                In screening queue
-              </p>
-            </div>
-            <div>
-              <p style={{ fontSize: 13, color: '#64748B', margin: '0 0 4px 0' }}>Submitted</p>
-              <p style={{ fontSize: 15, fontWeight: 500, color: '#0F172A', margin: 0 }}>
-                {submittedDate}
-              </p>
+            <p
+              style={{
+                fontSize: 12,
+                fontWeight: 600,
+                color: '#94A3B8',
+                margin: '0 0 16px 0',
+                textTransform: 'uppercase',
+                letterSpacing: '0.5px',
+              }}
+            >
+              Situation Snapshot
+            </p>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+              <div>
+                <p style={{ fontSize: 12, color: '#94A3B8', margin: '0 0 2px 0' }}>Status</p>
+                <p style={{ fontSize: 15, fontWeight: 500, color: '#0F172A', margin: 0 }}>
+                  Application received
+                </p>
+              </div>
+              <div>
+                <p style={{ fontSize: 12, color: '#94A3B8', margin: '0 0 2px 0' }}>Likely state</p>
+                <p style={{ fontSize: 15, fontWeight: 500, color: '#0F172A', margin: 0 }}>
+                  In screening queue
+                </p>
+              </div>
+              <div>
+                <p style={{ fontSize: 12, color: '#94A3B8', margin: '0 0 2px 0' }}>Submitted</p>
+                <p style={{ fontSize: 15, fontWeight: 500, color: '#0F172A', margin: 0 }}>
+                  {submittedDate}
+                </p>
+              </div>
+              <div>
+                <p style={{ fontSize: 12, color: '#94A3B8', margin: '0 0 2px 0' }}>Competition</p>
+                <p style={{ fontSize: 15, fontWeight: 500, color: '#0F172A', margin: 0 }}>
+                  Moderate
+                </p>
+              </div>
             </div>
           </div>
 
+          {/* Right: Intelligent Forecast */}
           <div>
-            <div style={{ marginBottom: 16 }}>
-              <p style={{ fontSize: 13, color: '#64748B', margin: '0 0 4px 0' }}>
-                Typical review time
-              </p>
-              <p style={{ fontSize: 15, fontWeight: 500, color: '#0F172A', margin: 0 }}>
-                5–7 days
-              </p>
-            </div>
-            <div style={{ marginBottom: 16 }}>
-              <p style={{ fontSize: 13, color: '#64748B', margin: '0 0 4px 0' }}>
-                Estimated response probability
-              </p>
-              <p style={{ fontSize: 15, fontWeight: 500, color: '#10B981', margin: 0 }}>
-                High
-              </p>
-            </div>
-            <div>
-              <p style={{ fontSize: 13, color: '#64748B', margin: '0 0 4px 0' }}>
-                Competition level
-              </p>
-              <p style={{ fontSize: 15, fontWeight: 500, color: '#0F172A', margin: 0 }}>
-                Moderate
-              </p>
+            <p
+              style={{
+                fontSize: 12,
+                fontWeight: 600,
+                color: '#94A3B8',
+                margin: '0 0 16px 0',
+                textTransform: 'uppercase',
+                letterSpacing: '0.5px',
+              }}
+            >
+              Intelligent Forecast
+            </p>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+              <div>
+                <p style={{ fontSize: 12, color: '#94A3B8', margin: '0 0 2px 0' }}>Typical review</p>
+                <p style={{ fontSize: 15, fontWeight: 500, color: '#0F172A', margin: 0 }}>
+                  5–7 days
+                </p>
+              </div>
+              <div>
+                <p style={{ fontSize: 12, color: '#94A3B8', margin: '0 0 2px 0' }}>Interview probability</p>
+                <p style={{ fontSize: 15, fontWeight: 500, color: '#10B981', margin: 0 }}>
+                  {interviewProbability}
+                </p>
+              </div>
+              <div>
+                <p style={{ fontSize: 12, color: '#94A3B8', margin: '0 0 2px 0' }}>Response chance</p>
+                <p style={{ fontSize: 15, fontWeight: 500, color: '#10B981', margin: 0 }}>
+                  High
+                </p>
+              </div>
+              <div>
+                <p style={{ fontSize: 12, color: '#94A3B8', margin: '0 0 2px 0' }}>Follow-up window opens</p>
+                <p style={{ fontSize: 15, fontWeight: 500, color: '#0F172A', margin: 0 }}>
+                  In {daysUntilFollowUp} days
+                </p>
+              </div>
             </div>
           </div>
         </div>
 
-        <p
-          style={{
-            fontSize: 12,
-            color: '#94A3B8',
-            fontStyle: 'italic',
-            margin: '16px 0 0 0',
-            paddingTop: 16,
-            borderTop: '1px solid #F1F5F9',
-          }}
-        >
-          These insights are based on similar roles and company patterns.
-        </p>
+        {/* Divider */}
+        <div style={{ height: '1px', background: '#E5E7EB', marginBottom: 32 }} />
+
+        {/* Bottom Section: Today's Recommendation + Primary Action */}
+        <div>
+          <p
+            style={{
+              fontSize: 12,
+              fontWeight: 600,
+              color: '#94A3B8',
+              margin: '0 0 12px 0',
+              textTransform: 'uppercase',
+              letterSpacing: '0.5px',
+            }}
+          >
+            Today's Recommendation
+          </p>
+          <p
+            style={{
+              fontSize: 15,
+              fontWeight: 500,
+              color: '#0F172A',
+              margin: '0 0 16px 0',
+              lineHeight: 1.5,
+            }}
+          >
+            Light preparation recommended. No follow-up action required yet.
+          </p>
+          <button
+            style={{
+              fontSize: 14,
+              fontWeight: 500,
+              color: '#2563EB',
+              background: '#F0F9FF',
+              border: '1px solid #BFDBFE',
+              borderRadius: 8,
+              padding: '10px 16px',
+              cursor: 'pointer',
+              transition: 'all 0.2s',
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: 6,
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.background = '#E0F2FE'
+              e.currentTarget.style.borderColor = '#7DD3FC'
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.background = '#F0F9FF'
+              e.currentTarget.style.borderColor = '#BFDBFE'
+            }}
+          >
+            Start 10-min screening prep
+            <span style={{ fontSize: 12 }}>→</span>
+          </button>
+        </div>
       </div>
 
-      {/* APPLICATION STRENGTH ASSESSMENT */}
+      {/* 2️⃣ APPLICATION FIT ANALYSIS — Streamlined Assessment */}
       <div
         style={{
           background: '#FFFFFF',
           border: '1px solid #E5E7EB',
           borderRadius: 12,
-          padding: 24,
+          padding: 28,
           boxShadow: '0 1px 3px rgba(0, 0, 0, 0.08)',
         }}
       >
@@ -190,182 +225,208 @@ export function ApplicationInsightsHub({
             fontSize: 16,
             fontWeight: 600,
             color: '#0F172A',
-            margin: '0 0 20px 0',
+            margin: '0 0 24px 0',
           }}
         >
-          Application Strength Assessment
+          Application Fit Analysis
         </h3>
 
-        <div style={{ display: 'flex', gap: 32, alignItems: 'flex-start', marginBottom: 24 }}>
+        {/* Horizontal Alignment Bar */}
+        <div style={{ marginBottom: 32 }}>
           <div
             style={{
               display: 'flex',
-              flexDirection: 'column',
+              justifyContent: 'space-between',
               alignItems: 'center',
-              justifyContent: 'center',
-              minWidth: 90,
-              opacity: 0.85,
+              marginBottom: 8,
+            }}
+          >
+            <p style={{ fontSize: 13, color: '#64748B', margin: 0 }}>Overall Alignment</p>
+            <p style={{ fontSize: 18, fontWeight: 700, color: '#2563EB', margin: 0 }}>
+              {alignmentScore}%
+            </p>
+          </div>
+          <div
+            style={{
+              height: 8,
+              background: '#E5E7EB',
+              borderRadius: 4,
+              overflow: 'hidden',
             }}
           >
             <div
               style={{
-                width: 90,
-                height: 90,
-                borderRadius: '50%',
-                background: 'conic-gradient(#2563EB 0deg, #2563EB 302.4deg, #E5E7EB 302.4deg, #E5E7EB 360deg)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                fontSize: 22,
-                fontWeight: 700,
-                color: '#2563EB',
-                marginBottom: 8,
+                height: '100%',
+                width: `${alignmentScore}%`,
+                background: 'linear-gradient(90deg, #2563EB, #0369A1)',
+                transition: 'width 0.3s ease',
+              }}
+            />
+          </div>
+        </div>
+
+        {/* Strengths & Gaps Layout */}
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 32, marginBottom: 28 }}>
+          {/* Strengths */}
+          <div>
+            <p
+              style={{
+                fontSize: 12,
+                fontWeight: 600,
+                color: '#10B981',
+                margin: '0 0 12px 0',
+                textTransform: 'uppercase',
               }}
             >
-              84%
-            </div>
-            <p style={{ fontSize: 12, fontWeight: 500, color: '#64748B', margin: 0 }}>
-              Strong Alignment
+              Your Strengths
             </p>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+              {['Skills alignment', 'Industry relevance'].map((item, idx) => (
+                <div
+                  key={idx}
+                  style={{
+                    display: 'flex',
+                    gap: 8,
+                    alignItems: 'center',
+                    fontSize: 14,
+                    color: '#0F172A',
+                  }}
+                >
+                  <span style={{ color: '#10B981', fontWeight: 600 }}>✓</span>
+                  <span>{item}</span>
+                </div>
+              ))}
+            </div>
           </div>
 
-          <div style={{ flex: 1 }}>
-            <div style={{ marginBottom: 16 }}>
-              <p style={{ fontSize: 13, color: '#64748B', margin: '0 0 4px 0' }}>Skills match</p>
-              <p style={{ fontSize: 15, fontWeight: 500, color: '#0F172A', margin: 0 }}>Strong</p>
-            </div>
-            <div style={{ marginBottom: 16 }}>
-              <p style={{ fontSize: 13, color: '#64748B', margin: '0 0 4px 0' }}>
-                Experience depth
-              </p>
-              <p style={{ fontSize: 15, fontWeight: 500, color: '#0F172A', margin: 0 }}>
-                Moderate
-              </p>
-            </div>
-            <div style={{ marginBottom: 16 }}>
-              <p style={{ fontSize: 13, color: '#64748B', margin: '0 0 4px 0' }}>
-                Industry relevance
-              </p>
-              <p style={{ fontSize: 15, fontWeight: 500, color: '#0F172A', margin: 0 }}>
-                Strong
-              </p>
-            </div>
-            <div>
-              <p style={{ fontSize: 13, color: '#64748B', margin: '0 0 4px 0' }}>Risk signals</p>
-              <p style={{ fontSize: 15, fontWeight: 500, color: '#F59E0B', margin: 0 }}>
-                Minor (limited internship experience)
-              </p>
+          {/* Gaps */}
+          <div>
+            <p
+              style={{
+                fontSize: 12,
+                fontWeight: 600,
+                color: '#F59E0B',
+                margin: '0 0 12px 0',
+                textTransform: 'uppercase',
+              }}
+            >
+              Your Gaps
+            </p>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+              {['Experience depth (moderate)'].map((item, idx) => (
+                <div
+                  key={idx}
+                  style={{
+                    display: 'flex',
+                    gap: 8,
+                    alignItems: 'center',
+                    fontSize: 14,
+                    color: '#0F172A',
+                  }}
+                >
+                  <span style={{ color: '#F59E0B', fontWeight: 600 }}>!</span>
+                  <span>{item}</span>
+                </div>
+              ))}
             </div>
           </div>
         </div>
 
-        <div
-          style={{
-            background: '#F8FAFC',
-            border: '1px solid #E2E8F0',
-            borderRadius: 8,
-            padding: 16,
-            marginBottom: 16,
-            display: 'grid',
-            gridTemplateColumns: '1fr 1fr',
-            gap: 16,
-          }}
-        >
-          <div>
-            <p style={{ fontSize: 12, color: '#64748B', margin: '0 0 6px 0', fontWeight: 600 }}>
-              Your strongest signal
-            </p>
-            <p style={{ fontSize: 14, fontWeight: 500, color: '#10B981', margin: 0 }}>
-              Skills alignment
-            </p>
-            <p style={{ fontSize: 12, color: '#64748B', margin: '4px 0 0 0' }}>
-              Your skillset closely matches job requirements
-            </p>
-          </div>
-          <div>
-            <p style={{ fontSize: 12, color: '#64748B', margin: '0 0 6px 0', fontWeight: 600 }}>
-              Your weakest signal
-            </p>
-            <p style={{ fontSize: 14, fontWeight: 500, color: '#F59E0B', margin: 0 }}>
-              Experience depth
-            </p>
-            <p style={{ fontSize: 12, color: '#64748B', margin: '4px 0 0 0' }}>
-              Limited experience in similar roles
-            </p>
-          </div>
-        </div>
-
+        {/* Smart Improvement Suggestion */}
         <div
           style={{
             background: '#FFFBEB',
             border: '2px solid #F59E0B',
             borderRadius: 10,
-            padding: 18,
-            marginBottom: 16,
-            boxShadow: '0 2px 8px rgba(245, 158, 11, 0.1)',
+            padding: 16,
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
           }}
         >
-          <p style={{ fontSize: 12, color: '#92400E', fontWeight: 600, margin: '0 0 6px 0' }}>
-            Recommended improvement
-          </p>
-          <p style={{ fontSize: 15, fontWeight: 600, color: '#B45309', margin: 0 }}>
-            Add 1 quantified internship impact
-          </p>
-          <p style={{ fontSize: 13, color: '#92400E', margin: '6px 0 0 0' }}>
-            This directly addresses your experience gap and increases fit by ~5%
-          </p>
+          <div>
+            <p style={{ fontSize: 12, color: '#92400E', fontWeight: 600, margin: '0 0 4px 0' }}>
+              Suggested improvement
+            </p>
+            <p style={{ fontSize: 14, fontWeight: 500, color: '#B45309', margin: 0 }}>
+              Add 1 quantified internship impact
+            </p>
+          </div>
+          <a
+            href="#"
+            style={{
+              fontSize: 13,
+              color: '#B45309',
+              fontWeight: 600,
+              textDecoration: 'none',
+              whiteSpace: 'nowrap',
+              marginLeft: 16,
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.textDecoration = 'underline'
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.textDecoration = 'none'
+            }}
+          >
+            Fix (5 min) →
+          </a>
         </div>
-
-        <a
-          href="#"
-          style={{
-            fontSize: 13,
-            color: '#2563EB',
-            textDecoration: 'none',
-            display: 'inline-block',
-            fontWeight: 500,
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.textDecoration = 'underline'
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.textDecoration = 'none'
-          }}
-        >
-          See all improvement suggestions
-        </a>
       </div>
 
-      {/* PREPARING FOR SCREENING */}
+      {/* 3️⃣ SCREENING PREP — Compact Action Card */}
       <div
         style={{
           background: '#FFFFFF',
           border: '1px solid #E5E7EB',
           borderRadius: 12,
-          padding: 24,
+          padding: 28,
           boxShadow: '0 1px 3px rgba(0, 0, 0, 0.08)',
         }}
       >
-        <h3
+        <div
           style={{
-            fontSize: 16,
-            fontWeight: 600,
-            color: '#0F172A',
-            margin: '0 0 8px 0',
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'flex-start',
+            marginBottom: 20,
           }}
         >
-          Preparing for screening
-        </h3>
+          <h3
+            style={{
+              fontSize: 16,
+              fontWeight: 600,
+              color: '#0F172A',
+              margin: 0,
+            }}
+          >
+            Preparing for screening
+          </h3>
+          <span
+            style={{
+              fontSize: 12,
+              fontWeight: 500,
+              color: '#94A3B8',
+              background: '#F8FAFC',
+              padding: '4px 12px',
+              borderRadius: 6,
+            }}
+          >
+            Est. 12 min
+          </span>
+        </div>
 
-        <p style={{ fontSize: 13, color: '#2563EB', fontWeight: 500, margin: '0 0 12px 0' }}>
-          Interview probability: {screeningProbability}
+        <p
+          style={{
+            fontSize: 13,
+            color: '#64748B',
+            margin: '0 0 14px 0',
+          }}
+        >
+          Recruiters typically ask:
         </p>
 
-        <p style={{ fontSize: 14, color: '#64748B', margin: '0 0 12px 0' }}>
-          Based on this role, recruiters typically ask:
-        </p>
-
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 12, marginBottom: 16 }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginBottom: 20 }}>
           {[
             'Why this company?',
             'Describe a data-driven decision you made.',
@@ -377,149 +438,158 @@ export function ApplicationInsightsHub({
                 fontSize: 14,
                 color: '#0F172A',
                 display: 'flex',
-                gap: 12,
-                alignItems: 'flex-start',
+                gap: 10,
               }}
             >
-              <span style={{ color: '#2563EB', fontWeight: 600, flexShrink: 0 }}>•</span>
+              <span style={{ color: '#2563EB', fontWeight: 600, flexShrink: 0 }}>
+                {idx + 1}.
+              </span>
               <span>{item}</span>
             </div>
           ))}
         </div>
 
-        <div
+        <button
           style={{
+            fontSize: 14,
+            fontWeight: 500,
+            color: '#2563EB',
             background: '#F0F9FF',
             border: '1px solid #BFDBFE',
             borderRadius: 8,
-            padding: 12,
-            textAlign: 'center',
+            padding: '10px 16px',
+            cursor: 'pointer',
+            transition: 'all 0.2s',
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: 6,
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.background = '#E0F2FE'
+            e.currentTarget.style.borderColor = '#7DD3FC'
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.background = '#F0F9FF'
+            e.currentTarget.style.borderColor = '#BFDBFE'
           }}
         >
-          <p style={{ fontSize: 13, fontWeight: 500, color: '#0369A1', margin: 0 }}>
-            Estimated prep time: 12 minutes
-          </p>
-        </div>
+          Practice answers
+          <span style={{ fontSize: 12 }}>→</span>
+        </button>
       </div>
 
-      {/* APPLICATION RECORD */}
+      {/* 4️⃣ SUBMISSION DETAILS — Collapsed by Default */}
       <div
         style={{
           background: '#FFFFFF',
           border: '1px solid #E5E7EB',
           borderRadius: 12,
-          padding: 24,
-          boxShadow: '0 1px 3px rgba(0, 0, 0, 0.08)',
+          overflow: 'hidden',
         }}
       >
-        <h3
+        <button
+          onClick={() => setShowSubmissionDetails(!showSubmissionDetails)}
           style={{
-            fontSize: 16,
+            width: '100%',
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            padding: 20,
+            background: 'transparent',
+            border: 'none',
+            cursor: 'pointer',
+            fontSize: 15,
             fontWeight: 600,
             color: '#0F172A',
-            margin: '0 0 20px 0',
+            transition: 'background 0.2s',
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.background = '#F8FAFC'
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.background = 'transparent'
           }}
         >
-          Application Record
-        </h3>
+          <span>Submission Details</span>
+          <span
+            style={{
+              fontSize: 12,
+              color: '#94A3B8',
+              transform: showSubmissionDetails ? 'rotate(180deg)' : 'rotate(0deg)',
+              transition: 'transform 0.3s',
+            }}
+          >
+            ↓
+          </span>
+        </button>
 
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 32 }}>
-          <div>
-            <div style={{ marginBottom: 16 }}>
-              <p style={{ fontSize: 13, color: '#64748B', margin: '0 0 4px 0' }}>
-                CV version submitted
-              </p>
-              <p style={{ fontSize: 15, fontWeight: 500, color: '#0F172A', margin: 0 }}>
-                v2.3 (Jan 25)
-              </p>
-            </div>
-            <div style={{ marginBottom: 16 }}>
-              <p style={{ fontSize: 13, color: '#64748B', margin: '0 0 4px 0' }}>
-                Cover letter version
-              </p>
-              <p style={{ fontSize: 15, fontWeight: 500, color: '#0F172A', margin: 0 }}>
-                Custom (Jan 27)
-              </p>
-            </div>
-            <div style={{ marginBottom: 16 }}>
-              <p style={{ fontSize: 13, color: '#64748B', margin: '0 0 4px 0' }}>
-                Job description snapshot
-              </p>
-              <p style={{ fontSize: 15, fontWeight: 500, color: '#0F172A', margin: 0 }}>
-                Captured (Jan 28)
-              </p>
-            </div>
+        {showSubmissionDetails && (
+          <div
+            style={{
+              padding: '0 20px 20px 20px',
+              borderTop: '1px solid #E5E7EB',
+              display: 'grid',
+              gridTemplateColumns: '1fr 1fr',
+              gap: 32,
+            }}
+          >
+            {/* Left Column */}
             <div>
-              <p style={{ fontSize: 13, color: '#64748B', margin: '0 0 4px 0' }}>
-                Salary range at submission
-              </p>
-              <p style={{ fontSize: 15, fontWeight: 500, color: '#2563EB', margin: 0, fontWeight: 700 }}>
-                {salaryRange}
-              </p>
+              <div style={{ marginBottom: 16 }}>
+                <p style={{ fontSize: 12, color: '#94A3B8', margin: '0 0 4px 0' }}>
+                  CV version
+                </p>
+                <p style={{ fontSize: 14, fontWeight: 500, color: '#0F172A', margin: 0 }}>
+                  v2.3 (Jan 25)
+                </p>
+              </div>
+              <div style={{ marginBottom: 16 }}>
+                <p style={{ fontSize: 12, color: '#94A3B8', margin: '0 0 4px 0' }}>
+                  Cover letter
+                </p>
+                <p style={{ fontSize: 14, fontWeight: 500, color: '#0F172A', margin: 0 }}>
+                  Custom (Jan 27)
+                </p>
+              </div>
+              <div>
+                <p style={{ fontSize: 12, color: '#94A3B8', margin: '0 0 4px 0' }}>
+                  Salary at submission
+                </p>
+                <p style={{ fontSize: 14, fontWeight: 600, color: '#2563EB', margin: 0 }}>
+                  {salaryRange}
+                </p>
+              </div>
+            </div>
+
+            {/* Right Column - Links */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+              {['Download CV', 'View cover letter', 'View job description'].map((label, idx) => (
+                <a
+                  key={idx}
+                  href="#"
+                  style={{
+                    fontSize: 13,
+                    color: '#2563EB',
+                    textDecoration: 'none',
+                    fontWeight: 500,
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 6,
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.color = '#1E40AF'
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.color = '#2563EB'
+                  }}
+                >
+                  {label}
+                  <span style={{ fontSize: 11 }}>→</span>
+                </a>
+              ))}
             </div>
           </div>
-
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-            {['Download CV', 'View cover letter', 'View job description'].map((label, idx) => (
-              <a
-                key={idx}
-                href="#"
-                style={{
-                  fontSize: 14,
-                  color: '#2563EB',
-                  textDecoration: 'none',
-                  fontWeight: 500,
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: 6,
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.color = '#1E40AF'
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.color = '#2563EB'
-                }}
-              >
-                {label}
-                <span style={{ fontSize: 12 }}>-&gt;</span>
-              </a>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      {/* FOLLOW-UP TIMING */}
-      <div
-        style={{
-          background: followUpWindowOpen ? '#F0FDF4' : '#F0F9FF',
-          border: `2px solid ${followUpWindowOpen ? '#86EFAC' : '#BFDBFE'}`,
-          borderRadius: 12,
-          padding: 20,
-        }}
-      >
-        <h4
-          style={{
-            fontSize: 14,
-            fontWeight: 600,
-            color: followUpWindowOpen ? '#166534' : '#0369A1',
-            margin: '0 0 8px 0',
-          }}
-        >
-          Follow-up window
-        </h4>
-        <p
-          style={{
-            fontSize: 15,
-            fontWeight: 500,
-            color: followUpWindowOpen ? '#15803D' : '#1E40AF',
-            margin: '0 0 4px 0',
-          }}
-        >
-          {followUpWindowOpen ? 'Ready to send' : `Opens in ${daysUntilFollowUp} days`}
-        </p>
-        <p style={{ fontSize: 13, color: followUpWindowOpen ? '#166534' : '#0369A1', margin: 0 }}>
-          Optimal timing: Day 5–7 after submission
-        </p>
+        )}
       </div>
     </div>
   )
