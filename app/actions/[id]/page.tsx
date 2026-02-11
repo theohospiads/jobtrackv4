@@ -5,6 +5,8 @@ import { useLanguage } from "@/components/language-provider"
 import { useState } from "react"
 import { TopNav } from "@/components/top-nav"
 import { StagePrepGuide } from "@/components/stage-preparation-guide"
+import { InterviewIntelligenceHub } from "@/components/interview-intelligence-hub"
+import { ApplicationStatusHub } from "@/components/application-status-hub"
 
 interface ActionJobData {
   id: string
@@ -585,12 +587,35 @@ export default function ActionDetailPage() {
           </div>
         </div>
 
-        {/* Stage Preparation Guide - NEW */}
+        {/* Stage Preparation Guide */}
         <StagePrepGuide
           currentStageIndex={currentStage}
           stageName={t(job.stages[currentStage]?.nameKey) || 'Current Stage'}
           stageStatus={job.stages[currentStage]?.status || 'current'}
         />
+
+        {/* Application Status Hub - Elite Status & Insights */}
+        <ApplicationStatusHub
+          currentStage={currentStage}
+          totalStages={job.totalStages}
+          stageName={t(job.stages[currentStage]?.nameKey) || 'Current Stage'}
+          appliedDate={job.appliedDateKey || 'Recently'}
+          company={job.companyName}
+          jobTitle={t(job.titleKey)}
+          recruiterSignals={job.recruiterSignals}
+        />
+
+        {/* Interview Intelligence Hub - Elite Guidance for Interview Stage */}
+        {currentStage >= 2 && (
+          <InterviewIntelligenceHub
+            currentStage={currentStage}
+            stageName={t(job.stages[currentStage]?.nameKey) || 'Current Stage'}
+            jobTitle={t(job.titleKey)}
+            companyName={job.companyName}
+            jobDescription={job.jobDescription}
+            interviewCount={interviewStages.length}
+          />
+        )}
 
         {/* Bottom Section - Salary and Action Button */}
         <div style={{ marginBottom: 32, display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginTop: 24, gap: 24 }}>
