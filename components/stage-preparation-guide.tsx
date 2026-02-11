@@ -51,11 +51,11 @@ const STAGE_ITEMS_CONFIG: Record<number, Array<{ key: string; labelKey: string; 
 const STAGE_NAMES = ['stage.applicationSubmitted', 'stage.applicationReview', 'stage.interview', 'stage.decision']
 
 export function StagePrepGuide({ currentStageIndex, stageName, stageStatus }: StagePrepGuideProps) {
+  // Early return BEFORE any hooks
+  if (stageStatus !== 'current') return null
+
   const { t } = useLanguage()
   const [checkedItems, setCheckedItems] = useState<Record<string, boolean>>({})
-
-  // Only show for current stage
-  if (stageStatus !== 'current') return null
 
   const itemsConfig = STAGE_ITEMS_CONFIG[currentStageIndex] || []
   
