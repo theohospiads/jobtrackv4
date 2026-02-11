@@ -28,10 +28,10 @@ export default function ActionsPage() {
 
   const jobCards = [
     {
-      title: "Product Analyst Intern",
-      company: "Acme Corp",
-      location: "Paris",
-      workType: "Hybrid",
+      titleKey: "opp.data.role.productAnalystIntern",
+      companyKey: "opp.data.company.acmeCorp",
+      locationKey: "opp.data.location.paris",
+      workTypeKey: "opp.data.workStyle.hybrid",
       appliedDate: t("opp.data.3daysAgo"),
       nextTasks: [
         { text: t("actions.data.followUpEmail"), urgency: 3 },
@@ -40,10 +40,10 @@ export default function ActionsPage() {
       urgency: t("actions.veryUrgent")
     },
     {
-      title: "Data Analyst",
-      company: "TechStart Inc",
-      location: "London",
-      workType: "Remote",
+      titleKey: "opp.data.role.dataAnalyst",
+      companyKey: "opp.data.company.techStart",
+      locationKey: "opp.data.location.london",
+      workTypeKey: "opp.data.workStyle.remote",
       appliedDate: t("opp.data.5daysAgo"),
       nextTasks: [
         { text: t("actions.data.codingChallenge"), urgency: 2 },
@@ -52,10 +52,10 @@ export default function ActionsPage() {
       urgency: t("actions.urgent")
     },
     {
-      title: "Business Analyst",
-      company: "DataFlow",
-      location: "New York",
-      workType: "On-site",
+      titleKey: "opp.data.role.businessAnalyst",
+      companyKey: "opp.data.company.dataFlow",
+      locationKey: "opp.data.location.newYork",
+      workTypeKey: "opp.data.workStyle.onSite",
       appliedDate: t("opp.data.2daysAgo"),
       nextTasks: [
         { text: t("actions.data.reviewRequirements"), urgency: 2 },
@@ -64,10 +64,10 @@ export default function ActionsPage() {
       urgency: t("actions.normal")
     },
     {
-      title: "UX Designer",
-      company: "Creative Studios",
-      location: "Berlin",
-      workType: "Remote",
+      titleKey: "opp.data.role.uxDesigner",
+      companyKey: "opp.data.company.creativeStudios",
+      locationKey: "opp.data.location.berlin",
+      workTypeKey: "opp.data.workStyle.remote",
       appliedDate: t("opp.data.1dayAgo"),
       nextTasks: [
         { text: t("actions.data.portfolioReview"), urgency: 1 },
@@ -76,10 +76,10 @@ export default function ActionsPage() {
       urgency: t("actions.urgent")
     },
     {
-      title: "Senior Developer",
-      company: "TechCorp",
-      location: "San Francisco",
-      workType: "Hybrid",
+      titleKey: "opp.data.role.seniorDeveloper",
+      companyKey: "opp.data.company.techCorp",
+      locationKey: "opp.data.location.sanFrancisco",
+      workTypeKey: "opp.data.workStyle.hybrid",
       appliedDate: t("opp.data.4daysAgo"),
       nextTasks: [
         { text: t("actions.data.phoneScreen"), urgency: 3 },
@@ -88,10 +88,10 @@ export default function ActionsPage() {
       urgency: t("actions.veryUrgent")
     },
     {
-      title: "Marketing Manager",
-      company: "Growth Labs",
-      location: "Boston",
-      workType: "Remote",
+      titleKey: "opp.data.role.marketingManager",
+      companyKey: "opp.data.company.growthLabs",
+      locationKey: "opp.data.location.boston",
+      workTypeKey: "opp.data.workStyle.remote",
       appliedDate: t("opp.data.6daysAgo"),
       nextTasks: [
         { text: t("actions.data.caseStudy"), urgency: 1 },
@@ -322,7 +322,7 @@ export default function ActionsPage() {
                     margin: 0
                   }}
                 >
-                  {card.title}
+                  {t(card.titleKey)}
                 </h3>
                 
                 {/* Urgency Badge */}
@@ -350,7 +350,7 @@ export default function ActionsPage() {
                   marginBottom: 12
                 }}
               >
-                {card.company} · {card.location} · {card.workType}
+                {t(card.companyKey)} · {t(card.locationKey)} · {t(card.workTypeKey)}
               </p>
 
               {/* When Applied */}

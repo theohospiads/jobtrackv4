@@ -491,7 +491,7 @@ export default function DashboardPage() {
                   </div>
                   <div>
                     <p className="text-sm font-semibold" style={{ color: "#0F172A" }}>{t("dashboard.productAnalystIntern")}</p>
-                    <p className="text-xs" style={{ color: "#64748B" }}>Acme Corp</p>
+                    <p className="text-xs" style={{ color: "#64748B" }}>{t("opp.data.company.acmeCorp")}</p>
                   </div>
                 </div>
                 <div
@@ -541,7 +541,7 @@ export default function DashboardPage() {
                   </div>
                   <div>
                     <p className="text-sm font-semibold" style={{ color: "#0F172A" }}>{t("dashboard.dataAnalyst")}</p>
-                    <p className="text-xs" style={{ color: "#64748B" }}>TechStart Inc</p>
+                    <p className="text-xs" style={{ color: "#64748B" }}>{t("opp.data.company.techStart")}</p>
                   </div>
                 </div>
                 <div

@@ -2,10 +2,12 @@
 
 import { useState } from "react"
 import { useAuth } from "@/components/auth-provider"
+import { useLanguage } from "@/components/language-provider"
 import Link from "next/link"
 
 export default function SignUpPage() {
   const { signUp } = useAuth()
+  const { t, language, setLanguage } = useLanguage()
   const [name, setName] = useState("")
   const [email, setEmail] = useState("")
   const [isLoading, setIsLoading] = useState(false)
@@ -74,7 +76,7 @@ export default function SignUpPage() {
             </span>
           </div>
           <h1 style={{ fontSize: "28px", fontWeight: "600", color: "var(--text-primary)", margin: 0 }}>
-            Start Your Search
+            {t("signup.title")}
           </h1>
           <p
             style={{
@@ -84,7 +86,7 @@ export default function SignUpPage() {
               lineHeight: "1.6",
             }}
           >
-            Create an account to track your job search and get matched with opportunities.
+            {t("signup.subtitle")}
           </p>
         </div>
 
@@ -102,14 +104,14 @@ export default function SignUpPage() {
                 letterSpacing: "0.5px",
               }}
             >
-              Full Name
+              {t("signup.fullName")}
             </label>
             <input
               id="name"
               type="text"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              placeholder="John Doe"
+              placeholder={t("signup.namePlaceholder")}
               disabled={isLoading}
               style={{
                 padding: "12px 16px",
@@ -138,14 +140,14 @@ export default function SignUpPage() {
                 letterSpacing: "0.5px",
               }}
             >
-              Email Address
+              {t("signup.emailAddress")}
             </label>
             <input
               id="email"
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              placeholder="john@example.com"
+              placeholder={t("signup.emailPlaceholder")}
               disabled={isLoading}
               style={{
                 padding: "12px 16px",
@@ -160,6 +162,61 @@ export default function SignUpPage() {
               onFocus={(e) => (e.currentTarget.style.borderColor = "var(--primary-500)")}
               onBlur={(e) => (e.currentTarget.style.borderColor = "var(--border-default)")}
             />
+          </div>
+
+          {/* Language Selector */}
+          <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+            <label
+              style={{
+                fontSize: "13px",
+                fontWeight: "600",
+                color: "var(--text-primary)",
+                textTransform: "uppercase",
+                letterSpacing: "0.5px",
+              }}
+            >
+              {t("signup.language")}
+            </label>
+            <div style={{ display: "flex", gap: "10px" }}>
+              <button
+                type="button"
+                onClick={() => setLanguage("en")}
+                style={{
+                  flex: 1,
+                  padding: "12px 16px",
+                  borderRadius: "10px",
+                  border: language === "en" ? "2px solid var(--primary-600)" : "1px solid var(--border-default)",
+                  background: language === "en" ? "var(--primary-50, #EFF6FF)" : "var(--bg-card)",
+                  fontSize: "14px",
+                  fontWeight: language === "en" ? "600" : "400",
+                  color: language === "en" ? "var(--primary-700, #1D4ED8)" : "var(--text-primary)",
+                  cursor: "pointer",
+                  transition: "all 120ms ease",
+                  fontFamily: "inherit",
+                }}
+              >
+                {t("signup.langEnglish")}
+              </button>
+              <button
+                type="button"
+                onClick={() => setLanguage("fr")}
+                style={{
+                  flex: 1,
+                  padding: "12px 16px",
+                  borderRadius: "10px",
+                  border: language === "fr" ? "2px solid var(--primary-600)" : "1px solid var(--border-default)",
+                  background: language === "fr" ? "var(--primary-50, #EFF6FF)" : "var(--bg-card)",
+                  fontSize: "14px",
+                  fontWeight: language === "fr" ? "600" : "400",
+                  color: language === "fr" ? "var(--primary-700, #1D4ED8)" : "var(--text-primary)",
+                  cursor: "pointer",
+                  transition: "all 120ms ease",
+                  fontFamily: "inherit",
+                }}
+              >
+                {t("signup.langFrench")}
+              </button>
+            </div>
           </div>
 
           {/* Submit Button */}
@@ -190,7 +247,7 @@ export default function SignUpPage() {
               }
             }}
           >
-            {isLoading ? "Creating account..." : "Create Account"}
+            {isLoading ? t("signup.creating") : t("signup.createAccount")}
           </button>
         </form>
 
@@ -203,7 +260,7 @@ export default function SignUpPage() {
             margin: 0,
           }}
         >
-          By creating an account, you agree to our{" "}
+          {t("signup.terms")}{" "}
           <Link
             href="#"
             style={{
@@ -212,7 +269,7 @@ export default function SignUpPage() {
               fontWeight: "600",
             }}
           >
-            Terms of Service
+            {t("signup.termsLink")}
           </Link>
         </p>
       </div>

@@ -3,230 +3,310 @@
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { useAuth } from '@/components/auth-provider'
+import { useLanguage } from '@/components/language-provider'
+import { LocationPicker } from '@/components/location-picker'
 
 type ProfileType = 'student' | 'employed' | 'job-seeker' | 'career-change' | null
 
 type Question = {
   id: string
-  question: string
-  subtitle: string
-  type: 'choice' | 'input'
-  options?: { label: string; value: string; hint?: string }[]
-  placeholder?: string
+  questionKey: string
+  subtitleKey: string
+  type: 'choice' | 'input' | 'location'
+  options?: { labelKey: string; value: string; hintKey?: string }[]
+  placeholderKey?: string
   recommended?: string
-}
-
-const PROFILE_SELECTION: Question = {
-  id: 'profile_type',
-  question: 'What describes you best?',
-  subtitle: 'We will customize your job search experience',
-  type: 'choice',
-  options: [
-    { label: 'Student', value: 'student', hint: 'Studying, looking for internship or entry-level' },
-    { label: 'Employed', value: 'employed', hint: 'Currently working, open to new opportunities' },
-    { label: 'Looking for a job', value: 'job-seeker', hint: 'Not currently working, actively searching' },
-    { label: 'Career change', value: 'career-change', hint: 'Transitioning to a new field or role' },
-  ],
-}
-
-const ADAPTIVE_QUESTIONS: Record<ProfileType, Question[]> = {
-  student: [
-    {
-      id: 'field_of_study',
-      question: 'What is your field of study?',
-      subtitle: 'Help us find the best opportunities for you',
-      type: 'input',
-      placeholder: 'e.g. Computer Science, Business, Design...',
-    },
-    {
-      id: 'graduation',
-      question: 'When do you graduate?',
-      subtitle: 'We will prioritize opportunities that fit your timeline',
-      type: 'choice',
-      options: [
-        { label: 'This year', value: 'this-year' },
-        { label: 'Next year', value: 'next-year' },
-        { label: 'More than 1 year away', value: 'later' },
-      ],
-      recommended: 'this-year',
-    },
-    {
-      id: 'target_role',
-      question: 'What type of role interests you?',
-      subtitle: 'Internship, entry-level, or both?',
-      type: 'choice',
-      options: [
-        { label: 'Internship (temporary)', value: 'internship' },
-        { label: 'Entry-level full-time', value: 'entry-level' },
-        { label: 'Both options', value: 'both' },
-      ],
-      recommended: 'both',
-    },
-    {
-      id: 'work_location',
-      question: 'Where would you like to work?',
-      subtitle: 'Remote, on-site, or flexible?',
-      type: 'choice',
-      options: [
-        { label: 'Remote only', value: 'remote' },
-        { label: 'On-site', value: 'on-site' },
-        { label: 'Hybrid or flexible', value: 'hybrid' },
-      ],
-      recommended: 'remote',
-    },
-  ],
-  employed: [
-    {
-      id: 'current_role',
-      question: "What's your current role?",
-      subtitle: 'Help us understand your background',
-      type: 'input',
-      placeholder: 'e.g. Senior Product Manager, Data Scientist...',
-    },
-    {
-      id: 'experience',
-      question: 'Years of experience in your field?',
-      subtitle: 'This helps us match senior-level opportunities',
-      type: 'choice',
-      options: [
-        { label: '0-2 years', value: '0-2' },
-        { label: '2-5 years', value: '2-5' },
-        { label: '5-10 years', value: '5-10' },
-        { label: '10+ years', value: '10+' },
-      ],
-    },
-    {
-      id: 'looking_for',
-      question: 'What are you looking for?',
-      subtitle: 'Similar role, growth, or change?',
-      type: 'choice',
-      options: [
-        { label: 'Similar role at better company', value: 'similar' },
-        { label: 'Growth/promotion opportunity', value: 'growth' },
-        { label: 'Career change or pivot', value: 'change' },
-      ],
-      recommended: 'growth',
-    },
-    {
-      id: 'work_location',
-      question: 'Work location preference?',
-      subtitle: 'Remote, on-site, or flexible?',
-      type: 'choice',
-      options: [
-        { label: 'Remote only', value: 'remote' },
-        { label: 'On-site', value: 'on-site' },
-        { label: 'Flexible (no preference)', value: 'flexible' },
-      ],
-      recommended: 'remote',
-    },
-    {
-      id: 'salary_expectations',
-      question: 'Salary expectations?',
-      subtitle: 'Helps us prioritize opportunities within your range',
-      type: 'choice',
-      options: [
-        { label: '$80k - $120k', value: '80-120' },
-        { label: '$120k - $180k', value: '120-180' },
-        { label: '$180k - $250k', value: '180-250' },
-        { label: '$250k+', value: '250+' },
-      ],
-    },
-  ],
-  'job-seeker': [
-    {
-      id: 'target_role',
-      question: 'What role are you targeting?',
-      subtitle: 'Your primary job search focus',
-      type: 'input',
-      placeholder: 'e.g. Product Manager, Data Analyst...',
-    },
-    {
-      id: 'years_experience',
-      question: 'Years of experience?',
-      subtitle: 'Total professional experience',
-      type: 'choice',
-      options: [
-        { label: '0-2 years', value: '0-2' },
-        { label: '2-5 years', value: '2-5' },
-        { label: '5-10 years', value: '5-10' },
-        { label: '10+ years', value: '10+' },
-      ],
-    },
-    {
-      id: 'urgency',
-      question: 'How urgently do you need a job?',
-      subtitle: 'This helps prioritize your recommendations',
-      type: 'choice',
-      options: [
-        { label: 'Immediately (within 1 month)', value: 'urgent' },
-        { label: 'Soon (1-3 months)', value: 'soon' },
-        { label: 'Not urgent (3+ months)', value: 'flexible' },
-      ],
-      recommended: 'soon',
-    },
-    {
-      id: 'work_location',
-      question: 'Where do you want to work?',
-      subtitle: 'Remote, on-site, or flexible?',
-      type: 'choice',
-      options: [
-        { label: 'Remote only', value: 'remote' },
-        { label: 'On-site', value: 'on-site' },
-        { label: 'Flexible (no preference)', value: 'flexible' },
-      ],
-      recommended: 'remote',
-    },
-  ],
-  'career-change': [
-    {
-      id: 'previous_role',
-      question: 'What was your previous role?',
-      subtitle: 'Help us highlight transferable skills',
-      type: 'input',
-      placeholder: 'e.g. Marketing Manager, Software Engineer...',
-    },
-    {
-      id: 'target_role',
-      question: "What's your new target role?",
-      subtitle: 'What field are you pivoting to?',
-      type: 'input',
-      placeholder: 'e.g. Product Manager, Data Science...',
-    },
-    {
-      id: 'relevant_experience',
-      question: 'Do you have experience in the new field?',
-      subtitle: 'Internship, projects, or transition years?',
-      type: 'choice',
-      options: [
-        { label: 'No experience yet', value: 'none' },
-        { label: 'Some related experience', value: 'some' },
-        { label: 'Yes, significant experience', value: 'significant' },
-      ],
-    },
-    {
-      id: 'work_location',
-      question: 'Work location preference?',
-      subtitle: 'Remote, on-site, or flexible?',
-      type: 'choice',
-      options: [
-        { label: 'Remote only', value: 'remote' },
-        { label: 'On-site', value: 'on-site' },
-        { label: 'Flexible (no preference)', value: 'flexible' },
-      ],
-      recommended: 'remote',
-    },
-  ],
-  null: [],
 }
 
 export default function OnboardingPage() {
   const router = useRouter()
   const { updateProfile } = useAuth()
+  const { t } = useLanguage()
   const [profileType, setProfileType] = useState<ProfileType>(null)
   const [currentStep, setCurrentStep] = useState(0)
   const [answers, setAnswers] = useState<Record<string, string>>({})
   const [isSubmitting, setIsSubmitting] = useState(false)
-  const [fadeIn, setFadeIn] = useState(true)
+  const [fadeIn, setFadeIn] = useState(false)
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => {
+    setMounted(true)
+    setFadeIn(true)
+  }, [])
+
+  const PROFILE_SELECTION: Question = {
+    id: 'profile_type',
+    questionKey: 'onboarding.whatDescribes',
+    subtitleKey: 'onboarding.customizeSearch',
+    type: 'choice',
+    options: [
+      { labelKey: 'onboarding.student', value: 'student', hintKey: 'onboarding.studentHint' },
+      { labelKey: 'onboarding.employed', value: 'employed', hintKey: 'onboarding.employedHint' },
+      { labelKey: 'onboarding.jobSeeker', value: 'job-seeker', hintKey: 'onboarding.jobSeekerHint' },
+      { labelKey: 'onboarding.careerChange', value: 'career-change', hintKey: 'onboarding.careerChangeHint' },
+    ],
+  }
+
+  const ADAPTIVE_QUESTIONS: Record<string, Question[]> = {
+    student: [
+      {
+        id: 'field_of_study',
+        questionKey: 'onboarding.fieldOfStudy',
+        subtitleKey: 'onboarding.fieldOfStudySub',
+        type: 'input',
+        placeholderKey: 'onboarding.fieldPlaceholder',
+      },
+      {
+        id: 'graduation',
+        questionKey: 'onboarding.graduation',
+        subtitleKey: 'onboarding.graduationSub',
+        type: 'choice',
+        options: [
+          { labelKey: 'onboarding.thisYear', value: 'this-year' },
+          { labelKey: 'onboarding.nextYear', value: 'next-year' },
+          { labelKey: 'onboarding.later', value: 'later' },
+        ],
+        recommended: 'this-year',
+      },
+      {
+        id: 'target_role',
+        questionKey: 'onboarding.targetRole',
+        subtitleKey: 'onboarding.targetRoleSub',
+        type: 'choice',
+        options: [
+          { labelKey: 'onboarding.internship', value: 'internship' },
+          { labelKey: 'onboarding.entryLevel', value: 'entry-level' },
+          { labelKey: 'onboarding.bothOptions', value: 'both' },
+        ],
+        recommended: 'both',
+      },
+      {
+        id: 'work_location',
+        questionKey: 'onboarding.workLocation',
+        subtitleKey: 'onboarding.workLocationSub',
+        type: 'choice',
+        options: [
+          { labelKey: 'onboarding.remoteOnly', value: 'remote' },
+          { labelKey: 'onboarding.onSite', value: 'on-site' },
+          { labelKey: 'onboarding.hybridFlexible', value: 'hybrid' },
+        ],
+        recommended: 'remote',
+      },
+      {
+        id: 'contract_type',
+        questionKey: 'onboarding.contractType',
+        subtitleKey: 'onboarding.contractTypeSub',
+        type: 'choice',
+        options: [
+          { labelKey: 'onboarding.contractInternship', value: 'internship', hintKey: 'onboarding.contractInternshipHint' },
+          { labelKey: 'onboarding.contractCDD', value: 'cdd', hintKey: 'onboarding.contractCDDHint' },
+          { labelKey: 'onboarding.contractCDI', value: 'cdi', hintKey: 'onboarding.contractCDIHint' },
+          { labelKey: 'onboarding.contractAny', value: 'any', hintKey: 'onboarding.contractAnyHint' },
+        ],
+      },
+      {
+        id: 'job_location',
+        questionKey: 'onboarding.jobLocation',
+        subtitleKey: 'onboarding.jobLocationSub',
+        type: 'location',
+      },
+    ],
+    employed: [
+      {
+        id: 'current_role',
+        questionKey: 'onboarding.currentRole',
+        subtitleKey: 'onboarding.currentRoleSub',
+        type: 'input',
+        placeholderKey: 'onboarding.currentRolePlaceholder',
+      },
+      {
+        id: 'experience',
+        questionKey: 'onboarding.experience',
+        subtitleKey: 'onboarding.experienceSub',
+        type: 'choice',
+        options: [
+          { labelKey: 'onboarding.exp0_2', value: '0-2' },
+          { labelKey: 'onboarding.exp2_5', value: '2-5' },
+          { labelKey: 'onboarding.exp5_10', value: '5-10' },
+          { labelKey: 'onboarding.exp10plus', value: '10+' },
+        ],
+      },
+      {
+        id: 'looking_for',
+        questionKey: 'onboarding.lookingFor',
+        subtitleKey: 'onboarding.lookingForSub',
+        type: 'choice',
+        options: [
+          { labelKey: 'onboarding.similarRole', value: 'similar' },
+          { labelKey: 'onboarding.growthOpp', value: 'growth' },
+          { labelKey: 'onboarding.careerPivot', value: 'change' },
+        ],
+        recommended: 'growth',
+      },
+      {
+        id: 'work_location',
+        questionKey: 'onboarding.workLocationPref',
+        subtitleKey: 'onboarding.workLocationPrefSub',
+        type: 'choice',
+        options: [
+          { labelKey: 'onboarding.remoteOnly', value: 'remote' },
+          { labelKey: 'onboarding.onSite', value: 'on-site' },
+          { labelKey: 'onboarding.flexible', value: 'flexible' },
+        ],
+        recommended: 'remote',
+      },
+      {
+        id: 'salary_expectations',
+        questionKey: 'onboarding.salary',
+        subtitleKey: 'onboarding.salarySub',
+        type: 'choice',
+        options: [
+          { labelKey: '$80k - $120k', value: '80-120' },
+          { labelKey: '$120k - $180k', value: '120-180' },
+          { labelKey: '$180k - $250k', value: '180-250' },
+          { labelKey: '$250k+', value: '250+' },
+        ],
+      },
+      {
+        id: 'contract_type',
+        questionKey: 'onboarding.contractType',
+        subtitleKey: 'onboarding.contractTypeSub',
+        type: 'choice',
+        options: [
+          { labelKey: 'onboarding.contractCDI', value: 'cdi', hintKey: 'onboarding.contractCDIHint' },
+          { labelKey: 'onboarding.contractCDD', value: 'cdd', hintKey: 'onboarding.contractCDDHint' },
+          { labelKey: 'onboarding.contractFreelance', value: 'freelance', hintKey: 'onboarding.contractFreelanceHint' },
+          { labelKey: 'onboarding.contractAny', value: 'any', hintKey: 'onboarding.contractAnyHint' },
+        ],
+      },
+      {
+        id: 'job_location',
+        questionKey: 'onboarding.jobLocation',
+        subtitleKey: 'onboarding.jobLocationSub',
+        type: 'location',
+      },
+    ],
+    'job-seeker': [
+      {
+        id: 'target_role',
+        questionKey: 'onboarding.targetRoleSeeker',
+        subtitleKey: 'onboarding.targetRoleSeekerSub',
+        type: 'input',
+        placeholderKey: 'onboarding.targetRoleSeekerPlaceholder',
+      },
+      {
+        id: 'years_experience',
+        questionKey: 'onboarding.yearsExperience',
+        subtitleKey: 'onboarding.yearsExperienceSub',
+        type: 'choice',
+        options: [
+          { labelKey: 'onboarding.exp0_2', value: '0-2' },
+          { labelKey: 'onboarding.exp2_5', value: '2-5' },
+          { labelKey: 'onboarding.exp5_10', value: '5-10' },
+          { labelKey: 'onboarding.exp10plus', value: '10+' },
+        ],
+      },
+      {
+        id: 'urgency',
+        questionKey: 'onboarding.urgency',
+        subtitleKey: 'onboarding.urgencySub',
+        type: 'choice',
+        options: [
+          { labelKey: 'onboarding.urgent', value: 'urgent' },
+          { labelKey: 'onboarding.soon', value: 'soon' },
+          { labelKey: 'onboarding.notUrgent', value: 'flexible' },
+        ],
+        recommended: 'soon',
+      },
+      {
+        id: 'work_location',
+        questionKey: 'onboarding.whereWork',
+        subtitleKey: 'onboarding.whereWorkSub',
+        type: 'choice',
+        options: [
+          { labelKey: 'onboarding.remoteOnly', value: 'remote' },
+          { labelKey: 'onboarding.onSite', value: 'on-site' },
+          { labelKey: 'onboarding.flexible', value: 'flexible' },
+        ],
+        recommended: 'remote',
+      },
+      {
+        id: 'contract_type',
+        questionKey: 'onboarding.contractType',
+        subtitleKey: 'onboarding.contractTypeSub',
+        type: 'choice',
+        options: [
+          { labelKey: 'onboarding.contractCDI', value: 'cdi', hintKey: 'onboarding.contractCDIHint' },
+          { labelKey: 'onboarding.contractCDD', value: 'cdd', hintKey: 'onboarding.contractCDDHint' },
+          { labelKey: 'onboarding.contractFreelance', value: 'freelance', hintKey: 'onboarding.contractFreelanceHint' },
+          { labelKey: 'onboarding.contractAny', value: 'any', hintKey: 'onboarding.contractAnyHint' },
+        ],
+      },
+      {
+        id: 'job_location',
+        questionKey: 'onboarding.jobLocation',
+        subtitleKey: 'onboarding.jobLocationSub',
+        type: 'location',
+      },
+    ],
+    'career-change': [
+      {
+        id: 'previous_role',
+        questionKey: 'onboarding.previousRole',
+        subtitleKey: 'onboarding.previousRoleSub',
+        type: 'input',
+        placeholderKey: 'onboarding.previousRolePlaceholder',
+      },
+      {
+        id: 'target_role',
+        questionKey: 'onboarding.newTargetRole',
+        subtitleKey: 'onboarding.newTargetRoleSub',
+        type: 'input',
+        placeholderKey: 'onboarding.newTargetRolePlaceholder',
+      },
+      {
+        id: 'relevant_experience',
+        questionKey: 'onboarding.relevantExp',
+        subtitleKey: 'onboarding.relevantExpSub',
+        type: 'choice',
+        options: [
+          { labelKey: 'onboarding.noExperience', value: 'none' },
+          { labelKey: 'onboarding.someExperience', value: 'some' },
+          { labelKey: 'onboarding.significantExperience', value: 'significant' },
+        ],
+      },
+      {
+        id: 'work_location',
+        questionKey: 'onboarding.workLocationPref',
+        subtitleKey: 'onboarding.workLocationPrefSub',
+        type: 'choice',
+        options: [
+          { labelKey: 'onboarding.remoteOnly', value: 'remote' },
+          { labelKey: 'onboarding.onSite', value: 'on-site' },
+          { labelKey: 'onboarding.flexible', value: 'flexible' },
+        ],
+        recommended: 'remote',
+      },
+      {
+        id: 'contract_type',
+        questionKey: 'onboarding.contractType',
+        subtitleKey: 'onboarding.contractTypeSub',
+        type: 'choice',
+        options: [
+          { labelKey: 'onboarding.contractCDI', value: 'cdi', hintKey: 'onboarding.contractCDIHint' },
+          { labelKey: 'onboarding.contractCDD', value: 'cdd', hintKey: 'onboarding.contractCDDHint' },
+          { labelKey: 'onboarding.contractFreelance', value: 'freelance', hintKey: 'onboarding.contractFreelanceHint' },
+          { labelKey: 'onboarding.contractAny', value: 'any', hintKey: 'onboarding.contractAnyHint' },
+        ],
+      },
+      {
+        id: 'job_location',
+        questionKey: 'onboarding.jobLocation',
+        subtitleKey: 'onboarding.jobLocationSub',
+        type: 'location',
+      },
+    ],
+  }
 
   // Get questions for current profile type
   const adaptiveQuestions = profileType ? ADAPTIVE_QUESTIONS[profileType] : []
@@ -234,15 +314,18 @@ export default function OnboardingPage() {
   const question = isProfileSelectionStep ? PROFILE_SELECTION : adaptiveQuestions[currentStep]
 
   // Calculate total steps correctly
-  // Profile selection (1) + adaptive questions based on profile type
   const getExpectedSteps = () => {
-    if (profileType === null) return 5 // Average of all profile types
+    if (profileType === null) return 5
     return adaptiveQuestions.length
   }
   
-  const totalSteps = 1 + getExpectedSteps() // 1 for profile selection + questions
+  const totalSteps = 1 + getExpectedSteps()
   const displayStep = profileType === null ? 1 : 1 + currentStep + 1
   const progress = (displayStep / totalSteps) * 100
+
+  const stepText = t("onboarding.step")
+    .replace("{current}", String(displayStep))
+    .replace("{total}", String(totalSteps))
 
   const handleProfileSelect = (value: string) => {
     setFadeIn(false)
@@ -276,14 +359,20 @@ export default function OnboardingPage() {
 
   const handleComplete = async () => {
     setIsSubmitting(true)
-    const finalAnswers = { ...answers, profile_type: profileType }
+    const finalAnswers = { ...answers, profile_type: profileType as string }
     updateProfile(finalAnswers)
     setTimeout(() => {
       router.push('/connect-accounts')
     }, 500)
   }
 
-  const canProceed = question.type === 'choice' || answers[question.id]?.trim().length > 0
+  const canProceed = question.type === 'choice' || question.type === 'location' || (answers[question.id]?.trim().length ?? 0) > 0
+
+  // Helper to resolve label - if key exists in translations use t(), otherwise show raw
+  const resolveLabel = (key: string) => {
+    const translated = t(key)
+    return translated !== key ? translated : key
+  }
 
   return (
     <div
@@ -339,7 +428,7 @@ export default function OnboardingPage() {
                 letterSpacing: '0.5px',
               }}
             >
-              Step {displayStep} of {totalSteps}
+              {stepText}
             </p>
           </div>
         </div>
@@ -356,7 +445,7 @@ export default function OnboardingPage() {
               letterSpacing: '-0.5px',
             }}
           >
-            {question.question}
+            {t(question.questionKey)}
           </h1>
           <p
             style={{
@@ -367,7 +456,7 @@ export default function OnboardingPage() {
               fontWeight: '400',
             }}
           >
-            {question.subtitle}
+            {t(question.subtitleKey)}
           </p>
         </div>
 
@@ -378,7 +467,7 @@ export default function OnboardingPage() {
               type="text"
               value={answers[question.id] || ''}
               onChange={(e) => handleInputChange(e.target.value)}
-              placeholder={question.placeholder}
+              placeholder={question.placeholderKey ? t(question.placeholderKey) : ''}
               onKeyDown={(e) => {
                 if (e.key === 'Enter' && canProceed) {
                   handleNext()
@@ -437,72 +526,97 @@ export default function OnboardingPage() {
             >
               {currentStep === adaptiveQuestions.length - 1
                 ? isSubmitting
-                  ? 'Setting up your profile...'
-                  : 'Complete Setup'
-                : 'Continue'}
+                  ? t('onboarding.settingUp')
+                  : t('onboarding.completeSetup')
+                : t('onboarding.continue')}
             </button>
           </div>
+        ) : question.type === 'location' ? (
+          <LocationPicker
+            onLocationSelect={(city, coords, radius) => {
+              setAnswers({
+                ...answers,
+                [`${question.id}_city`]: city,
+                [`${question.id}_coords`]: JSON.stringify(coords),
+                [`${question.id}_radius`]: radius,
+              })
+            }}
+            initialCity={answers[`${question.id}_city`] || ''}
+            initialRadius={answers[`${question.id}_radius`] || '15'}
+            onNext={handleNext}
+            isSubmitting={isSubmitting}
+            isLastQuestion={currentStep === adaptiveQuestions.length - 1}
+          />
         ) : (
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-            {question.options?.map((option, idx) => (
-              <button
-                key={option.value}
-                onClick={() =>
-                  isProfileSelectionStep
-                    ? handleProfileSelect(option.value)
-                    : handleChoice(option.value)
-                }
-                style={{
-                  padding: '14px 16px',
-                  borderRadius: '10px',
-                  border: '2px solid #E5E7EB',
-                  background: answers[question.id] === option.value ? '#EFF6FF' : '#FFFFFF',
-                  color: answers[question.id] === option.value ? '#0369A1' : '#0F172A',
-                  fontSize: '15px',
-                  fontWeight: answers[question.id] === option.value ? '600' : '500',
-                  cursor: 'pointer',
-                  transition: 'all 200ms ease',
-                  textAlign: 'left',
-                  borderColor: answers[question.id] === option.value ? '#2563EB' : '#E5E7EB',
-                  letterSpacing: '-0.2px',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  gap: '4px',
-                  animationDelay: `${idx * 50}ms`,
-                  animation: fadeIn ? 'slideUp 300ms ease forwards' : 'none',
-                  transform: fadeIn ? 'translateY(0)' : 'translateY(10px)',
-                  opacity: fadeIn ? 1 : 0.5,
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.borderColor = '#2563EB'
-                  if (answers[question.id] !== option.value) {
-                    e.currentTarget.style.background = '#F8FAFC'
-                    e.currentTarget.style.transform = 'translateY(-1px)'
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+            {question.options?.map((option, idx) => {
+              const isSelected = answers[question.id] === option.value
+              const isOdd = idx % 2 === 1
+              const altBg = isOdd ? '#EFF6FF' : '#FAFBFC'
+              const defaultBg = isSelected ? '#DBEAFE' : altBg
+              const defaultBorder = isSelected ? '#2563EB' : '#E5E7EB'
+
+              return (
+                <button
+                  key={option.value}
+                  suppressHydrationWarning
+                  onClick={() =>
+                    isProfileSelectionStep
+                      ? handleProfileSelect(option.value)
+                      : handleChoice(option.value)
                   }
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.borderColor =
-                    answers[question.id] === option.value ? '#2563EB' : '#E5E7EB'
-                  if (answers[question.id] !== option.value) {
-                    e.currentTarget.style.background = '#FFFFFF'
-                    e.currentTarget.style.transform = 'translateY(0)'
-                  }
-                }}
-              >
-                <span>{option.label}</span>
-                {option.hint && (
-                  <span
-                    style={{
-                      fontSize: '12px',
-                      color: answers[question.id] === option.value ? '#0369A1' : '#94A3B8',
-                      fontWeight: '400',
-                    }}
-                  >
-                    {option.hint}
-                  </span>
-                )}
-              </button>
-            ))}
+                  style={{
+                    padding: '18px 22px',
+                    borderRadius: '16px',
+                    border: `1px solid ${defaultBorder}`,
+                    background: mounted ? defaultBg : '#FFFFFF',
+                    color: isSelected ? '#1E40AF' : '#0F172A',
+                    fontSize: '15px',
+                    fontWeight: isSelected ? '600' : '500',
+                    cursor: 'pointer',
+                    transition: 'all 300ms cubic-bezier(0.34, 1.56, 0.64, 1)',
+                    textAlign: 'left' as const,
+                    letterSpacing: '-0.2px',
+                    display: 'flex',
+                    flexDirection: 'column' as const,
+                    gap: '5px',
+                    boxShadow: isSelected
+                      ? '0 4px 12px rgba(37, 99, 235, 0.15), 0 1px 3px rgba(37, 99, 235, 0.08)'
+                      : '0 4px 12px rgba(0, 0, 0, 0.08), 0 1px 3px rgba(0, 0, 0, 0.04)',
+                    opacity: mounted ? (fadeIn ? 1 : 0.5) : 1,
+                    transform: mounted ? (fadeIn ? 'translateY(0px)' : 'translateY(10px)') : 'translateY(0px)',
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.borderColor = isSelected ? '#2563EB' : '#CBD5E1'
+                    if (!isSelected) {
+                      e.currentTarget.style.transform = 'translateY(-4px)'
+                      e.currentTarget.style.boxShadow = '0 12px 32px rgba(0, 0, 0, 0.15), 0 4px 12px rgba(0, 0, 0, 0.08)'
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.borderColor = defaultBorder
+                    if (!isSelected) {
+                      e.currentTarget.style.transform = 'translateY(0px)'
+                      e.currentTarget.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.08), 0 1px 3px rgba(0, 0, 0, 0.04)'
+                    }
+                  }}
+                >
+                  <span>{resolveLabel(option.labelKey)}</span>
+                  {option.hintKey && (
+                    <span
+                      style={{
+                        fontSize: '13px',
+                        color: isSelected ? '#3B82F6' : '#64748B',
+                        fontWeight: '400',
+                        lineHeight: '1.5',
+                      }}
+                    >
+                      {t(option.hintKey)}
+                    </span>
+                  )}
+                </button>
+              )
+            })}
           </div>
         )}
 
@@ -524,9 +638,9 @@ export default function OnboardingPage() {
               fontWeight: '500',
             }}
           >
-            Takes just 60 seconds
+            {t('onboarding.takes60s')}
           </p>
-          <span style={{ color: '#E5E7EB' }}>•</span>
+          <span style={{ color: '#E5E7EB' }}>{'•'}</span>
           <p
             style={{
               fontSize: '12px',
@@ -535,7 +649,7 @@ export default function OnboardingPage() {
               fontWeight: '500',
             }}
           >
-            No payment required
+            {t('onboarding.noPayment')}
           </p>
         </div>
       </div>

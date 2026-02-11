@@ -4,13 +4,17 @@ import { TopNav } from "@/components/top-nav"
 import { useParams, useRouter } from "next/navigation"
 import { useState } from "react"
 import { useLanguage } from "@/components/language-provider"
+import { InterviewStagesTracker, InterviewRoundsSetup } from "@/components/interview-stages-tracker"
+import { StagePrepGuide } from "@/components/stage-preparation-guide"
+import { SalaryNegotiationGuide } from "@/components/salary-negotiation-guide"
+import { InterviewQuestionsGuide } from "@/components/interview-questions-guide"
 
 interface ActionJobData {
   id: string
-  title: string
-  company: string
-  location: string
-  workType: string
+  titleKey: string
+  companyKey: string
+  locationKey: string
+  workTypeKey: string
   appliedDateKey: string
   currentStage: number
   totalStages: number
@@ -18,6 +22,13 @@ interface ActionJobData {
   stages: {
     nameKey: string
     status: "completed" | "current" | "upcoming"
+    date?: string
+  }[]
+  interviewStages: {
+    id: number
+    status: "completed" | "current" | "upcoming"
+    notes: string
+    interviewer?: string
     date?: string
   }[]
   tasks: {
@@ -41,10 +52,10 @@ interface ActionJobData {
 const actionJobsData: Record<string, ActionJobData> = {
   "1": {
     id: "1",
-    title: "Product Analyst Intern",
-    company: "Acme Corp",
-    location: "Paris",
-    workType: "Hybrid",
+    titleKey: "opp.data.role.productAnalystIntern",
+    companyKey: "opp.data.company.acmeCorp",
+    locationKey: "opp.data.location.paris",
+    workTypeKey: "opp.data.workStyle.hybrid",
     appliedDateKey: "opp.data.3daysAgo",
     currentStage: 1,
     totalStages: 4,
@@ -54,6 +65,10 @@ const actionJobsData: Record<string, ActionJobData> = {
       { nameKey: "actionDetail.data.applicationReview", status: "current" },
       { nameKey: "actionDetail.data.interview", status: "upcoming" },
       { nameKey: "actionDetail.data.decision", status: "upcoming" }
+    ],
+    interviewStages: [
+      { id: 1, status: "upcoming", notes: "" },
+      { id: 2, status: "upcoming", notes: "" },
     ],
     tasks: [
       { textKey: "actionDetail.data.sendFollowUp", completed: false, duration: "15", impactKey: "actionDetail.data.sendFollowUpImpact" },
@@ -75,10 +90,10 @@ const actionJobsData: Record<string, ActionJobData> = {
   },
   "2": {
     id: "2",
-    title: "Data Analyst",
-    company: "TechStart Inc",
-    location: "London",
-    workType: "Remote",
+    titleKey: "opp.data.role.dataAnalyst",
+    companyKey: "opp.data.company.techStart",
+    locationKey: "opp.data.location.london",
+    workTypeKey: "opp.data.workStyle.remote",
     appliedDateKey: "opp.data.5daysAgo",
     currentStage: 2,
     totalStages: 4,
@@ -88,6 +103,10 @@ const actionJobsData: Record<string, ActionJobData> = {
       { nameKey: "actionDetail.data.applicationReview", status: "completed", date: "Jan 28, 2026" },
       { nameKey: "actionDetail.data.technicalAssessment", status: "current" },
       { nameKey: "actionDetail.data.finalInterview", status: "upcoming" }
+    ],
+    interviewStages: [
+      { id: 1, status: "completed", notes: "Discussed project architecture. Asked about scalability and performance optimization. Strong technical foundation required.", interviewer: "Sarah Chen", date: "2026-01-30" },
+      { id: 2, status: "current", notes: "" },
     ],
     tasks: [
       { textKey: "actionDetail.data.completeCoding", completed: false, duration: "30-45", impactKey: "actionDetail.data.completeCodingImpact" },
@@ -106,10 +125,10 @@ const actionJobsData: Record<string, ActionJobData> = {
   },
   "3": {
     id: "3",
-    title: "Business Analyst",
-    company: "DataFlow",
-    location: "New York",
-    workType: "On-site",
+    titleKey: "opp.data.role.businessAnalyst",
+    companyKey: "opp.data.company.dataFlow",
+    locationKey: "opp.data.location.newYork",
+    workTypeKey: "opp.data.workStyle.onSite",
     appliedDateKey: "opp.data.2daysAgo",
     currentStage: 1,
     totalStages: 3,
@@ -118,6 +137,9 @@ const actionJobsData: Record<string, ActionJobData> = {
       { nameKey: "actionDetail.data.applicationSubmitted", status: "completed", date: "Jan 29, 2026" },
       { nameKey: "actionDetail.data.screeningCall", status: "current" },
       { nameKey: "actionDetail.data.finalRound", status: "upcoming" }
+    ],
+    interviewStages: [
+      { id: 1, status: "current", notes: "" },
     ],
     tasks: [
       { textKey: "actionDetail.data.reviewJobReq", completed: false, duration: "15", impactKey: "actionDetail.data.reviewJobReqImpact" },
@@ -139,18 +161,18 @@ const actionJobsData: Record<string, ActionJobData> = {
 // Alternative jobs for the Plan B cards
 const alternativeJobs = [
   {
-    title: "Junior Data Analyst",
-    company: "DataFlow",
+    titleKey: "opp.data.role.juniorDataAnalyst",
+    companyKey: "opp.data.company.dataFlow",
     salary: "$65-75k",
   },
   {
-    title: "Analytics Associate",
-    company: "TechStart",
+    titleKey: "opp.data.role.analyticsAssociate",
+    companyKey: "opp.data.company.techStart",
     salary: "$70-80k",
   },
   {
-    title: "Business Intelligence Intern",
-    company: "InsightCorp",
+    titleKey: "opp.data.role.biIntern",
+    companyKey: "opp.data.company.insightCorp",
     salary: "$55-65k",
   },
 ]
@@ -161,18 +183,35 @@ export default function ActionDetailPage() {
   const { t } = useLanguage()
   const id = params.id as string
   const job = actionJobsData[id] || actionJobsData["1"]
+
+  // Early check - if no job, return loading before any hooks
+  if (!job) {
+    return (
+      <div style={{ background: "#F8FAFC", minHeight: "100vh", paddingBottom: 100 }}>
+        <TopNav />
+        <main style={{ maxWidth: "900px", margin: "0 auto", padding: "20px 16px", textAlign: "center", paddingTop: 100 }}>
+          <p style={{ color: "#64748B", fontSize: 16 }}>{t("common.loading") || "Loading..."}</p>
+        </main>
+      </div>
+    )
+  }
+
+  // All hooks must be called unconditionally after the early return check
   const [completedTasks, setCompletedTasks] = useState<Record<number, boolean>>(
     job.tasks.reduce((acc, _, i) => ({ ...acc, [i]: false }), {})
   )
+  const [interviewStages, setInterviewStages] = useState(job.interviewStages)
+  const [totalInterviewRounds, setTotalInterviewRounds] = useState(job.interviewStages.length)
   const [showHealthInfo, setShowHealthInfo] = useState(false)
+  const [currentStage, setCurrentStage] = useState(job.currentStage)
 
-  const progressPercentage = (job.currentStage / job.totalStages) * 100
+  const progressPercentage = (currentStage / job.totalStages) * 100
   const completedTaskCount = Object.values(completedTasks).filter(Boolean).length
   const taskCompletionPercent = (completedTaskCount / job.tasks.length) * 100
 
   // Application Health Score logic
   const getHealthScore = () => {
-    const stageBonus = (job.currentStage / job.totalStages) * 50
+    const stageBonus = (currentStage / job.totalStages) * 50
     const taskBonus = taskCompletionPercent * 0.3
     const score = stageBonus + taskBonus
     if (score > 75) return { score: "Strong", color: "#2563EB" }
@@ -233,12 +272,12 @@ export default function ActionDetailPage() {
           >
             {/* Job Title */}
             <h1 style={{ fontSize: 32, fontWeight: 700, color: "#0F172A", margin: "0 0 6px 0", lineHeight: "1.2", letterSpacing: "-0.5px" }}>
-              {job.title}
+              {t(job.titleKey)}
             </h1>
 
             {/* Company Info */}
             <p style={{ fontSize: 13, color: "#64748B", margin: "0 0 24px 0", fontWeight: 500 }}>
-              {job.company} · {job.location} · {job.workType}
+              {t(job.companyKey)} · {t(job.locationKey)} · {t(job.workTypeKey)}
             </p>
 
             {/* Current Stage */}
@@ -246,9 +285,46 @@ export default function ActionDetailPage() {
               <p style={{ fontSize: 11, fontWeight: 700, color: "#64748B", margin: "0 0 8px 0", textTransform: "uppercase", letterSpacing: "0.5px" }}>
                 {t("actionDetail.currentStage")}
               </p>
-              <p style={{ fontSize: 16, fontWeight: 600, color: "#0F172A", margin: 0 }}>
-                {job.stages[job.currentStage] ? t(job.stages[job.currentStage].nameKey) : ""}
-              </p>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12 }}>
+                <p style={{ fontSize: 16, fontWeight: 600, color: "#0F172A", margin: 0 }}>
+                  {job.stages[currentStage] ? t(job.stages[currentStage].nameKey) : ""}
+                </p>
+                <button
+                  onClick={() => {
+                    const nextStage = Math.min(currentStage + 1, job.totalStages - 1)
+                    setCurrentStage(nextStage)
+                  }}
+                  style={{
+                    padding: "8px 14px",
+                    fontSize: 12,
+                    fontWeight: 600,
+                    color: currentStage >= job.totalStages - 1 ? "#C4B5FD" : "#2563EB",
+                    background: "#FFFFFF",
+                    border: `1px solid ${currentStage >= job.totalStages - 1 ? "#E5E7EB" : "#BFDBFE"}`,
+                    borderRadius: 6,
+                    cursor: currentStage >= job.totalStages - 1 ? "not-allowed" : "pointer",
+                    transition: "all 0.2s",
+                    whiteSpace: "nowrap",
+                    flexShrink: 0,
+                  }}
+                  onMouseEnter={(e) => {
+                    if (currentStage < job.totalStages - 1) {
+                      e.currentTarget.style.background = "#EFF6FF"
+                      e.currentTarget.style.borderColor = "#93C5FD"
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    if (currentStage < job.totalStages - 1) {
+                      e.currentTarget.style.background = "#FFFFFF"
+                      e.currentTarget.style.borderColor = "#BFDBFE"
+                    }
+                  }}
+                  disabled={currentStage >= job.totalStages - 1}
+                  title={currentStage >= job.totalStages - 1 ? "Already at final stage" : "Move to next stage"}
+                >
+                  {t("actionDetail.nextStage") || "Next stage"}
+                </button>
+              </div>
             </div>
 
             {/* Progress Bar */}
@@ -283,6 +359,13 @@ export default function ActionDetailPage() {
             <p style={{ fontSize: 13, color: "#64748B", margin: 0, fontWeight: 500, lineHeight: "1.5" }}>
               <span style={{ fontWeight: 700, color: "#0F172A" }}>{t("actionDetail.whatToExpect")}</span> {t("actionDetail.typicalReview")} {t(job.recruiterSignals.reviewTimeKey)} • {t("actionDetail.ghostingRisk")}: {t(job.recruiterSignals.ghostingProbabilityKey)}
             </p>
+          </div>
+        )}
+
+        {/* Interview Tracker - Only shown when at interview stage or beyond */}
+        {currentStage >= 2 && job.stages.some((s: { nameKey: string; status: string }) => s.nameKey.includes("interview") || s.nameKey.includes("screening")) && (
+          <div style={{ marginBottom: 32 }}>
+            <InterviewStagesTracker stages={interviewStages} onStageUpdate={setInterviewStages} />
           </div>
         )}
 
@@ -352,88 +435,223 @@ export default function ActionDetailPage() {
                       }}
                     >
                       {job.stages.map(
-                        (stage: { status: string; nameKey: string; date?: string }, index: number) => (
-                          <div
-                            key={index}
-                            style={{
-                              display: "flex",
-                              flexDirection: "column",
-                              alignItems: "center",
-                              gap: 12,
-                            }}
-                          >
-                            {/* Circle */}
+                        (stage: { status: string; nameKey: string; date?: string }, index: number) => {
+                          const isInterviewStage = stage.nameKey.toLowerCase().includes("interview") || 
+                                                   stage.nameKey.toLowerCase().includes("screening")
+                          const displayInterviewStages = isInterviewStage && interviewStages.length > 0
+                          
+                          return (
                             <div
+                              key={index}
                               style={{
-                                width: 32,
-                                height: 32,
-                                borderRadius: "50%",
                                 display: "flex",
+                                flexDirection: "column",
                                 alignItems: "center",
-                                justifyContent: "center",
-                                flexShrink: 0,
-                                background:
-                                  stage.status === "completed" ? "#2563EB" : "#FFFFFF",
-                                border:
-                                  stage.status === "completed"
-                                    ? "2px solid #2563EB"
-                                    : stage.status === "current"
-                                      ? "2px solid #2563EB"
-                                      : "2px solid #E5E7EB",
-                                color:
-                                  stage.status === "completed"
-                                    ? "#FFFFFF"
-                                    : stage.status === "current"
-                                      ? "#2563EB"
-                                      : "#94A3B8",
-                                fontSize: 13,
-                                fontWeight: 600,
+                                gap: 12,
                               }}
                             >
-                              {index + 1}
-                            </div>
-
-                            {/* Label */}
-                            <div style={{ textAlign: "center" }}>
-                              <p
+                              {/* Main Circle */}
+                              <div
                                 style={{
-                                  fontSize: 12,
+                                  width: 32,
+                                  height: 32,
+                                  borderRadius: "50%",
+                                  display: "flex",
+                                  alignItems: "center",
+                                  justifyContent: "center",
+                                  flexShrink: 0,
+                                  background:
+                                    stage.status === "completed" ? "#2563EB" : "#FFFFFF",
+                                  border:
+                                    stage.status === "completed"
+                                      ? "2px solid #2563EB"
+                                      : stage.status === "current"
+                                        ? "2px solid #2563EB"
+                                        : "2px solid #E5E7EB",
                                   color:
-                                    stage.status === "upcoming" ? "#94A3B8" : "#0F172A",
-                                  margin: 0,
-                                  fontWeight: stage.status === "current" ? 600 : 400,
-                                  lineHeight: 1.4,
+                                    stage.status === "completed"
+                                      ? "#FFFFFF"
+                                      : stage.status === "current"
+                                        ? "#2563EB"
+                                        : "#94A3B8",
+                                  fontSize: 13,
+                                  fontWeight: 600,
+                                  position: "relative",
+                                  cursor: displayInterviewStages ? "pointer" : "default",
                                 }}
                               >
-                                {stage.status === "completed" ? t("actionDetail.your") : ""}
-                                {t(stage.nameKey)}
-                              </p>
-                              {stage.date && (
-                                <p
+                                {index + 1}
+                                
+                                {/* Interview badge indicator */}
+                                {displayInterviewStages && (
+                                  <div
+                                    style={{
+                                      position: "absolute",
+                                      top: -4,
+                                      right: -4,
+                                      width: 16,
+                                      height: 16,
+                                      borderRadius: "50%",
+                                      background: "#2563EB",
+                                      border: "2px solid #FFFFFF",
+                                      display: "flex",
+                                      alignItems: "center",
+                                      justifyContent: "center",
+                                      fontSize: 10,
+                                      color: "#FFFFFF",
+                                      fontWeight: 700,
+                                    }}
+                                    title={`${interviewStages.length} interview rounds`}
+                                  >
+                                    {interviewStages.length}
+                                  </div>
+                                )}
+                              </div>
+
+                              {/* Sub-interview stages - Show up to 3, then add + button */}
+                              {displayInterviewStages && (
+                                <div
                                   style={{
-                                    fontSize: 11,
-                                    color: "#64748B",
-                                    margin: "4px 0 0 0",
+                                    display: "flex",
+                                    gap: 6,
+                                    justifyContent: "center",
+                                    flexWrap: "wrap",
+                                    width: "100%",
                                   }}
                                 >
-                                  {stage.date}
-                                </p>
+                                  {interviewStages.slice(0, 3).map((interview: any, iIdx: number) => (
+                                    <div
+                                      key={iIdx}
+                                      style={{
+                                        width: 20,
+                                        height: 20,
+                                        borderRadius: "50%",
+                                        display: "flex",
+                                        alignItems: "center",
+                                        justifyContent: "center",
+                                        fontSize: 10,
+                                        fontWeight: 600,
+                                        background:
+                                          interview.status === "completed"
+                                            ? "#10B981"
+                                            : interview.status === "current"
+                                              ? "#F59E0B"
+                                              : "#E5E7EB",
+                                        color:
+                                          interview.status === "completed"
+                                            ? "#FFFFFF"
+                                            : interview.status === "current"
+                                              ? "#FFFFFF"
+                                              : "#94A3B8",
+                                        border:
+                                          interview.status === "completed"
+                                            ? "2px solid #10B981"
+                                            : interview.status === "current"
+                                              ? "2px solid #F59E0B"
+                                              : "2px solid #CBD5E1",
+                                        cursor: "pointer",
+                                        transition: "all 200ms ease",
+                                      }}
+                                      onMouseEnter={(e) => {
+                                        e.currentTarget.style.transform = "scale(1.2)"
+                                      }}
+                                      onMouseLeave={(e) => {
+                                        e.currentTarget.style.transform = "scale(1)"
+                                      }}
+                                      title={`Interview ${iIdx + 1}: ${interview.status}`}
+                                    >
+                                      {iIdx + 1}
+                                    </div>
+                                  ))}
+                                  
+                                  {/* Show + button if there are more than 3 rounds */}
+                                  {interviewStages.length > 3 && (
+                                    <div
+                                      style={{
+                                        width: 20,
+                                        height: 20,
+                                        borderRadius: "50%",
+                                        display: "flex",
+                                        alignItems: "center",
+                                        justifyContent: "center",
+                                        fontSize: 11,
+                                        fontWeight: 600,
+                                        background: "#94A3B8",
+                                        color: "#FFFFFF",
+                                        border: "2px solid #CBD5E1",
+                                        cursor: "pointer",
+                                        transition: "all 200ms ease",
+                                      }}
+                                      onMouseEnter={(e) => {
+                                        e.currentTarget.style.background = "#64748B"
+                                        e.currentTarget.style.transform = "scale(1.1)"
+                                      }}
+                                      onMouseLeave={(e) => {
+                                        e.currentTarget.style.background = "#94A3B8"
+                                        e.currentTarget.style.transform = "scale(1)"
+                                      }}
+                                      title={`${interviewStages.length - 3} more round${interviewStages.length - 3 > 1 ? 's' : ''}`}
+                                    >
+                                      +
+                                    </div>
+                                  )}
+                                </div>
                               )}
-                              {stage.status === "current" && (
+
+                              {/* Label */}
+                              <div style={{ textAlign: "center" }}>
                                 <p
                                   style={{
-                                    fontSize: 11,
-                                    color: "#2563EB",
-                                    margin: "4px 0 0 0",
-                                    fontWeight: 500,
+                                    fontSize: 12,
+                                    color:
+                                      stage.status === "upcoming" ? "#94A3B8" : "#0F172A",
+                                    margin: 0,
+                                    fontWeight: stage.status === "current" ? 600 : 400,
+                                    lineHeight: 1.4,
                                   }}
                                 >
+                                  {stage.status === "completed" ? t("actionDetail.your") : ""}
+                                  {t(stage.nameKey)}
+                                </p>
+                                {displayInterviewStages && (
+                                  <p
+                                    style={{
+                                      fontSize: 10,
+                                      color: "#64748B",
+                                      margin: "2px 0 0 0",
+                                      fontStyle: "italic",
+                                    }}
+                                  >
+                                    {interviewStages.length} {t('actionDetail.rounds')}
+                                  </p>
+                                )}
+                                {stage.date && (
+                                  <p
+                                    style={{
+                                      fontSize: 11,
+                                      color: "#64748B",
+                                      margin: "4px 0 0 0",
+                                    }}
+                                  >
+                                    {stage.date}
+                                  </p>
+                                )}
+                                {stage.status === "current" && (
+                                  <p
+                                    style={{
+                                      fontSize: 11,
+                                      color: "#2563EB",
+                                      margin: "4px 0 0 0",
+                                      fontWeight: 500,
+                                    }}
+                                    >
                                   {t("actionDetail.inProgress")}
                                 </p>
                               )}
                             </div>
                           </div>
                         )
+                      }
                       )}
                     </div>
                   </div>
@@ -443,61 +661,18 @@ export default function ActionDetailPage() {
           </div>
         </div>
 
-        {/* Tasks Section - Below Timeline */}
-        <div
-          style={{
-            background: "#FFFFFF",
-            border: "1px solid #E5E7EB",
-            borderRadius: 12,
-            padding: 24,
-            boxShadow: "0 4px 12px rgba(0, 0, 0, 0.08), 0 1px 3px rgba(0, 0, 0, 0.04)",
-            marginTop: 24,
-          }}
-        >
-          {/* Steps to Move Forward - Title */}
-          <h3 style={{ fontSize: 16, fontWeight: 600, color: "#0F172A", margin: "0 0 16px 0" }}>
-            {t("actionDetail.stepsForward")}
-          </h3>
+        {/* Stage Preparation Guide - NEW */}
+        <StagePrepGuide
+          currentStageIndex={currentStage}
+          stageName={t(job.stages[currentStage]?.nameKey) || 'Current Stage'}
+          stageStatus={job.stages[currentStage]?.status || 'current'}
+        />
 
-          {/* All tasks in single container */}
-          <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-            {job.tasks.map((task, index) => {
-              const actualIndex = job.tasks.indexOf(task)
-              return (
-                <div
-                  key={actualIndex}
-                  style={{
-                    display: "flex",
-                    alignItems: "flex-start",
-                    gap: 12,
-                    fontSize: 14,
-                    color: completedTasks[actualIndex] ? "#94A3B8" : "#0F172A",
-                    padding: "12px 16px",
-                    background: completedTasks[actualIndex] ? "#F1F5F9" : "#F8FAFC",
-                    borderRadius: 8,
-                    border: "1px solid #E5E7EB",
-                    transition: "all 0.2s",
-                  }}
-                >
-                  <input
-                    type="checkbox"
-                    checked={completedTasks[actualIndex] || false}
-                    onChange={(e) => setCompletedTasks({ ...completedTasks, [actualIndex]: e.target.checked })}
-                    style={{ width: 20, height: 20, cursor: "pointer", marginTop: 2, flexShrink: 0 }}
-                  />
-                  <div style={{ flex: 1 }}>
-                    <p style={{ margin: "0 0 4px 0", textDecoration: completedTasks[actualIndex] ? "line-through" : "none", fontWeight: 500 }}>
-                      {t(task.textKey)}
-                    </p>
-                    <p style={{ fontSize: 12, color: "#2563EB", margin: 0 }}>
-                      {t(task.impactKey)}
-                    </p>
-                  </div>
-                </div>
-              )
-            })}
-          </div>
-        </div>
+        {/* Interview Questions Guide */}
+        <InterviewQuestionsGuide />
+
+        {/* Salary Negotiation Guide */}
+        <SalaryNegotiationGuide salaryRange={job.salary} jobTitle={t(job.titleKey)} />
 
         {/* Bottom Section - Salary and Action Button */}
         <div style={{ marginBottom: 32, display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginTop: 24, gap: 24 }}>

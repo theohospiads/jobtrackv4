@@ -7,27 +7,27 @@ import { useLanguage } from "@/components/language-provider"
 
 type FitLevel = "strong" | "good" | "stretch"
 
-interface Opportunity {
+interface OpportunityI18n {
   id: string
-  roleTitle: string
-  company: string
-  location: string
-  workStyle: string
+  roleTitleKey: string
+  companyKey: string
+  locationKey: string
+  workStyleKey: string
   fitLevel: FitLevel
   fitStrength: number
   explanation: string
   metaSignals: string[]
-  estimatedTime?: string
   estimatedSalary?: string
+  estimatedTime?: string
 }
 
-const opportunities: Record<string, Opportunity> = {
+const opportunitiesI18n: Record<string, OpportunityI18n> = {
   "1": {
     id: "1",
-    roleTitle: "Product Analyst Intern",
-    company: "Acme Corp",
-    location: "Paris",
-    workStyle: "Hybrid",
+    roleTitleKey: "opp.data.role.productAnalystIntern",
+    companyKey: "opp.data.company.acmeCorp",
+    locationKey: "opp.data.location.paris",
+    workStyleKey: "opp.data.workStyle.hybrid",
     fitLevel: "strong",
     fitStrength: 92,
     explanation: "Your profile closely matches the role's requirements, and similar candidates received interviews here within 2 weeks.",
@@ -37,10 +37,10 @@ const opportunities: Record<string, Opportunity> = {
   },
   "2": {
     id: "2",
-    roleTitle: "Data Analyst",
-    company: "TechStart Inc",
-    location: "London",
-    workStyle: "Remote",
+    roleTitleKey: "opp.data.role.dataAnalyst",
+    companyKey: "opp.data.company.techStart",
+    locationKey: "opp.data.location.london",
+    workStyleKey: "opp.data.workStyle.remote",
     fitLevel: "strong",
     fitStrength: 88,
     explanation: "Your analytical skills and Python experience align perfectly with their needs.",
@@ -55,7 +55,7 @@ export default function OpportunityDetailPage() {
   const router = useRouter()
   const { t } = useLanguage()
   const id = params.id as string
-  const job = opportunities[id] || opportunities["1"]
+  const job = opportunitiesI18n[id] || opportunitiesI18n["1"]
 
   const strongMatchReasons = [
     "Your profile matches 92% of job requirements",
@@ -159,10 +159,10 @@ Required qualifications include strong knowledge of engine mechanics and operati
               {/* Left Column - Title & Company */}
               <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
                 <h1 style={{ fontSize: 28, fontWeight: 700, color: "#0F172A", margin: 0 }}>
-                  {job.roleTitle}
+                  {t(job.roleTitleKey)}
                 </h1>
                 <p style={{ fontSize: 16, color: "#64748B", margin: 0, fontWeight: 400 }}>
-                  {job.company} · {job.location} · {job.workStyle}
+                  {t(job.companyKey)} · {t(job.locationKey)} · {t(job.workStyleKey)}
                 </p>
               </div>
               
@@ -228,7 +228,7 @@ Required qualifications include strong knowledge of engine mechanics and operati
 
         {/* Hiring Transparency Cards Section */}
         <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 12, marginBottom: 32 }}>
-          {/* Ghosting Risk Card */}
+          {/* No Response Risk Card */}
           <div
             style={{
               background: "#FFFFFF",
@@ -324,6 +324,32 @@ Required qualifications include strong knowledge of engine mechanics and operati
           </div>
         </div>
 
+        {/* Job Description Section */}
+        <p style={{ fontSize: 14, fontWeight: 600, color: "#0F172A", margin: "0 0 12px 0" }}>
+          {t("oppDetail.jobDescription")}
+        </p>
+        <div
+          style={{
+            background: "#FFFFFF",
+            border: "1px solid #E5E7EB",
+            borderRadius: 12,
+            padding: 24,
+            marginBottom: 32,
+            boxShadow: "0 4px 12px rgba(0, 0, 0, 0.08), 0 1px 3px rgba(0, 0, 0, 0.04)",
+            transition: "box-shadow 0.3s ease",
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.boxShadow = "0 8px 24px rgba(0, 0, 0, 0.12), 0 2px 6px rgba(0, 0, 0, 0.06)"
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.boxShadow = "0 4px 12px rgba(0, 0, 0, 0.08), 0 1px 3px rgba(0, 0, 0, 0.04)"
+          }}
+        >
+          <p style={{ fontSize: 14, color: "#0F172A", lineHeight: 1.6, margin: 0, whiteSpace: "pre-line" }}>
+            {jobDescription}
+          </p>
+        </div>
+
         {/* Why It's a Strong Match Section */}
         <p style={{ fontSize: 14, fontWeight: 600, color: "#0F172A", margin: "0 0 12px 0" }}>
           {t("oppDetail.whyStrongMatch")}
@@ -381,9 +407,7 @@ Required qualifications include strong knowledge of engine mechanics and operati
                 </p>
               </div>
             </div>
-            <p style={{ fontSize: 12, color: "#64748B", margin: 0, fontStyle: "italic" }}>
-              {t("oppDetail.noNeed")}
-            </p>
+
           </div>
 
           {/* Missing Skills */}
@@ -630,52 +654,7 @@ Required qualifications include strong knowledge of engine mechanics and operati
           </button>
         </div>
 
-        {/* Job Information Section */}
-        <p style={{ fontSize: 14, fontWeight: 600, color: "#0F172A", margin: "0 0 12px 0" }}>
-          {t("oppDetail.jobInfo")}
-        </p>
-        <div
-          style={{
-            background: "#FFFFFF",
-            border: "1px solid #E5E7EB",
-            borderRadius: 12,
-            padding: 24,
-            marginBottom: 24,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            minHeight: 100,
-          }}
-        >
-          <button
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: 8,
-              padding: "12px 24px",
-              fontSize: 14,
-              fontWeight: 400,
-              color: "#2563EB",
-              background: "#FFFFFF",
-              border: "1px solid #2563EB",
-              borderRadius: 8,
-              cursor: "pointer",
-              transition: "all 0.2s",
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.background = "#F0F4F8";
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.background = "#FFFFFF";
-            }}
-            onClick={() => window.open("https://www.safran.fr", "_blank")}
-          >
-            {t("oppDetail.openOriginal")}
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M3 13H13V3H8M13 3L3 13" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
-          </button>
-        </div>
+
       </main>
     </div>
   )

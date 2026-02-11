@@ -6,20 +6,6 @@ import { useLanguage } from "@/components/language-provider"
 
 type FitLevel = "strong" | "good" | "stretch"
 
-interface Opportunity {
-  id: string
-  roleTitle: string
-  company: string
-  location: string
-  workStyle: string
-  fitLevel: FitLevel
-  fitStrength: number
-  explanation: string
-  metaSignals: string[]
-  estimatedTime?: string
-  estimatedSalary?: string
-}
-
 const fitStyleKeys: Record<FitLevel, string> = {
   strong: "opp.strongFit",
   good: "opp.goodFit",
@@ -32,10 +18,10 @@ const fitStyleKeys: Record<FitLevel, string> = {
 // - Max 1 "Stretch", only if explicitly labeled
 interface OpportunityData {
   id: string
-  roleTitle: string
-  company: string
-  location: string
-  workStyle: string
+  roleTitleKey: string
+  companyKey: string
+  locationKey: string
+  workStyleKey: string
   fitLevel: FitLevel
   fitStrength: number
   explanationKey: string
@@ -46,10 +32,10 @@ interface OpportunityData {
 const opportunitiesData: OpportunityData[] = [
   {
     id: "1",
-    roleTitle: "Product Analyst Intern",
-    company: "Acme Corp",
-    location: "Paris",
-    workStyle: "Hybrid",
+    roleTitleKey: "opp.data.role.productAnalystIntern",
+    companyKey: "opp.data.company.acmeCorp",
+    locationKey: "opp.data.location.paris",
+    workStyleKey: "opp.data.workStyle.hybrid",
     fitLevel: "strong",
     fitStrength: 92,
     explanationKey: "opp.data.explanation1",
@@ -58,10 +44,10 @@ const opportunitiesData: OpportunityData[] = [
   },
   {
     id: "2",
-    roleTitle: "Data Analyst",
-    company: "TechStart Inc",
-    location: "London",
-    workStyle: "Remote",
+    roleTitleKey: "opp.data.role.dataAnalyst",
+    companyKey: "opp.data.company.techStart",
+    locationKey: "opp.data.location.london",
+    workStyleKey: "opp.data.workStyle.remote",
     fitLevel: "strong",
     fitStrength: 88,
     explanationKey: "opp.data.explanation2",
@@ -70,10 +56,10 @@ const opportunitiesData: OpportunityData[] = [
   },
   {
     id: "3",
-    roleTitle: "Business Intelligence Associate",
-    company: "DataFlow",
-    location: "Berlin",
-    workStyle: "On-site",
+    roleTitleKey: "opp.data.role.biAssociate",
+    companyKey: "opp.data.company.dataFlow",
+    locationKey: "opp.data.location.berlin",
+    workStyleKey: "opp.data.workStyle.onSite",
     fitLevel: "good",
     fitStrength: 72,
     explanationKey: "opp.data.explanation3",
@@ -82,10 +68,10 @@ const opportunitiesData: OpportunityData[] = [
   },
   {
     id: "4",
-    roleTitle: "Junior Product Manager",
-    company: "Innovate Labs",
-    location: "Amsterdam",
-    workStyle: "Hybrid",
+    roleTitleKey: "opp.data.role.juniorPM",
+    companyKey: "opp.data.company.innovateLabs",
+    locationKey: "opp.data.location.amsterdam",
+    workStyleKey: "opp.data.workStyle.hybrid",
     fitLevel: "good",
     fitStrength: 65,
     explanationKey: "opp.data.explanation4",
@@ -94,10 +80,10 @@ const opportunitiesData: OpportunityData[] = [
   },
   {
     id: "5",
-    roleTitle: "Strategy Analyst",
-    company: "ConsultCo",
-    location: "Paris",
-    workStyle: "On-site",
+    roleTitleKey: "opp.data.role.strategyAnalyst",
+    companyKey: "opp.data.company.consultCo",
+    locationKey: "opp.data.location.paris",
+    workStyleKey: "opp.data.workStyle.onSite",
     fitLevel: "stretch",
     fitStrength: 48,
     explanationKey: "opp.data.explanation5",
@@ -197,7 +183,7 @@ function OpportunityCard({ opportunity, index }: { opportunity: OpportunityData;
             className="text-[13px] font-medium"
             style={{ color: "#64748B" }}
           >
-            {opportunity.company} · {opportunity.location} · {opportunity.workStyle} ({t(opportunity.metaSignalKeys[0])})
+            {t(opportunity.companyKey)} · {t(opportunity.locationKey)} · {t(opportunity.workStyleKey)} ({t(opportunity.metaSignalKeys[0])})
           </p>
           
           {/* Role Title */}
@@ -205,7 +191,7 @@ function OpportunityCard({ opportunity, index }: { opportunity: OpportunityData;
             className="text-base font-semibold mt-1"
             style={{ color: "#0F172A" }}
           >
-            {opportunity.roleTitle}
+            {t(opportunity.roleTitleKey)}
           </h3>
 
           {/* Estimated Salary - Below Role Title */}

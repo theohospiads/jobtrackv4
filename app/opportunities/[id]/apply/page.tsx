@@ -162,16 +162,16 @@ export default function ApplyPage() {
               }}
             >
               <h2 style={{ fontSize: 18, fontWeight: 700, color: "#0F172A", margin: "0 0 16px 0" }}>
-                Product Analyst Intern
+                {t("opp.data.role.productAnalystIntern")}
               </h2>
               <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 16 }}>
                 <div>
                   <p style={{ fontSize: 12, color: "#64748B", margin: "0 0 4px 0", fontWeight: 600 }}>{t("apply.company")}</p>
-                  <p style={{ fontSize: 14, color: "#0F172A", margin: 0 }}>Acme Corp</p>
+                  <p style={{ fontSize: 14, color: "#0F172A", margin: 0 }}>{t("opp.data.company.acmeCorp")}</p>
                 </div>
                 <div>
                   <p style={{ fontSize: 12, color: "#64748B", margin: "0 0 4px 0", fontWeight: 600 }}>{t("apply.location")}</p>
-                  <p style={{ fontSize: 14, color: "#0F172A", margin: 0 }}>Paris, France</p>
+                  <p style={{ fontSize: 14, color: "#0F172A", margin: 0 }}>{t("opp.data.location.paris")}</p>
                 </div>
                 <div>
                   <p style={{ fontSize: 12, color: "#64748B", margin: "0 0 4px 0", fontWeight: 600 }}>{t("apply.salary")}</p>
