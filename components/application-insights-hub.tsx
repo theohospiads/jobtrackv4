@@ -209,36 +209,69 @@ export function ApplicationInsightsHub({
               </div>
           </div>
 
-          {/* Application Journey */}
+          {/* Application Journey - New 5-Stage Structure */}
           <div style={{ ...card, padding: 24 }}>
             <p style={{ fontSize: 11, fontWeight: 600, color: '#64748B', margin: '0 0 20px 0', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
               {t('insights.applicationJourney')}
             </p>
             {[
-              { day: 'Day 0', labelKey: 'insights.appSubmitted', subKey: '', sub: 'Jan 28, 2026 at 2:14 PM', status: 'past' as const },
-              { day: 'Day 1', labelKey: 'insights.screeningQueue', subKey: 'insights.detectedIntake', sub: '', status: 'past' as const },
-              { day: 'Day 3', labelKey: 'insights.underReview', subKey: 'insights.youAreHere', sub: '', status: 'current' as const },
-              { day: 'Day 4-6', labelKey: 'insights.decisionWindow', subKey: 'insights.historicalPeak', sub: '', status: 'next' as const },
-              { day: 'Day 5', labelKey: 'insights.followUpOpens', subKey: 'insights.optimalFollowUp', sub: '', status: 'future' as const },
-              { day: 'Day 7', labelKey: 'insights.decisionThreshold', subKey: 'insights.decisionPlateaus', sub: '', status: 'future' as const },
+              { 
+                stage: 1, 
+                labelKey: 'insights.appSubmitted', 
+                subKey: 'insights.optimizationStage',
+                status: 'current' as const,
+                color: '#2563EB'
+              },
+              { 
+                stage: 2, 
+                labelKey: 'insights.proactivePrep', 
+                subKey: 'insights.prepStage',
+                status: 'next' as const,
+                color: '#4F46E5'
+              },
+              { 
+                stage: 3, 
+                labelKey: 'insights.interview', 
+                subKey: 'insights.interviewStage',
+                status: 'future' as const,
+                color: '#10B981'
+              },
+              { 
+                stage: 4, 
+                labelKey: 'insights.decisionPending', 
+                subKey: 'insights.decisionStage',
+                status: 'future' as const,
+                color: '#D97706'
+              },
+              { 
+                stage: 5, 
+                labelKey: 'insights.finalResult', 
+                subKey: 'insights.resultStage',
+                status: 'future' as const,
+                color: '#D4AF37'
+              },
             ].map((item, i) => (
               <div
                 key={i}
                 style={{
-                  display: 'flex', gap: 16, padding: '10px 12px', marginBottom: 2,
+                  display: 'flex', gap: 16, padding: '12px 12px', marginBottom: 2,
                   background: item.status === 'current' ? '#F8FAFC' : 'transparent',
-                  borderLeft: item.status === 'current' ? '2px solid #2563EB' : '2px solid transparent',
+                  borderLeft: item.status === 'current' ? '3px solid' + item.color : '3px solid transparent',
                   borderRadius: item.status === 'current' ? 6 : 0,
-                  opacity: item.status === 'past' ? 0.4 : 1,
+                  opacity: item.status === 'future' ? 0.6 : 1,
                 }}
               >
                 <span style={{
-                  fontSize: 12, fontWeight: 500, minWidth: 60,
-                  color: item.status === 'current' ? '#2563EB' : item.status === 'next' ? '#D97706' : '#CBD5E1',
+                  fontSize: 12, fontWeight: 600, minWidth: 28,
+                  color: item.color,
+                  background: 'rgba(' + parseInt(item.color.slice(1,3), 16) + ',' + parseInt(item.color.slice(3,5), 16) + ',' + parseInt(item.color.slice(5,7), 16) + ',0.1)',
+                  padding: '2px 8px',
+                  borderRadius: 4,
+                  textAlign: 'center',
                 }}>
-                  {item.day}
+                  {item.stage}
                 </span>
-                <div>
+                <div style={{ flex: 1 }}>
                   <p style={{
                     fontSize: 13, margin: 0,
                     fontWeight: item.status === 'current' ? 600 : 400,
@@ -246,8 +279,8 @@ export function ApplicationInsightsHub({
                   }}>
                     {t(item.labelKey)}
                   </p>
-                  <p style={{ fontSize: 11, color: item.status === 'current' ? '#2563EB' : '#94A3B8', margin: '2px 0 0 0' }}>
-                    {item.sub || t(item.subKey)}
+                  <p style={{ fontSize: 11, color: item.status === 'current' ? item.color : '#94A3B8', margin: '2px 0 0 0' }}>
+                    {t(item.subKey)}
                   </p>
                 </div>
               </div>
