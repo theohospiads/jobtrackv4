@@ -402,7 +402,7 @@ export default function ActionDetailPage() {
         {/* Interview Tracker - Only shown when at interview stage or beyond */}
         {currentStage >= 2 && job.stages.some((s: { nameKey: string; status: string }) => s.nameKey.includes("interview") || s.nameKey.includes("screening")) && (
           <div style={{ marginBottom: 32 }}>
-            <InterviewStagesTracker stages={interviewStages} onStageUpdate={setInterviewStages} />
+            <InterviewTracker stages={interviewStages} onStageUpdate={setInterviewStages} />
           </div>
         )}
 
