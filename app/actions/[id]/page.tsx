@@ -542,96 +542,6 @@ export default function ActionDetailPage() {
                                 )}
                               </div>
 
-                              {/* Sub-interview stages - Show up to 3, then add + button */}
-                              {displayInterviewStages && (
-                                <div
-                                  style={{
-                                    display: "flex",
-                                    gap: 6,
-                                    justifyContent: "center",
-                                    flexWrap: "wrap",
-                                    width: "100%",
-                                  }}
-                                >
-                                  {interviewStages.slice(0, 3).map((interview: any, iIdx: number) => (
-                                    <div
-                                      key={iIdx}
-                                      style={{
-                                        width: 20,
-                                        height: 20,
-                                        borderRadius: "50%",
-                                        display: "flex",
-                                        alignItems: "center",
-                                        justifyContent: "center",
-                                        fontSize: 10,
-                                        fontWeight: 600,
-                                        background:
-                                          interview.status === "completed"
-                                            ? "#10B981"
-                                            : interview.status === "current"
-                                              ? "#F59E0B"
-                                              : "#E5E7EB",
-                                        color:
-                                          interview.status === "completed"
-                                            ? "#FFFFFF"
-                                            : interview.status === "current"
-                                              ? "#FFFFFF"
-                                              : "#94A3B8",
-                                        border:
-                                          interview.status === "completed"
-                                            ? "2px solid #10B981"
-                                            : interview.status === "current"
-                                              ? "2px solid #F59E0B"
-                                              : "2px solid #CBD5E1",
-                                        cursor: "pointer",
-                                        transition: "all 200ms ease",
-                                      }}
-                                      onMouseEnter={(e) => {
-                                        e.currentTarget.style.transform = "scale(1.2)"
-                                      }}
-                                      onMouseLeave={(e) => {
-                                        e.currentTarget.style.transform = "scale(1)"
-                                      }}
-                                      title={`Interview ${iIdx + 1}: ${interview.status}`}
-                                    >
-                                      {iIdx + 1}
-                                    </div>
-                                  ))}
-                                  
-                                  {/* Show + button if there are more than 3 rounds */}
-                                  {interviewStages.length > 3 && (
-                                    <div
-                                      style={{
-                                        width: 20,
-                                        height: 20,
-                                        borderRadius: "50%",
-                                        display: "flex",
-                                        alignItems: "center",
-                                        justifyContent: "center",
-                                        fontSize: 11,
-                                        fontWeight: 600,
-                                        background: "#94A3B8",
-                                        color: "#FFFFFF",
-                                        border: "2px solid #CBD5E1",
-                                        cursor: "pointer",
-                                        transition: "all 200ms ease",
-                                      }}
-                                      onMouseEnter={(e) => {
-                                        e.currentTarget.style.background = "#64748B"
-                                        e.currentTarget.style.transform = "scale(1.1)"
-                                      }}
-                                      onMouseLeave={(e) => {
-                                        e.currentTarget.style.background = "#94A3B8"
-                                        e.currentTarget.style.transform = "scale(1)"
-                                      }}
-                                      title={`${interviewStages.length - 3} more round${interviewStages.length - 3 > 1 ? 's' : ''}`}
-                                    >
-                                      +
-                                    </div>
-                                  )}
-                                </div>
-                              )}
-
                               {/* Label */}
                               <div style={{ textAlign: "center" }}>
                                 <p
@@ -647,18 +557,6 @@ export default function ActionDetailPage() {
                                   {stage.status === "completed" ? t("actionDetail.your") : ""}
                                   {t(stage.nameKey)}
                                 </p>
-                                {displayInterviewStages && (
-                                  <p
-                                    style={{
-                                      fontSize: 10,
-                                      color: "#64748B",
-                                      margin: "2px 0 0 0",
-                                      fontStyle: "italic",
-                                    }}
-                                  >
-                                    {interviewStages.length} {t('actionDetail.rounds')}
-                                  </p>
-                                )}
                                 {stage.date && (
                                   <p
                                     style={{
