@@ -1,0 +1,6 @@
+{
+  "buildCommand": "pnpm run build",
+  "installCommand": "corepack use pnpm@9 && pnpm install",
+  "devCommand": "pnpm dev",
+  "outputDirectory": ".next"
+}
