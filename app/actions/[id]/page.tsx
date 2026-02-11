@@ -5,6 +5,7 @@ import { useLanguage } from "@/components/language-provider"
 import { useState } from "react"
 import { TopNav } from "@/components/top-nav"
 import { StagePrepGuide } from "@/components/stage-preparation-guide"
+import { ApplicationInsightsHub } from "@/components/application-insights-hub"
 
 interface ActionJobData {
   id: string
@@ -592,7 +593,13 @@ export default function ActionDetailPage() {
           stageStatus={job.stages[currentStage]?.status || 'current'}
         />
 
-        {/* Application Insights Hub section removed pending component fix */}
+        <ApplicationInsightsHub
+          currentStage={currentStage}
+          jobTitle={t(job.titleKey)}
+          companyName={job.companyName}
+          submittedDate={job.appliedDateKey || 'Recently'}
+          salaryRange={job.salary || 'Not specified'}
+        />
 
         {/* Bottom Section — Cleaner hierarchy: Follow-up timing left, Primary CTA right */}
         <div style={{ marginBottom: 32, display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: 24, gap: 24 }}>
