@@ -59,8 +59,8 @@ const actionJobsData: Record<string, ActionJobData> = {
     totalStages: 4,
     salary: "$65,000 - $75,000",
     stages: [
-      { nameKey: "actionDetail.data.applicationSubmitted", status: "completed", date: "Jan 28, 2026" },
-      { nameKey: "actionDetail.data.applicationReview", status: "current" },
+      { nameKey: "actionDetail.data.applicationSubmitted", status: "current", date: "Jan 28, 2026" },
+      { nameKey: "actionDetail.data.applicationReview", status: "upcoming" },
       { nameKey: "actionDetail.data.interview", status: "upcoming" },
       { nameKey: "actionDetail.data.decision", status: "upcoming" }
     ],
