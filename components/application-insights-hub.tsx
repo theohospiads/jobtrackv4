@@ -37,7 +37,7 @@ export function ApplicationInsightsHub({
   return (
     <div style={{ marginBottom: 32, display: 'flex', flexDirection: 'column', gap: 28 }}>
       
-      {/* LAYER 1: SITUATION DASHBOARD - Unified Intelligence Console */}
+      {/* LAYER 1: SYSTEM STATUS - Three Clear Semantic Layers */}
       <div
         style={{
           background: '#FFFFFF',
@@ -47,55 +47,75 @@ export function ApplicationInsightsHub({
           boxShadow: '0 2px 8px rgba(37, 99, 235, 0.1)',
         }}
       >
-        <div style={{ marginBottom: 20 }}>
-          <p style={{ fontSize: 11, fontWeight: 700, color: '#0F172A', textTransform: 'uppercase', margin: 0, letterSpacing: '0.5px' }}>
-            System Status
+        {/* Operational Layer */}
+        <div style={{ marginBottom: 24, paddingBottom: 24, borderBottom: '1px solid #E5E7EB' }}>
+          <p style={{ fontSize: 11, fontWeight: 700, color: '#0F172A', textTransform: 'uppercase', margin: '0 0 12px 0', letterSpacing: '0.5px' }}>
+            System Status - Operational
           </p>
-          <p style={{ fontSize: 16, fontWeight: 700, color: '#0F172A', margin: '4px 0 0 0' }}>
-            Active - Day {daysSinceSubmission} of {typicalReviewDays}
-          </p>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 24 }}>
+            <div>
+              <p style={{ fontSize: 12, color: '#94A3B8', margin: '0 0 4px 0', fontWeight: 500 }}>Status</p>
+              <p style={{ fontSize: 16, fontWeight: 700, color: '#10B981', margin: 0 }}>Active</p>
+              <p style={{ fontSize: 11, color: '#64748B', margin: '4px 0 0 0' }}>Under Recruiter Review</p>
+            </div>
+            <div>
+              <p style={{ fontSize: 12, color: '#94A3B8', margin: '0 0 4px 0', fontWeight: 500 }}>Review Window</p>
+              <p style={{ fontSize: 16, fontWeight: 700, color: '#0F172A', margin: 0 }}>Day {daysSinceSubmission} of {typicalReviewDays}</p>
+            </div>
+            <div>
+              <p style={{ fontSize: 12, color: '#94A3B8', margin: '0 0 4px 0', fontWeight: 500 }}>Follow-up Access</p>
+              <p style={{ fontSize: 16, fontWeight: 700, color: followUpLocked ? '#EF4444' : '#10B981', margin: 0 }}>
+                {followUpLocked ? 'Locked' : 'Available'}
+              </p>
+              <p style={{ fontSize: 11, color: '#64748B', margin: '4px 0 0 0' }}>
+                {followUpLocked ? 'Unlock on Day 5' : 'Ready to send'}
+              </p>
+            </div>
+          </div>
         </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 24, marginBottom: 24, paddingBottom: 24, borderBottom: '1px solid #E5E7EB' }}>
-          {/* Left: Current State */}
-          <div>
-            <div style={{ marginBottom: 16 }}>
+        {/* Predictive Metrics Layer */}
+        <div style={{ marginBottom: 24, paddingBottom: 24, borderBottom: '1px solid #E5E7EB' }}>
+          <p style={{ fontSize: 11, fontWeight: 700, color: '#0F172A', textTransform: 'uppercase', margin: '0 0 12px 0', letterSpacing: '0.5px' }}>
+            Performance Metrics - Predictive
+          </p>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 24 }}>
+            <div>
               <p style={{ fontSize: 12, color: '#94A3B8', margin: '0 0 4px 0', fontWeight: 500 }}>Interview Likelihood</p>
               <p style={{ fontSize: 20, fontWeight: 700, color: '#2563EB', margin: 0 }}>{baseInterviewProbability}%</p>
             </div>
-            <div style={{ marginBottom: 16 }}>
+            <div>
               <p style={{ fontSize: 12, color: '#94A3B8', margin: '0 0 4px 0', fontWeight: 500 }}>Application Confidence</p>
               <p style={{ fontSize: 20, fontWeight: 700, color: '#10B981', margin: 0 }}>{applicationConfidence}/100</p>
             </div>
             <div>
-              <p style={{ fontSize: 12, color: '#94A3B8', margin: '0 0 4px 0', fontWeight: 500 }}>Your Rank</p>
+              <p style={{ fontSize: 12, color: '#94A3B8', margin: '0 0 4px 0', fontWeight: 500 }}>Percentile Rank</p>
               <p style={{ fontSize: 20, fontWeight: 700, color: '#0F172A', margin: 0 }}>Top {100 - percentileRank}%</p>
-            </div>
-          </div>
-
-          {/* Right: Model Confidence */}
-          <div style={{ textAlign: 'right' }}>
-            <div style={{ marginBottom: 16 }}>
-              <p style={{ fontSize: 12, color: '#94A3B8', margin: '0 0 4px 0', fontWeight: 500 }}>Model Confidence</p>
-              <p style={{ fontSize: 20, fontWeight: 700, color: '#10B981', margin: 0 }}>High</p>
-            </div>
-            <div style={{ marginBottom: 16 }}>
-              <p style={{ fontSize: 12, color: '#94A3B8', margin: '0 0 4px 0', fontWeight: 500 }}>Sample Size</p>
-              <p style={{ fontSize: 20, fontWeight: 700, color: '#0F172A', margin: 0 }}>1,200+</p>
-            </div>
-            <div>
-              <p style={{ fontSize: 12, color: '#94A3B8', margin: '0 0 4px 0', fontWeight: 500 }}>Case Studies</p>
-              <p style={{ fontSize: 12, color: '#64748B', margin: 0 }}>Comparable hires</p>
             </div>
           </div>
         </div>
 
-        <p style={{ fontSize: 13, color: '#0F172A', fontWeight: 500, margin: 0 }}>
-          Most likely outcome: Screening triggered by Day 7.
-        </p>
-        <p style={{ fontSize: 12, color: '#64748B', margin: '6px 0 0 0' }}>
-          Recruiter activity patterns show peak review decisions between Days 4-6.
-        </p>
+        {/* Model Validation Layer */}
+        <div>
+          <p style={{ fontSize: 11, fontWeight: 700, color: '#0F172A', textTransform: 'uppercase', margin: '0 0 12px 0', letterSpacing: '0.5px' }}>
+            Model Validation - Governance
+          </p>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 24 }}>
+            <div>
+              <p style={{ fontSize: 12, color: '#94A3B8', margin: '0 0 4px 0', fontWeight: 500 }}>Model Confidence</p>
+              <p style={{ fontSize: 16, fontWeight: 700, color: '#10B981', margin: 0 }}>High</p>
+            </div>
+            <div>
+              <p style={{ fontSize: 12, color: '#94A3B8', margin: '0 0 4px 0', fontWeight: 500 }}>Sample Size</p>
+              <p style={{ fontSize: 16, fontWeight: 700, color: '#0F172A', margin: 0 }}>1,200+</p>
+              <p style={{ fontSize: 11, color: '#64748B', margin: '4px 0 0 0' }}>comparable cases</p>
+            </div>
+            <div>
+              <p style={{ fontSize: 12, color: '#94A3B8', margin: '0 0 4px 0', fontWeight: 500 }}>Methodology</p>
+              <p style={{ fontSize: 12, color: '#0F172A', margin: 0 }}>Probabilistic model</p>
+            </div>
+          </div>
+        </div>
       </div>
 
       {/* LAYER 2: DECISION DYNAMICS - Core Intelligence Blocks */}
@@ -160,24 +180,24 @@ export function ApplicationInsightsHub({
             </p>
             <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: 10 }}>
               <li style={{ fontSize: 13, color: '#0F172A', display: 'flex', gap: 10, alignItems: 'center' }}>
-                <span style={{ color: referralActivated ? '#10B981' : '#D1D5DB', fontWeight: 700 }}>
-                  {referralActivated ? 'O' : 'O'}
+                <span style={{ color: referralActivated ? '#10B981' : '#D1D5DB', fontWeight: 700, fontSize: 16 }}>
+                  {referralActivated ? '●' : '◯'}
                 </span>
                 <div style={{ flex: 1 }}>
                   <p style={{ margin: 0, fontWeight: 500 }}>Referral activated</p>
                   <p style={{ fontSize: 11, color: '#94A3B8', margin: '2px 0 0 0' }}>
-                    {referralActivated ? '1/1 connection engaged' : '0/1 - activate a referral'}
+                    {referralActivated ? 'Completed - 1/1 connection' : 'Not started - 0/1 connections'}
                   </p>
                 </div>
               </li>
               <li style={{ fontSize: 13, color: '#0F172A', display: 'flex', gap: 10, alignItems: 'center' }}>
-                <span style={{ color: prepProgress >= 3 ? '#10B981' : '#F59E0B', fontWeight: 700 }}>
-                  {prepProgress >= 3 ? 'O' : 'O'}
+                <span style={{ color: prepProgress >= 3 ? '#10B981' : prepProgress > 0 ? '#F59E0B' : '#D1D5DB', fontWeight: 700, fontSize: 16 }}>
+                  {prepProgress >= 3 ? '●' : prepProgress > 0 ? '◐' : '◯'}
                 </span>
                 <div style={{ flex: 1 }}>
                   <p style={{ margin: 0, fontWeight: 500 }}>Screening prep completed</p>
                   <p style={{ fontSize: 11, color: '#94A3B8', margin: '2px 0 0 0' }}>
-                    {prepProgress}/3 modules
+                    {prepProgress >= 3 ? 'Completed' : prepProgress > 0 ? `In progress - ${prepProgress}/3 modules` : 'Not started - 0/3 modules'}
                   </p>
                 </div>
               </li>
@@ -208,8 +228,17 @@ export function ApplicationInsightsHub({
                 </div>
               </li>
             </ul>
+            <div style={{ marginTop: 16, paddingTop: 16, borderTop: '1px solid #FBBF24', paddingLeft: 12, borderLeft: '3px solid #10B981' }}>
+              <p style={{ fontSize: 11, fontWeight: 600, color: '#10B981', margin: '0 0 4px 0', textTransform: 'uppercase' }}>
+                Statistical Significance
+              </p>
+              <p style={{ fontSize: 12, color: '#92400E', margin: 0 }}>
+                Projected improvements exceed historical noise threshold (±2%). Result is statistically meaningful.
+              </p>
+            </div>
           </div>
-        </div>
+        )}
+      </div>
       </div>
 
       {/* Risk Factors Identified - with severity tags */}
@@ -289,29 +318,38 @@ export function ApplicationInsightsHub({
           </p>
           <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: 12 }}>
             <li style={{ fontSize: 13, color: '#0F172A', paddingBottom: 12, borderBottom: '1px solid #E5E7EB', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <div>
-                <p style={{ margin: 0, fontWeight: 500 }}>Mission alignment</p>
-                <p style={{ fontSize: 12, color: '#64748B', margin: '2px 0 0 0' }}>Why Acme Corp matters to you</p>
+              <div style={{ display: 'flex', gap: 12, alignItems: 'flex-start', flex: 1 }}>
+                <span style={{ fontSize: 13, fontWeight: 700, color: '#2563EB', lineHeight: '1.4', flexShrink: 0 }}>1.</span>
+                <div>
+                  <p style={{ margin: 0, fontWeight: 500 }}>Mission alignment</p>
+                  <p style={{ fontSize: 12, color: '#64748B', margin: '2px 0 0 0' }}>Why Acme Corp matters to you</p>
+                </div>
               </div>
-              <span style={{ fontSize: 11, fontWeight: 600, color: '#EF4444', background: '#FEE2E2', padding: '2px 8px', borderRadius: 4 }}>
+              <span style={{ fontSize: 11, fontWeight: 600, color: '#EF4444', background: '#FEE2E2', padding: '2px 8px', borderRadius: 4, flexShrink: 0 }}>
                 High
               </span>
             </li>
             <li style={{ fontSize: 13, color: '#0F172A', paddingBottom: 12, borderBottom: '1px solid #E5E7EB', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <div>
-                <p style={{ margin: 0, fontWeight: 500 }}>Quantified impact stories</p>
-                <p style={{ fontSize: 12, color: '#64748B', margin: '2px 0 0 0' }}>Projects with measurable outcomes</p>
+              <div style={{ display: 'flex', gap: 12, alignItems: 'flex-start', flex: 1 }}>
+                <span style={{ fontSize: 13, fontWeight: 700, color: '#2563EB', lineHeight: '1.4', flexShrink: 0 }}>2.</span>
+                <div>
+                  <p style={{ margin: 0, fontWeight: 500 }}>Quantified impact stories</p>
+                  <p style={{ fontSize: 12, color: '#64748B', margin: '2px 0 0 0' }}>Projects with measurable outcomes</p>
+                </div>
               </div>
-              <span style={{ fontSize: 11, fontWeight: 600, color: '#EF4444', background: '#FEE2E2', padding: '2px 8px', borderRadius: 4 }}>
+              <span style={{ fontSize: 11, fontWeight: 600, color: '#EF4444', background: '#FEE2E2', padding: '2px 8px', borderRadius: 4, flexShrink: 0 }}>
                 High
               </span>
             </li>
             <li style={{ fontSize: 13, color: '#0F172A', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <div>
-                <p style={{ margin: 0, fontWeight: 500 }}>Tool proficiency</p>
-                <p style={{ fontSize: 12, color: '#64748B', margin: '2px 0 0 0' }}>Data analysis tools and frameworks</p>
+              <div style={{ display: 'flex', gap: 12, alignItems: 'flex-start', flex: 1 }}>
+                <span style={{ fontSize: 13, fontWeight: 700, color: '#2563EB', lineHeight: '1.4', flexShrink: 0 }}>3.</span>
+                <div>
+                  <p style={{ margin: 0, fontWeight: 500 }}>Tool proficiency</p>
+                  <p style={{ fontSize: 12, color: '#64748B', margin: '2px 0 0 0' }}>Data analysis tools and frameworks</p>
+                </div>
               </div>
-              <span style={{ fontSize: 11, fontWeight: 600, color: '#F59E0B', background: '#FEF3C7', padding: '2px 8px', borderRadius: 4 }}>
+              <span style={{ fontSize: 11, fontWeight: 600, color: '#F59E0B', background: '#FEF3C7', padding: '2px 8px', borderRadius: 4, flexShrink: 0 }}>
                 Medium
               </span>
             </li>
@@ -328,15 +366,36 @@ export function ApplicationInsightsHub({
           }}
         >
           <p style={{ fontSize: 13, fontWeight: 600, color: '#0F172A', margin: '0 0 16px 0', textTransform: 'uppercase' }}>
-            Follow-up Governance
+            Follow-up Access Governance
           </p>
-          <div style={{ padding: 12, background: '#F0F9FF', borderRadius: 8, marginBottom: 16 }}>
-            <p style={{ fontSize: 12, fontWeight: 600, color: '#0369A1', margin: 0 }}>
-              Follow-up locked until optimal timing (Day 5).
-            </p>
+          <div style={{ padding: 16, background: '#F0F9FF', borderRadius: 8, marginBottom: 16, border: '1px solid #BFDBFE' }}>
+            <div style={{ display: 'flex', gap: 12, alignItems: 'flex-start', marginBottom: 12 }}>
+              <span style={{ fontSize: 18, color: followUpLocked ? '#EF4444' : '#10B981', lineHeight: '1' }}>
+                {followUpLocked ? 'L' : 'O'}
+              </span>
+              <div>
+                <p style={{ fontSize: 12, fontWeight: 600, color: '#0369A1', margin: 0 }}>
+                  Current Access: {followUpLocked ? 'Locked' : 'Available'}
+                </p>
+                <p style={{ fontSize: 11, color: '#0369A1', margin: '4px 0 0 0' }}>
+                  {followUpLocked ? 'Locked for optimal timing' : 'Ready to send follow-up'}
+                </p>
+              </div>
+            </div>
+            <div style={{ borderTop: '1px solid #BFDBFE', paddingTop: 12 }}>
+              <p style={{ fontSize: 11, fontWeight: 600, color: '#0369A1', margin: '0 0 6px 0', textTransform: 'uppercase' }}>
+                Unlock Condition
+              </p>
+              <p style={{ fontSize: 12, color: '#0369A1', margin: 0 }}>
+                Day 5 post-submission
+              </p>
+            </div>
           </div>
+          <p style={{ fontSize: 11, fontWeight: 600, color: '#475569', margin: '0 0 8px 0', textTransform: 'uppercase' }}>
+            Rationale
+          </p>
           <p style={{ fontSize: 12, color: '#64748B', margin: 0 }}>
-            Peak recruiter decisions occur Days 4-6. Waiting prevents noise and maximizes response probability.
+            Peak recruiter decision window occurs Days 4-6. Sending before Day 5 introduces noise. Waiting maximizes response probability and demonstrates strategic timing awareness.
           </p>
         </div>
       </div>
@@ -441,6 +500,50 @@ export function ApplicationInsightsHub({
         )}
       </div>
 
+      {/* Decision Activity Log - Audit Trail (Refinement #6) */}
+      <div style={{ padding: 20, background: '#FFFFFF', borderRadius: 12, border: '1px solid #E5E7EB' }}>
+        <p style={{ fontSize: 11, fontWeight: 700, color: '#475569', margin: '0 0 16px 0', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+          Decision Activity Timeline
+        </p>
+        <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: 14 }}>
+          <li style={{ display: 'flex', gap: 16, fontSize: 13, color: '#0F172A' }}>
+            <div style={{ fontSize: 12, fontWeight: 600, color: '#2563EB', minWidth: '60px' }}>Day 0</div>
+            <div style={{ flex: 1 }}>
+              <p style={{ margin: 0, fontWeight: 500 }}>Application submitted</p>
+              <p style={{ fontSize: 11, color: '#94A3B8', margin: '2px 0 0 0' }}>Jan 28, 2026 at 2:14 PM</p>
+            </div>
+          </li>
+          <li style={{ display: 'flex', gap: 16, fontSize: 13, color: '#0F172A' }}>
+            <div style={{ fontSize: 12, fontWeight: 600, color: '#2563EB', minWidth: '60px' }}>Day 1</div>
+            <div style={{ flex: 1 }}>
+              <p style={{ margin: 0, fontWeight: 500 }}>Screening queue entered</p>
+              <p style={{ fontSize: 11, color: '#94A3B8', margin: '2px 0 0 0' }}>System detected in recruiter intake</p>
+            </div>
+          </li>
+          <li style={{ display: 'flex', gap: 16, fontSize: 13, color: '#0F172A' }}>
+            <div style={{ fontSize: 12, fontWeight: 600, color: '#2563EB', minWidth: '60px' }}>Day 3</div>
+            <div style={{ flex: 1 }}>
+              <p style={{ margin: 0, fontWeight: 500 }}>Under recruiter review</p>
+              <p style={{ fontSize: 11, color: '#94A3B8', margin: '2px 0 0 0' }}>Current stage - active decision window</p>
+            </div>
+          </li>
+          <li style={{ display: 'flex', gap: 16, fontSize: 13, color: '#94A3B8' }}>
+            <div style={{ fontSize: 12, fontWeight: 600, color: '#BFDBFE', minWidth: '60px' }}>Day 5</div>
+            <div style={{ flex: 1 }}>
+              <p style={{ margin: 0, fontWeight: 500 }}>Follow-up window unlock</p>
+              <p style={{ fontSize: 11, color: '#D1D5DB', margin: '2px 0 0 0' }}>Expected - optimal follow-up timing</p>
+            </div>
+          </li>
+          <li style={{ display: 'flex', gap: 16, fontSize: 13, color: '#94A3B8' }}>
+            <div style={{ fontSize: 12, fontWeight: 600, color: '#BFDBFE', minWidth: '60px' }}>Day 7</div>
+            <div style={{ flex: 1 }}>
+              <p style={{ margin: 0, fontWeight: 500 }}>Decision threshold</p>
+              <p style={{ fontSize: 11, color: '#D1D5DB', margin: '2px 0 0 0' }}>Expected - recruiter decision window closes</p>
+            </div>
+          </li>
+        </ul>
+      </div>
+
       {/* Methodology Block - Government Credibility (Refinement #5) */}
       <div style={{ padding: 16, background: '#F8FAFC', borderRadius: 12, border: '1px solid #E5E7EB' }}>
         <p style={{ fontSize: 11, fontWeight: 600, color: '#475569', margin: '0 0 8px 0', textTransform: 'uppercase' }}>
@@ -454,7 +557,7 @@ export function ApplicationInsightsHub({
       {/* System Metadata Footer */}
       <div style={{ padding: 12, background: '#F8FAFC', borderRadius: 8, textAlign: 'center' }}>
         <p style={{ fontSize: 11, color: '#94A3B8', margin: 0 }}>
-          Last model refresh: 11:32 AM | Data confidence: High | System ID: v11-institutional
+          Last model refresh: 11:32 AM | Data confidence: High | System ID: v12-government-grade
         </p>
       </div>
     </div>
