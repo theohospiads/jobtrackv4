@@ -602,121 +602,62 @@ export default function ActionDetailPage() {
           salaryRange={job.salary}
         />
 
-        {/* Bottom Section - Previous/Next Stage Buttons + Salary and Action Button */}
-        <div style={{ marginBottom: 32, display: "flex", flexDirection: "column", gap: 16, marginTop: 24 }}>
-          {/* Stage Navigation Buttons */}
-          <div style={{ display: "flex", gap: 8 }}>
-            {/* Previous Stage Button */}
-            <button
-              onClick={() => {
-                const prevStage = Math.max(currentStage - 1, 0)
-                setCurrentStage(prevStage)
-              }}
-              style={{
-                padding: "8px 14px",
-                fontSize: 12,
-                fontWeight: 600,
-                color: currentStage <= 0 ? "#C4B5FD" : "#2563EB",
-                background: "#FFFFFF",
-                border: `1px solid ${currentStage <= 0 ? "#E5E7EB" : "#BFDBFE"}`,
-                borderRadius: 6,
-                cursor: currentStage <= 0 ? "not-allowed" : "pointer",
-                transition: "all 0.2s",
-                whiteSpace: "nowrap",
-              }}
-              disabled={currentStage <= 0}
-            >
-              ← Previous stage
-            </button>
-
-            {/* Next Stage Button */}
-            <button
-              onClick={() => {
-                const nextStage = Math.min(currentStage + 1, job.totalStages - 1)
-                setCurrentStage(nextStage)
-              }}
-              style={{
-                padding: "8px 14px",
-                fontSize: 12,
-                fontWeight: 600,
-                color: currentStage >= job.totalStages - 1 ? "#C4B5FD" : "#2563EB",
-                background: "#FFFFFF",
-                border: `1px solid ${currentStage >= job.totalStages - 1 ? "#E5E7EB" : "#BFDBFE"}`,
-                borderRadius: 6,
-                cursor: currentStage >= job.totalStages - 1 ? "not-allowed" : "pointer",
-                transition: "all 0.2s",
-                whiteSpace: "nowrap",
-              }}
-              disabled={currentStage >= job.totalStages - 1}
-            >
-              Next stage →
-            </button>
+        {/* Bottom Section — Cleaner hierarchy: Follow-up timing left, Primary CTA right */}
+        <div style={{ marginBottom: 32, display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: 24, gap: 24 }}>
+          {/* Follow-up Timing State (Left) */}
+          <div
+            style={{
+              background: "#F0F9FF",
+              border: "1px solid #BFDBFE",
+              borderRadius: 8,
+              padding: "12px 16px",
+              fontSize: 13,
+              color: "#1E40AF",
+              fontWeight: 500,
+              flexShrink: 0,
+            }}
+          >
+            Follow-up window opens in 3 days
           </div>
 
-          {/* Salary and Action Button */}
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", gap: 24 }}>
-            {/* Salary Container */}
-            <div
-              style={{
-                background: "#FFFFFF",
-                color: "#2563EB",
-                fontSize: 15,
-                fontWeight: 400,
-                padding: "12px 24px",
-                borderRadius: 8,
-                border: "1.5px solid #2563EB",
-                display: "flex",
-                alignItems: "center",
-                gap: 8,
-                flexShrink: 0,
-                cursor: "default",
-                boxShadow: "0 4px 12px rgba(37, 99, 235, 0.15), 0 1px 3px rgba(0, 0, 0, 0.08)",
-              }}
-            >
-              {t("actionDetail.estimatedSalary")} {job.salary}
-            </div>
-
-            {/* Send a Follow-up Button */}
-            <button
-              type="button"
-              onClick={() => {
-                router.push(`/actions/${id}/send-follow-up`)
-              }}
-              style={{
-                background: "#2563EB",
-                color: "#FFFFFF",
-                fontSize: 15,
-                fontWeight: 400,
-                padding: "12px 24px",
-                borderRadius: 8,
-                border: "none",
-                cursor: "pointer",
-                transition: "all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)",
-                boxShadow: "0 4px 12px rgba(37, 99, 235, 0.25), 0 1px 3px rgba(0, 0, 0, 0.08)",
-                display: "flex",
-                alignItems: "center",
-                gap: 8,
-                flexShrink: 0,
-                position: "relative",
-                overflow: "hidden",
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.background = "#1E40AF"
-                e.currentTarget.style.boxShadow = "0 12px 24px rgba(37, 99, 235, 0.35), 0 4px 8px rgba(0, 0, 0, 0.1)"
-                e.currentTarget.style.transform = "translateY(-2px)"
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.background = "#2563EB"
-                e.currentTarget.style.boxShadow = "0 4px 12px rgba(37, 99, 235, 0.25), 0 1px 3px rgba(0, 0, 0, 0.08)"
-                e.currentTarget.style.transform = "translateY(0)"
-              }}
-            >
-              {t("actionDetail.sendFollowUp")}
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M6 12L10 8L6 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
-            </button>
-          </div>
+          {/* Send a Follow-up Button (Right) */}
+          <button
+            type="button"
+            onClick={() => {
+              router.push(`/actions/${id}/send-follow-up`)
+            }}
+            style={{
+              background: "#2563EB",
+              color: "#FFFFFF",
+              fontSize: 15,
+              fontWeight: 400,
+              padding: "12px 24px",
+              borderRadius: 8,
+              border: "none",
+              cursor: "pointer",
+              transition: "all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)",
+              boxShadow: "0 4px 12px rgba(37, 99, 235, 0.25), 0 1px 3px rgba(0, 0, 0, 0.08)",
+              display: "flex",
+              alignItems: "center",
+              gap: 8,
+              flexShrink: 0,
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.background = "#1E40AF"
+              e.currentTarget.style.boxShadow = "0 12px 24px rgba(37, 99, 235, 0.35), 0 4px 8px rgba(0, 0, 0, 0.1)"
+              e.currentTarget.style.transform = "translateY(-2px)"
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.background = "#2563EB"
+              e.currentTarget.style.boxShadow = "0 4px 12px rgba(37, 99, 235, 0.25), 0 1px 3px rgba(0, 0, 0, 0.08)"
+              e.currentTarget.style.transform = "translateY(0)"
+            }}
+          >
+            {t("actionDetail.sendFollowUp")}
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M6 12L10 8L6 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+          </button>
         </div>
       </main>
     </div>

@@ -22,9 +22,59 @@ export function ApplicationInsightsHub({
   // Only show on Application Submitted stage
   if (currentStage !== 0) return null
 
+  const hasActionRequired = false // Determine based on job state
+  const daysUntilFollowUp = 3
+
   return (
     <div style={{ marginBottom: 32, display: 'flex', flexDirection: 'column', gap: 20 }}>
-      {/* 1️⃣ Insight Card — "What's Happening Now" */}
+      {/* 🔥 1️⃣ PRIMARY ACTION BLOCK — "Your focus right now" (ABOVE EVERYTHING) */}
+      <div
+        style={{
+          background: hasActionRequired ? '#FEF2F2' : '#F0F9FF',
+          border: `2px solid ${hasActionRequired ? '#FCA5A5' : '#BFDBFE'}`,
+          borderRadius: 12,
+          padding: 24,
+          boxShadow: '0 4px 16px rgba(37, 99, 235, 0.12)',
+        }}
+      >
+        <h2
+          style={{
+            fontSize: 18,
+            fontWeight: 700,
+            color: hasActionRequired ? '#991B1B' : '#1E40AF',
+            margin: '0 0 12px 0',
+          }}
+        >
+          Your focus right now
+        </h2>
+
+        <p
+          style={{
+            fontSize: 15,
+            fontWeight: 500,
+            color: hasActionRequired ? '#7F1D1D' : '#1E3A8A',
+            margin: '0 0 8px 0',
+            lineHeight: 1.5,
+          }}
+        >
+          {hasActionRequired
+            ? `Send a concise follow-up in ${daysUntilFollowUp} days to resurface your application.`
+            : 'There is no action required today. We recommend preparing lightly while the application is under review. If action is required, we will notify you.'}
+        </p>
+
+        <p
+          style={{
+            fontSize: 13,
+            color: hasActionRequired ? '#A16061' : '#0369A1',
+            fontStyle: 'italic',
+            margin: 0,
+          }}
+        >
+          This is your priority at this stage of your application.
+        </p>
+      </div>
+
+      {/* 2️⃣ What's Happening Now */}
       <div
         style={{
           background: '#FFFFFF',
@@ -111,7 +161,7 @@ export function ApplicationInsightsHub({
         </p>
       </div>
 
-      {/* 2️⃣ Application Strength Card */}
+      {/* 🔥 3️⃣ Application Strength — ENHANCED with signals */}
       <div
         style={{
           background: '#FFFFFF',
@@ -132,7 +182,7 @@ export function ApplicationInsightsHub({
           Application Strength Assessment
         </h3>
 
-        <div style={{ display: 'flex', gap: 32, alignItems: 'flex-start' }}>
+        <div style={{ display: 'flex', gap: 32, alignItems: 'flex-start', marginBottom: 24 }}>
           {/* Circular Score */}
           <div
             style={{
@@ -193,116 +243,88 @@ export function ApplicationInsightsHub({
                 Minor (limited internship experience)
               </p>
             </div>
-
-            <a
-              href="#"
-              style={{
-                fontSize: 13,
-                color: '#2563EB',
-                textDecoration: 'none',
-                marginTop: 12,
-                display: 'inline-block',
-                fontWeight: 500,
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.textDecoration = 'underline'
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.textDecoration = 'none'
-              }}
-            >
-              See improvement suggestions →
-            </a>
           </div>
         </div>
-      </div>
 
-      {/* 3️⃣ Optimization Opportunities Card (Conditional) */}
-      <div
-        style={{
-          background: '#FFFFFF',
-          border: '1px solid #E5E7EB',
-          borderRadius: 12,
-          padding: 24,
-          boxShadow: '0 1px 3px rgba(0, 0, 0, 0.08)',
-        }}
-      >
-        <h3
+        {/* 🔥 ENHANCED: Strongest and Weakest Signals */}
+        <div
           style={{
-            fontSize: 16,
-            fontWeight: 600,
-            color: '#0F172A',
-            margin: '0 0 20px 0',
+            background: '#F8FAFC',
+            border: '1px solid #E2E8F0',
+            borderRadius: 8,
+            padding: 16,
+            marginBottom: 16,
+            display: 'grid',
+            gridTemplateColumns: '1fr 1fr',
+            gap: 16,
           }}
         >
-          You can still strengthen this application
-        </h3>
-
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-          {[
-            {
-              title: 'Add 1 quantified achievement',
-              impact: 'High',
-              effort: '5 min',
-            },
-            {
-              title: 'Send a concise follow-up',
-              impact: 'Medium',
-              effort: '3 min',
-            },
-            {
-              title: 'Activate referral',
-              impact: 'High',
-              effort: 'Variable',
-            },
-          ].map((item, idx) => (
-            <div
-              key={idx}
-              style={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                paddingBottom: 16,
-                borderBottom: idx < 2 ? '1px solid #F1F5F9' : 'none',
-              }}
-            >
-              <div>
-                <p style={{ fontSize: 15, fontWeight: 500, color: '#0F172A', margin: 0 }}>
-                  {item.title}
-                </p>
-              </div>
-              <div style={{ display: 'flex', gap: 8, alignItems: 'center', whiteSpace: 'nowrap' }}>
-                <span
-                  style={{
-                    fontSize: 12,
-                    fontWeight: 500,
-                    color: item.impact === 'High' ? '#10B981' : '#F59E0B',
-                    background: item.impact === 'High' ? '#F0FDF4' : '#FFFBEB',
-                    padding: '4px 8px',
-                    borderRadius: 4,
-                  }}
-                >
-                  {item.impact} impact
-                </span>
-                <span
-                  style={{
-                    fontSize: 12,
-                    fontWeight: 500,
-                    color: '#64748B',
-                    background: '#F8FAFC',
-                    padding: '4px 8px',
-                    borderRadius: 4,
-                  }}
-                >
-                  {item.effort}
-                </span>
-              </div>
-            </div>
-          ))}
+          <div>
+            <p style={{ fontSize: 12, color: '#64748B', margin: '0 0 6px 0', fontWeight: 600 }}>
+              Your strongest signal
+            </p>
+            <p style={{ fontSize: 14, fontWeight: 500, color: '#10B981', margin: 0 }}>
+              Skills alignment
+            </p>
+            <p style={{ fontSize: 12, color: '#64748B', margin: '4px 0 0 0' }}>
+              Your skillset closely matches job requirements
+            </p>
+          </div>
+          <div>
+            <p style={{ fontSize: 12, color: '#64748B', margin: '0 0 6px 0', fontWeight: 600 }}>
+              Your weakest signal
+            </p>
+            <p style={{ fontSize: 14, fontWeight: 500, color: '#F59E0B', margin: 0 }}>
+              Experience depth
+            </p>
+            <p style={{ fontSize: 12, color: '#64748B', margin: '4px 0 0 0' }}>
+              Limited experience in similar roles
+            </p>
+          </div>
         </div>
+
+        {/* 🔥 ENHANCED: Prescriptive Improvement */}
+        <div
+          style={{
+            background: '#FFFBEB',
+            border: '1px solid #FEE3B1',
+            borderRadius: 8,
+            padding: 16,
+            marginBottom: 16,
+          }}
+        >
+          <p style={{ fontSize: 12, color: '#92400E', fontWeight: 600, margin: '0 0 6px 0' }}>
+            Recommended improvement
+          </p>
+          <p style={{ fontSize: 14, fontWeight: 500, color: '#B45309', margin: 0 }}>
+            Add 1 quantified internship impact
+          </p>
+          <p style={{ fontSize: 12, color: '#92400E', margin: '4px 0 0 0' }}>
+            This directly addresses your experience gap
+          </p>
+        </div>
+
+        <a
+          href="#"
+          style={{
+            fontSize: 13,
+            color: '#2563EB',
+            textDecoration: 'none',
+            display: 'inline-block',
+            fontWeight: 500,
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.textDecoration = 'underline'
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.textDecoration = 'none'
+          }}
+        >
+          See all improvement suggestions →
+        </a>
       </div>
 
-      {/* 4️⃣ Preparation Preview Card */}
+      {/* 🔥 4️⃣ Smart Preparation Preview — CONTEXTUAL */}
       <div
         style={{
           background: '#FFFFFF',
@@ -320,38 +342,47 @@ export function ApplicationInsightsHub({
             margin: '0 0 16px 0',
           }}
         >
-          Prepare early
+          Preparing for screening
         </h3>
 
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+        <p style={{ fontSize: 14, color: '#64748B', margin: '0 0 12px 0' }}>
+          Based on this role, recruiters typically ask:
+        </p>
+
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 12, marginBottom: 16 }}>
           {[
-            'Likely screening questions',
-            'Documents to keep ready',
-            'Key experience to rehearse',
+            'Why this company?',
+            'Describe a data-driven decision you made.',
+            'What tools have you used most recently?',
           ].map((item, idx) => (
-            <a
+            <div
               key={idx}
-              href="#"
               style={{
                 fontSize: 14,
-                color: '#2563EB',
-                textDecoration: 'none',
+                color: '#0F172A',
                 display: 'flex',
-                alignItems: 'center',
-                gap: 8,
-                fontWeight: 500,
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.color = '#1E40AF'
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.color = '#2563EB'
+                gap: 12,
+                alignItems: 'flex-start',
               }}
             >
-              {item}
-              <span style={{ fontSize: 12 }}>→</span>
-            </a>
+              <span style={{ color: '#2563EB', fontWeight: 600, flexShrink: 0 }}>•</span>
+              <span>{item}</span>
+            </div>
           ))}
+        </div>
+
+        <div
+          style={{
+            background: '#F0F9FF',
+            border: '1px solid #BFDBFE',
+            borderRadius: 8,
+            padding: 12,
+            textAlign: 'center',
+          }}
+        >
+          <p style={{ fontSize: 13, fontWeight: 500, color: '#0369A1', margin: 0 }}>
+            Estimated prep time: 12 minutes
+          </p>
         </div>
       </div>
 
@@ -407,7 +438,7 @@ export function ApplicationInsightsHub({
               <p style={{ fontSize: 13, color: '#64748B', margin: '0 0 4px 0' }}>
                 Salary range at submission
               </p>
-              <p style={{ fontSize: 15, fontWeight: 500, color: '#0F172A', margin: 0 }}>
+              <p style={{ fontSize: 15, fontWeight: 500, color: '#2563EB', margin: 0, fontWeight: 700 }}>
                 {salaryRange}
               </p>
             </div>
@@ -443,18 +474,30 @@ export function ApplicationInsightsHub({
         </div>
       </div>
 
-      {/* 6️⃣ Strategic Timing Strip */}
+      {/* 🔥 6️⃣ Strategic Follow-up Timing — UPGRADED */}
       <div
         style={{
           background: '#F0F9FF',
-          border: '1px solid #BFDBFE',
-          borderRadius: 8,
-          padding: '12px 16px',
-          textAlign: 'center',
+          border: '2px solid #BFDBFE',
+          borderRadius: 12,
+          padding: 20,
         }}
       >
-        <p style={{ fontSize: 13, color: '#1E40AF', fontWeight: 500, margin: 0 }}>
-          Follow-up timing: Recommended window opens in 3 days
+        <h4
+          style={{
+            fontSize: 14,
+            fontWeight: 600,
+            color: '#0369A1',
+            margin: '0 0 8px 0',
+          }}
+        >
+          Follow-up window
+        </h4>
+        <p style={{ fontSize: 15, fontWeight: 500, color: '#1E40AF', margin: '0 0 4px 0' }}>
+          Opens in {daysUntilFollowUp} days
+        </p>
+        <p style={{ fontSize: 13, color: '#0369A1', margin: 0 }}>
+          Optimal timing: Day 5–7 after submission
         </p>
       </div>
     </div>
