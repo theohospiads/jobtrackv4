@@ -5,6 +5,7 @@ import { useLanguage } from "@/components/language-provider"
 import { useState } from "react"
 import { TopNav } from "@/components/top-nav"
 import { StagePrepGuide } from "@/components/stage-preparation-guide"
+import { InterviewIntelligenceHub } from "@/components/interview-intelligence-hub"
 
 interface ActionJobData {
   id: string
@@ -591,6 +592,18 @@ export default function ActionDetailPage() {
           stageName={t(job.stages[currentStage]?.nameKey) || 'Current Stage'}
           stageStatus={job.stages[currentStage]?.status || 'current'}
         />
+
+        {/* Interview Intelligence Hub - Elite Guidance for Interview Stage */}
+        {currentStage >= 2 && (
+          <InterviewIntelligenceHub
+            currentStage={currentStage}
+            stageName={t(job.stages[currentStage]?.nameKey) || 'Current Stage'}
+            jobTitle={t(job.titleKey)}
+            companyName={job.companyName}
+            jobDescription={job.jobDescription}
+            interviewCount={interviewStages.length}
+          />
+        )}
 
         {/* Bottom Section - Salary and Action Button */}
         <div style={{ marginBottom: 32, display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginTop: 24, gap: 24 }}>
