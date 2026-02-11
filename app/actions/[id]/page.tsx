@@ -1,13 +1,10 @@
 "use client"
 
-import { TopNav } from "@/components/top-nav"
 import { useParams, useRouter } from "next/navigation"
-import { useState } from "react"
 import { useLanguage } from "@/components/language-provider"
-import { InterviewStagesTracker, InterviewRoundsSetup } from "@/components/interview-stages-tracker"
+import { useState } from "react"
+import { TopNav } from "@/components/top-nav"
 import { StagePrepGuide } from "@/components/stage-preparation-guide"
-import { SalaryNegotiationGuide } from "@/components/salary-negotiation-guide"
-import { InterviewQuestionsGuide } from "@/components/interview-questions-guide"
 
 interface ActionJobData {
   id: string
@@ -289,41 +286,80 @@ export default function ActionDetailPage() {
                 <p style={{ fontSize: 16, fontWeight: 600, color: "#0F172A", margin: 0 }}>
                   {job.stages[currentStage] ? t(job.stages[currentStage].nameKey) : ""}
                 </p>
-                <button
-                  onClick={() => {
-                    const nextStage = Math.min(currentStage + 1, job.totalStages - 1)
-                    setCurrentStage(nextStage)
-                  }}
-                  style={{
-                    padding: "8px 14px",
-                    fontSize: 12,
-                    fontWeight: 600,
-                    color: currentStage >= job.totalStages - 1 ? "#C4B5FD" : "#2563EB",
-                    background: "#FFFFFF",
-                    border: `1px solid ${currentStage >= job.totalStages - 1 ? "#E5E7EB" : "#BFDBFE"}`,
-                    borderRadius: 6,
-                    cursor: currentStage >= job.totalStages - 1 ? "not-allowed" : "pointer",
-                    transition: "all 0.2s",
-                    whiteSpace: "nowrap",
-                    flexShrink: 0,
-                  }}
-                  onMouseEnter={(e) => {
-                    if (currentStage < job.totalStages - 1) {
-                      e.currentTarget.style.background = "#EFF6FF"
-                      e.currentTarget.style.borderColor = "#93C5FD"
-                    }
-                  }}
-                  onMouseLeave={(e) => {
-                    if (currentStage < job.totalStages - 1) {
-                      e.currentTarget.style.background = "#FFFFFF"
-                      e.currentTarget.style.borderColor = "#BFDBFE"
-                    }
-                  }}
-                  disabled={currentStage >= job.totalStages - 1}
-                  title={currentStage >= job.totalStages - 1 ? "Already at final stage" : "Move to next stage"}
-                >
-                  {t("actionDetail.nextStage") || "Next stage"}
-                </button>
+                <div style={{ display: "flex", gap: 8 }}>
+                  {/* Previous Stage Button */}
+                  <button
+                    onClick={() => {
+                      const prevStage = Math.max(currentStage - 1, 0)
+                      setCurrentStage(prevStage)
+                    }}
+                    style={{
+                      padding: "8px 14px",
+                      fontSize: 12,
+                      fontWeight: 600,
+                      color: currentStage <= 0 ? "#C4B5FD" : "#2563EB",
+                      background: "#FFFFFF",
+                      border: `1px solid ${currentStage <= 0 ? "#E5E7EB" : "#BFDBFE"}`,
+                      borderRadius: 6,
+                      cursor: currentStage <= 0 ? "not-allowed" : "pointer",
+                      transition: "all 0.2s",
+                      whiteSpace: "nowrap",
+                      flexShrink: 0,
+                    }}
+                    onMouseEnter={(e) => {
+                      if (currentStage > 0) {
+                        e.currentTarget.style.background = "#EFF6FF"
+                        e.currentTarget.style.borderColor = "#93C5FD"
+                      }
+                    }}
+                    onMouseLeave={(e) => {
+                      if (currentStage > 0) {
+                        e.currentTarget.style.background = "#FFFFFF"
+                        e.currentTarget.style.borderColor = "#BFDBFE"
+                      }
+                    }}
+                    disabled={currentStage <= 0}
+                    title={currentStage <= 0 ? "Already at first stage" : "Move to previous stage"}
+                  >
+                    {t("actionDetail.previousStage") || "Previous stage"}
+                  </button>
+                  {/* Next Stage Button */}
+                  <button
+                    onClick={() => {
+                      const nextStage = Math.min(currentStage + 1, job.totalStages - 1)
+                      setCurrentStage(nextStage)
+                    }}
+                    style={{
+                      padding: "8px 14px",
+                      fontSize: 12,
+                      fontWeight: 600,
+                      color: currentStage >= job.totalStages - 1 ? "#C4B5FD" : "#2563EB",
+                      background: "#FFFFFF",
+                      border: `1px solid ${currentStage >= job.totalStages - 1 ? "#E5E7EB" : "#BFDBFE"}`,
+                      borderRadius: 6,
+                      cursor: currentStage >= job.totalStages - 1 ? "not-allowed" : "pointer",
+                      transition: "all 0.2s",
+                      whiteSpace: "nowrap",
+                      flexShrink: 0,
+                    }}
+                    onMouseEnter={(e) => {
+                      if (currentStage < job.totalStages - 1) {
+                        e.currentTarget.style.background = "#EFF6FF"
+                        e.currentTarget.style.borderColor = "#93C5FD"
+                      }
+                    }}
+                    onMouseLeave={(e) => {
+                      if (currentStage < job.totalStages - 1) {
+                        e.currentTarget.style.background = "#FFFFFF"
+                        e.currentTarget.style.borderColor = "#BFDBFE"
+                      }
+                    }}
+                    disabled={currentStage >= job.totalStages - 1}
+                    title={currentStage >= job.totalStages - 1 ? "Already at final stage" : "Move to next stage"}
+                  >
+                    {t("actionDetail.nextStage") || "Next stage"}
+                  </button>
+                </div>
               </div>
             </div>
 
@@ -362,12 +398,7 @@ export default function ActionDetailPage() {
           </div>
         )}
 
-        {/* Interview Tracker - Only shown when at interview stage or beyond */}
-        {currentStage >= 2 && job.stages.some((s: { nameKey: string; status: string }) => s.nameKey.includes("interview") || s.nameKey.includes("screening")) && (
-          <div style={{ marginBottom: 32 }}>
-            <InterviewStagesTracker stages={interviewStages} onStageUpdate={setInterviewStages} />
-          </div>
-        )}
+        {/* Timeline section continues below */}
 
         {/* Timeline Section */}
         <div style={{ marginBottom: 24 }}>
@@ -385,11 +416,6 @@ export default function ActionDetailPage() {
           >
             {/* Timeline Visualization */}
             {(() => {
-              const lastCompletedIdx = job.stages.reduce(
-                (acc: number, s: { status: string }, i: number) => (s.status === "completed" ? i : acc),
-                -1
-              )
-
               return (
                 <div>
                   {/* Timeline Container */}
@@ -407,8 +433,8 @@ export default function ActionDetailPage() {
                         zIndex: 0,
                       }}
                     />
-                    {/* Blue progress line */}
-                    {lastCompletedIdx >= 0 && (
+                    {/* Blue progress line - uses currentStage */}
+                    {currentStage >= 0 && (
                       <div
                         style={{
                           position: "absolute",
@@ -418,7 +444,7 @@ export default function ActionDetailPage() {
                           background: "#2563EB",
                           borderRadius: 2,
                           zIndex: 1,
-                          width: `${((lastCompletedIdx + 0.7) / (job.stages.length - 1)) * 100}%`,
+                          width: `${((currentStage + 0.7) / (job.stages.length - 1)) * 100}%`,
                           transition: "width 0.5s ease",
                         }}
                       />
@@ -508,96 +534,6 @@ export default function ActionDetailPage() {
                                 )}
                               </div>
 
-                              {/* Sub-interview stages - Show up to 3, then add + button */}
-                              {displayInterviewStages && (
-                                <div
-                                  style={{
-                                    display: "flex",
-                                    gap: 6,
-                                    justifyContent: "center",
-                                    flexWrap: "wrap",
-                                    width: "100%",
-                                  }}
-                                >
-                                  {interviewStages.slice(0, 3).map((interview: any, iIdx: number) => (
-                                    <div
-                                      key={iIdx}
-                                      style={{
-                                        width: 20,
-                                        height: 20,
-                                        borderRadius: "50%",
-                                        display: "flex",
-                                        alignItems: "center",
-                                        justifyContent: "center",
-                                        fontSize: 10,
-                                        fontWeight: 600,
-                                        background:
-                                          interview.status === "completed"
-                                            ? "#10B981"
-                                            : interview.status === "current"
-                                              ? "#F59E0B"
-                                              : "#E5E7EB",
-                                        color:
-                                          interview.status === "completed"
-                                            ? "#FFFFFF"
-                                            : interview.status === "current"
-                                              ? "#FFFFFF"
-                                              : "#94A3B8",
-                                        border:
-                                          interview.status === "completed"
-                                            ? "2px solid #10B981"
-                                            : interview.status === "current"
-                                              ? "2px solid #F59E0B"
-                                              : "2px solid #CBD5E1",
-                                        cursor: "pointer",
-                                        transition: "all 200ms ease",
-                                      }}
-                                      onMouseEnter={(e) => {
-                                        e.currentTarget.style.transform = "scale(1.2)"
-                                      }}
-                                      onMouseLeave={(e) => {
-                                        e.currentTarget.style.transform = "scale(1)"
-                                      }}
-                                      title={`Interview ${iIdx + 1}: ${interview.status}`}
-                                    >
-                                      {iIdx + 1}
-                                    </div>
-                                  ))}
-                                  
-                                  {/* Show + button if there are more than 3 rounds */}
-                                  {interviewStages.length > 3 && (
-                                    <div
-                                      style={{
-                                        width: 20,
-                                        height: 20,
-                                        borderRadius: "50%",
-                                        display: "flex",
-                                        alignItems: "center",
-                                        justifyContent: "center",
-                                        fontSize: 11,
-                                        fontWeight: 600,
-                                        background: "#94A3B8",
-                                        color: "#FFFFFF",
-                                        border: "2px solid #CBD5E1",
-                                        cursor: "pointer",
-                                        transition: "all 200ms ease",
-                                      }}
-                                      onMouseEnter={(e) => {
-                                        e.currentTarget.style.background = "#64748B"
-                                        e.currentTarget.style.transform = "scale(1.1)"
-                                      }}
-                                      onMouseLeave={(e) => {
-                                        e.currentTarget.style.background = "#94A3B8"
-                                        e.currentTarget.style.transform = "scale(1)"
-                                      }}
-                                      title={`${interviewStages.length - 3} more round${interviewStages.length - 3 > 1 ? 's' : ''}`}
-                                    >
-                                      +
-                                    </div>
-                                  )}
-                                </div>
-                              )}
-
                               {/* Label */}
                               <div style={{ textAlign: "center" }}>
                                 <p
@@ -613,18 +549,6 @@ export default function ActionDetailPage() {
                                   {stage.status === "completed" ? t("actionDetail.your") : ""}
                                   {t(stage.nameKey)}
                                 </p>
-                                {displayInterviewStages && (
-                                  <p
-                                    style={{
-                                      fontSize: 10,
-                                      color: "#64748B",
-                                      margin: "2px 0 0 0",
-                                      fontStyle: "italic",
-                                    }}
-                                  >
-                                    {interviewStages.length} {t('actionDetail.rounds')}
-                                  </p>
-                                )}
                                 {stage.date && (
                                   <p
                                     style={{
@@ -667,12 +591,6 @@ export default function ActionDetailPage() {
           stageName={t(job.stages[currentStage]?.nameKey) || 'Current Stage'}
           stageStatus={job.stages[currentStage]?.status || 'current'}
         />
-
-        {/* Interview Questions Guide */}
-        <InterviewQuestionsGuide />
-
-        {/* Salary Negotiation Guide */}
-        <SalaryNegotiationGuide salaryRange={job.salary} jobTitle={t(job.titleKey)} />
 
         {/* Bottom Section - Salary and Action Button */}
         <div style={{ marginBottom: 32, display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginTop: 24, gap: 24 }}>

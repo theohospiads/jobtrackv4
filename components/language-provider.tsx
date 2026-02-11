@@ -666,6 +666,7 @@ const translations: Record<Language, Record<string, string>> = {
     // Action Detail
     "actionDetail.backToApps": "Back to Applications",
     "actionDetail.currentStage": "Current Stage",
+    "actionDetail.previousStage": "Previous stage",
     "actionDetail.nextStage": "Next stage",
     "actionDetail.appProgress": "Application Progress",
     "actionDetail.reassurance": "You're doing great. Things are moving forward \u2014 stay focused on what's next.",
@@ -1564,8 +1565,9 @@ const translations: Record<Language, Record<string, string>> = {
 
     // Action Detail
     "actionDetail.backToApps": "Retour aux candidatures",
-    "actionDetail.currentStage": "\u00C9tape actuelle",
-    "actionDetail.nextStage": "\u00C9tape suivante",
+    "actionDetail.currentStage": "Étape actuelle",
+    "actionDetail.previousStage": "Étape précédente",
+    "actionDetail.nextStage": "Étape suivante",
     "actionDetail.appProgress": "Progression de la candidature",
     "actionDetail.reassurance": "Vous vous en sortez bien. Les choses avancent \u2014 restez concentr\u00E9 sur la suite.",
     "actionDetail.whatToExpect": "\u00C0 quoi s\u2019attendre :",
