@@ -26,7 +26,6 @@ export function ApplicationInsightsHub({
   salaryRange,
 }: ApplicationInsightsHubProps) {
   const { t } = useLanguage()
-  const [strategicView, setStrategicView] = useState(true)
   const [showGovernance, setShowGovernance] = useState(false)
   const [done, setDone] = useState<number[]>([])
 
@@ -47,32 +46,36 @@ export function ApplicationInsightsHub({
   return (
     <div style={{ marginBottom: 32, display: 'flex', flexDirection: 'column', gap: 32 }}>
 
-      {/* VIEW TOGGLE */}
-      <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-        <div style={{ display: 'flex', background: '#F1F5F9', borderRadius: 8, padding: 2, gap: 2 }}>
-          {['Basic', 'Strategic'].map(label => {
-            const active = label === 'Strategic' ? strategicView : !strategicView
-            return (
-              <button
-                key={label}
-                type="button"
-                onClick={() => setStrategicView(label === 'Strategic')}
-                style={{
-                  fontSize: 12, fontWeight: 500, padding: '5px 12px', borderRadius: 6,
-                  border: 'none', cursor: 'pointer',
-                  background: active ? '#FFFFFF' : 'transparent',
-                  color: active ? '#0F172A' : '#94A3B8',
-                  boxShadow: active ? '0 1px 3px rgba(0,0,0,0.08)' : 'none',
-                }}
-              >
-                {label}
-              </button>
-            )
-          })}
+      {/* ── PROJECTED OUTCOME ── */}
+      <div style={{ ...card, padding: 24 }}>
+        <p style={{ fontSize: 11, fontWeight: 600, color: '#64748B', margin: '0 0 20px 0', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+          Projected Outcome
+        </p>
+
+        <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginBottom: 20 }}>
+          <div style={{ flex: 1, padding: 20, background: '#F8FAFC', borderRadius: 12, textAlign: 'center' }}>
+            <p style={{ fontSize: 11, color: '#94A3B8', margin: '0 0 8px 0', fontWeight: 500 }}>Now</p>
+            <p style={{ fontSize: 28, fontWeight: 700, color: '#0F172A', margin: 0, lineHeight: 1 }}>{current}%</p>
+            <p style={{ fontSize: 11, color: '#94A3B8', margin: '8px 0 0 0' }}>Moderate</p>
+          </div>
+
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" style={{ flexShrink: 0 }}>
+            <path d="M5 12H19M19 12L13 6M19 12L13 18" stroke="#CBD5E1" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+          </svg>
+
+          <div style={{ flex: 1, padding: 20, background: '#F0FDF4', borderRadius: 12, textAlign: 'center', border: '1px solid #DCFCE7' }}>
+            <p style={{ fontSize: 11, color: '#10B981', margin: '0 0 8px 0', fontWeight: 500 }}>Projected</p>
+            <p style={{ fontSize: 28, fontWeight: 700, color: '#10B981', margin: 0, lineHeight: 1 }}>{projected}%</p>
+            <p style={{ fontSize: 11, color: '#10B981', margin: '8px 0 0 0' }}>Strong</p>
+          </div>
         </div>
+
+        <p style={{ fontSize: 12, color: '#64748B', margin: 0 }}>
+          +{projected - current}% improvement if you complete all strategic moves. You outperform {percentile}% of similar applicants.
+        </p>
       </div>
 
-      {/* ── LEVEL 1: YOUR STRATEGIC MOVES ── */}
+      {/* ── YOUR STRATEGIC MOVES ── */}
       <div style={{ ...card, padding: 24 }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
           <p style={{ fontSize: 11, fontWeight: 600, color: '#64748B', margin: 0, textTransform: 'uppercase', letterSpacing: '0.5px' }}>
@@ -139,44 +142,7 @@ export function ApplicationInsightsHub({
         })}
       </div>
 
-      {/* ── LEVEL 3: IF YOU EXECUTE ── */}
-      <div style={{ ...card, padding: 24 }}>
-        <p style={{ fontSize: 11, fontWeight: 600, color: '#64748B', margin: '0 0 20px 0', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
-          Projected Outcome
-        </p>
-
-        <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginBottom: 20 }}>
-          {/* Current */}
-          <div style={{ flex: 1, padding: 20, background: '#F8FAFC', borderRadius: 12, textAlign: 'center' }}>
-            <p style={{ fontSize: 11, color: '#94A3B8', margin: '0 0 8px 0', fontWeight: 500 }}>Now</p>
-            <p style={{ fontSize: 28, fontWeight: 700, color: '#0F172A', margin: 0, lineHeight: 1 }}>{current}%</p>
-            <p style={{ fontSize: 11, color: '#94A3B8', margin: '8px 0 0 0' }}>Moderate</p>
-          </div>
-
-          {/* Arrow */}
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" style={{ flexShrink: 0 }}>
-            <path d="M5 12H19M19 12L13 6M19 12L13 18" stroke="#CBD5E1" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-          </svg>
-
-          {/* Projected */}
-          <div style={{ flex: 1, padding: 20, background: '#F0FDF4', borderRadius: 12, textAlign: 'center', border: '1px solid #DCFCE7' }}>
-            <p style={{ fontSize: 11, color: '#10B981', margin: '0 0 8px 0', fontWeight: 500 }}>Projected</p>
-            <p style={{ fontSize: 28, fontWeight: 700, color: '#10B981', margin: 0, lineHeight: 1 }}>{projected}%</p>
-            <p style={{ fontSize: 11, color: '#10B981', margin: '8px 0 0 0' }}>Strong</p>
-          </div>
-        </div>
-
-        <p style={{ fontSize: 12, color: '#64748B', margin: 0 }}>
-          +{projected - current}% improvement if you complete all strategic moves. You outperform {percentile}% of similar applicants.
-        </p>
-      </div>
-
-
-
-      {/* ── STRATEGIC VIEW EXTRAS ── */}
-      {strategicView && (
-        <>
-          {/* What Recruiters Look For - Always visible */}
+          {/* What Recruiters Look For */}
           <div style={{ ...card, overflow: 'hidden', padding: 24 }}>
               <p style={{ fontSize: 11, fontWeight: 600, color: '#64748B', margin: '0 0 20px 0', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
                 What Recruiters Look For
@@ -214,42 +180,7 @@ export function ApplicationInsightsHub({
                   ))}
                 </div>
 
-                {/* Screening Priorities */}
-                <div style={{ paddingTop: 20, borderTop: '1px solid #F1F5F9' }}>
-                  <p style={{ fontSize: 11, fontWeight: 600, color: '#64748B', margin: '0 0 12px 0', textTransform: 'uppercase', letterSpacing: '0.3px' }}>
-                    Screening Priorities
-                  </p>
-                  {[
-                    { label: 'Mission alignment', desc: 'Why this company matters to you', weight: 'High' },
-                    { label: 'Quantified impact stories', desc: 'Measurable project outcomes', weight: 'High' },
-                    { label: 'Tool proficiency', desc: 'Data analysis tools and frameworks', weight: 'Medium' },
-                  ].map((s, i) => (
-                    <div
-                      key={i}
-                      style={{
-                        display: 'flex', justifyContent: 'space-between', alignItems: 'center',
-                        padding: '10px 0',
-                        borderTop: i > 0 ? '1px solid #F1F5F9' : 'none',
-                      }}
-                    >
-                      <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
-                        <span style={{ fontSize: 12, fontWeight: 500, color: '#94A3B8' }}>{i + 1}.</span>
-                        <div>
-                          <p style={{ fontSize: 13, fontWeight: 500, color: '#0F172A', margin: 0 }}>{s.label}</p>
-                          <p style={{ fontSize: 11, color: '#94A3B8', margin: '2px 0 0 0' }}>{s.desc}</p>
-                        </div>
-                      </div>
-                      <span style={{
-                        fontSize: 11, fontWeight: 500,
-                        color: s.weight === 'High' ? '#DC2626' : '#D97706',
-                        background: s.weight === 'High' ? '#FEF2F2' : '#FFFBEB',
-                        padding: '1px 6px', borderRadius: 10,
-                      }}>
-                        {s.weight}
-                      </span>
-                    </div>
-                  ))}
-                </div>
+
               </div>
           </div>
 
@@ -297,8 +228,6 @@ export function ApplicationInsightsHub({
               </div>
             ))}
           </div>
-        </>
-      )}
 
       {/* ── MODEL TRANSPARENCY ── */}
       <div style={{ padding: '0 4px' }}>
