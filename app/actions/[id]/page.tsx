@@ -289,41 +289,80 @@ export default function ActionDetailPage() {
                 <p style={{ fontSize: 16, fontWeight: 600, color: "#0F172A", margin: 0 }}>
                   {job.stages[currentStage] ? t(job.stages[currentStage].nameKey) : ""}
                 </p>
-                <button
-                  onClick={() => {
-                    const nextStage = Math.min(currentStage + 1, job.totalStages - 1)
-                    setCurrentStage(nextStage)
-                  }}
-                  style={{
-                    padding: "8px 14px",
-                    fontSize: 12,
-                    fontWeight: 600,
-                    color: currentStage >= job.totalStages - 1 ? "#C4B5FD" : "#2563EB",
-                    background: "#FFFFFF",
-                    border: `1px solid ${currentStage >= job.totalStages - 1 ? "#E5E7EB" : "#BFDBFE"}`,
-                    borderRadius: 6,
-                    cursor: currentStage >= job.totalStages - 1 ? "not-allowed" : "pointer",
-                    transition: "all 0.2s",
-                    whiteSpace: "nowrap",
-                    flexShrink: 0,
-                  }}
-                  onMouseEnter={(e) => {
-                    if (currentStage < job.totalStages - 1) {
-                      e.currentTarget.style.background = "#EFF6FF"
-                      e.currentTarget.style.borderColor = "#93C5FD"
-                    }
-                  }}
-                  onMouseLeave={(e) => {
-                    if (currentStage < job.totalStages - 1) {
-                      e.currentTarget.style.background = "#FFFFFF"
-                      e.currentTarget.style.borderColor = "#BFDBFE"
-                    }
-                  }}
-                  disabled={currentStage >= job.totalStages - 1}
-                  title={currentStage >= job.totalStages - 1 ? "Already at final stage" : "Move to next stage"}
-                >
-                  {t("actionDetail.nextStage") || "Next stage"}
-                </button>
+                <div style={{ display: "flex", gap: 8 }}>
+                  {/* Previous Stage Button */}
+                  <button
+                    onClick={() => {
+                      const prevStage = Math.max(currentStage - 1, 0)
+                      setCurrentStage(prevStage)
+                    }}
+                    style={{
+                      padding: "8px 14px",
+                      fontSize: 12,
+                      fontWeight: 600,
+                      color: currentStage <= 0 ? "#C4B5FD" : "#2563EB",
+                      background: "#FFFFFF",
+                      border: `1px solid ${currentStage <= 0 ? "#E5E7EB" : "#BFDBFE"}`,
+                      borderRadius: 6,
+                      cursor: currentStage <= 0 ? "not-allowed" : "pointer",
+                      transition: "all 0.2s",
+                      whiteSpace: "nowrap",
+                      flexShrink: 0,
+                    }}
+                    onMouseEnter={(e) => {
+                      if (currentStage > 0) {
+                        e.currentTarget.style.background = "#EFF6FF"
+                        e.currentTarget.style.borderColor = "#93C5FD"
+                      }
+                    }}
+                    onMouseLeave={(e) => {
+                      if (currentStage > 0) {
+                        e.currentTarget.style.background = "#FFFFFF"
+                        e.currentTarget.style.borderColor = "#BFDBFE"
+                      }
+                    }}
+                    disabled={currentStage <= 0}
+                    title={currentStage <= 0 ? "Already at first stage" : "Move to previous stage"}
+                  >
+                    {t("actionDetail.previousStage") || "Previous stage"}
+                  </button>
+                  {/* Next Stage Button */}
+                  <button
+                    onClick={() => {
+                      const nextStage = Math.min(currentStage + 1, job.totalStages - 1)
+                      setCurrentStage(nextStage)
+                    }}
+                    style={{
+                      padding: "8px 14px",
+                      fontSize: 12,
+                      fontWeight: 600,
+                      color: currentStage >= job.totalStages - 1 ? "#C4B5FD" : "#2563EB",
+                      background: "#FFFFFF",
+                      border: `1px solid ${currentStage >= job.totalStages - 1 ? "#E5E7EB" : "#BFDBFE"}`,
+                      borderRadius: 6,
+                      cursor: currentStage >= job.totalStages - 1 ? "not-allowed" : "pointer",
+                      transition: "all 0.2s",
+                      whiteSpace: "nowrap",
+                      flexShrink: 0,
+                    }}
+                    onMouseEnter={(e) => {
+                      if (currentStage < job.totalStages - 1) {
+                        e.currentTarget.style.background = "#EFF6FF"
+                        e.currentTarget.style.borderColor = "#93C5FD"
+                      }
+                    }}
+                    onMouseLeave={(e) => {
+                      if (currentStage < job.totalStages - 1) {
+                        e.currentTarget.style.background = "#FFFFFF"
+                        e.currentTarget.style.borderColor = "#BFDBFE"
+                      }
+                    }}
+                    disabled={currentStage >= job.totalStages - 1}
+                    title={currentStage >= job.totalStages - 1 ? "Already at final stage" : "Move to next stage"}
+                  >
+                    {t("actionDetail.nextStage") || "Next stage"}
+                  </button>
+                </div>
               </div>
             </div>
 
@@ -385,11 +424,6 @@ export default function ActionDetailPage() {
           >
             {/* Timeline Visualization */}
             {(() => {
-              const lastCompletedIdx = job.stages.reduce(
-                (acc: number, s: { status: string }, i: number) => (s.status === "completed" ? i : acc),
-                -1
-              )
-
               return (
                 <div>
                   {/* Timeline Container */}
@@ -407,8 +441,8 @@ export default function ActionDetailPage() {
                         zIndex: 0,
                       }}
                     />
-                    {/* Blue progress line */}
-                    {lastCompletedIdx >= 0 && (
+                    {/* Blue progress line - uses currentStage */}
+                    {currentStage >= 0 && (
                       <div
                         style={{
                           position: "absolute",
@@ -418,7 +452,7 @@ export default function ActionDetailPage() {
                           background: "#2563EB",
                           borderRadius: 2,
                           zIndex: 1,
-                          width: `${((lastCompletedIdx + 0.7) / (job.stages.length - 1)) * 100}%`,
+                          width: `${((currentStage + 0.7) / (job.stages.length - 1)) * 100}%`,
                           transition: "width 0.5s ease",
                         }}
                       />
