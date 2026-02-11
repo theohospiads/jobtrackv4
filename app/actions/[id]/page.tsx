@@ -5,8 +5,7 @@ import { useLanguage } from "@/components/language-provider"
 import { useState } from "react"
 import { TopNav } from "@/components/top-nav"
 import { StagePrepGuide } from "@/components/stage-preparation-guide"
-import { InterviewIntelligenceHub } from "@/components/interview-intelligence-hub"
-import { ApplicationStatusHub } from "@/components/application-status-hub"
+import { ApplicationInsightsHub } from "@/components/application-insights-hub"
 
 interface ActionJobData {
   id: string
@@ -594,53 +593,34 @@ export default function ActionDetailPage() {
           stageStatus={job.stages[currentStage]?.status || 'current'}
         />
 
-        {/* Application Status Hub - Elite Status & Insights */}
-        <ApplicationStatusHub
+        {/* Application Insights Hub - Elite insights for Application Submitted stage */}
+        <ApplicationInsightsHub
           currentStage={currentStage}
-          totalStages={job.totalStages}
-          stageName={t(job.stages[currentStage]?.nameKey) || 'Current Stage'}
-          appliedDate={job.appliedDateKey || 'Recently'}
-          company={job.companyName}
           jobTitle={t(job.titleKey)}
-          recruiterSignals={job.recruiterSignals}
+          companyName={job.companyName}
+          submittedDate={job.appliedDateKey || 'Recently'}
+          salaryRange={job.salary}
         />
 
-        {/* Interview Intelligence Hub - Elite Guidance for Interview Stage */}
-        {currentStage >= 2 && (
-          <InterviewIntelligenceHub
-            currentStage={currentStage}
-            stageName={t(job.stages[currentStage]?.nameKey) || 'Current Stage'}
-            jobTitle={t(job.titleKey)}
-            companyName={job.companyName}
-            jobDescription={job.jobDescription}
-            interviewCount={interviewStages.length}
-          />
-        )}
-
-        {/* Bottom Section - Salary and Action Button */}
-        <div style={{ marginBottom: 32, display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginTop: 24, gap: 24 }}>
-          {/* Salary Container */}
+        {/* Bottom Section — Cleaner hierarchy: Follow-up timing left, Primary CTA right */}
+        <div style={{ marginBottom: 32, display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: 24, gap: 24 }}>
+          {/* Follow-up Timing State (Left) */}
           <div
             style={{
-              background: "#FFFFFF",
-              color: "#2563EB",
-              fontSize: 15,
-              fontWeight: 400,
-              padding: "12px 24px",
+              background: "#F0F9FF",
+              border: "1px solid #BFDBFE",
               borderRadius: 8,
-              border: "1.5px solid #2563EB",
-              display: "flex",
-              alignItems: "center",
-              gap: 8,
+              padding: "12px 16px",
+              fontSize: 13,
+              color: "#1E40AF",
+              fontWeight: 500,
               flexShrink: 0,
-              cursor: "default",
-              boxShadow: "0 4px 12px rgba(37, 99, 235, 0.15), 0 1px 3px rgba(0, 0, 0, 0.08)",
             }}
           >
-            {t("actionDetail.estimatedSalary")} {job.salary}
+            Follow-up window opens in 3 days
           </div>
 
-          {/* Send a Follow-up Button */}
+          {/* Send a Follow-up Button (Right) */}
           <button
             type="button"
             onClick={() => {
@@ -661,8 +641,6 @@ export default function ActionDetailPage() {
               alignItems: "center",
               gap: 8,
               flexShrink: 0,
-              position: "relative",
-              overflow: "hidden",
             }}
             onMouseEnter={(e) => {
               e.currentTarget.style.background = "#1E40AF"
