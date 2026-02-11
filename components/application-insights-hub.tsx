@@ -135,25 +135,27 @@ export function ApplicationInsightsHub({
         ].map((a, i) => {
           const isDone = done.includes(i)
           return (
-            <div
+              <div
               key={i}
               style={{
                 display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start',
-                padding: '14px 0',
-                borderTop: i > 0 ? '1px solid #F1F5F9' : 'none',
-                opacity: isDone ? 0.45 : 1,
+                padding: '14px 12px',
+                marginTop: i > 0 ? 8 : 0,
+                background: isDone ? '#FAFBFC' : '#F8FAFC',
+                borderRadius: 10,
+                borderLeft: isDone ? '3px solid #D1D5DB' : '3px solid #2563EB',
+                opacity: isDone ? 0.5 : 1,
                 transition: 'opacity 0.2s',
               }}
             >
               <div style={{ flex: 1 }}>
                 <div style={{ display: 'flex', gap: 8, alignItems: 'center', marginBottom: 4 }}>
-                  <span style={{ fontSize: 12, fontWeight: 600, color: '#94A3B8' }}>{i + 1}.</span>
-                  <span style={{ fontSize: 13, fontWeight: 500, color: '#0F172A', textDecoration: isDone ? 'line-through' : 'none' }}>{a.label}</span>
-                  <span style={{ fontSize: 11, fontWeight: 500, color: '#DC2626', background: '#FEF2F2', padding: '1px 6px', borderRadius: 10 }}>
+                  <span style={{ fontSize: 13, fontWeight: 600, color: isDone ? '#94A3B8' : '#0F172A', textDecoration: isDone ? 'line-through' : 'none' }}>{a.label}</span>
+                  <span style={{ fontSize: 11, fontWeight: 500, color: '#DC2626', background: '#FEF2F2', padding: '2px 8px', borderRadius: 10 }}>
                     {a.impact}
                   </span>
                 </div>
-                <p style={{ fontSize: 12, color: '#94A3B8', margin: 0, paddingLeft: 22 }}>{a.desc}</p>
+                <p style={{ fontSize: 12, color: '#94A3B8', margin: 0 }}>{a.desc}</p>
               </div>
               <button
                 type="button"
@@ -176,37 +178,33 @@ export function ApplicationInsightsHub({
       {/* ── LEVEL 3: IF YOU EXECUTE ── */}
       <div style={{ ...card, padding: 24 }}>
         <p style={{ fontSize: 11, fontWeight: 600, color: '#64748B', margin: '0 0 20px 0', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
-          If You Execute
+          Projected Outcome
         </p>
 
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginBottom: 16 }}>
-          <div style={{ padding: 20, background: '#F8FAFC', borderRadius: 12, textAlign: 'center' }}>
-            <p style={{ fontSize: 11, color: '#94A3B8', margin: '0 0 10px 0', fontWeight: 500, textTransform: 'uppercase' }}>Current</p>
-            <p style={{ fontSize: 32, fontWeight: 800, color: '#0F172A', margin: '0 0 12px 0', lineHeight: 1 }}>{current}%</p>
-            <div style={{ height: 4, background: '#E5E7EB', borderRadius: 2, overflow: 'hidden' }}>
-              <div style={{ height: '100%', width: `${current}%`, background: '#94A3B8', borderRadius: 2 }} />
-            </div>
-            <p style={{ fontSize: 11, color: '#94A3B8', margin: '10px 0 0 0' }}>Moderate range</p>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginBottom: 20 }}>
+          {/* Current */}
+          <div style={{ flex: 1, padding: 20, background: '#F8FAFC', borderRadius: 12, textAlign: 'center' }}>
+            <p style={{ fontSize: 11, color: '#94A3B8', margin: '0 0 8px 0', fontWeight: 500 }}>Now</p>
+            <p style={{ fontSize: 28, fontWeight: 700, color: '#0F172A', margin: 0, lineHeight: 1 }}>{current}%</p>
+            <p style={{ fontSize: 11, color: '#94A3B8', margin: '8px 0 0 0' }}>Moderate</p>
           </div>
 
-          <div style={{ padding: 20, background: '#F8FAFC', borderRadius: 12, textAlign: 'center' }}>
-            <p style={{ fontSize: 11, color: '#94A3B8', margin: '0 0 10px 0', fontWeight: 500, textTransform: 'uppercase' }}>Projected</p>
-            <p style={{ fontSize: 32, fontWeight: 800, color: '#10B981', margin: '0 0 12px 0', lineHeight: 1 }}>{projected}%</p>
-            <div style={{ height: 4, background: '#E5E7EB', borderRadius: 2, overflow: 'hidden' }}>
-              <div style={{ height: '100%', width: `${projected}%`, background: '#10B981', borderRadius: 2 }} />
-            </div>
-            <p style={{ fontSize: 11, color: '#10B981', margin: '10px 0 0 0' }}>Strong range</p>
+          {/* Arrow */}
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" style={{ flexShrink: 0 }}>
+            <path d="M5 12H19M19 12L13 6M19 12L13 18" stroke="#CBD5E1" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+          </svg>
+
+          {/* Projected */}
+          <div style={{ flex: 1, padding: 20, background: '#F0FDF4', borderRadius: 12, textAlign: 'center', border: '1px solid #DCFCE7' }}>
+            <p style={{ fontSize: 11, color: '#10B981', margin: '0 0 8px 0', fontWeight: 500 }}>Projected</p>
+            <p style={{ fontSize: 28, fontWeight: 700, color: '#10B981', margin: 0, lineHeight: 1 }}>{projected}%</p>
+            <p style={{ fontSize: 11, color: '#10B981', margin: '8px 0 0 0' }}>Strong</p>
           </div>
         </div>
 
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
-          <p style={{ fontSize: 12, fontWeight: 500, color: '#475569', margin: 0 }}>
-            +{projected - current}% projected improvement. Would move you into strong interview range.
-          </p>
-          <p style={{ fontSize: 11, color: '#94A3B8', margin: 0 }}>
-            You currently outperform {percentile}% of similar applicants.
-          </p>
-        </div>
+        <p style={{ fontSize: 12, color: '#64748B', margin: 0 }}>
+          +{projected - current}% improvement if you complete all strategic moves. You outperform {percentile}% of similar applicants.
+        </p>
       </div>
 
       {/* ── LEVEL 4: TIMELINE INSIGHT ── */}
@@ -236,13 +234,13 @@ export function ApplicationInsightsHub({
               <div key={i} style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', position: 'relative', zIndex: 1 }}>
                 <div
                   style={{
-                    width: d.current ? 14 : 6,
-                    height: d.current ? 14 : 6,
+                    width: d.current ? 16 : 8,
+                    height: d.current ? 16 : 8,
                     borderRadius: '50%',
-                    background: d.current ? '#2563EB' : d.past ? '#94A3B8' : d.peak ? '#FBBF24' : '#D1D5DB',
-                    border: d.current ? '3px solid rgba(37, 99, 235, 0.25)' : 'none',
-                    boxShadow: d.current ? '0 0 0 4px rgba(37, 99, 235, 0.1)' : 'none',
-                    opacity: d.past ? 0.5 : 1,
+                    background: d.current ? '#2563EB' : d.past ? '#94A3B8' : d.peak ? '#F59E0B' : '#D1D5DB',
+                    border: d.current ? '3px solid rgba(37, 99, 235, 0.2)' : 'none',
+                    boxShadow: d.current ? '0 0 0 5px rgba(37, 99, 235, 0.08)' : 'none',
+                    opacity: d.past ? 0.4 : 1,
                   }}
                 />
               </div>
@@ -309,9 +307,9 @@ export function ApplicationInsightsHub({
             </button>
 
             {showDecisionModel && (
-              <div style={{ padding: '0 24px 24px 24px', display: 'flex', flexDirection: 'column', gap: 24 }}>
+              <div style={{ padding: '0 24px 24px 24px', display: 'flex', flexDirection: 'column', gap: 0 }}>
                 {/* Positive */}
-                <div>
+                <div style={{ paddingBottom: 20 }}>
                   <p style={{ fontSize: 11, fontWeight: 600, color: '#10B981', margin: '0 0 12px 0', textTransform: 'uppercase', letterSpacing: '0.3px' }}>
                     Working in your favor
                   </p>
@@ -327,7 +325,7 @@ export function ApplicationInsightsHub({
                 </div>
 
                 {/* Friction */}
-                <div>
+                <div style={{ paddingTop: 20, paddingBottom: 20, borderTop: '1px solid #F1F5F9' }}>
                   <p style={{ fontSize: 11, fontWeight: 600, color: '#EF4444', margin: '0 0 12px 0', textTransform: 'uppercase', letterSpacing: '0.3px' }}>
                     Areas to strengthen
                   </p>
@@ -343,7 +341,7 @@ export function ApplicationInsightsHub({
                 </div>
 
                 {/* Screening Priorities */}
-                <div>
+                <div style={{ paddingTop: 20, borderTop: '1px solid #F1F5F9' }}>
                   <p style={{ fontSize: 11, fontWeight: 600, color: '#64748B', margin: '0 0 12px 0', textTransform: 'uppercase', letterSpacing: '0.3px' }}>
                     Screening Priorities
                   </p>
@@ -430,32 +428,32 @@ export function ApplicationInsightsHub({
       )}
 
       {/* ── MODEL TRANSPARENCY ── */}
-      <div style={{ ...card, overflow: 'hidden', background: '#FAFBFC' }}>
+      <div style={{ padding: '0 4px' }}>
         <button
           type="button"
           onClick={() => setShowGovernance(!showGovernance)}
           style={{
-            width: '100%', background: 'none', border: 'none', padding: '14px 24px',
-            cursor: 'pointer', display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+            background: 'none', border: 'none', padding: 0,
+            cursor: 'pointer', display: 'flex', gap: 6, alignItems: 'center',
           }}
         >
-          <p style={{ fontSize: 11, fontWeight: 500, color: '#94A3B8', margin: 0, textTransform: 'uppercase', letterSpacing: '0.5px' }}>
-            Model Transparency
+          <p style={{ fontSize: 11, fontWeight: 500, color: '#CBD5E1', margin: 0 }}>
+            How this works
           </p>
-          <svg width="14" height="14" viewBox="0 0 16 16" fill="none"
+          <svg width="12" height="12" viewBox="0 0 16 16" fill="none"
             style={{ transition: 'transform 0.2s', transform: showGovernance ? 'rotate(180deg)' : 'rotate(0deg)' }}>
-            <path d="M4 6L8 10L12 6" stroke="#94A3B8" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+            <path d="M4 6L8 10L12 6" stroke="#CBD5E1" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
           </svg>
         </button>
 
         {showGovernance && (
-          <div style={{ padding: '0 24px 16px 24px' }}>
-            <p style={{ fontSize: 12, color: '#94A3B8', margin: '0 0 12px 0' }}>
+          <div style={{ marginTop: 12 }}>
+            <p style={{ fontSize: 12, color: '#94A3B8', margin: '0 0 8px 0' }}>
               Probabilistic model based on anonymized hiring data. Confidence intervals from 1,200+ comparable cases.
             </p>
-            <div style={{ display: 'flex', gap: 24 }}>
-              {['No recruiter tracking', 'No employer scraping', 'GDPR compliant'].map((t, i) => (
-                <p key={i} style={{ fontSize: 11, color: '#94A3B8', margin: 0 }}>{t}</p>
+            <div style={{ display: 'flex', gap: 16 }}>
+              {['No recruiter tracking', 'No employer scraping', 'GDPR compliant'].map((label, i) => (
+                <span key={i} style={{ fontSize: 11, color: '#CBD5E1' }}>{label}</span>
               ))}
             </div>
           </div>
