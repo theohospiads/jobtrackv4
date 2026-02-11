@@ -11,6 +11,13 @@ interface ApplicationInsightsHubProps {
   salaryRange: string
 }
 
+const cardStyle = {
+  background: '#FFFFFF',
+  border: '1px solid #E5E7EB',
+  borderRadius: 16,
+  boxShadow: '0 4px 12px rgba(0, 0, 0, 0.08), 0 1px 3px rgba(0, 0, 0, 0.04)',
+} as const
+
 export function ApplicationInsightsHub({
   currentStage,
   jobTitle,
@@ -20,7 +27,6 @@ export function ApplicationInsightsHub({
 }: ApplicationInsightsHubProps) {
   const { t } = useLanguage()
   const [strategicView, setStrategicView] = useState(true)
-  const [simulationActive, setSimulationActive] = useState(false)
   const [expandedDecisionModel, setExpandedDecisionModel] = useState(false)
   const [expandedGovernance, setExpandedGovernance] = useState(false)
   const [actionsCompleted, setActionsCompleted] = useState<number[]>([])
@@ -44,7 +50,7 @@ export function ApplicationInsightsHub({
   }
 
   return (
-    <div style={{ marginBottom: 32, display: 'flex', flexDirection: 'column', gap: 20 }}>
+    <div style={{ marginBottom: 32, display: 'flex', flexDirection: 'column', gap: 16 }}>
 
       {/* VIEW TOGGLE */}
       <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
@@ -54,14 +60,14 @@ export function ApplicationInsightsHub({
             onClick={() => setStrategicView(false)}
             style={{
               fontSize: 12,
-              fontWeight: 600,
-              padding: '6px 14px',
+              fontWeight: 500,
+              padding: '5px 12px',
               borderRadius: 6,
               border: 'none',
               cursor: 'pointer',
               background: !strategicView ? '#FFFFFF' : 'transparent',
               color: !strategicView ? '#0F172A' : '#94A3B8',
-              boxShadow: !strategicView ? '0 1px 3px rgba(0,0,0,0.1)' : 'none',
+              boxShadow: !strategicView ? '0 1px 3px rgba(0,0,0,0.08)' : 'none',
             }}
           >
             Basic
@@ -71,14 +77,14 @@ export function ApplicationInsightsHub({
             onClick={() => setStrategicView(true)}
             style={{
               fontSize: 12,
-              fontWeight: 600,
-              padding: '6px 14px',
+              fontWeight: 500,
+              padding: '5px 12px',
               borderRadius: 6,
               border: 'none',
               cursor: 'pointer',
               background: strategicView ? '#FFFFFF' : 'transparent',
               color: strategicView ? '#0F172A' : '#94A3B8',
-              boxShadow: strategicView ? '0 1px 3px rgba(0,0,0,0.1)' : 'none',
+              boxShadow: strategicView ? '0 1px 3px rgba(0,0,0,0.08)' : 'none',
             }}
           >
             Strategic
@@ -86,95 +92,71 @@ export function ApplicationInsightsHub({
         </div>
       </div>
 
-      {/* MISSION CONTROL CARD */}
-      <div
-        style={{
-          background: '#FFFFFF',
-          border: '2px solid #2563EB',
-          borderRadius: 14,
-          overflow: 'hidden',
-          boxShadow: '0 2px 8px rgba(37, 99, 235, 0.1)',
-        }}
-      >
-        <div style={{ padding: 24, display: 'flex', gap: 32 }}>
-          {/* Left: Status */}
-          <div style={{ flex: 1 }}>
-            <p style={{ fontSize: 11, fontWeight: 700, color: '#2563EB', textTransform: 'uppercase', margin: '0 0 12px 0', letterSpacing: '0.5px' }}>
-              Mission Control
-            </p>
-            <div style={{ display: 'flex', gap: 24, alignItems: 'flex-start' }}>
-              <div>
-                <p style={{ fontSize: 12, color: '#94A3B8', margin: '0 0 4px 0', fontWeight: 500 }}>Status</p>
-                <p style={{ fontSize: 16, fontWeight: 700, color: '#10B981', margin: 0 }}>Active</p>
-              </div>
-              <div>
-                <p style={{ fontSize: 12, color: '#94A3B8', margin: '0 0 4px 0', fontWeight: 500 }}>Review Window</p>
-                <p style={{ fontSize: 16, fontWeight: 700, color: '#0F172A', margin: 0 }}>Day {daysSinceSubmission} of {typicalReviewDays}</p>
-                <p style={{ fontSize: 10, color: '#64748B', margin: '2px 0 0 0' }}>Recruiter attention peaks Days 4-6</p>
-              </div>
-            </div>
-          </div>
-
-          {/* Right: Metrics - Interview Likelihood is the emotional anchor */}
-          <div style={{ display: 'flex', gap: 24, alignItems: 'center' }}>
-            <div style={{ textAlign: 'center', paddingRight: 24, borderRight: '1px solid #E5E7EB' }}>
-              <p style={{ fontSize: 12, color: '#2563EB', margin: '0 0 4px 0', fontWeight: 600 }}>Interview Likelihood</p>
-              <p style={{ fontSize: 32, fontWeight: 800, color: '#2563EB', margin: 0, lineHeight: 1 }}>{baseInterviewProbability}%</p>
-              <p style={{ fontSize: 10, color: '#64748B', margin: '6px 0 0 0' }}>Based on 1,200+ patterns</p>
-            </div>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-              <p style={{ fontSize: 12, color: '#64748B', margin: 0 }}>
-                Confidence: <span style={{ fontWeight: 600, color: '#10B981' }}>{applicationConfidence} (High)</span>
-              </p>
-              <p style={{ fontSize: 12, color: '#64748B', margin: 0 }}>
-                Outperforming <span style={{ fontWeight: 600, color: '#0F172A' }}>{percentileRank}%</span> of similar applicants
-              </p>
-            </div>
-          </div>
+      {/* APPLICATION OVERVIEW - Stat cards row matching Dashboard */}
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 12 }}>
+        {/* Status Card */}
+        <div style={{ ...cardStyle, padding: 20 }}>
+          <p style={{ fontSize: 11, fontWeight: 600, color: '#64748B', textTransform: 'uppercase', letterSpacing: '0.5px', margin: '0 0 10px 0' }}>
+            Status
+          </p>
+          <p style={{ fontSize: 22, fontWeight: 700, color: '#10B981', margin: 0 }}>Active</p>
+          <p style={{ fontSize: 12, color: '#94A3B8', margin: '4px 0 0 0' }}>
+            Day {daysSinceSubmission} of {typicalReviewDays}
+          </p>
         </div>
 
-        {/* Bottom Strip: Highest Leverage Action */}
-        <div style={{ padding: '12px 24px', background: '#F0FDF4', borderTop: '1px solid #BBFFC7' }}>
-          <p style={{ fontSize: 13, fontWeight: 600, color: '#166534', margin: 0 }}>
-            Highest leverage action: Activate referral before Day 5
+        {/* Interview Likelihood Card */}
+        <div style={{ ...cardStyle, padding: 20 }}>
+          <p style={{ fontSize: 11, fontWeight: 600, color: '#64748B', textTransform: 'uppercase', letterSpacing: '0.5px', margin: '0 0 10px 0' }}>
+            Interview Likelihood
+          </p>
+          <p style={{ fontSize: 28, fontWeight: 700, color: '#0F172A', margin: 0 }}>{baseInterviewProbability}%</p>
+          <p style={{ fontSize: 12, color: '#2563EB', fontWeight: 500, margin: '4px 0 0 0' }}>
+            Based on 1,200+ patterns
+          </p>
+        </div>
+
+        {/* Confidence Card */}
+        <div style={{ ...cardStyle, padding: 20 }}>
+          <p style={{ fontSize: 11, fontWeight: 600, color: '#64748B', textTransform: 'uppercase', letterSpacing: '0.5px', margin: '0 0 10px 0' }}>
+            Your Position
+          </p>
+          <p style={{ fontSize: 22, fontWeight: 700, color: '#0F172A', margin: 0 }}>Top {100 - percentileRank}%</p>
+          <p style={{ fontSize: 12, color: '#94A3B8', margin: '4px 0 0 0' }}>
+            Confidence: {applicationConfidence} (High)
           </p>
         </div>
       </div>
 
-      {/* YOUR CONTROL group label */}
-      <p style={{ fontSize: 10, fontWeight: 700, color: '#10B981', textTransform: 'uppercase', letterSpacing: '1px', margin: '4px 0 -12px 0' }}>
-        Your Control
-      </p>
+      {/* Highest leverage action strip */}
+      <div style={{ ...cardStyle, padding: '14px 20px', display: 'flex', alignItems: 'center', gap: 12, borderLeft: '3px solid #10B981' }}>
+        <p style={{ fontSize: 13, color: '#0F172A', margin: 0 }}>
+          <span style={{ fontWeight: 600, color: '#10B981' }}>Highest leverage action:</span>{' '}
+          Activate referral before Day 5
+        </p>
+      </div>
 
-      {/* ACTION COMMAND CENTER */}
-      <div
-        style={{
-          background: '#FFFFFF',
-          border: '2px solid #10B981',
-          borderRadius: 12,
-          padding: 24,
-          boxShadow: '0 2px 8px rgba(16, 185, 129, 0.1)',
-        }}
-      >
+      {/* YOUR NEXT BEST ACTIONS */}
+      <div style={{ ...cardStyle, padding: 24 }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
-          <p style={{ fontSize: 13, fontWeight: 600, color: '#0F172A', margin: 0, textTransform: 'uppercase' }}>
-            Action Plan - Ranked by Expected Impact
+          <p style={{ fontSize: 11, fontWeight: 600, color: '#64748B', margin: 0, textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+            Your Next Best Actions
           </p>
-          <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
-            <span style={{ fontSize: 12, fontWeight: 600, color: '#10B981' }}>
-              {completedCount} / {totalActions} completed
+          <div style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
+            <span style={{ fontSize: 12, fontWeight: 500, color: '#64748B' }}>
+              {completedCount} / {totalActions}
             </span>
-            <div style={{ width: 60, height: 6, background: '#E5E7EB', borderRadius: 3, overflow: 'hidden' }}>
+            <div style={{ width: 48, height: 4, background: '#E5E7EB', borderRadius: 2, overflow: 'hidden' }}>
               <div style={{ height: '100%', width: `${(completedCount / totalActions) * 100}%`, background: '#10B981', transition: 'width 0.3s' }} />
             </div>
           </div>
         </div>
 
-        <p style={{ fontSize: 12, color: '#10B981', fontWeight: 600, margin: '0 0 16px 0' }}>
+        <p style={{ fontSize: 12, color: '#64748B', margin: '0 0 16px 0' }}>
           Move from {baseInterviewProbability}% to {projectedProbability}% interview likelihood if completed
         </p>
 
-        <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: 12 }}>
+        <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: 0 }}>
           {[
             { label: 'Activate referral', impact: '+12%', severity: 'high', desc: 'Highest impact - use network connection before Day 5' },
             { label: 'Add quantified achievement to CV', impact: '+5%', severity: 'high', desc: 'High impact - quantify one project result with numbers' },
@@ -182,36 +164,42 @@ export function ApplicationInsightsHub({
           ].map((action, idx) => {
             const done = actionsCompleted.includes(idx)
             return (
-              <li key={idx} style={{ fontSize: 13, color: '#0F172A', paddingBottom: idx < 2 ? 12 : 0, borderBottom: idx < 2 ? '1px solid #E5E7EB' : 'none', opacity: done ? 0.5 : 1 }}>
+              <li key={idx} style={{
+                fontSize: 13,
+                color: '#0F172A',
+                padding: '14px 0',
+                borderTop: idx > 0 ? '1px solid #F1F5F9' : 'none',
+                opacity: done ? 0.5 : 1,
+              }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
                   <div style={{ flex: 1 }}>
                     <div style={{ display: 'flex', gap: 8, alignItems: 'center', marginBottom: 4 }}>
-                      <span style={{ fontWeight: 700, color: '#2563EB' }}>{idx + 1}.</span>
-                      <span style={{ fontWeight: 600, textDecoration: done ? 'line-through' : 'none' }}>{action.label}</span>
+                      <span style={{ fontWeight: 600, color: '#64748B', fontSize: 12 }}>{idx + 1}.</span>
+                      <span style={{ fontWeight: 500, textDecoration: done ? 'line-through' : 'none' }}>{action.label}</span>
                       <span style={{
                         fontSize: 11,
-                        fontWeight: 600,
-                        color: action.severity === 'high' ? '#EF4444' : '#F59E0B',
-                        background: action.severity === 'high' ? '#FEE2E2' : '#FEF3C7',
-                        padding: '2px 8px',
-                        borderRadius: 4,
+                        fontWeight: 500,
+                        color: action.severity === 'high' ? '#DC2626' : '#D97706',
+                        background: action.severity === 'high' ? '#FEF2F2' : '#FFFBEB',
+                        padding: '1px 6px',
+                        borderRadius: 10,
                       }}>
                         {action.impact}
                       </span>
                     </div>
-                    <p style={{ fontSize: 12, color: '#64748B', margin: 0 }}>{action.desc}</p>
+                    <p style={{ fontSize: 12, color: '#94A3B8', margin: 0 }}>{action.desc}</p>
                   </div>
                   <button
                     type="button"
                     onClick={() => toggleAction(idx)}
                     style={{
                       fontSize: 12,
-                      fontWeight: 600,
-                      color: done ? '#94A3B8' : '#10B981',
-                      background: done ? '#F1F5F9' : '#F0FDF4',
-                      border: `1px solid ${done ? '#E5E7EB' : '#BBFFC7'}`,
-                      padding: '6px 12px',
-                      borderRadius: 6,
+                      fontWeight: 500,
+                      color: done ? '#94A3B8' : '#0F172A',
+                      background: done ? '#F8FAFC' : '#F1F5F9',
+                      border: '1px solid #E5E7EB',
+                      padding: '5px 12px',
+                      borderRadius: 8,
                       cursor: 'pointer',
                       flexShrink: 0,
                     }}
@@ -225,65 +213,43 @@ export function ApplicationInsightsHub({
         </ul>
       </div>
 
-      {/* OUTCOME PROJECTION PANEL */}
-      <div
-        style={{
-          background: '#FFFBEB',
-          border: '2px solid #F59E0B',
-          borderRadius: 12,
-          padding: 24,
-        }}
-      >
-        <p style={{ fontSize: 13, fontWeight: 600, color: '#92400E', margin: '0 0 16px 0', textTransform: 'uppercase' }}>
-          Outcome Projection
+      {/* POTENTIAL OUTCOME */}
+      <div style={{ ...cardStyle, padding: 24 }}>
+        <p style={{ fontSize: 11, fontWeight: 600, color: '#64748B', margin: '0 0 16px 0', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+          Potential Outcome
         </p>
 
-        <div style={{ display: 'flex', gap: 24, alignItems: 'stretch', marginBottom: 16 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginBottom: 16 }}>
           {/* Current */}
-          <div style={{ flex: 1, padding: 16, background: '#FFFFFF', borderRadius: 8, border: '1px solid #E5E7EB', textAlign: 'center' }}>
-            <p style={{ fontSize: 11, color: '#94A3B8', margin: '0 0 8px 0', fontWeight: 600, textTransform: 'uppercase' }}>Current</p>
+          <div style={{ padding: 16, background: '#F8FAFC', borderRadius: 12, textAlign: 'center' }}>
+            <p style={{ fontSize: 11, color: '#94A3B8', margin: '0 0 8px 0', fontWeight: 500, textTransform: 'uppercase' }}>Current</p>
             <p style={{ fontSize: 28, fontWeight: 700, color: '#2563EB', margin: 0 }}>{baseInterviewProbability}%</p>
-            <div style={{ height: 8, background: '#E5E7EB', borderRadius: 4, overflow: 'hidden', marginTop: 12 }}>
-              <div style={{ height: '100%', width: `${baseInterviewProbability}%`, background: '#2563EB', borderRadius: 4 }} />
+            <div style={{ height: 4, background: '#E5E7EB', borderRadius: 2, overflow: 'hidden', marginTop: 12 }}>
+              <div style={{ height: '100%', width: `${baseInterviewProbability}%`, background: '#2563EB', borderRadius: 2 }} />
             </div>
-            <p style={{ fontSize: 11, color: '#64748B', margin: '8px 0 0 0' }}>Moderate range</p>
-          </div>
-
-          {/* Arrow */}
-          <div style={{ display: 'flex', alignItems: 'center', fontSize: 20, color: '#F59E0B', fontWeight: 700 }}>
-            {'>'}
+            <p style={{ fontSize: 11, color: '#94A3B8', margin: '8px 0 0 0' }}>Moderate range</p>
           </div>
 
           {/* Projected */}
-          <div style={{ flex: 1, padding: 16, background: '#F0FDF4', borderRadius: 8, border: '1px solid #BBFFC7', textAlign: 'center' }}>
-            <p style={{ fontSize: 11, color: '#059669', margin: '0 0 8px 0', fontWeight: 600, textTransform: 'uppercase' }}>If Actions Completed</p>
+          <div style={{ padding: 16, background: '#F8FAFC', borderRadius: 12, textAlign: 'center' }}>
+            <p style={{ fontSize: 11, color: '#94A3B8', margin: '0 0 8px 0', fontWeight: 500, textTransform: 'uppercase' }}>If Completed</p>
             <p style={{ fontSize: 28, fontWeight: 700, color: '#10B981', margin: 0 }}>{projectedProbability}%</p>
-            <div style={{ height: 8, background: '#E5E7EB', borderRadius: 4, overflow: 'hidden', marginTop: 12 }}>
-              <div style={{ height: '100%', width: `${projectedProbability}%`, background: '#10B981', borderRadius: 4 }} />
+            <div style={{ height: 4, background: '#E5E7EB', borderRadius: 2, overflow: 'hidden', marginTop: 12 }}>
+              <div style={{ height: '100%', width: `${projectedProbability}%`, background: '#10B981', borderRadius: 2 }} />
             </div>
-            <p style={{ fontSize: 11, color: '#059669', margin: '8px 0 0 0' }}>Strong range</p>
+            <p style={{ fontSize: 11, color: '#10B981', margin: '8px 0 0 0' }}>Strong range</p>
           </div>
         </div>
 
-        <div style={{ padding: 12, background: '#FFFFFF', borderRadius: 8, border: '1px solid #FBBF24', display: 'flex', flexDirection: 'column', gap: 6 }}>
-          <p style={{ fontSize: 12, fontWeight: 600, color: '#92400E', margin: 0 }}>
-            +{projectedProbability - baseInterviewProbability}% projected improvement. Would move you into strong interview range.
-          </p>
-          <p style={{ fontSize: 11, color: '#B45309', margin: 0 }}>
-            Current position: you outperform {percentileRank}% of similar applicants.
-          </p>
-        </div>
+        <p style={{ fontSize: 12, color: '#64748B', margin: 0 }}>
+          +{projectedProbability - baseInterviewProbability}% projected improvement. Would move you into strong interview range.
+        </p>
       </div>
 
-      {/* SITUATION group label */}
-      <p style={{ fontSize: 10, fontWeight: 700, color: '#2563EB', textTransform: 'uppercase', letterSpacing: '1px', margin: '4px 0 -12px 0' }}>
-        Situation
-      </p>
-
-      {/* STRATEGIC TIMING ENGINE */}
-      <div style={{ background: '#FFFFFF', borderRadius: 12, border: '1px solid #E5E7EB', padding: 24 }}>
-        <p style={{ fontSize: 13, fontWeight: 600, color: '#0F172A', margin: '0 0 16px 0', textTransform: 'uppercase' }}>
-          Strategic Timing Engine
+      {/* TIMELINE INSIGHT */}
+      <div style={{ ...cardStyle, padding: 24 }}>
+        <p style={{ fontSize: 11, fontWeight: 600, color: '#64748B', margin: '0 0 16px 0', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+          Timeline Insight
         </p>
 
         {/* Visual Timeline */}
@@ -302,35 +268,35 @@ export function ApplicationInsightsHub({
               <div key={idx} style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', position: 'relative' }}>
                 <div
                   style={{
-                    width: item.current ? 16 : 10,
-                    height: item.current ? 16 : 10,
+                    width: item.current ? 14 : 8,
+                    height: item.current ? 14 : 8,
                     borderRadius: '50%',
-                    background: item.current ? '#2563EB' : item.past ? '#10B981' : item.peak ? '#F59E0B' : '#E5E7EB',
-                    border: item.current ? '3px solid #93B4F8' : 'none',
-                    boxShadow: item.current ? '0 0 0 4px rgba(37, 99, 235, 0.2), 0 0 8px rgba(37, 99, 235, 0.3)' : 'none',
+                    background: item.current ? '#2563EB' : item.past ? '#CBD5E1' : item.peak ? '#FBBF24' : '#E5E7EB',
+                    border: item.current ? '3px solid #BFDBFE' : 'none',
+                    boxShadow: item.current ? '0 0 0 4px rgba(37, 99, 235, 0.15)' : 'none',
                     zIndex: 1,
                   }}
                 />
                 {idx < 7 && (
                   <div style={{
                     position: 'absolute',
-                    top: item.current ? 6 : 4,
+                    top: item.current ? 5 : 3,
                     left: '50%',
                     width: '100%',
                     height: 2,
-                    background: item.past || item.current ? '#10B981' : '#E5E7EB',
+                    background: item.past || item.current ? '#CBD5E1' : '#F1F5F9',
                   }} />
                 )}
-                <p style={{ fontSize: 10, fontWeight: 600, color: item.current ? '#2563EB' : '#94A3B8', margin: '6px 0 0 0' }}>
+                <p style={{ fontSize: 10, fontWeight: 500, color: item.current ? '#2563EB' : '#94A3B8', margin: '6px 0 0 0' }}>
                   {item.day}
                 </p>
                 {item.label && (
                   <p style={{
                     fontSize: 9,
-                    color: item.current ? '#2563EB' : item.peak ? '#F59E0B' : '#94A3B8',
+                    color: item.current ? '#2563EB' : '#94A3B8',
                     margin: '2px 0 0 0',
                     textAlign: 'center',
-                    fontWeight: item.current ? 700 : 400,
+                    fontWeight: item.current ? 600 : 400,
                     whiteSpace: 'nowrap',
                   }}>
                     {item.label}
@@ -340,33 +306,33 @@ export function ApplicationInsightsHub({
             ))}
           </div>
 
-          {/* Peak cluster indicator */}
-          <div style={{ marginTop: 12, marginLeft: '42%', width: '33%' }}>
-            <div style={{ height: 3, background: 'linear-gradient(90deg, #FDE68A, #F59E0B, #FDE68A)', borderRadius: 2 }} />
-            <p style={{ fontSize: 10, color: '#B45309', margin: '4px 0 0 0', textAlign: 'center', fontWeight: 600 }}>
-              Peak decision cluster
+          {/* Peak cluster indicator - subtle */}
+          <div style={{ marginTop: 8, marginLeft: '42%', width: '33%' }}>
+            <div style={{ height: 2, background: '#FDE68A', borderRadius: 1 }} />
+            <p style={{ fontSize: 9, color: '#94A3B8', margin: '3px 0 0 0', textAlign: 'center', fontWeight: 500 }}>
+              Peak decision window
             </p>
           </div>
         </div>
 
-        {/* Follow-up Status */}
-        <div style={{ display: 'flex', gap: 16, padding: 16, background: '#F0F9FF', borderRadius: 8, border: '1px solid #BFDBFE' }}>
+        {/* Follow-up Status - soft info card */}
+        <div style={{ display: 'flex', gap: 16, padding: 14, background: '#F8FAFC', borderRadius: 10, alignItems: 'center' }}>
           <div style={{ flex: 1 }}>
-            <p style={{ fontSize: 12, fontWeight: 600, color: '#0369A1', margin: '0 0 4px 0' }}>Follow-up: Locked</p>
-            <p style={{ fontSize: 11, color: '#0369A1', margin: 0 }}>Unlocks Day 5. Peak recruiter decisions = Days 4-6.</p>
+            <p style={{ fontSize: 12, fontWeight: 600, color: '#0F172A', margin: '0 0 2px 0' }}>Follow-up locked</p>
+            <p style={{ fontSize: 12, color: '#94A3B8', margin: 0 }}>Unlocks Day 5. Recruiter decisions peak Days 4-6.</p>
           </div>
           <div style={{ textAlign: 'right' }}>
-            <p style={{ fontSize: 18, fontWeight: 700, color: '#2563EB', margin: 0 }}>2 days</p>
-            <p style={{ fontSize: 11, color: '#64748B', margin: '2px 0 0 0' }}>until unlock</p>
+            <p style={{ fontSize: 16, fontWeight: 600, color: '#2563EB', margin: 0 }}>2 days</p>
+            <p style={{ fontSize: 11, color: '#94A3B8', margin: '2px 0 0 0' }}>remaining</p>
           </div>
         </div>
       </div>
 
-      {/* STRATEGIC VIEW: Recruiter Decision Model + Decision Flow */}
+      {/* STRATEGIC VIEW: Decision Model + Journey */}
       {strategicView && (
         <>
-          {/* RECRUITER DECISION MODEL - Merged Section */}
-          <div style={{ background: '#FFFFFF', borderRadius: 12, border: '1px solid #E5E7EB', overflow: 'hidden' }}>
+          {/* RECRUITER DECISION MODEL - Collapsible */}
+          <div style={{ ...cardStyle, overflow: 'hidden' }}>
             <button
               type="button"
               onClick={() => setExpandedDecisionModel(!expandedDecisionModel)}
@@ -374,61 +340,64 @@ export function ApplicationInsightsHub({
                 width: '100%',
                 background: 'none',
                 border: 'none',
-                padding: 20,
+                padding: '16px 24px',
                 cursor: 'pointer',
                 display: 'flex',
                 justifyContent: 'space-between',
                 alignItems: 'center',
               }}
             >
-              <p style={{ fontSize: 13, fontWeight: 600, color: '#0F172A', margin: 0, textTransform: 'uppercase' }}>
-                Recruiter Decision Model - What Matters Most
+              <p style={{ fontSize: 11, fontWeight: 600, color: '#64748B', margin: 0, textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+                What Recruiters Look For
               </p>
-              <span style={{ fontSize: 14, color: '#94A3B8', transition: 'transform 0.2s', transform: expandedDecisionModel ? 'rotate(180deg)' : 'rotate(0deg)' }}>
-                v
-              </span>
+              <svg
+                width="16" height="16" viewBox="0 0 16 16" fill="none"
+                style={{ transition: 'transform 0.2s', transform: expandedDecisionModel ? 'rotate(180deg)' : 'rotate(0deg)' }}
+              >
+                <path d="M4 6L8 10L12 6" stroke="#94A3B8" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
             </button>
 
             {expandedDecisionModel && (
-              <div style={{ padding: '0 20px 20px 20px' }}>
-                {/* A. Top Positive Signals */}
+              <div style={{ padding: '0 24px 24px 24px' }}>
+                {/* Positive Signals */}
                 <div style={{ marginBottom: 20 }}>
-                  <p style={{ fontSize: 11, fontWeight: 700, color: '#10B981', margin: '0 0 10px 0', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
-                    A. Top Positive Signals
+                  <p style={{ fontSize: 11, fontWeight: 600, color: '#10B981', margin: '0 0 10px 0', textTransform: 'uppercase', letterSpacing: '0.3px' }}>
+                    Positive Signals
                   </p>
                   <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: 8 }}>
                     <li style={{ fontSize: 13, color: '#0F172A', display: 'flex', gap: 10, alignItems: 'center' }}>
-                      <span style={{ fontWeight: 600, color: '#10B981', flexShrink: 0 }}>+15%</span>
+                      <span style={{ fontSize: 11, fontWeight: 500, color: '#10B981', background: '#F0FDF4', padding: '1px 6px', borderRadius: 10 }}>+15%</span>
                       <span>Strong foundational skills match vs. role requirements</span>
                     </li>
                     <li style={{ fontSize: 13, color: '#0F172A', display: 'flex', gap: 10, alignItems: 'center' }}>
-                      <span style={{ fontWeight: 600, color: '#10B981', flexShrink: 0 }}>+5%</span>
+                      <span style={{ fontSize: 11, fontWeight: 500, color: '#10B981', background: '#F0FDF4', padding: '1px 6px', borderRadius: 10 }}>+5%</span>
                       <span>Referral network activation available (if used)</span>
                     </li>
                   </ul>
                 </div>
 
-                {/* B. Friction Points */}
+                {/* Friction Points */}
                 <div style={{ marginBottom: 20 }}>
-                  <p style={{ fontSize: 11, fontWeight: 700, color: '#EF4444', margin: '0 0 10px 0', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
-                    B. Friction Points
+                  <p style={{ fontSize: 11, fontWeight: 600, color: '#EF4444', margin: '0 0 10px 0', textTransform: 'uppercase', letterSpacing: '0.3px' }}>
+                    Friction Points
                   </p>
                   <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: 8 }}>
                     <li style={{ fontSize: 13, color: '#0F172A', display: 'flex', gap: 10, alignItems: 'center' }}>
-                      <span style={{ fontWeight: 600, color: '#EF4444', flexShrink: 0 }}>-8%</span>
+                      <span style={{ fontSize: 11, fontWeight: 500, color: '#DC2626', background: '#FEF2F2', padding: '1px 6px', borderRadius: 10 }}>-8%</span>
                       <span>Limited quantified outcomes in CV</span>
                     </li>
                     <li style={{ fontSize: 13, color: '#0F172A', display: 'flex', gap: 10, alignItems: 'center' }}>
-                      <span style={{ fontSize: 11, fontWeight: 500, background: '#FEF3C7', color: '#92400E', padding: '2px 8px', borderRadius: 4, flexShrink: 0 }}>Moderate</span>
+                      <span style={{ fontSize: 11, fontWeight: 500, color: '#D97706', background: '#FFFBEB', padding: '1px 6px', borderRadius: 10 }}>Moderate</span>
                       <span>Experience depth in this specific role type</span>
                     </li>
                   </ul>
                 </div>
 
-                {/* C. Recruiter Screening Priorities */}
+                {/* Screening Priorities */}
                 <div>
-                  <p style={{ fontSize: 11, fontWeight: 700, color: '#2563EB', margin: '0 0 10px 0', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
-                    C. Recruiter Screening Priorities
+                  <p style={{ fontSize: 11, fontWeight: 600, color: '#2563EB', margin: '0 0 10px 0', textTransform: 'uppercase', letterSpacing: '0.3px' }}>
+                    Screening Priorities
                   </p>
                   <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: 8 }}>
                     {[
@@ -438,7 +407,7 @@ export function ApplicationInsightsHub({
                     ].map((item, idx) => (
                       <li key={idx} style={{ fontSize: 13, color: '#0F172A', display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingBottom: idx < 2 ? 8 : 0, borderBottom: idx < 2 ? '1px solid #F1F5F9' : 'none' }}>
                         <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
-                          <span style={{ fontWeight: 700, color: '#2563EB', fontSize: 12 }}>{idx + 1}.</span>
+                          <span style={{ fontWeight: 500, color: '#94A3B8', fontSize: 12 }}>{idx + 1}.</span>
                           <div>
                             <span style={{ fontWeight: 500 }}>{item.label}</span>
                             <p style={{ fontSize: 11, color: '#94A3B8', margin: '2px 0 0 0' }}>{item.desc}</p>
@@ -446,12 +415,11 @@ export function ApplicationInsightsHub({
                         </div>
                         <span style={{
                           fontSize: 11,
-                          fontWeight: 600,
-                          color: item.severity === 'High' ? '#EF4444' : '#F59E0B',
-                          background: item.severity === 'High' ? '#FEE2E2' : '#FEF3C7',
-                          padding: '2px 8px',
-                          borderRadius: 4,
-                          flexShrink: 0,
+                          fontWeight: 500,
+                          color: item.severity === 'High' ? '#DC2626' : '#D97706',
+                          background: item.severity === 'High' ? '#FEF2F2' : '#FFFBEB',
+                          padding: '1px 6px',
+                          borderRadius: 10,
                         }}>
                           {item.severity}
                         </span>
@@ -463,16 +431,16 @@ export function ApplicationInsightsHub({
             )}
           </div>
 
-          {/* DECISION FLOW MODEL - Smart Timeline */}
-          <div style={{ background: '#FFFFFF', borderRadius: 12, border: '1px solid #E5E7EB', padding: 20 }}>
-            <p style={{ fontSize: 11, fontWeight: 700, color: '#475569', margin: '0 0 16px 0', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
-              Decision Flow Model
+          {/* APPLICATION JOURNEY */}
+          <div style={{ ...cardStyle, padding: 24 }}>
+            <p style={{ fontSize: 11, fontWeight: 600, color: '#64748B', margin: '0 0 16px 0', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+              Application Journey
             </p>
             <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: 0 }}>
               {[
                 { day: 'Day 0', label: 'Application submitted', sub: 'Jan 28, 2026 at 2:14 PM', status: 'past' },
                 { day: 'Day 1', label: 'Screening queue entered', sub: 'Detected in recruiter intake', status: 'past' },
-                { day: 'Day 3', label: 'Under recruiter review', sub: 'YOU ARE HERE - active decision window', status: 'current' },
+                { day: 'Day 3', label: 'Under recruiter review', sub: 'You are here - active decision window', status: 'current' },
                 { day: 'Day 4-6', label: 'Decision clustering window', sub: 'Historical peak - recruiter decisions concentrate here', status: 'next' },
                 { day: 'Day 5', label: 'Follow-up window unlock', sub: 'Optimal follow-up timing', status: 'future' },
                 { day: 'Day 7', label: 'Decision threshold', sub: 'Decision probability plateaus', status: 'future' },
@@ -483,28 +451,27 @@ export function ApplicationInsightsHub({
                     display: 'flex',
                     gap: 16,
                     fontSize: 13,
-                    padding: '10px 0',
-                    borderLeft: item.status === 'current' ? '3px solid #2563EB' : item.status === 'next' ? '3px solid #F59E0B' : '3px solid transparent',
-                    paddingLeft: 12,
-                    background: item.status === 'current' ? '#EFF6FF' : item.status === 'next' ? '#FFFBEB' : 'transparent',
-                    borderRadius: item.status === 'current' || item.status === 'next' ? 6 : 0,
+                    padding: '10px 12px',
+                    borderLeft: item.status === 'current' ? '2px solid #2563EB' : '2px solid transparent',
+                    background: item.status === 'current' ? '#F8FAFC' : 'transparent',
+                    borderRadius: item.status === 'current' ? 6 : 0,
                     marginBottom: 2,
-                    opacity: item.status === 'past' ? 0.6 : 1,
+                    opacity: item.status === 'past' ? 0.5 : 1,
                   }}
                 >
                   <div style={{
                     fontSize: 12,
-                    fontWeight: 600,
-                    color: item.status === 'current' ? '#2563EB' : item.status === 'next' ? '#F59E0B' : item.status === 'past' ? '#94A3B8' : '#CBD5E1',
+                    fontWeight: 500,
+                    color: item.status === 'current' ? '#2563EB' : item.status === 'next' ? '#D97706' : item.status === 'past' ? '#94A3B8' : '#CBD5E1',
                     minWidth: '60px',
                   }}>
                     {item.day}
                   </div>
                   <div style={{ flex: 1 }}>
-                    <p style={{ margin: 0, fontWeight: item.status === 'current' || item.status === 'next' ? 600 : 500, color: item.status === 'future' ? '#94A3B8' : '#0F172A' }}>
+                    <p style={{ margin: 0, fontWeight: item.status === 'current' ? 600 : 400, color: item.status === 'future' ? '#94A3B8' : '#0F172A' }}>
                       {item.label}
                     </p>
-                    <p style={{ fontSize: 11, color: item.status === 'current' ? '#2563EB' : item.status === 'next' ? '#B45309' : '#94A3B8', margin: '2px 0 0 0', fontWeight: item.status === 'current' ? 600 : 400 }}>
+                    <p style={{ fontSize: 11, color: item.status === 'current' ? '#2563EB' : '#94A3B8', margin: '2px 0 0 0' }}>
                       {item.sub}
                     </p>
                   </div>
@@ -515,8 +482,8 @@ export function ApplicationInsightsHub({
         </>
       )}
 
-      {/* MODEL TRANSPARENCY & COMPLIANCE - Collapsible Footer */}
-      <div style={{ background: '#F8FAFC', borderRadius: 10, border: '1px solid #E5E7EB', overflow: 'hidden' }}>
+      {/* MODEL TRANSPARENCY - Collapsible, matching Profile accordion */}
+      <div style={{ ...cardStyle, overflow: 'hidden', background: '#F8FAFC' }}>
         <button
           type="button"
           onClick={() => setExpandedGovernance(!expandedGovernance)}
@@ -524,48 +491,42 @@ export function ApplicationInsightsHub({
             width: '100%',
             background: 'none',
             border: 'none',
-            padding: '12px 16px',
+            padding: '12px 20px',
             cursor: 'pointer',
             display: 'flex',
             justifyContent: 'space-between',
             alignItems: 'center',
           }}
         >
-          <p style={{ fontSize: 11, fontWeight: 600, color: '#94A3B8', margin: 0, textTransform: 'uppercase' }}>
-            Model Transparency & Compliance
+          <p style={{ fontSize: 11, fontWeight: 500, color: '#94A3B8', margin: 0, textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+            Model Transparency
           </p>
-          <span style={{ fontSize: 12, color: '#94A3B8', transition: 'transform 0.2s', transform: expandedGovernance ? 'rotate(180deg)' : 'rotate(0deg)' }}>
-            v
-          </span>
+          <svg
+            width="14" height="14" viewBox="0 0 16 16" fill="none"
+            style={{ transition: 'transform 0.2s', transform: expandedGovernance ? 'rotate(180deg)' : 'rotate(0deg)' }}
+          >
+            <path d="M4 6L8 10L12 6" stroke="#94A3B8" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+          </svg>
         </button>
 
         {expandedGovernance && (
-          <div style={{ padding: '0 16px 16px 16px' }}>
-            <p style={{ fontSize: 12, color: '#64748B', margin: '0 0 12px 0' }}>
-              Validated probabilistic hiring outcome model based on anonymized multi-company hiring data. Confidence intervals based on 1,200+ comparable cases.
+          <div style={{ padding: '0 20px 16px 20px' }}>
+            <p style={{ fontSize: 12, color: '#94A3B8', margin: '0 0 12px 0' }}>
+              Probabilistic model based on anonymized hiring data. Confidence intervals from 1,200+ comparable cases.
             </p>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 12 }}>
-              <div style={{ fontSize: 11, color: '#64748B' }}>
-                <p style={{ margin: '0 0 2px 0', fontWeight: 600 }}>No recruiter tracking</p>
-                <p style={{ margin: 0, fontSize: 10 }}>System is read-only</p>
-              </div>
-              <div style={{ fontSize: 11, color: '#64748B' }}>
-                <p style={{ margin: '0 0 2px 0', fontWeight: 600 }}>No employer data scraping</p>
-                <p style={{ margin: 0, fontSize: 10 }}>Fully anonymized modeling</p>
-              </div>
-              <div style={{ fontSize: 11, color: '#64748B' }}>
-                <p style={{ margin: '0 0 2px 0', fontWeight: 600 }}>GDPR compliant</p>
-                <p style={{ margin: 0, fontSize: 10 }}>Data privacy enforced</p>
-              </div>
+            <div style={{ display: 'flex', gap: 24 }}>
+              <p style={{ fontSize: 11, color: '#94A3B8', margin: 0 }}>No recruiter tracking</p>
+              <p style={{ fontSize: 11, color: '#94A3B8', margin: 0 }}>No employer scraping</p>
+              <p style={{ fontSize: 11, color: '#94A3B8', margin: 0 }}>GDPR compliant</p>
             </div>
           </div>
         )}
       </div>
 
-      {/* System Metadata Footer */}
-      <div style={{ padding: 10, textAlign: 'center' }}>
+      {/* Metadata */}
+      <div style={{ textAlign: 'center', padding: '4px 0' }}>
         <p style={{ fontSize: 10, color: '#CBD5E1', margin: 0 }}>
-          Last model refresh: 11:32 AM | Data confidence: High | System ID: v14-strategic
+          Last refresh: 11:32 AM | Confidence: High
         </p>
       </div>
     </div>
