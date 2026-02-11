@@ -538,7 +538,7 @@ const translations: Record<Language, Record<string, string>> = {
     "actions.data.finalRound": "Final round",
 
     // Action detail data - stages
-    "actionDetail.data.applicationSubmitted": "Application Submitted",
+    "actionDetail.data.applicationSubmitted": "Your Application Submitted",
     "actionDetail.data.applicationReview": "Application Review",
     "actionDetail.data.interview": "Interview",
     "actionDetail.data.decision": "Decision",
@@ -830,7 +830,7 @@ const translations: Record<Language, Record<string, string>> = {
     "interview.danger3": "\"I just need a job\" - Shows desperation instead of genuine interest. Focus on why THIS role.",
 
     // Stage Preparation Guide
-    "stage.applicationSubmitted": "Application Submitted",
+    "stage.applicationSubmitted": "Your Application Submitted",
     "stage.applicationReview": "Under Review",
     "stage.interview": "Interview Process",
     "stage.decision": "Final Decision",
@@ -1729,7 +1729,7 @@ const translations: Record<Language, Record<string, string>> = {
     "interview.danger2": "\"Mon patron actuel est terrible\" - Parler négativement est un signal d'alarme majeur pour les recruteurs.",
     "interview.danger3": "\"J'ai juste besoin d'un emploi\" - Montre du désespoir au lieu d'un intérêt réel. Concentrez-vous sur pourquoi CE poste.",
 
-    "stage.applicationSubmitted": "Candidature soumise",
+    "stage.applicationSubmitted": "Votre candidature envoyée",
     "stage.applicationReview": "Examen de la Candidature",
     "stage.interview": "Processus d'entretien",
     "stage.decision": "D\u00E9cision finale",
