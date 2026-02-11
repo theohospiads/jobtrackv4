@@ -4,7 +4,6 @@ import { useParams, useRouter } from "next/navigation"
 import { useLanguage } from "@/components/language-provider"
 import { useState } from "react"
 import { TopNav } from "@/components/top-nav"
-import { InterviewTracker } from "@/components/interview-tracker"
 import { StagePrepGuide } from "@/components/stage-preparation-guide"
 
 interface ActionJobData {
@@ -399,12 +398,7 @@ export default function ActionDetailPage() {
           </div>
         )}
 
-        {/* Interview Tracker - Only shown when at interview stage or beyond */}
-        {currentStage >= 2 && job.stages.some((s: { nameKey: string; status: string }) => s.nameKey.includes("interview") || s.nameKey.includes("screening")) && (
-          <div style={{ marginBottom: 32 }}>
-            <InterviewTracker stages={interviewStages} onStageUpdate={setInterviewStages} />
-          </div>
-        )}
+        {/* Timeline section continues below */}
 
         {/* Timeline Section */}
         <div style={{ marginBottom: 24 }}>
