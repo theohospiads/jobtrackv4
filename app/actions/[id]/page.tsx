@@ -1,14 +1,11 @@
 "use client"
 
-import { TopNav } from "@/components/top-nav"
 import { useParams, useRouter } from "next/navigation"
 import { useLanguage } from "@/components/language-provider"
 import { useState } from "react"
 import { TopNav } from "@/components/top-nav"
 import { InterviewTracker } from "@/components/interview-tracker"
 import { StagePrepGuide } from "@/components/stage-preparation-guide"
-import { SalaryNegotiationGuide } from "@/components/salary-negotiation-guide"
-import { InterviewQuestionsGuide } from "@/components/interview-questions-guide"
 
 interface ActionJobData {
   id: string
