@@ -184,33 +184,7 @@ export default function ActionDetailPage() {
   const id = params.id as string
   const job = actionJobsData[id] || actionJobsData["1"]
 
-  // Safeguard for early returns - ensure all hooks are called unconditionally
-  const [completedTasks, setCompletedTasks] = useState<Record<number, boolean>>(
-    job?.tasks ? job.tasks.reduce((acc, _, i) => ({ ...acc, [i]: false }), {}) : {}
-  )
-  const [interviewStages, setInterviewStages] = useState(job?.interviewStages || [])
-  const [totalInterviewRounds, setTotalInterviewRounds] = useState(job?.interviewStages?.length || 0)
-  const [showHealthInfo, setShowHealthInfo] = useState(false)
-  const [currentStage, setCurrentStage] = useState(job?.currentStage ?? 0)
-
-  const progressPercentage = job ? (currentStage / job.totalStages) * 100 : 0
-  const completedTaskCount = job ? Object.values(completedTasks).filter(Boolean).length : 0
-  const taskCompletionPercent = job ? (completedTaskCount / job.tasks.length) * 100 : 0
-
-  // Application Health Score logic
-  const getHealthScore = () => {
-    if (!job) return { score: "N/A", color: "#94A3B8" }
-    const stageBonus = (currentStage / job.totalStages) * 50
-    const taskBonus = taskCompletionPercent * 0.3
-    const score = stageBonus + taskBonus
-    if (score > 75) return { score: "Strong", color: "#2563EB" }
-    if (score > 50) return { score: "Good", color: "#2563EB" }
-    if (score > 25) return { score: "Fair", color: "#2563EB" }
-    return { score: "Needs Work", color: "#2563EB" }
-  }
-
-  const health = getHealthScore()
-
+  // Early check - if no job, return loading before any hooks
   if (!job) {
     return (
       <div style={{ background: "#F8FAFC", minHeight: "100vh", paddingBottom: 100 }}>
@@ -221,6 +195,32 @@ export default function ActionDetailPage() {
       </div>
     )
   }
+
+  // All hooks must be called unconditionally after the early return check
+  const [completedTasks, setCompletedTasks] = useState<Record<number, boolean>>(
+    job.tasks.reduce((acc, _, i) => ({ ...acc, [i]: false }), {})
+  )
+  const [interviewStages, setInterviewStages] = useState(job.interviewStages)
+  const [totalInterviewRounds, setTotalInterviewRounds] = useState(job.interviewStages.length)
+  const [showHealthInfo, setShowHealthInfo] = useState(false)
+  const [currentStage, setCurrentStage] = useState(job.currentStage)
+
+  const progressPercentage = (currentStage / job.totalStages) * 100
+  const completedTaskCount = Object.values(completedTasks).filter(Boolean).length
+  const taskCompletionPercent = (completedTaskCount / job.tasks.length) * 100
+
+  // Application Health Score logic
+  const getHealthScore = () => {
+    const stageBonus = (currentStage / job.totalStages) * 50
+    const taskBonus = taskCompletionPercent * 0.3
+    const score = stageBonus + taskBonus
+    if (score > 75) return { score: "Strong", color: "#2563EB" }
+    if (score > 50) return { score: "Good", color: "#2563EB" }
+    if (score > 25) return { score: "Fair", color: "#2563EB" }
+    return { score: "Needs Work", color: "#2563EB" }
+  }
+
+  const health = getHealthScore()
 
   return (
     <div style={{ background: "#F8FAFC", minHeight: "100vh", paddingBottom: 100 }}>
