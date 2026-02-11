@@ -53,6 +53,9 @@ const STAGE_NAMES = ['stage.applicationSubmitted', 'stage.applicationReview', 's
 export function StagePrepGuide({ currentStageIndex, stageName, stageStatus }: StagePrepGuideProps) {
   // Early return BEFORE any hooks
   if (stageStatus !== 'current') return null
+  
+  // Skip rendering tips for Stage 1 (Application Submitted)
+  if (currentStageIndex === 0) return null
 
   const { t } = useLanguage()
   const [checkedItems, setCheckedItems] = useState<Record<string, boolean>>({})
