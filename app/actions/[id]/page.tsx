@@ -285,7 +285,7 @@ export default function ActionDetailPage() {
               </p>
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12 }}>
                 <p style={{ fontSize: 16, fontWeight: 600, color: "#0F172A", margin: 0 }}>
-                  {job.stages[currentStage] ? t(job.stages[currentStage].nameKey) : ""}
+                  {job.stages[currentStage - 1] ? t(job.stages[currentStage - 1].nameKey) : ""}
                 </p>
                 <div style={{ display: "flex", gap: 8 }}>
                   {/* Previous Stage Button */}
