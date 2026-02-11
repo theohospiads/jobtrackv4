@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useLanguage } from './language-provider'
 
 interface ApplicationInsightsHubProps {
@@ -28,8 +28,12 @@ export function ApplicationInsightsHub({
   const { t } = useLanguage()
   const [showGovernance, setShowGovernance] = useState(false)
   const [done, setDone] = useState<number[]>([])
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => { setMounted(true) }, [])
 
   if (currentStage !== 0) return null
+  if (!mounted) return null
 
   const daysIn = 3
   const reviewDays = 7
@@ -44,7 +48,7 @@ export function ApplicationInsightsHub({
     setDone(p => (p.includes(i) ? p.filter(x => x !== i) : [...p, i]))
 
   return (
-    <div style={{ marginBottom: 32, display: 'flex', flexDirection: 'column', gap: 32 }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
 
       {/* PROJECTED OUTCOME */}
       <div style={{ ...card, padding: 24 }}>
