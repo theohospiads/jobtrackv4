@@ -36,7 +36,7 @@ export function ApplicationInsightsHub({
 
   return (
     <div style={{ marginBottom: 32, display: 'flex', flexDirection: 'column', gap: 24 }}>
-      {/* 1. STAGE COMMAND CENTER — Unified Decision Block */}
+      {/* Stage Command Center */}
       <div
         style={{
           background: '#FFFFFF',
@@ -83,7 +83,7 @@ export function ApplicationInsightsHub({
               margin: '0 0 4px 0',
             }}
           >
-            Monitoring — Day {daysSinceSubmission} of typical {typicalReviewDays}-day review window
+            Application Submitted - Monitoring Phase
           </h2>
           <p
             style={{
@@ -93,11 +93,11 @@ export function ApplicationInsightsHub({
               margin: 0,
             }}
           >
-            Your application is in the recruiter screening queue.
+            Day {daysSinceSubmission} of typical {typicalReviewDays}-day review window
           </p>
         </div>
 
-        {/* Two-Column Layout */}
+        {/* Situation Snapshot and Intelligent Forecast */}
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 40, marginBottom: 32 }}>
           {/* Left: Situation Snapshot */}
           <div>
@@ -151,20 +151,28 @@ export function ApplicationInsightsHub({
             </p>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
               <div>
-                <p style={{ fontSize: 12, color: '#94A3B8', margin: '0 0 2px 0' }}>Typical review time</p>
+                <p style={{ fontSize: 12, color: '#94A3B8', margin: '0 0 2px 0' }}>
+                  Typical review time
+                </p>
                 <p style={{ fontSize: 15, fontWeight: 500, color: '#0F172A', margin: 0 }}>
-                  5–7 days from submission
+                  5-7 days from submission
                 </p>
               </div>
               <div>
-                <p style={{ fontSize: 12, color: '#94A3B8', margin: '0 0 2px 0' }}>Interview probability</p>
+                <p style={{ fontSize: 12, color: '#94A3B8', margin: '0 0 2px 0' }}>
+                  Interview probability
+                </p>
                 <p style={{ fontSize: 15, fontWeight: 500, color: '#2563EB', margin: 0 }}>
                   {interviewProbability}
                 </p>
               </div>
               <div>
-                <p style={{ fontSize: 12, color: '#94A3B8', margin: '0 0 2px 0' }}>Competition level</p>
-                <p style={{ fontSize: 15, fontWeight: 500, color: '#0F172A', margin: 0 }}>Moderate</p>
+                <p style={{ fontSize: 12, color: '#94A3B8', margin: '0 0 2px 0' }}>
+                  Competition level
+                </p>
+                <p style={{ fontSize: 15, fontWeight: 500, color: '#0F172A', margin: 0 }}>
+                  Moderate
+                </p>
               </div>
             </div>
           </div>
@@ -215,14 +223,14 @@ export function ApplicationInsightsHub({
               margin: '0 0 8px 0',
             }}
           >
-            Light preparation (10–15 minutes)
+            Light preparation (10-15 minutes)
           </p>
           <p style={{ fontSize: 13, color: '#0369A1', margin: 0 }}>
             Why: Interview probability is {interviewProbability.toLowerCase()}. Follow-up window opens in {daysUntilFollowUp} days.
           </p>
         </div>
 
-        {/* If-No-Response Plan */}
+        {/* If No Response Plan */}
         <div
           style={{
             background: '#FFFBEB',
@@ -254,19 +262,19 @@ export function ApplicationInsightsHub({
             }}
           >
             <li style={{ fontSize: 13, color: '#92400E' }}>
-              → Send concise follow-up message
+              <span style={{ fontWeight: 500 }}>→</span> Send concise follow-up message
             </li>
             <li style={{ fontSize: 13, color: '#92400E' }}>
-              → Consider referral activation
+              <span style={{ fontWeight: 500 }}>→</span> Consider referral activation
             </li>
             <li style={{ fontSize: 13, color: '#92400E' }}>
-              → Review alignment gaps in application
+              <span style={{ fontWeight: 500 }}>→</span> Review alignment gaps in application
             </li>
           </ul>
         </div>
       </div>
 
-      {/* 2. APPLICATION FIT ANALYSIS */}
+      {/* Application Fit Analysis */}
       <div
         style={{
           background: '#FFFFFF',
@@ -293,6 +301,7 @@ export function ApplicationInsightsHub({
             <p style={{ fontSize: 13, color: '#64748B', fontWeight: 500, margin: 0 }}>Overall Alignment</p>
             <p style={{ fontSize: 16, fontWeight: 700, color: '#2563EB', margin: 0 }}>{alignmentScore}%</p>
           </div>
+          {/* Horizontal confidence bar */}
           <div
             style={{
               height: 8,
@@ -310,43 +319,50 @@ export function ApplicationInsightsHub({
               }}
             />
           </div>
+          {/* Benchmarking Percentile */}
           <p style={{ fontSize: 12, color: '#0369A1', fontWeight: 500, margin: '8px 0 0 0' }}>
             You rank above {percentileRank}% of applicants with similar backgrounds.
           </p>
         </div>
 
-        {/* Strengths & Gaps */}
+        {/* Strengths and Gaps Side-by-Side */}
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 24, marginBottom: 24 }}>
+          {/* Strengths */}
           <div>
-            <p style={{ fontSize: 13, fontWeight: 600, color: '#0F172A', margin: '0 0 12px 0' }}>Your Strengths</p>
+            <p style={{ fontSize: 13, fontWeight: 600, color: '#0F172A', margin: '0 0 12px 0' }}>
+              Your Strengths
+            </p>
             <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: 10 }}>
               <li style={{ fontSize: 13, color: '#0F172A', display: 'flex', gap: 8 }}>
-                <span style={{ color: '#10B981', fontWeight: 600 }}>✓</span>
+                <span style={{ color: '#10B981', fontWeight: 600, flexShrink: 0 }}>✓</span>
                 <span>Strong technical skills alignment</span>
               </li>
               <li style={{ fontSize: 13, color: '#0F172A', display: 'flex', gap: 8 }}>
-                <span style={{ color: '#10B981', fontWeight: 600 }}>✓</span>
+                <span style={{ color: '#10B981', fontWeight: 600, flexShrink: 0 }}>✓</span>
                 <span>Relevant industry experience</span>
               </li>
             </ul>
           </div>
 
+          {/* Gaps */}
           <div>
-            <p style={{ fontSize: 13, fontWeight: 600, color: '#0F172A', margin: '0 0 12px 0' }}>Experience Gaps</p>
+            <p style={{ fontSize: 13, fontWeight: 600, color: '#0F172A', margin: '0 0 12px 0' }}>
+              Experience Gaps
+            </p>
             <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: 10 }}>
               <li style={{ fontSize: 13, color: '#0F172A', display: 'flex', gap: 8 }}>
-                <span style={{ color: '#F59E0B', fontWeight: 600 }}>−</span>
+                <span style={{ color: '#F59E0B', fontWeight: 600, flexShrink: 0 }}>−</span>
                 <span>Limited direct internship experience</span>
               </li>
               <li style={{ fontSize: 13, color: '#0F172A', display: 'flex', gap: 8 }}>
-                <span style={{ color: '#F59E0B', fontWeight: 600 }}>−</span>
+                <span style={{ color: '#F59E0B', fontWeight: 600, flexShrink: 0 }}>−</span>
                 <span>Fewer quantified impact examples</span>
               </li>
             </ul>
           </div>
         </div>
 
-        {/* One Smart Fix */}
+        {/* One Actionable Fix */}
         <div
           style={{
             background: '#FFFBEB',
@@ -367,7 +383,7 @@ export function ApplicationInsightsHub({
         </div>
       </div>
 
-      {/* 3. SCREENING PREP */}
+      {/* Screening Prep */}
       <div
         style={{
           background: '#FFFFFF',
@@ -387,8 +403,11 @@ export function ApplicationInsightsHub({
         >
           Screening Prep
         </h3>
-        <p style={{ fontSize: 13, color: '#64748B', margin: '0 0 20px 0' }}>Est. prep time: 12 minutes</p>
+        <p style={{ fontSize: 13, color: '#64748B', margin: '0 0 20px 0' }}>
+          Est. prep time: 12 minutes
+        </p>
 
+        {/* Interview Questions */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
           {[
             'Why are you interested in this company?',
@@ -456,7 +475,7 @@ export function ApplicationInsightsHub({
         </div>
       </div>
 
-      {/* 4. SUBMISSION DETAILS */}
+      {/* Submission Details - Collapsed by Default */}
       <div
         style={{
           background: '#FFFFFF',
