@@ -339,15 +339,26 @@ export function ApplicationInsightsHub({
             Peak recruiter decisions occur Days 4-6. Waiting prevents noise and maximizes response probability.
           </p>
         </div>
-            </p>
-          </div>
+      </div>
+
+      {/* Follow-up Window Status */}
+      <div
+        style={{
+          background: '#F0F9FF',
+          border: '1px solid #BFDBFE',
+          borderRadius: 12,
+          padding: 24,
+        }}
+      >
+        <p style={{ fontSize: 13, fontWeight: 600, color: '#0369A1', margin: '0 0 16px 0', textTransform: 'uppercase' }}>
+          Follow-up Window Status
+        </p>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 24 }}>
           <div>
             <p style={{ fontSize: 12, color: '#64748B', margin: '0 0 8px 0' }}>Window opens in</p>
             <p style={{ fontSize: 20, fontWeight: 700, color: '#2563EB', margin: 0 }}>3 days</p>
             <p style={{ fontSize: 12, color: '#64748B', margin: '8px 0 0 0' }}>Optimal timing: Day 5-7 post-submission</p>
           </div>
-        </div>
-      </div>
 
       {/* Outcome Simulation */}
       <div
