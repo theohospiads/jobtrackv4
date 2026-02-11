@@ -359,6 +359,12 @@ export function ApplicationInsightsHub({
             <p style={{ fontSize: 20, fontWeight: 700, color: '#2563EB', margin: 0 }}>3 days</p>
             <p style={{ fontSize: 12, color: '#64748B', margin: '8px 0 0 0' }}>Optimal timing: Day 5-7 post-submission</p>
           </div>
+          <div>
+            <p style={{ fontSize: 12, color: '#64748B', margin: '0 0 8px 0' }}>Last follow-up sent</p>
+            <p style={{ fontSize: 20, fontWeight: 700, color: '#0F172A', margin: 0 }}>Never</p>
+          </div>
+        </div>
+      </div>
 
       {/* Outcome Simulation */}
       <div
