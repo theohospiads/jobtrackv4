@@ -183,13 +183,19 @@ export default function ActionDetailPage() {
   const { t } = useLanguage()
   const id = params.id as string
   const job = actionJobsData[id] || actionJobsData["1"]
+
+  // Safeguard for early returns - ensure all hooks are called unconditionally
   const [completedTasks, setCompletedTasks] = useState<Record<number, boolean>>(
-    job.tasks.reduce((acc, _, i) => ({ ...acc, [i]: false }), {})
+    job?.tasks ? job.tasks.reduce((acc, _, i) => ({ ...acc, [i]: false }), {}) : {}
   )
-  const [interviewStages, setInterviewStages] = useState(job.interviewStages)
-  const [totalInterviewRounds, setTotalInterviewRounds] = useState(job.interviewStages.length)
+  const [interviewStages, setInterviewStages] = useState(job?.interviewStages || [])
+  const [totalInterviewRounds, setTotalInterviewRounds] = useState(job?.interviewStages?.length || 0)
   const [showHealthInfo, setShowHealthInfo] = useState(false)
-  const [currentStage, setCurrentStage] = useState(job.currentStage)
+  const [currentStage, setCurrentStage] = useState(job?.currentStage ?? 0)
+
+  if (!job) {
+    return <div>{t("common.loading") || "Loading..."}</div>
+  }
 
   const progressPercentage = (currentStage / job.totalStages) * 100
   const completedTaskCount = Object.values(completedTasks).filter(Boolean).length
