@@ -2,9 +2,10 @@
 
 import { TopNav } from "@/components/top-nav"
 import { useParams, useRouter } from "next/navigation"
-import { useState } from "react"
 import { useLanguage } from "@/components/language-provider"
-import { InterviewStagesTracker, InterviewRoundsSetup } from "@/components/interview-stages-tracker"
+import { useState } from "react"
+import { TopNav } from "@/components/top-nav"
+import { InterviewTracker } from "@/components/interview-tracker"
 import { StagePrepGuide } from "@/components/stage-preparation-guide"
 import { SalaryNegotiationGuide } from "@/components/salary-negotiation-guide"
 import { InterviewQuestionsGuide } from "@/components/interview-questions-guide"
@@ -603,8 +604,12 @@ export default function ActionDetailPage() {
         {/* Interview Questions Guide */}
         <InterviewQuestionsGuide />
 
-        {/* Salary Negotiation Guide */}
-        <SalaryNegotiationGuide salaryRange={job.salary} jobTitle={t(job.titleKey)} />
+        {/* Stage Preparation Guide - NEW */}
+        <StagePrepGuide
+          currentStageIndex={currentStage}
+          stageName={t(job.stages[currentStage]?.nameKey) || 'Current Stage'}
+          stageStatus={job.stages[currentStage]?.status || 'current'}
+        />
 
         {/* Bottom Section - Salary and Action Button */}
         <div style={{ marginBottom: 32, display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginTop: 24, gap: 24 }}>
