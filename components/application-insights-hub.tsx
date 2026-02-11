@@ -46,17 +46,17 @@ export function ApplicationInsightsHub({
   return (
     <div style={{ marginBottom: 32, display: 'flex', flexDirection: 'column', gap: 32 }}>
 
-      {/* ── PROJECTED OUTCOME ── */}
+      {/* PROJECTED OUTCOME */}
       <div style={{ ...card, padding: 24 }}>
         <p style={{ fontSize: 11, fontWeight: 600, color: '#64748B', margin: '0 0 20px 0', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
-          Projected Outcome
+          {t('insights.projectedOutcome')}
         </p>
 
         <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginBottom: 20 }}>
           <div style={{ flex: 1, padding: 20, background: '#F8FAFC', borderRadius: 12, textAlign: 'center' }}>
-            <p style={{ fontSize: 11, color: '#94A3B8', margin: '0 0 8px 0', fontWeight: 500 }}>Now</p>
+            <p style={{ fontSize: 11, color: '#94A3B8', margin: '0 0 8px 0', fontWeight: 500 }}>{t('insights.now')}</p>
             <p style={{ fontSize: 28, fontWeight: 700, color: '#0F172A', margin: 0, lineHeight: 1 }}>{current}%</p>
-            <p style={{ fontSize: 11, color: '#94A3B8', margin: '8px 0 0 0' }}>Moderate</p>
+            <p style={{ fontSize: 11, color: '#94A3B8', margin: '8px 0 0 0' }}>{t('insights.moderate')}</p>
           </div>
 
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" style={{ flexShrink: 0 }}>
@@ -64,22 +64,24 @@ export function ApplicationInsightsHub({
           </svg>
 
           <div style={{ flex: 1, padding: 20, background: '#F0FDF4', borderRadius: 12, textAlign: 'center', border: '1px solid #DCFCE7' }}>
-            <p style={{ fontSize: 11, color: '#10B981', margin: '0 0 8px 0', fontWeight: 500 }}>Projected</p>
+            <p style={{ fontSize: 11, color: '#10B981', margin: '0 0 8px 0', fontWeight: 500 }}>{t('insights.projected')}</p>
             <p style={{ fontSize: 28, fontWeight: 700, color: '#10B981', margin: 0, lineHeight: 1 }}>{projected}%</p>
-            <p style={{ fontSize: 11, color: '#10B981', margin: '8px 0 0 0' }}>Strong</p>
+            <p style={{ fontSize: 11, color: '#10B981', margin: '8px 0 0 0' }}>{t('insights.strong')}</p>
           </div>
         </div>
 
         <p style={{ fontSize: 12, color: '#64748B', margin: 0 }}>
-          +{projected - current}% improvement if you complete all strategic moves. You outperform {percentile}% of similar applicants.
+          {t('insights.improvementSummary')
+            .replace('{delta}', String(projected - current))
+            .replace('{percentile}', String(percentile))}
         </p>
       </div>
 
-      {/* ── YOUR STRATEGIC MOVES ── */}
+      {/* YOUR STRATEGIC MOVES */}
       <div style={{ ...card, padding: 24 }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
           <p style={{ fontSize: 11, fontWeight: 600, color: '#64748B', margin: 0, textTransform: 'uppercase', letterSpacing: '0.5px' }}>
-            Your Strategic Moves
+            {t('insights.strategicMoves')}
           </p>
           <div style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
             <span style={{ fontSize: 12, fontWeight: 500, color: '#64748B' }}>
@@ -92,13 +94,15 @@ export function ApplicationInsightsHub({
         </div>
 
         <p style={{ fontSize: 12, color: '#94A3B8', margin: '0 0 16px 0' }}>
-          Move from {current}% to {projected}% if completed
+          {t('insights.moveFromTo')
+            .replace('{current}', String(current))
+            .replace('{projected}', String(projected))}
         </p>
 
         {[
-          { label: 'Activate referral', impact: '+12%', desc: 'Use network connection before Day 5' },
-          { label: 'Add quantified achievement to CV', impact: '+5%', desc: 'Quantify one project result with numbers' },
-          { label: 'Complete screening prep module', impact: '+3%', desc: 'Finish one more interview prep section' },
+          { labelKey: 'insights.activateReferral', impact: '+12%', descKey: 'insights.activateReferralDesc' },
+          { labelKey: 'insights.addQuantified', impact: '+5%', descKey: 'insights.addQuantifiedDesc' },
+          { labelKey: 'insights.completeScreening', impact: '+3%', descKey: 'insights.completeScreeningDesc' },
         ].map((a, i) => {
           const isDone = done.includes(i)
           return (
@@ -117,12 +121,12 @@ export function ApplicationInsightsHub({
             >
               <div style={{ flex: 1 }}>
                 <div style={{ display: 'flex', gap: 8, alignItems: 'center', marginBottom: 4 }}>
-                  <span style={{ fontSize: 13, fontWeight: 600, color: isDone ? '#94A3B8' : '#0F172A', textDecoration: isDone ? 'line-through' : 'none' }}>{a.label}</span>
+                  <span style={{ fontSize: 13, fontWeight: 600, color: isDone ? '#94A3B8' : '#0F172A', textDecoration: isDone ? 'line-through' : 'none' }}>{t(a.labelKey)}</span>
                   <span style={{ fontSize: 11, fontWeight: 500, color: '#DC2626', background: '#FEF2F2', padding: '2px 8px', borderRadius: 10 }}>
                     {a.impact}
                   </span>
                 </div>
-                <p style={{ fontSize: 12, color: '#94A3B8', margin: 0 }}>{a.desc}</p>
+                <p style={{ fontSize: 12, color: '#94A3B8', margin: 0 }}>{t(a.descKey)}</p>
               </div>
               <button
                 type="button"
@@ -135,7 +139,7 @@ export function ApplicationInsightsHub({
                   padding: '5px 12px', borderRadius: 8, cursor: 'pointer', flexShrink: 0,
                 }}
               >
-                {isDone ? 'Undo' : 'Complete'}
+                {isDone ? t('insights.undo') : t('insights.complete')}
               </button>
             </div>
           )
@@ -145,10 +149,10 @@ export function ApplicationInsightsHub({
           {/* What Recruiters Look For */}
           <div style={{ ...card, padding: 24 }}>
               <p style={{ fontSize: 11, fontWeight: 600, color: '#64748B', margin: '0 0 8px 0', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
-                What Recruiters Look For
+                {t('insights.whatRecruitersLookFor')}
               </p>
               <p style={{ fontSize: 12, color: '#94A3B8', margin: '0 0 24px 0' }}>
-                Based on hiring patterns for similar roles at comparable companies.
+                {t('insights.basedOnPatterns')}
               </p>
 
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
@@ -157,20 +161,20 @@ export function ApplicationInsightsHub({
                   <div style={{ display: 'flex', gap: 8, alignItems: 'center', marginBottom: 16 }}>
                     <div style={{ width: 6, height: 6, borderRadius: '50%', background: '#10B981', flexShrink: 0 }} />
                     <p style={{ fontSize: 12, fontWeight: 600, color: '#0F172A', margin: 0 }}>
-                      Working in your favor
+                      {t('insights.workingInFavor')}
                     </p>
                   </div>
                   <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
                     {[
-                      { tag: '+15%', text: 'Strong foundational skills match vs. role requirements' },
-                      { tag: '+5%', text: 'Referral network activation available (if used)' },
+                      { tag: '+15%', textKey: 'insights.skillsMatch' },
+                      { tag: '+5%', textKey: 'insights.referralAvailable' },
                     ].map((s, i) => (
                       <div key={i} style={{ display: 'flex', gap: 10, alignItems: 'flex-start' }}>
                         <span style={{
                           fontSize: 11, fontWeight: 600, color: '#10B981', background: '#F0FDF4',
                           padding: '2px 8px', borderRadius: 6, flexShrink: 0, marginTop: 1,
                         }}>{s.tag}</span>
-                        <span style={{ fontSize: 13, color: '#374151', lineHeight: '1.4' }}>{s.text}</span>
+                        <span style={{ fontSize: 13, color: '#374151', lineHeight: '1.4' }}>{t(s.textKey)}</span>
                       </div>
                     ))}
                   </div>
@@ -181,20 +185,20 @@ export function ApplicationInsightsHub({
                   <div style={{ display: 'flex', gap: 8, alignItems: 'center', marginBottom: 16 }}>
                     <div style={{ width: 6, height: 6, borderRadius: '50%', background: '#EF4444', flexShrink: 0 }} />
                     <p style={{ fontSize: 12, fontWeight: 600, color: '#0F172A', margin: 0 }}>
-                      Areas to strengthen
+                      {t('insights.areasToStrengthen')}
                     </p>
                   </div>
                   <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
                     {[
-                      { tag: '-8%', text: 'Limited quantified outcomes in CV' },
-                      { tag: 'Gap', text: 'Experience depth in this specific role type' },
+                      { tag: '-8%', textKey: 'insights.limitedOutcomes' },
+                      { tag: 'Gap', textKey: 'insights.experienceGap' },
                     ].map((s, i) => (
                       <div key={i} style={{ display: 'flex', gap: 10, alignItems: 'flex-start' }}>
                         <span style={{
                           fontSize: 11, fontWeight: 600, color: '#DC2626', background: '#FEF2F2',
                           padding: '2px 8px', borderRadius: 6, flexShrink: 0, marginTop: 1,
                         }}>{s.tag}</span>
-                        <span style={{ fontSize: 13, color: '#374151', lineHeight: '1.4' }}>{s.text}</span>
+                        <span style={{ fontSize: 13, color: '#374151', lineHeight: '1.4' }}>{t(s.textKey)}</span>
                       </div>
                     ))}
                   </div>
@@ -205,15 +209,15 @@ export function ApplicationInsightsHub({
           {/* Application Journey */}
           <div style={{ ...card, padding: 24 }}>
             <p style={{ fontSize: 11, fontWeight: 600, color: '#64748B', margin: '0 0 20px 0', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
-              Application Journey
+              {t('insights.applicationJourney')}
             </p>
             {[
-              { day: 'Day 0', label: 'Application submitted', sub: 'Jan 28, 2026 at 2:14 PM', status: 'past' as const },
-              { day: 'Day 1', label: 'Screening queue entered', sub: 'Detected in recruiter intake', status: 'past' as const },
-              { day: 'Day 3', label: 'Under recruiter review', sub: 'You are here', status: 'current' as const },
-              { day: 'Day 4-6', label: 'Most recruiter decisions happen here', sub: 'Historical peak decision window', status: 'next' as const },
-              { day: 'Day 5', label: 'Follow-up window opens', sub: 'Optimal follow-up timing', status: 'future' as const },
-              { day: 'Day 7', label: 'Decision threshold', sub: 'Decision probability plateaus', status: 'future' as const },
+              { day: 'Day 0', labelKey: 'insights.appSubmitted', subKey: '', sub: 'Jan 28, 2026 at 2:14 PM', status: 'past' as const },
+              { day: 'Day 1', labelKey: 'insights.screeningQueue', subKey: 'insights.detectedIntake', sub: '', status: 'past' as const },
+              { day: 'Day 3', labelKey: 'insights.underReview', subKey: 'insights.youAreHere', sub: '', status: 'current' as const },
+              { day: 'Day 4-6', labelKey: 'insights.decisionWindow', subKey: 'insights.historicalPeak', sub: '', status: 'next' as const },
+              { day: 'Day 5', labelKey: 'insights.followUpOpens', subKey: 'insights.optimalFollowUp', sub: '', status: 'future' as const },
+              { day: 'Day 7', labelKey: 'insights.decisionThreshold', subKey: 'insights.decisionPlateaus', sub: '', status: 'future' as const },
             ].map((item, i) => (
               <div
                 key={i}
@@ -237,17 +241,17 @@ export function ApplicationInsightsHub({
                     fontWeight: item.status === 'current' ? 600 : 400,
                     color: item.status === 'future' ? '#94A3B8' : '#0F172A',
                   }}>
-                    {item.label}
+                    {t(item.labelKey)}
                   </p>
                   <p style={{ fontSize: 11, color: item.status === 'current' ? '#2563EB' : '#94A3B8', margin: '2px 0 0 0' }}>
-                    {item.sub}
+                    {item.sub || t(item.subKey)}
                   </p>
                 </div>
               </div>
             ))}
           </div>
 
-      {/* ── MODEL TRANSPARENCY ── */}
+      {/* MODEL TRANSPARENCY */}
       <div style={{ padding: '0 4px' }}>
         <button
           type="button"
@@ -258,7 +262,7 @@ export function ApplicationInsightsHub({
           }}
         >
           <p style={{ fontSize: 11, fontWeight: 500, color: '#CBD5E1', margin: 0 }}>
-            How this works
+            {t('insights.howThisWorks')}
           </p>
           <svg width="12" height="12" viewBox="0 0 16 16" fill="none"
             style={{ transition: 'transform 0.2s', transform: showGovernance ? 'rotate(180deg)' : 'rotate(0deg)' }}>
@@ -269,10 +273,10 @@ export function ApplicationInsightsHub({
         {showGovernance && (
           <div style={{ marginTop: 12 }}>
             <p style={{ fontSize: 12, color: '#94A3B8', margin: '0 0 8px 0' }}>
-              Probabilistic model based on anonymized hiring data. Confidence intervals from 1,200+ comparable cases.
+              {t('insights.modelDescription')}
             </p>
             <div style={{ display: 'flex', gap: 16 }}>
-              {['No recruiter tracking', 'No employer scraping', 'GDPR compliant'].map((label, i) => (
+              {[t('insights.noRecruiterTracking'), t('insights.noEmployerScraping'), t('insights.gdprCompliant')].map((label, i) => (
                 <span key={i} style={{ fontSize: 11, color: '#CBD5E1' }}>{label}</span>
               ))}
             </div>
@@ -282,7 +286,7 @@ export function ApplicationInsightsHub({
 
       {/* Metadata */}
       <p style={{ fontSize: 10, color: '#CBD5E1', margin: 0, textAlign: 'center' }}>
-        Last refresh: 11:32 AM | Confidence: High
+        {t('insights.lastRefresh')}
       </p>
     </div>
   )
