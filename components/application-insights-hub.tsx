@@ -27,7 +27,6 @@ export function ApplicationInsightsHub({
 }: ApplicationInsightsHubProps) {
   const { t } = useLanguage()
   const [strategicView, setStrategicView] = useState(true)
-  const [showDecisionModel, setShowDecisionModel] = useState(false)
   const [showGovernance, setShowGovernance] = useState(false)
   const [done, setDone] = useState<number[]>([])
 
@@ -73,42 +72,7 @@ export function ApplicationInsightsHub({
         </div>
       </div>
 
-      {/* ── LEVEL 1: MISSION CONTROL ── */}
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 16 }}>
-        <div style={{ ...card, padding: 24 }}>
-          <p style={{ fontSize: 11, fontWeight: 600, color: '#64748B', textTransform: 'uppercase', letterSpacing: '0.5px', margin: '0 0 12px 0' }}>
-            Status
-          </p>
-          <p style={{ fontSize: 24, fontWeight: 700, color: '#10B981', margin: '0 0 4px 0' }}>Active</p>
-          <p style={{ fontSize: 12, color: '#94A3B8', margin: 0 }}>Day {daysIn} of {reviewDays}</p>
-        </div>
-
-        <div style={{ ...card, padding: 24 }}>
-          <p style={{ fontSize: 11, fontWeight: 600, color: '#64748B', textTransform: 'uppercase', letterSpacing: '0.5px', margin: '0 0 12px 0' }}>
-            Interview Likelihood
-          </p>
-          <p style={{ fontSize: 32, fontWeight: 800, color: '#0F172A', margin: '0 0 4px 0', lineHeight: 1 }}>{current}%</p>
-          <p style={{ fontSize: 12, color: '#2563EB', fontWeight: 500, margin: 0 }}>Based on 1,200+ patterns</p>
-        </div>
-
-        <div style={{ ...card, padding: 24 }}>
-          <p style={{ fontSize: 11, fontWeight: 600, color: '#64748B', textTransform: 'uppercase', letterSpacing: '0.5px', margin: '0 0 12px 0' }}>
-            Your Position
-          </p>
-          <p style={{ fontSize: 24, fontWeight: 700, color: '#0F172A', margin: '0 0 4px 0' }}>Top {100 - percentile}%</p>
-          <p style={{ fontSize: 12, color: '#94A3B8', margin: 0 }}>Confidence: {confidence} (High)</p>
-        </div>
-      </div>
-
-      {/* Highest leverage nudge - light strip, no box */}
-      <div style={{ padding: '0 4px' }}>
-        <p style={{ fontSize: 13, color: '#475569', margin: 0 }}>
-          <span style={{ fontWeight: 600, color: '#10B981' }}>Highest leverage:</span>{' '}
-          Activate a referral before Day 5 for the biggest impact on your interview odds.
-        </p>
-      </div>
-
-      {/* ── LEVEL 2: YOUR STRATEGIC MOVES ── */}
+      {/* ── LEVEL 1: YOUR STRATEGIC MOVES ── */}
       <div style={{ ...card, padding: 24 }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
           <p style={{ fontSize: 11, fontWeight: 600, color: '#64748B', margin: 0, textTransform: 'uppercase', letterSpacing: '0.5px' }}>
@@ -207,107 +171,17 @@ export function ApplicationInsightsHub({
         </p>
       </div>
 
-      {/* ── LEVEL 4: TIMELINE INSIGHT ── */}
-      <div style={{ ...card, padding: 24 }}>
-        <p style={{ fontSize: 11, fontWeight: 600, color: '#64748B', margin: '0 0 20px 0', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
-          Timeline
-        </p>
 
-        {/* Visual dot timeline */}
-        <div style={{ marginBottom: 24 }}>
-          <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
-            {/* Background track */}
-            <div style={{ position: 'absolute', top: '50%', left: 0, right: 0, height: 2, background: '#E5E7EB', transform: 'translateY(-50%)' }} />
-            {/* Peak window highlight band */}
-            <div style={{ position: 'absolute', top: '50%', left: '50%', width: '37.5%', height: 16, background: 'rgba(251, 191, 36, 0.08)', transform: 'translateY(-50%)', borderRadius: 8 }} />
-            {/* Dots */}
-            {[
-              { day: 0, past: true },
-              { day: 1, past: true },
-              { day: 2, past: true },
-              { day: 3, current: true },
-              { day: 4, peak: true },
-              { day: 5, peak: true },
-              { day: 6, peak: true },
-              { day: 7, future: true },
-            ].map((d, i) => (
-              <div key={i} style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', position: 'relative', zIndex: 1 }}>
-                <div
-                  style={{
-                    width: d.current ? 16 : 8,
-                    height: d.current ? 16 : 8,
-                    borderRadius: '50%',
-                    background: d.current ? '#2563EB' : d.past ? '#94A3B8' : d.peak ? '#F59E0B' : '#D1D5DB',
-                    border: d.current ? '3px solid rgba(37, 99, 235, 0.2)' : 'none',
-                    boxShadow: d.current ? '0 0 0 5px rgba(37, 99, 235, 0.08)' : 'none',
-                    opacity: d.past ? 0.4 : 1,
-                  }}
-                />
-              </div>
-            ))}
-          </div>
-          {/* Labels row */}
-          <div style={{ display: 'flex', marginTop: 8 }}>
-            {[
-              { label: '0' }, { label: '1' }, { label: '2' },
-              { label: '3', highlight: true },
-              { label: '4' }, { label: '5' }, { label: '6' }, { label: '7' },
-            ].map((d, i) => (
-              <div key={i} style={{ flex: 1, textAlign: 'center' }}>
-                <p style={{
-                  fontSize: 10, margin: 0,
-                  color: d.highlight ? '#2563EB' : '#CBD5E1',
-                  fontWeight: d.highlight ? 600 : 400,
-                }}>
-                  {d.label}
-                </p>
-              </div>
-            ))}
-          </div>
-          {/* Annotations */}
-          <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 8, padding: '0 4px' }}>
-            <p style={{ fontSize: 10, color: '#2563EB', fontWeight: 500, margin: 0 }}>You are here</p>
-            <p style={{ fontSize: 10, color: '#94A3B8', margin: 0 }}>Most recruiter decisions happen here</p>
-          </div>
-        </div>
-
-        {/* Follow-up info */}
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: 16, background: '#F8FAFC', borderRadius: 12 }}>
-          <div>
-            <p style={{ fontSize: 13, fontWeight: 500, color: '#0F172A', margin: '0 0 2px 0' }}>Follow-up locked</p>
-            <p style={{ fontSize: 12, color: '#94A3B8', margin: 0 }}>Unlocks Day 5. Recruiter decisions peak Days 4-6.</p>
-          </div>
-          <div style={{ textAlign: 'right' }}>
-            <p style={{ fontSize: 18, fontWeight: 600, color: '#2563EB', margin: 0 }}>2 days</p>
-            <p style={{ fontSize: 11, color: '#94A3B8', margin: 0 }}>remaining</p>
-          </div>
-        </div>
-      </div>
 
       {/* ── STRATEGIC VIEW EXTRAS ── */}
       {strategicView && (
         <>
-          {/* What Recruiters Look For - Collapsible */}
-          <div style={{ ...card, overflow: 'hidden' }}>
-            <button
-              type="button"
-              onClick={() => setShowDecisionModel(!showDecisionModel)}
-              style={{
-                width: '100%', background: 'none', border: 'none', padding: '18px 24px',
-                cursor: 'pointer', display: 'flex', justifyContent: 'space-between', alignItems: 'center',
-              }}
-            >
-              <p style={{ fontSize: 11, fontWeight: 600, color: '#64748B', margin: 0, textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+          {/* What Recruiters Look For - Always visible */}
+          <div style={{ ...card, overflow: 'hidden', padding: 24 }}>
+              <p style={{ fontSize: 11, fontWeight: 600, color: '#64748B', margin: '0 0 20px 0', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
                 What Recruiters Look For
               </p>
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
-                style={{ transition: 'transform 0.2s', transform: showDecisionModel ? 'rotate(180deg)' : 'rotate(0deg)' }}>
-                <path d="M4 6L8 10L12 6" stroke="#94A3B8" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
-            </button>
-
-            {showDecisionModel && (
-              <div style={{ padding: '0 24px 24px 24px', display: 'flex', flexDirection: 'column', gap: 0 }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
                 {/* Positive */}
                 <div style={{ paddingBottom: 20 }}>
                   <p style={{ fontSize: 11, fontWeight: 600, color: '#10B981', margin: '0 0 12px 0', textTransform: 'uppercase', letterSpacing: '0.3px' }}>
@@ -377,7 +251,6 @@ export function ApplicationInsightsHub({
                   ))}
                 </div>
               </div>
-            )}
           </div>
 
           {/* Application Journey */}
