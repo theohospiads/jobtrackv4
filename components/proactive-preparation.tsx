@@ -1,265 +1,543 @@
 'use client'
 
-import { useState, useEffect } from 'react'
 import { useLanguage } from './language-provider'
+import { useState } from 'react'
 
-interface ProactivePreparationProps {
-  currentStage: number
-  jobTitle: string
-  companyName: string
+interface CalibrationResponse {
+  question: number
+  text: string
+  dimensions: {
+    ownership: 'weak' | 'moderate' | 'strong'
+    impact: 'weak' | 'moderate' | 'strong'
+    reasoning: 'weak' | 'moderate' | 'strong'
+    communication: 'weak' | 'moderate' | 'strong'
+  }
 }
 
-const card = {
-  background: '#FFFFFF',
-  border: '1px solid #E5E7EB',
-  borderRadius: 12,
-  boxShadow: '0 1px 3px rgba(0, 0, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.04)',
-} as const
+interface OptimizedAnswer {
+  question: string
+  whyAsked: string
+  structure: string
+  strengths: string[]
+  editable: string
+}
 
-export function ProactivePreparation({
-  currentStage,
-  jobTitle,
-  companyName,
-}: ProactivePreparationProps) {
+export function ProactivePreparation() {
   const { t } = useLanguage()
-  const [mounted, setMounted] = useState(false)
-  const [expandedCompetency, setExpandedCompetency] = useState<string | null>(null)
+  const [calibrationState, setCalibrationState] = useState<'required' | 'calibrating' | 'complete'>('required')
+  const [currentQuestion, setCurrentQuestion] = useState(0)
+  const [responses, setResponses] = useState<CalibrationResponse[]>([])
+  const [currentText, setCurrentText] = useState('')
 
-  useEffect(() => { setMounted(true) }, [])
-
-  if (!mounted) return null
-
-  // Only show for stages 1-3 (Proactive Prep, Interview, Decision Pending)
-  if (currentStage < 1 || currentStage > 3) return null
-
-  const readinessData = [
-    { label: 'Overall', value: 64 },
-    { label: 'Behavioral', value: 58 },
-    { label: 'Technical', value: 71 },
-    { label: 'Communication', value: 68 },
-    { label: 'Culture', value: 62 },
+  const calibrationQuestions = [
+    { id: 1, text: t('interview.calibration.q1') },
+    { id: 2, text: t('interview.calibration.q2') },
+    { id: 3, text: t('interview.calibration.q3') },
+    { id: 4, text: t('interview.calibration.q4') },
+    { id: 5, text: t('interview.calibration.q5') },
   ]
 
-  const getRiskColor = (risk: string) => {
-    switch (risk) {
-      case 'high': return { bg: '#FEE2E2', text: '#991B1B' }
-      case 'medium': return { bg: '#FEF3C7', text: '#92400E' }
-      case 'low': return { bg: '#DCFCE7', text: '#166534' }
-      default: return { bg: '#F1F5F9', text: '#64748B' }
+  const mockOptimizedAnswers: OptimizedAnswer[] = [
+    {
+      question: 'Tell me about a time you drove significant business impact.',
+      whyAsked: 'Tests quantification, ownership, and result communication.',
+      structure: 'Situation → Your ownership → Measured impact → Business outcome',
+      strengths: ['Specificity of metrics', 'Clear ownership claim', 'Business context'],
+      editable: 'Your personalized answer will appear here after calibration.',
+    },
+    {
+      question: 'Describe how you solve ambiguous problems with incomplete information.',
+      whyAsked: 'Evaluates analytical approach and decision-making framework.',
+      structure: 'Problem space → Analysis approach → Decision logic → Outcome learning',
+      strengths: ['Structured thinking', 'Comfort with ambiguity', 'Bias checking'],
+      editable: 'Your personalized answer will appear here after calibration.',
+    },
+    {
+      question: 'Share an example where you influenced without direct authority.',
+      whyAsked: 'Assesses influence capability and cross-functional collaboration.',
+      structure: 'Context → Stakeholder resistance → Your approach → Resolution',
+      strengths: ['Empathy for others', 'Creative negotiation', 'Persistence'],
+      editable: 'Your personalized answer will appear here after calibration.',
+    },
+    {
+      question: 'How do you measure success in your current role?',
+      whyAsked: 'Reveals values alignment and metric-driven mindset.',
+      structure: 'Primary metric → Why it matters → How you track → Accountability',
+      strengths: ['Clear priorities', 'Quantifiable goals', 'Accountability ownership'],
+      editable: 'Your personalized answer will appear here after calibration.',
+    },
+    {
+      question: 'Tell me about a significant failure and what you learned.',
+      whyAsked: 'Tests resilience, self-awareness, and learning agility.',
+      structure: 'Failure context → Your responsibility → Specific learnings → Applied change',
+      strengths: ['Self-accountability', 'Learning velocity', 'Humility'],
+      editable: 'Your personalized answer will appear here after calibration.',
+    },
+  ]
+
+  const handleStartCalibration = () => {
+    setCalibrationState('calibrating')
+  }
+
+  const handleSubmitQuestion = () => {
+    if (currentText.length < 100) return
+
+    const mockDimensions = {
+      ownership: currentText.includes('I') ? 'strong' : 'moderate',
+      impact: currentText.includes('impact') || currentText.includes('result') ? 'strong' : 'moderate',
+      reasoning: currentText.includes('because') || currentText.includes('why') ? 'strong' : 'moderate',
+      communication: currentText.length > 150 ? 'strong' : 'moderate',
+    }
+
+    const newResponse: CalibrationResponse = {
+      question: currentQuestion,
+      text: currentText,
+      dimensions: mockDimensions,
+    }
+
+    setResponses([...responses, newResponse])
+    setCurrentText('')
+
+    if (currentQuestion < calibrationQuestions.length - 1) {
+      setCurrentQuestion(currentQuestion + 1)
+    } else {
+      setCalibrationState('complete')
     }
   }
 
-  return (
-    <div style={{ marginBottom: 32 }}>
-      {/* SECTION HEADER */}
-      <div style={{ marginBottom: 24 }}>
-        <h2 style={{ fontSize: 14, fontWeight: 600, color: '#0F172A', margin: '0 0 6px 0', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
-          {t('prep.sectionTitle')}
-        </h2>
-        <p style={{ fontSize: 13, color: '#94A3B8', margin: 0 }}>
-          {t('prep.sectionSubtitle')}
-        </p>
-      </div>
+  const card = {
+    border: '1px solid #E5E7EB',
+    borderRadius: 12,
+    background: '#FFFFFF',
+  }
 
-      {/* 1. READINESS OVERVIEW STRIP */}
-      <div style={{ ...card, padding: 20, marginBottom: 24 }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
-          <h3 style={{ fontSize: 11, fontWeight: 600, color: '#64748B', margin: 0, textTransform: 'uppercase', letterSpacing: '0.5px' }}>
-            {t('prep.readinessOverview')}
-          </h3>
-          <span style={{ fontSize: 11, color: '#64748B' }}>
-            {t('prep.nextMilestone')}
-          </span>
+  // STATE 1: CALIBRATION REQUIRED
+  if (calibrationState === 'required') {
+    return (
+      <div style={{ marginBottom: 32 }}>
+        {/* PRIMARY MODULE - CALIBRATION CTA */}
+        <div
+          style={{
+            ...card,
+            padding: 32,
+            marginBottom: 24,
+            background: 'linear-gradient(135deg, #EFF6FF 0%, #F0F9FF 100%)',
+            border: '2px solid #2563EB',
+          }}
+        >
+          <h2 style={{ fontSize: 20, fontWeight: 700, color: '#0F172A', margin: '0 0 8px 0' }}>
+            {t('interview.calibration.ctaTitle')}
+          </h2>
+          <p style={{ fontSize: 13, color: '#475569', margin: '0 0 20px 0', lineHeight: 1.5 }}>
+            {t('interview.calibration.ctaDescription')}
+          </p>
+
+          <div
+            style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(3, 1fr)',
+              gap: 16,
+              marginBottom: 24,
+            }}
+          >
+            <div style={{ fontSize: 12, color: '#64748B' }}>
+              <span style={{ fontWeight: 600, color: '#0F172A', display: 'block', marginBottom: 4 }}>
+                5 {t('interview.calibration.questions')}
+              </span>
+              ~8 {t('interview.calibration.minutes')}
+            </div>
+            <div style={{ fontSize: 12, color: '#64748B' }}>
+              <span style={{ fontWeight: 600, color: '#0F172A', display: 'block', marginBottom: 4 }}>
+                {t('interview.calibration.instantResults')}
+              </span>
+              {t('interview.calibration.personalizedPlan')}
+            </div>
+            <div style={{ fontSize: 12, color: '#64748B' }}>
+              <span style={{ fontWeight: 600, color: '#0F172A', display: 'block', marginBottom: 4 }}>
+                {t('interview.calibration.encrypted')}
+              </span>
+              {t('interview.calibration.privateOnly')}
+            </div>
+          </div>
+
+          <div style={{ display: 'flex', gap: 12 }}>
+            <button
+              onClick={handleStartCalibration}
+              style={{
+                padding: '12px 24px',
+                background: '#2563EB',
+                color: '#FFFFFF',
+                border: 'none',
+                borderRadius: 8,
+                fontSize: 14,
+                fontWeight: 600,
+                cursor: 'pointer',
+              }}
+            >
+              {t('interview.calibration.startButton')}
+            </button>
+            <button
+              style={{
+                padding: '12px 24px',
+                background: '#FFFFFF',
+                color: '#2563EB',
+                border: '2px solid #2563EB',
+                borderRadius: 8,
+                fontSize: 14,
+                fontWeight: 600,
+                cursor: 'pointer',
+              }}
+            >
+              {t('interview.calibration.learnMore')}
+            </button>
+          </div>
         </div>
 
-        <div style={{ display: 'flex', gap: 12, marginBottom: 12 }}>
-          {readinessData.map((item, i) => (
-            <div key={i} style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6 }}>
-              <span style={{ fontSize: 16, fontWeight: 700, color: '#0F172A' }}>{item.value}%</span>
-              <div style={{ width: '100%', height: 3, background: '#E5E7EB', borderRadius: 2, overflow: 'hidden' }}>
-                <div style={{ height: '100%', width: `${item.value}%`, background: '#2563EB' }} />
+        {/* PREVIEW CARDS - LOCKED */}
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 16 }}>
+          {[
+            {
+              title: t('interview.dashboard.snapshot'),
+              description: t('interview.dashboard.snapshotDesc'),
+            },
+            {
+              title: t('interview.dashboard.optimizedAnswers'),
+              description: t('interview.dashboard.answersDesc'),
+            },
+            {
+              title: t('interview.dashboard.trainingLab'),
+              description: t('interview.dashboard.trainingDesc'),
+            },
+            {
+              title: t('interview.dashboard.dossier'),
+              description: t('interview.dashboard.dossierDesc'),
+            },
+          ].map((cardItem, i) => (
+            <div
+              key={i}
+              style={{
+                ...card,
+                padding: 20,
+                opacity: 0.65,
+                pointerEvents: 'none',
+              }}
+            >
+              <h3 style={{ fontSize: 14, fontWeight: 600, color: '#0F172A', margin: '0 0 8px 0' }}>
+                {cardItem.title}
+              </h3>
+              <p style={{ fontSize: 12, color: '#64748B', margin: 0 }}>
+                {cardItem.description}
+              </p>
+              <div style={{ marginTop: 12, fontSize: 11, color: '#CBD5E1' }}>
+                {t('interview.locked.lockMessage')}
               </div>
-              <span style={{ fontSize: 10, color: '#94A3B8', textAlign: 'center' }}>{item.label}</span>
             </div>
           ))}
         </div>
-
-        {/* Institutional Framing */}
-        <div style={{ paddingTop: 12, borderTop: '1px solid #F1F5F9' }}>
-          <p style={{ fontSize: 10, color: '#64748B', margin: 0, lineHeight: 1.4 }}>
-            {t('prep.benchmarkInfo')}
-          </p>
-        </div>
       </div>
+    )
+  }
 
-      {/* 2. TRAINING WORKSPACE - Shows when competency expanded (mock state for now) */}
-      {expandedCompetency && (
-        <div style={{ ...card, padding: 24, marginBottom: 24, background: '#F8FAFC' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
-            <h3 style={{ fontSize: 13, fontWeight: 600, color: '#0F172A', margin: 0 }}>
-              Training Workspace
-            </h3>
+  // STATE 2: CALIBRATION IN PROGRESS
+  if (calibrationState === 'calibrating') {
+    return (
+      <div
+        style={{
+          position: 'fixed',
+          inset: 0,
+          background: '#FFFFFF',
+          zIndex: 50,
+          display: 'flex',
+          flexDirection: 'column',
+          padding: 32,
+        }}
+      >
+        {/* HEADER */}
+        <div style={{ marginBottom: 32 }}>
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              marginBottom: 16,
+            }}
+          >
+            <h1 style={{ fontSize: 24, fontWeight: 700, color: '#0F172A', margin: 0 }}>
+              {t('interview.calibration.title')}
+            </h1>
             <button
-              onClick={() => setExpandedCompetency(null)}
-              style={{ background: 'none', border: 'none', fontSize: 18, cursor: 'pointer', color: '#64748B', padding: 0 }}
+              onClick={() => setCalibrationState('required')}
+              style={{
+                background: 'none',
+                border: 'none',
+                fontSize: 24,
+                cursor: 'pointer',
+                color: '#64748B',
+              }}
             >
               ✕
             </button>
           </div>
-
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 24, marginBottom: 20 }}>
-            {/* Left: Context */}
-            <div style={{ background: '#FFFFFF', padding: 16, borderRadius: 8 }}>
-              <p style={{ fontSize: 10, fontWeight: 600, color: '#64748B', textTransform: 'uppercase', margin: '0 0 8px 0' }}>
-                {t('prep.whatRecruitersTest')}
-              </p>
-              <p style={{ fontSize: 12, color: '#475569', margin: '0 0 16px 0', lineHeight: 1.5 }}>
-                {t('prep.behavioralTestDescription')}
-              </p>
-
-              <p style={{ fontSize: 10, fontWeight: 600, color: '#64748B', textTransform: 'uppercase', margin: '0 0 8px 0' }}>
-                {t('prep.commonFailurePatterns')}
-              </p>
-              <ul style={{ fontSize: 12, color: '#475569', margin: 0, paddingLeft: 18, lineHeight: 1.5 }}>
-                <li>{t('prep.failurePattern1')}</li>
-                <li>{t('prep.failurePattern2')}</li>
-              </ul>
-            </div>
-
-            {/* Right: Training Interface */}
-            <div style={{ background: '#FFFFFF', padding: 16, borderRadius: 8 }}>
-              <p style={{ fontSize: 10, fontWeight: 600, color: '#64748B', textTransform: 'uppercase', margin: '0 0 8px 0' }}>
-                {t('prep.questionPrompt')}
-              </p>
-              <textarea
-                placeholder={t('prep.enterYourApproach')}
-                style={{
-                  width: '100%',
-                  minHeight: 100,
-                  padding: 10,
-                  border: '1px solid #E5E7EB',
-                  borderRadius: 6,
-                  fontSize: 12,
-                  fontFamily: 'inherit',
-                  resize: 'none',
-                  marginBottom: 10,
-                }}
-              />
-              <button
-                style={{
-                  width: '100%',
-                  padding: 10,
-                  background: '#2563EB',
-                  color: '#FFFFFF',
-                  border: 'none',
-                  borderRadius: 6,
-                  fontSize: 12,
-                  fontWeight: 500,
-                  cursor: 'pointer',
-                }}
-              >
-                {t('prep.scoreAnswer')}
-              </button>
-            </div>
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              marginBottom: 12,
+            }}
+          >
+            <span style={{ fontSize: 13, color: '#64748B', fontWeight: 600 }}>
+              {t('interview.calibration.progress')} {currentQuestion + 1} {t('interview.calibration.of')}{' '}
+              {calibrationQuestions.length}
+            </span>
           </div>
-
-          {/* Score Breakdown */}
-          <div style={{ background: '#FFFFFF', padding: 14, borderRadius: 8, marginBottom: 16 }}>
-            <p style={{ fontSize: 10, fontWeight: 600, color: '#64748B', textTransform: 'uppercase', margin: '0 0 10px 0' }}>
-              {t('prep.scoreBreakdown')}
-            </p>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 12 }}>
-              {[
-                { label: t('prep.structure'), score: '6/10' },
-                { label: t('prep.clarity'), score: '7/10' },
-                { label: t('prep.impact'), score: '4/10' },
-                { label: t('prep.relevance'), score: '8/10' },
-              ].map((item, i) => (
-                <div key={i}>
-                  <p style={{ fontSize: 10, color: '#64748B', margin: '0 0 4px 0' }}>{item.label}</p>
-                  <p style={{ fontSize: 14, fontWeight: 700, color: '#0F172A', margin: 0 }}>{item.score}</p>
-                </div>
-              ))}
-            </div>
-            <p style={{ fontSize: 12, fontWeight: 600, color: '#0F172A', margin: '12px 0 0 0' }}>
-              {t('prep.overallScore')}: 62%
-            </p>
-          </div>
-
-          {/* Improvement Suggestions */}
-          <div style={{ background: '#FFFFFF', padding: 14, borderRadius: 8 }}>
-            <p style={{ fontSize: 10, fontWeight: 600, color: '#64748B', textTransform: 'uppercase', margin: '0 0 8px 0' }}>
-              {t('prep.improvementSuggestions')}
-            </p>
-            <ul style={{ fontSize: 12, color: '#475569', margin: 0, paddingLeft: 18, lineHeight: 1.5 }}>
-              <li>{t('prep.addMeasurable')}</li>
-              <li>{t('prep.reduceNarrative')}</li>
-              <li>{t('prep.clarifyStakeholder')}</li>
-            </ul>
+          <div style={{ width: '100%', height: 4, background: '#E5E7EB', borderRadius: 2 }}>
+            <div
+              style={{
+                height: '100%',
+                width: `${((currentQuestion + 1) / calibrationQuestions.length) * 100}%`,
+                background: '#2563EB',
+                transition: 'width 0.3s ease',
+              }}
+            />
           </div>
         </div>
-      )}
 
-      {/* 3. SIMULATION GATE WITH STRATEGIC PURPOSE */}
-      <div style={{ ...card, padding: 16, background: '#F8FAFC', marginBottom: 24 }}>
-        <p style={{ fontSize: 10, fontWeight: 600, color: '#64748B', textTransform: 'uppercase', margin: '0 0 8px 0' }}>
-          {t('prep.simulationAccess')}
-        </p>
-        <p style={{ fontSize: 11, color: '#475569', margin: '0 0 12px 0', lineHeight: 1.4 }}>
-          {t('prep.simulationPurpose')}
-        </p>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 16 }}>
-          <div style={{ flex: 1 }}>
-            <p style={{ fontSize: 13, fontWeight: 700, color: '#0F172A', margin: '0 0 8px 0' }}>
-              64% / 75%
-            </p>
-            <div style={{ flex: 1, height: 4, background: '#E5E7EB', borderRadius: 2, overflow: 'hidden' }}>
-              <div style={{ height: '100%', width: '64%', background: '#2563EB' }} />
+        {/* QUESTION */}
+        <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+          <p style={{ fontSize: 16, fontWeight: 500, color: '#0F172A', marginBottom: 20 }}>
+            {calibrationQuestions[currentQuestion]?.text}
+          </p>
+
+          <textarea
+            value={currentText}
+            onChange={(e) => setCurrentText(e.target.value)}
+            placeholder={t('interview.calibration.answerPlaceholder')}
+            style={{
+              flex: 1,
+              padding: 16,
+              border: '1px solid #E5E7EB',
+              borderRadius: 8,
+              fontSize: 14,
+              fontFamily: 'inherit',
+              resize: 'none',
+              marginBottom: 16,
+            }}
+          />
+
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
+            <span style={{ fontSize: 12, color: currentText.length < 100 ? '#EF4444' : '#10B981' }}>
+              {currentText.length} {t('interview.calibration.characters')} ({t('interview.calibration.minimumRequired')}{' '}
+              100)
+            </span>
+            {currentText.length >= 100 && (
+              <span style={{ fontSize: 12, color: '#10B981', fontWeight: 600 }}>
+                ✓ {t('interview.calibration.feedbackGood')}
+              </span>
+            )}
+          </div>
+
+          <div style={{ display: 'flex', gap: 12 }}>
+            <button
+              onClick={() => {
+                if (currentQuestion > 0) setCurrentQuestion(currentQuestion - 1)
+              }}
+              disabled={currentQuestion === 0}
+              style={{
+                padding: '12px 20px',
+                background: '#F1F5F9',
+                border: '1px solid #E2E8F0',
+                borderRadius: 6,
+                fontSize: 14,
+                fontWeight: 500,
+                cursor: currentQuestion === 0 ? 'not-allowed' : 'pointer',
+                opacity: currentQuestion === 0 ? 0.5 : 1,
+              }}
+            >
+              {t('interview.calibration.previous')}
+            </button>
+            <button
+              onClick={handleSubmitQuestion}
+              disabled={currentText.length < 100}
+              style={{
+                flex: 1,
+                padding: '12px 20px',
+                background: currentText.length < 100 ? '#E5E7EB' : '#2563EB',
+                color: currentText.length < 100 ? '#94A3B8' : '#FFFFFF',
+                border: 'none',
+                borderRadius: 6,
+                fontSize: 14,
+                fontWeight: 600,
+                cursor: currentText.length < 100 ? 'not-allowed' : 'pointer',
+              }}
+            >
+              {currentQuestion === calibrationQuestions.length - 1
+                ? t('interview.calibration.complete')
+                : t('interview.calibration.next')}
+            </button>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  // STATE 3: PREPARATION ENGINE UNLOCKED
+  if (calibrationState === 'complete') {
+    return (
+      <div style={{ marginBottom: 32 }}>
+        {/* CALIBRATION STATUS BAR */}
+        <div style={{ ...card, padding: 16, marginBottom: 24, background: '#F0FDF4' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <div>
+              <span style={{ fontSize: 12, fontWeight: 600, color: '#166534' }}>
+                ✓ {t('interview.dashboard.calibrationComplete')}
+              </span>
+              <p style={{ fontSize: 11, color: '#4B7C0F', margin: '4px 0 0 0' }}>
+                {t('interview.dashboard.calibrationDate')}
+              </p>
+            </div>
+            <button
+              onClick={() => setCalibrationState('required')}
+              style={{
+                padding: '6px 12px',
+                background: '#FFFFFF',
+                border: '1px solid #86EFAC',
+                borderRadius: 4,
+                fontSize: 11,
+                fontWeight: 500,
+                cursor: 'pointer',
+                color: '#166534',
+              }}
+            >
+              {t('interview.dashboard.recalibrate')}
+            </button>
+          </div>
+        </div>
+
+        {/* OPTIMIZED ANSWER PACK - PRIMARY SECTION */}
+        <div style={{ marginBottom: 24 }}>
+          <h2 style={{ fontSize: 16, fontWeight: 700, color: '#0F172A', marginBottom: 16 }}>
+            {t('interview.dashboard.optimizedAnswers')}
+          </h2>
+          <div style={{ display: 'grid', gap: 16 }}>
+            {mockOptimizedAnswers.map((answer, i) => (
+              <div key={i} style={{ ...card, padding: 20 }}>
+                <h3 style={{ fontSize: 13, fontWeight: 600, color: '#0F172A', marginBottom: 8 }}>
+                  {answer.question}
+                </h3>
+                <p style={{ fontSize: 11, color: '#64748B', margin: '0 0 12px 0' }}>
+                  {t('interview.dashboard.whyAsked')}: {answer.whyAsked}
+                </p>
+
+                <div style={{ background: '#F8FAFC', padding: 12, borderRadius: 6, marginBottom: 12 }}>
+                  <p style={{ fontSize: 11, color: '#475569', margin: 0, fontWeight: 500 }}>
+                    {t('interview.dashboard.structure')}: {answer.structure}
+                  </p>
+                </div>
+
+                <p style={{ fontSize: 11, color: '#64748B', marginBottom: 12 }}>
+                  {t('interview.dashboard.strengths')}: {answer.strengths.join(', ')}
+                </p>
+
+                <div
+                  style={{
+                    background: '#F1F5F9',
+                    padding: 12,
+                    borderRadius: 6,
+                    borderLeft: '3px solid #2563EB',
+                  }}
+                >
+                  <p style={{ fontSize: 11, color: '#475569', margin: 0 }}>
+                    {answer.editable}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* TRAINING LAB ENTRY */}
+        <div style={{ ...card, padding: 24, marginBottom: 24, background: 'linear-gradient(135deg, #F8FAFC 0%, #F1F5F9 100%)' }}>
+          <h2 style={{ fontSize: 16, fontWeight: 700, color: '#0F172A', marginBottom: 12 }}>
+            {t('interview.dashboard.trainingLab')}
+          </h2>
+          <p style={{ fontSize: 13, color: '#475569', margin: '0 0 16px 0' }}>
+            {t('interview.dashboard.trainingDescription')}
+          </p>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <div>
+              <p style={{ fontSize: 12, color: '#64748B', margin: 0 }}>
+                {t('interview.dashboard.masterySnapshot')}: 64% / 75%
+              </p>
+              <div style={{ marginTop: 8, width: 200, height: 4, background: '#E5E7EB', borderRadius: 2 }}>
+                <div
+                  style={{
+                    height: '100%',
+                    width: '64%',
+                    background: '#2563EB',
+                  }}
+                />
+              </div>
+            </div>
+            <button
+              style={{
+                padding: '10px 20px',
+                background: '#2563EB',
+                color: '#FFFFFF',
+                border: 'none',
+                borderRadius: 6,
+                fontSize: 13,
+                fontWeight: 600,
+                cursor: 'pointer',
+              }}
+            >
+              {t('interview.dashboard.startSession')}
+            </button>
+          </div>
+        </div>
+
+        {/* STRATEGY DOSSIER FOOTER */}
+        <div style={{ ...card, padding: 20 }}>
+          <h3 style={{ fontSize: 13, fontWeight: 600, color: '#0F172A', marginBottom: 12 }}>
+            {t('interview.dashboard.dossier')}
+          </h3>
+          <div style={{ display: 'grid', gap: 8, marginBottom: 16 }}>
+            <div>
+              <p style={{ fontSize: 11, color: '#64748B', fontWeight: 600, margin: '0 0 4px 0' }}>
+                {t('interview.dashboard.keyNarrative')}
+              </p>
+              <p style={{ fontSize: 12, color: '#475569', margin: 0 }}>
+                {'"I drive measurable outcomes through structured problem-solving and clear communication of impact."'}
+              </p>
+            </div>
+            <div>
+              <p style={{ fontSize: 11, color: '#64748B', fontWeight: 600, margin: '0 0 4px 0' }}>
+                {t('interview.dashboard.uniqueSignals')}
+              </p>
+              <p style={{ fontSize: 12, color: '#475569', margin: 0 }}>
+                Quantified impact claims, cross-functional influence, structured problem-solving
+              </p>
             </div>
           </div>
           <button
-            disabled
             style={{
-              padding: '8px 14px',
-              background: '#E2E8F0',
-              border: 'none',
+              width: '100%',
+              padding: '10px 12px',
+              background: '#F1F5F9',
+              border: '1px solid #E2E8F0',
               borderRadius: 6,
-              fontSize: 11,
-              fontWeight: 500,
-              cursor: 'not-allowed',
-              color: '#94A3B8',
-              whiteSpace: 'nowrap',
+              fontSize: 12,
+              fontWeight: 600,
+              cursor: 'pointer',
+              color: '#0F172A',
             }}
           >
-            {t('prep.unlockSimulation')}
+            {t('interview.dashboard.exportPDF')}
           </button>
         </div>
       </div>
+    )
+  }
 
-      {/* GOVERNMENT-GRADE FOOTER */}
-      <div style={{ marginTop: 20, paddingTop: 16, borderTop: '1px solid #E5E7EB', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(120px, 1fr))', gap: 12 }}>
-        <a href="#" style={{ fontSize: 10, color: '#94A3B8', textDecoration: 'none' }}>
-          {t('prep.scoringMethodology')} →
-        </a>
-        <a href="#" style={{ fontSize: 10, color: '#94A3B8', textDecoration: 'none' }}>
-          {t('prep.biasMitigationPolicy')} →
-        </a>
-        <a href="#" style={{ fontSize: 10, color: '#94A3B8', textDecoration: 'none' }}>
-          {t('prep.dataPrivacyOverview')} →
-        </a>
-        <button
-          style={{
-            fontSize: 10,
-            color: '#94A3B8',
-            background: 'none',
-            border: 'none',
-            cursor: 'pointer',
-            textAlign: 'left',
-          }}
-        >
-          {t('prep.exportPreparationLog')} →
-        </button>
-      </div>
-    </div>
-  )
+  return null
 }
