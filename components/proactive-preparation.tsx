@@ -112,6 +112,7 @@ export function ProactivePreparation({ currentStage = 1 }: { currentStage?: numb
     border: '1px solid #E5E7EB',
     borderRadius: 12,
     background: '#FFFFFF',
+    boxShadow: '0 1px 2px rgba(0,0,0,0.04)',
   }
 
   // STATE 1: CALIBRATION REQUIRED
@@ -223,23 +224,23 @@ export function ProactivePreparation({ currentStage = 1 }: { currentStage?: numb
             onClick={handleStartCalibration}
             style={{
               padding: '14px 32px',
-              background: '#1E40AF',
+              background: '#2F5BFF',
               color: '#FFFFFF',
               border: 'none',
-              borderRadius: 4,
+              borderRadius: 12,
               fontSize: 13,
               fontWeight: 600,
               cursor: 'pointer',
-              boxShadow: '0 1px 3px rgba(30, 64, 175, 0.25)',
+              boxShadow: '0 1px 2px rgba(0,0,0,0.04)',
               transition: 'all 0.2s ease',
             }}
             onMouseOver={(e) => {
-              (e.target as HTMLButtonElement).style.background = '#1E3A8A';
-              (e.target as HTMLButtonElement).style.boxShadow = '0 2px 6px rgba(30, 64, 175, 0.35)';
+              (e.target as HTMLButtonElement).style.background = '#2448D8';
+              (e.target as HTMLButtonElement).style.boxShadow = '0 2px 6px rgba(47, 91, 255, 0.2)';
             }}
             onMouseOut={(e) => {
-              (e.target as HTMLButtonElement).style.background = '#1E40AF';
-              (e.target as HTMLButtonElement).style.boxShadow = '0 1px 3px rgba(30, 64, 175, 0.25)';
+              (e.target as HTMLButtonElement).style.background = '#2F5BFF';
+              (e.target as HTMLButtonElement).style.boxShadow = '0 1px 2px rgba(0,0,0,0.04)';
             }}
           >
             Generate My Interview Strategy
@@ -278,13 +279,15 @@ export function ProactivePreparation({ currentStage = 1 }: { currentStage?: numb
                 padding: 16,
                 opacity: 0.55,
                 pointerEvents: 'none',
-                borderRadius: 4,
+                borderRadius: 12,
+                border: '1px solid #E5E7EB',
+                boxShadow: '0 1px 2px rgba(0,0,0,0.04)',
               }}
             >
-              <h3 style={{ fontSize: 12, fontWeight: 600, color: '#0F172A', margin: '0 0 6px 0' }}>
+              <h3 style={{ fontSize: 12, fontWeight: 600, color: '#111827', margin: '0 0 6px 0' }}>
                 🔒 {cardItem.title}
               </h3>
-              <p style={{ fontSize: 11, color: '#64748B', margin: 0 }}>
+              <p style={{ fontSize: 11, color: '#6B7280', margin: 0 }}>
                 {cardItem.description}
               </p>
             </div>
@@ -449,33 +452,35 @@ export function ProactivePreparation({ currentStage = 1 }: { currentStage?: numb
         </div>
 
         {/* A. PROJECTED INTERVIEW OUTCOME */}
-        <div style={{ ...card, padding: 24, marginBottom: 20, borderRadius: 4 }}>
-          <h3 style={{ fontSize: 11, fontWeight: 700, color: '#0F172A', margin: '0 0 20px 0', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+        <div style={{ ...card, padding: 24, marginBottom: 20, borderRadius: 12, boxShadow: '0 1px 2px rgba(0,0,0,0.04)', border: '1px solid #E5E7EB' }}>
+          <h3 style={{ fontSize: 11, fontWeight: 700, color: '#111827', margin: '0 0 20px 0', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
             Projected Interview Outcome
           </h3>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 32 }}>
-            <div>
-              <p style={{ fontSize: 10, color: '#94A3B8', margin: '0 0 8px 0', fontWeight: 600 }}>Current Position</p>
-              <p style={{ fontSize: 18, fontWeight: 700, color: '#0F172A', margin: 0 }}>42% <span style={{ fontSize: 12, color: '#64748B', fontWeight: 500 }}>Moderate</span></p>
+            <div style={{ background: '#FFFFFF', padding: 16, borderRadius: 8, border: '1px solid #E5E7EB' }}>
+              <p style={{ fontSize: 10, color: '#6B7280', margin: '0 0 8px 0', fontWeight: 600 }}>Current Position</p>
+              <p style={{ fontSize: 18, fontWeight: 700, color: '#111827', margin: 0 }}>42%</p>
+              <p style={{ fontSize: 12, color: '#6B7280', fontWeight: 500, margin: '4px 0 0 0' }}>Moderate</p>
             </div>
-            <div>
-              <p style={{ fontSize: 10, color: '#94A3B8', margin: '0 0 8px 0', fontWeight: 600 }}>Projected Position (If Execution Plan Complete)</p>
-              <p style={{ fontSize: 18, fontWeight: 700, color: '#0F172A', margin: 0 }}>58% <span style={{ fontSize: 12, color: '#10B981', fontWeight: 500 }}>Strong</span></p>
+            <div style={{ background: '#FFFFFF', padding: 16, borderRadius: 8, border: '2px solid #16A34A' }}>
+              <p style={{ fontSize: 10, color: '#6B7280', margin: '0 0 8px 0', fontWeight: 600 }}>Projected (With Execution)</p>
+              <p style={{ fontSize: 18, fontWeight: 700, color: '#16A34A', margin: 0 }}>58% ↑</p>
+              <p style={{ fontSize: 12, color: '#16A34A', fontWeight: 500, margin: '4px 0 0 0' }}>Strong</p>
             </div>
           </div>
           <div style={{ marginTop: 16, paddingTop: 16, borderTop: '1px solid #E5E7EB' }}>
-            <p style={{ fontSize: 12, color: '#475569', margin: '0 0 8px 0' }}>
-              <span style={{ fontWeight: 600 }}>Delta Potential:</span> +16% if execution plan completed
+            <p style={{ fontSize: 12, color: '#6B7280', margin: '0 0 8px 0' }}>
+              <span style={{ fontWeight: 600 }}>Delta Potential:</span> <span style={{ color: '#16A34A', fontWeight: 600 }}>+16%</span> if execution plan completed
             </p>
-            <p style={{ fontSize: 12, color: '#475569', margin: 0 }}>
+            <p style={{ fontSize: 12, color: '#6B7280', margin: 0 }}>
               <span style={{ fontWeight: 600 }}>Peer Benchmark:</span> 68th percentile vs similar applicants
             </p>
           </div>
         </div>
 
         {/* B. HIRING SIGNAL WEIGHTING */}
-        <div style={{ ...card, padding: 24, marginBottom: 20, borderRadius: 4 }}>
-          <h3 style={{ fontSize: 11, fontWeight: 700, color: '#0F172A', margin: '0 0 20px 0', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+        <div style={{ ...card, padding: 24, marginBottom: 20, borderRadius: 12, boxShadow: '0 1px 2px rgba(0,0,0,0.04)', border: '1px solid #E5E7EB' }}>
+          <h3 style={{ fontSize: 11, fontWeight: 700, color: '#111827', margin: '0 0 20px 0', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
             Hiring Signal Distribution (This Role)
           </h3>
           <div style={{ display: 'grid', gap: 16 }}>
@@ -488,16 +493,16 @@ export function ProactivePreparation({ currentStage = 1 }: { currentStage?: numb
             ].map((item, i) => (
               <div key={i}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 6 }}>
-                  <span style={{ fontSize: 11, fontWeight: 500, color: '#0F172A' }}>{item.label}</span>
-                  <span style={{ fontSize: 11, fontWeight: 600, color: '#475569' }}>{item.percent}%</span>
+                  <span style={{ fontSize: 11, fontWeight: 500, color: '#111827' }}>{item.label}</span>
+                  <span style={{ fontSize: 11, fontWeight: 600, color: '#6B7280' }}>{item.percent}%</span>
                 </div>
-                <div style={{ width: '100%', height: 6, background: '#E5E7EB', borderRadius: 2 }}>
+                <div style={{ width: '100%', height: 6, background: '#E5E7EB', borderRadius: 3 }}>
                   <div
                     style={{
                       height: '100%',
                       width: `${item.percent}%`,
-                      background: '#64748B',
-                      borderRadius: 2,
+                      background: '#2F5BFF',
+                      borderRadius: 3,
                     }}
                   />
                 </div>
@@ -508,20 +513,20 @@ export function ProactivePreparation({ currentStage = 1 }: { currentStage?: numb
 
         {/* C. RISK ASSESSMENT PANEL */}
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 16, marginBottom: 20 }}>
-          <div style={{ ...card, padding: 20, borderRadius: 4 }}>
-            <h3 style={{ fontSize: 11, fontWeight: 700, color: '#0F172A', margin: '0 0 16px 0', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+          <div style={{ ...card, padding: 20, borderRadius: 12, boxShadow: '0 1px 2px rgba(0,0,0,0.04)', border: '1px solid #E5E7EB', background: '#FFFFFF' }}>
+            <h3 style={{ fontSize: 11, fontWeight: 700, color: '#111827', margin: '0 0 16px 0', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
               Positive Signals
             </h3>
-            <ul style={{ fontSize: 11, color: '#475569', margin: 0, paddingLeft: 16, lineHeight: 1.6 }}>
+            <ul style={{ fontSize: 11, color: '#6B7280', margin: 0, paddingLeft: 16, lineHeight: 1.6 }}>
               <li>Strong foundational match</li>
               <li>Referral vector available</li>
             </ul>
           </div>
-          <div style={{ ...card, padding: 20, borderRadius: 4, background: '#FEF8F0' }}>
-            <h3 style={{ fontSize: 11, fontWeight: 700, color: '#0F172A', margin: '0 0 16px 0', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+          <div style={{ ...card, padding: 20, borderRadius: 12, boxShadow: '0 1px 2px rgba(0,0,0,0.04)', border: '1px solid #FEE2E2', background: '#FFFFFF' }}>
+            <h3 style={{ fontSize: 11, fontWeight: 700, color: '#DC2626', margin: '0 0 16px 0', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
               Signal Deficiencies
             </h3>
-            <ul style={{ fontSize: 11, color: '#7C3A0F', margin: 0, paddingLeft: 16, lineHeight: 1.6 }}>
+            <ul style={{ fontSize: 11, color: '#DC2626', margin: 0, paddingLeft: 16, lineHeight: 1.6 }}>
               <li>Limited quantified outcomes</li>
               <li>Experience depth gap in role type</li>
             </ul>
@@ -530,7 +535,7 @@ export function ProactivePreparation({ currentStage = 1 }: { currentStage?: numb
 
         {/* EXECUTION PLAN SECTION */}
         <div style={{ marginBottom: 24 }}>
-          <p style={{ fontSize: 10, fontWeight: 700, color: '#475569', margin: '0 0 16px 0', textTransform: 'uppercase', letterSpacing: '0.75px' }}>
+          <p style={{ fontSize: 10, fontWeight: 700, color: '#6B7280', margin: '0 0 16px 0', textTransform: 'uppercase', letterSpacing: '0.75px' }}>
             Execution Plan — Signal Optimization
           </p>
           <div style={{ display: 'grid', gap: 12 }}>
@@ -539,12 +544,12 @@ export function ProactivePreparation({ currentStage = 1 }: { currentStage?: numb
               { action: 'Document 3 quantified outcomes', impact: '+8%', rationale: 'Addresses signal deficiency directly' },
               { action: 'Practice cross-functional stories', impact: '+6%', rationale: 'Strengthens influence signal clarity' },
             ].map((item, i) => (
-              <div key={i} style={{ ...card, padding: 16, borderRadius: 4 }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start', marginBottom: 8 }}>
-                  <h4 style={{ fontSize: 12, fontWeight: 600, color: '#0F172A', margin: 0 }}>{item.action}</h4>
-                  <span style={{ fontSize: 11, fontWeight: 600, color: '#10B981' }}>Signal Impact: {item.impact}</span>
+              <div key={i} style={{ ...card, padding: 16, borderRadius: 12, boxShadow: '0 1px 2px rgba(0,0,0,0.04)', border: '1px solid #E5E7EB', background: '#FFFFFF', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <div style={{ flex: 1 }}>
+                  <h4 style={{ fontSize: 12, fontWeight: 600, color: '#111827', margin: '0 0 4px 0' }}>{item.action}</h4>
+                  <p style={{ fontSize: 11, color: '#6B7280', margin: 0 }}>Rationale: {item.rationale}</p>
                 </div>
-                <p style={{ fontSize: 11, color: '#64748B', margin: 0 }}>Rationale: {item.rationale}</p>
+                <span style={{ fontSize: 11, fontWeight: 600, color: '#16A34A', marginLeft: 16, whiteSpace: 'nowrap' }}>Signal: {item.impact}</span>
               </div>
             ))}
           </div>
@@ -552,24 +557,24 @@ export function ProactivePreparation({ currentStage = 1 }: { currentStage?: numb
 
         {/* ROLE-CALIBRATED ANSWER FRAMEWORKS */}
         <div style={{ marginBottom: 24 }}>
-          <p style={{ fontSize: 10, fontWeight: 700, color: '#475569', margin: '0 0 16px 0', textTransform: 'uppercase', letterSpacing: '0.75px' }}>
+          <p style={{ fontSize: 10, fontWeight: 700, color: '#6B7280', margin: '0 0 16px 0', textTransform: 'uppercase', letterSpacing: '0.75px' }}>
             Role-Calibrated Answer Frameworks
           </p>
           <div style={{ display: 'grid', gap: 12 }}>
             {mockOptimizedAnswers.map((answer, i) => (
-              <div key={i} style={{ ...card, padding: 16, borderRadius: 4 }}>
-                <h3 style={{ fontSize: 12, fontWeight: 600, color: '#0F172A', marginBottom: 8, margin: 0 }}>
+              <div key={i} style={{ ...card, padding: 16, borderRadius: 12, boxShadow: '0 1px 2px rgba(0,0,0,0.04)', border: '1px solid #E5E7EB' }}>
+                <h3 style={{ fontSize: 12, fontWeight: 600, color: '#111827', marginBottom: 8, margin: '0 0 8px 0' }}>
                   {answer.question}
                 </h3>
-                <p style={{ fontSize: 10, color: '#94A3B8', margin: '8px 0', fontWeight: 600 }}>
+                <p style={{ fontSize: 10, color: '#6B7280', margin: '8px 0', fontWeight: 600 }}>
                   Signal Alignment: {answer.whyAsked}
                 </p>
-                <div style={{ background: '#F8FAFC', padding: 10, borderRadius: 3, marginBottom: 8 }}>
-                  <p style={{ fontSize: 10, color: '#475569', margin: 0, fontWeight: 500 }}>
+                <div style={{ background: '#F8FAFC', padding: 10, borderRadius: 6, marginBottom: 8, border: '1px solid #E5E7EB' }}>
+                  <p style={{ fontSize: 10, color: '#6B7280', margin: 0, fontWeight: 500 }}>
                     {answer.structure}
                   </p>
                 </div>
-                <p style={{ fontSize: 10, color: '#64748B', margin: 0 }}>
+                <p style={{ fontSize: 10, color: '#6B7280', margin: 0 }}>
                   {answer.strengths.join(' • ')}
                 </p>
               </div>
@@ -578,20 +583,20 @@ export function ProactivePreparation({ currentStage = 1 }: { currentStage?: numb
         </div>
 
         {/* EXECUTIVE INTERVIEW BRIEFING */}
-        <div style={{ ...card, padding: 20, borderRadius: 4 }}>
-          <h3 style={{ fontSize: 11, fontWeight: 700, color: '#0F172A', margin: '0 0 16px 0', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+        <div style={{ ...card, padding: 20, borderRadius: 12, boxShadow: '0 1px 2px rgba(0,0,0,0.04)', border: '1px solid #E5E7EB' }}>
+          <h3 style={{ fontSize: 11, fontWeight: 700, color: '#111827', margin: '0 0 16px 0', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
             Executive Interview Briefing
           </h3>
           <div style={{ display: 'grid', gap: 12, fontSize: 11 }}>
             <div>
-              <p style={{ color: '#94A3B8', fontWeight: 600, margin: '0 0 6px 0' }}>30-Second Narrative</p>
-              <p style={{ color: '#475569', margin: 0 }}>
+              <p style={{ color: '#6B7280', fontWeight: 600, margin: '0 0 6px 0' }}>30-Second Narrative</p>
+              <p style={{ color: '#6B7280', margin: 0 }}>
                 {'"I drive measurable outcomes through structured problem-solving and clear cross-functional communication of impact."'}
               </p>
             </div>
             <div>
-              <p style={{ color: '#94A3B8', fontWeight: 600, margin: '0 0 6px 0' }}>Unique Signals</p>
-              <p style={{ color: '#475569', margin: 0 }}>
+              <p style={{ color: '#6B7280', fontWeight: 600, margin: '0 0 6px 0' }}>Unique Signals</p>
+              <p style={{ color: '#6B7280', margin: 0 }}>
                 Quantified impact claims, cross-functional influence capability, structured problem-solving framework
               </p>
             </div>
