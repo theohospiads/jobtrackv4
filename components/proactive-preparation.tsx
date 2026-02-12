@@ -115,53 +115,87 @@ export function ProactivePreparation({ currentStage = 1 }: { currentStage?: numb
     boxShadow: '0 1px 2px rgba(0,0,0,0.04)',
   }
 
-  // STATE 1: CALIBRATION REQUIRED — MINIMAL FRICTION
+  // STATE 1: CALIBRATION REQUIRED — ZERO FRICTION
   if (calibrationState === 'required') {
     return (
       <div style={{ marginBottom: 32 }}>
         <div
           style={{
             ...card,
-            padding: '24px 28px',
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            gap: 20,
+            padding: 32,
+            background: '#FFFFFF',
           }}
         >
-          <div style={{ flex: 1 }}>
-            <p style={{ fontSize: 15, fontWeight: 600, color: '#111827', margin: '0 0 4px 0' }}>
-              Your interview strategy is ready to generate
+          {/* HEADLINE */}
+          <h2 style={{ fontSize: 20, fontWeight: 700, color: '#111827', margin: '0 0 8px 0' }}>
+            How This Company Evaluates Candidates
+          </h2>
+          <p style={{ fontSize: 13, color: '#6B7280', margin: '0 0 28px 0' }}>
+            We simulate their hiring signals to build your optimal interview strategy.
+          </p>
+
+          {/* HIRING SIGNALS — COMPACT */}
+          <div style={{ marginBottom: 28 }}>
+            <p style={{ fontSize: 10, fontWeight: 600, color: '#9CA3AF', margin: '0 0 14px 0', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+              Key signals for this role
             </p>
-            <p style={{ fontSize: 12, color: '#9CA3AF', margin: 0 }}>
-              Based on hiring signals for this role
-            </p>
+            <div style={{ display: 'grid', gap: 10 }}>
+              {[
+                { label: 'Ownership Depth', percent: 31 },
+                { label: 'Impact Quantification', percent: 24 },
+                { label: 'Stakeholder Influence', percent: 18 },
+                { label: 'Communication Clarity', percent: 17 },
+                { label: 'Domain Relevance', percent: 10 },
+              ].map((item, i) => (
+                <div key={i}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 4 }}>
+                    <span style={{ fontSize: 11, fontWeight: 500, color: '#6B7280' }}>{item.label}</span>
+                    <span style={{ fontSize: 11, fontWeight: 600, color: '#9CA3AF' }}>{item.percent}%</span>
+                  </div>
+                  <div style={{ width: '100%', height: 4, background: '#F3F4F6', borderRadius: 2 }}>
+                    <div
+                      style={{
+                        height: '100%',
+                        width: `${item.percent}%`,
+                        background: '#2F5BFF',
+                        borderRadius: 2,
+                      }}
+                    />
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
-          <button
-            onClick={handleStartCalibration}
-            style={{
-              padding: '12px 28px',
-              background: '#2F5BFF',
-              color: '#FFFFFF',
-              border: 'none',
-              borderRadius: 12,
-              fontSize: 13,
-              fontWeight: 600,
-              cursor: 'pointer',
-              boxShadow: '0 1px 2px rgba(0,0,0,0.04)',
-              transition: 'background 0.15s ease',
-              whiteSpace: 'nowrap',
-              flexShrink: 0,
-            }}
-            onMouseOver={(e) => {
-              (e.target as HTMLButtonElement).style.background = '#2448D8'
-            }}
-            onMouseOut={(e) => {
-              (e.target as HTMLButtonElement).style.background = '#2F5BFF'
-            }}
-          >
-            Generate Strategy
-          </button>
+
+          {/* SINGLE CTA */}
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: 8 }}>
+            <button
+              onClick={handleStartCalibration}
+              style={{
+                padding: '14px 36px',
+                background: '#2F5BFF',
+                color: '#FFFFFF',
+                border: 'none',
+                borderRadius: 12,
+                fontSize: 14,
+                fontWeight: 600,
+                cursor: 'pointer',
+                boxShadow: '0 1px 2px rgba(0,0,0,0.04)',
+                transition: 'all 0.15s ease',
+              }}
+              onMouseOver={(e) => {
+                (e.target as HTMLButtonElement).style.background = '#2448D8'
+              }}
+              onMouseOut={(e) => {
+                (e.target as HTMLButtonElement).style.background = '#2F5BFF'
+              }}
+            >
+              Build My Interview Strategy
+            </button>
+            <span style={{ fontSize: 11, color: '#9CA3AF' }}>
+              Takes 30 seconds. No input required.
+            </span>
+          </div>
         </div>
       </div>
     )
