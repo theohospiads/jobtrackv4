@@ -115,102 +115,49 @@ export function ProactivePreparation({ currentStage = 1 }: { currentStage?: numb
     boxShadow: '0 1px 2px rgba(0,0,0,0.04)',
   }
 
-  // STATE 1: CALIBRATION REQUIRED
+  // STATE 1: CALIBRATION REQUIRED — ZERO FRICTION
   if (calibrationState === 'required') {
     return (
       <div style={{ marginBottom: 32 }}>
-        {/* PROCESS FRAMING LABEL */}
-        <div style={{ marginBottom: 20 }}>
-          <p style={{ fontSize: 10, fontWeight: 700, color: '#475569', margin: 0, textTransform: 'uppercase', letterSpacing: '0.75px' }}>
-            Step 1 — Build Your Strategic Interview Model
-          </p>
-        </div>
-
-        {/* PRIMARY MODULE - CALIBRATION CTA */}
         <div
           style={{
             ...card,
-            padding: 40,
-            marginBottom: 24,
+            padding: 32,
             background: '#FFFFFF',
-            border: '1px solid #E5E7EB',
-            borderRadius: 6,
           }}
         >
-          <h2 style={{ fontSize: 22, fontWeight: 700, color: '#0F172A', margin: '0 0 12px 0' }}>
-            Strategic Role Model — How This Company Evaluates Candidates
+          {/* HEADLINE */}
+          <h2 style={{ fontSize: 20, fontWeight: 700, color: '#111827', margin: '0 0 8px 0' }}>
+            How This Company Evaluates Candidates
           </h2>
-          <p style={{ fontSize: 13, color: '#64748B', margin: '0 0 24px 0', lineHeight: 1.6 }}>
-            This module simulates how this role is likely to assess candidates based on structured hiring signals and comparable role data.
+          <p style={{ fontSize: 13, color: '#6B7280', margin: '0 0 28px 0' }}>
+            We simulate their hiring signals to build your optimal interview strategy.
           </p>
 
-          <div
-            style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(3, 1fr)',
-              gap: 24,
-              marginBottom: 24,
-              paddingBottom: 24,
-              borderBottom: '1px solid #E5E7EB',
-            }}
-          >
-            <div style={{ fontSize: 12, color: '#64748B' }}>
-              <span style={{ fontWeight: 600, color: '#0F172A', display: 'block', marginBottom: 4, fontSize: 11 }}>
-                OBJECTIVE
-              </span>
-              Model evaluation criteria for this role
-            </div>
-            <div style={{ fontSize: 12, color: '#64748B' }}>
-              <span style={{ fontWeight: 600, color: '#0F172A', display: 'block', marginBottom: 4, fontSize: 11 }}>
-                METHOD
-              </span>
-              Structured signal simulation (5 variables)
-            </div>
-            <div style={{ fontSize: 12, color: '#64748B' }}>
-              <span style={{ fontWeight: 600, color: '#0F172A', display: 'block', marginBottom: 4, fontSize: 11 }}>
-                OUTPUT
-              </span>
-              Risk profile + answer frameworks + roadmap
-            </div>
-          </div>
-
-          {/* HIRING SIGNALS PREVIEW */}
-          <div style={{ marginBottom: 24, paddingBottom: 24, borderBottom: '1px solid #E5E7EB' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
-              <p style={{ fontSize: 10, fontWeight: 600, color: '#94A3B8', margin: 0, textTransform: 'uppercase', letterSpacing: '0.5px' }}>
-                Hiring Signals Preview
-              </p>
-            </div>
-            <p style={{ fontSize: 9, color: '#CBD5E1', margin: '0 0 12px 0', fontWeight: 500 }}>
-              Signals weighted using structured hiring frameworks and comparable role data.
+          {/* HIRING SIGNALS — COMPACT */}
+          <div style={{ marginBottom: 28 }}>
+            <p style={{ fontSize: 10, fontWeight: 600, color: '#9CA3AF', margin: '0 0 14px 0', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+              Key signals for this role
             </p>
-            <div style={{ display: 'grid', gap: 12 }}>
+            <div style={{ display: 'grid', gap: 10 }}>
               {[
-                { label: 'Ownership Depth', percent: 31, tooltip: 'Measures autonomy, scope of responsibility, and initiative.' },
-                { label: 'Impact Quantification', percent: 24, tooltip: 'Ability to articulate measurable business outcomes.' },
-                { label: 'Stakeholder Influence', percent: 18, tooltip: 'Capacity to drive decisions across organizational boundaries.' },
-                { label: 'Communication Clarity', percent: 17, tooltip: 'Structured communication and narrative coherence.' },
-                { label: 'Domain Relevance', percent: 10, tooltip: 'Depth of expertise in relevant technical or functional areas.' },
+                { label: 'Ownership Depth', percent: 31 },
+                { label: 'Impact Quantification', percent: 24 },
+                { label: 'Stakeholder Influence', percent: 18 },
+                { label: 'Communication Clarity', percent: 17 },
+                { label: 'Domain Relevance', percent: 10 },
               ].map((item, i) => (
-                <div key={i} style={{ position: 'relative' }}>
+                <div key={i}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 4 }}>
-                    <span 
-                      style={{ fontSize: 10, fontWeight: 500, color: '#64748B', cursor: 'help' }}
-                      title={item.tooltip}
-                    >
-                      {item.label}
-                    </span>
-                    <span style={{ fontSize: 10, fontWeight: 600, color: '#94A3B8' }}>{item.percent}%</span>
+                    <span style={{ fontSize: 11, fontWeight: 500, color: '#6B7280' }}>{item.label}</span>
+                    <span style={{ fontSize: 11, fontWeight: 600, color: '#9CA3AF' }}>{item.percent}%</span>
                   </div>
-                  <div 
-                    style={{ width: '100%', height: 4, background: '#E5E7EB', borderRadius: 2, cursor: 'help' }}
-                    title={item.tooltip}
-                  >
+                  <div style={{ width: '100%', height: 4, background: '#F3F4F6', borderRadius: 2 }}>
                     <div
                       style={{
                         height: '100%',
                         width: `${item.percent}%`,
-                        background: '#CBD5E1',
+                        background: '#2F5BFF',
                         borderRadius: 2,
                       }}
                     />
@@ -220,78 +167,35 @@ export function ProactivePreparation({ currentStage = 1 }: { currentStage?: numb
             </div>
           </div>
 
-          <button
-            onClick={handleStartCalibration}
-            style={{
-              padding: '14px 32px',
-              background: '#2F5BFF',
-              color: '#FFFFFF',
-              border: 'none',
-              borderRadius: 12,
-              fontSize: 13,
-              fontWeight: 600,
-              cursor: 'pointer',
-              boxShadow: '0 1px 2px rgba(0,0,0,0.04)',
-              transition: 'all 0.2s ease',
-            }}
-            onMouseOver={(e) => {
-              (e.target as HTMLButtonElement).style.background = '#2448D8';
-              (e.target as HTMLButtonElement).style.boxShadow = '0 2px 6px rgba(47, 91, 255, 0.2)';
-            }}
-            onMouseOut={(e) => {
-              (e.target as HTMLButtonElement).style.background = '#2F5BFF';
-              (e.target as HTMLButtonElement).style.boxShadow = '0 1px 2px rgba(0,0,0,0.04)';
-            }}
-          >
-            Generate My Interview Strategy
-          </button>
-        </div>
-
-        {/* PREVIEW CARDS - LOCKED */}
-        <div style={{ marginBottom: 16 }}>
-          <p style={{ fontSize: 10, fontWeight: 600, color: '#94A3B8', margin: 0, textTransform: 'uppercase', letterSpacing: '0.5px' }}>
-            Strategic Execution Modules (Unlocked After Modeling)
-          </p>
-        </div>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 12 }}>
-          {[
-            {
-              title: 'Interview Risk Assessment',
-              description: 'Projected outcome, signal weighting, and risk analysis.',
-            },
-            {
-              title: 'Role-Calibrated Answer Frameworks',
-              description: 'Answer models ranked by relevance and hiring weight.',
-            },
-            {
-              title: 'Competency Mastery Lab',
-              description: 'Targeted practice with real hiring criteria.',
-            },
-            {
-              title: 'Executive Interview Briefing',
-              description: 'Strategy summary, signal map, and execution plan.',
-            },
-          ].map((cardItem, i) => (
-            <div
-              key={i}
+          {/* SINGLE CTA */}
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: 8 }}>
+            <button
+              onClick={handleStartCalibration}
               style={{
-                ...card,
-                padding: 16,
-                opacity: 0.55,
-                pointerEvents: 'none',
+                padding: '14px 36px',
+                background: '#2F5BFF',
+                color: '#FFFFFF',
+                border: 'none',
                 borderRadius: 12,
-                border: '1px solid #E5E7EB',
+                fontSize: 14,
+                fontWeight: 600,
+                cursor: 'pointer',
                 boxShadow: '0 1px 2px rgba(0,0,0,0.04)',
+                transition: 'all 0.15s ease',
+              }}
+              onMouseOver={(e) => {
+                (e.target as HTMLButtonElement).style.background = '#2448D8'
+              }}
+              onMouseOut={(e) => {
+                (e.target as HTMLButtonElement).style.background = '#2F5BFF'
               }}
             >
-              <h3 style={{ fontSize: 12, fontWeight: 600, color: '#111827', margin: '0 0 6px 0' }}>
-                🔒 {cardItem.title}
-              </h3>
-              <p style={{ fontSize: 11, color: '#6B7280', margin: 0 }}>
-                {cardItem.description}
-              </p>
-            </div>
-          ))}
+              Build My Interview Strategy
+            </button>
+            <span style={{ fontSize: 11, color: '#9CA3AF' }}>
+              Takes 30 seconds. No input required.
+            </span>
+          </div>
         </div>
       </div>
     )
