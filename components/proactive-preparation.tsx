@@ -126,11 +126,11 @@ export function ProactivePreparation() {
         <div
           style={{
             ...card,
-            padding: 48,
+            padding: 56,
             marginBottom: 24,
-            background: 'linear-gradient(135deg, #EFF6FF 0%, #F0F9FF 100%)',
-            border: '1px solid #DBEAFE',
-            borderRadius: 8,
+            background: 'linear-gradient(135deg, #E8F2FF 0%, #EDF5FF 100%)',
+            border: '1px solid #C7E0FE',
+            borderRadius: 6,
           }}
         >
           <h2 style={{ fontSize: 24, fontWeight: 700, color: '#0F172A', margin: '0 0 16px 0' }}>
@@ -158,9 +158,9 @@ export function ProactivePreparation() {
             </div>
             <div style={{ fontSize: 12, color: '#64748B' }}>
               <span style={{ fontWeight: 600, color: '#0F172A', display: 'block', marginBottom: 6 }}>
-                {t('interview.calibration.instantResults')}
+                Instant Output
               </span>
-              {t('interview.calibration.personalizedPlan')}
+              Role-specific evaluation and preparation roadmap
             </div>
             <div style={{ fontSize: 12, color: '#64748B' }}>
               <span style={{ fontWeight: 600, color: '#0F172A', display: 'block', marginBottom: 6 }}>
@@ -200,7 +200,7 @@ export function ProactivePreparation() {
         {/* PREVIEW CARDS - LOCKED */}
         <div style={{ marginBottom: 16 }}>
           <p style={{ fontSize: 10, fontWeight: 600, color: '#94A3B8', margin: 0, textTransform: 'uppercase', letterSpacing: '0.5px' }}>
-            Unlocked After Calibration
+            Full Preparation System (Unlocked After Calibration)
           </p>
         </div>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 16 }}>
