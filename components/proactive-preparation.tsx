@@ -121,7 +121,7 @@ export function ProactivePreparation({ currentStage = 1 }: { currentStage?: numb
         {/* PROCESS FRAMING LABEL */}
         <div style={{ marginBottom: 20 }}>
           <p style={{ fontSize: 10, fontWeight: 700, color: '#475569', margin: 0, textTransform: 'uppercase', letterSpacing: '0.75px' }}>
-            Step 1 — Strategic Role Modeling
+            Step 1 — Build Your Strategic Interview Model
           </p>
         </div>
 
@@ -179,10 +179,10 @@ export function ProactivePreparation({ currentStage = 1 }: { currentStage?: numb
               <p style={{ fontSize: 10, fontWeight: 600, color: '#94A3B8', margin: 0, textTransform: 'uppercase', letterSpacing: '0.5px' }}>
                 Hiring Signals Preview
               </p>
-              <span style={{ fontSize: 9, fontWeight: 500, color: '#CBD5E1', fontStyle: 'italic' }}>
-                Weighted by historical hiring data
-              </span>
             </div>
+            <p style={{ fontSize: 9, color: '#CBD5E1', margin: '0 0 12px 0', fontWeight: 500 }}>
+              Signals weighted using structured hiring frameworks and comparable role data.
+            </p>
             <div style={{ display: 'grid', gap: 12 }}>
               {[
                 { label: 'Ownership Depth', percent: 31, tooltip: 'Measures autonomy, scope of responsibility, and initiative.' },
@@ -242,7 +242,7 @@ export function ProactivePreparation({ currentStage = 1 }: { currentStage?: numb
               (e.target as HTMLButtonElement).style.boxShadow = '0 1px 3px rgba(30, 64, 175, 0.25)';
             }}
           >
-            Generate My Strategic Interview Model
+            Generate My Interview Strategy
           </button>
         </div>
 
