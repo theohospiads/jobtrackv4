@@ -540,6 +540,8 @@ export function ProactivePreparation({
     </div>
   )
 }
+  )
+}
 
   const skillGaps = [
     { requirement: 'Quantified Impact', evidence: '1 example', gap: 'Medium' },
