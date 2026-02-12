@@ -119,25 +119,25 @@ export function ProactivePreparation() {
         <div
           style={{
             ...card,
-            padding: 32,
+            padding: 40,
             marginBottom: 24,
             background: 'linear-gradient(135deg, #EFF6FF 0%, #F0F9FF 100%)',
-            border: '2px solid #2563EB',
+            border: '1px solid #BFDBFE',
           }}
         >
-          <h2 style={{ fontSize: 20, fontWeight: 700, color: '#0F172A', margin: '0 0 8px 0' }}>
-            {t('interview.calibration.ctaTitle')}
+          <h2 style={{ fontSize: 22, fontWeight: 700, color: '#0F172A', margin: '0 0 12px 0' }}>
+            Build Your Interview Advantage for This Role
           </h2>
-          <p style={{ fontSize: 13, color: '#475569', margin: '0 0 20px 0', lineHeight: 1.5 }}>
-            {t('interview.calibration.ctaDescription')}
+          <p style={{ fontSize: 14, color: '#475569', margin: '0 0 24px 0', lineHeight: 1.6 }}>
+            Answer 5 targeted questions to unlock your role-specific preparation. Analysis includes: ownership depth, measurable impact clarity, and response structure modeling.
           </p>
 
           <div
             style={{
               display: 'grid',
               gridTemplateColumns: 'repeat(3, 1fr)',
-              gap: 16,
-              marginBottom: 24,
+              gap: 24,
+              marginBottom: 28,
             }}
           >
             <div style={{ fontSize: 12, color: '#64748B' }}>
@@ -164,7 +164,7 @@ export function ProactivePreparation() {
             <button
               onClick={handleStartCalibration}
               style={{
-                padding: '12px 24px',
+                padding: '14px 28px',
                 background: '#2563EB',
                 color: '#FFFFFF',
                 border: 'none',
@@ -172,16 +172,17 @@ export function ProactivePreparation() {
                 fontSize: 14,
                 fontWeight: 600,
                 cursor: 'pointer',
+                boxShadow: '0 2px 8px rgba(37, 99, 235, 0.2)',
               }}
             >
               {t('interview.calibration.startButton')}
             </button>
             <button
               style={{
-                padding: '12px 24px',
-                background: '#FFFFFF',
+                padding: '14px 28px',
+                background: 'transparent',
                 color: '#2563EB',
-                border: '2px solid #2563EB',
+                border: '1px solid #2563EB',
                 borderRadius: 8,
                 fontSize: 14,
                 fontWeight: 600,
@@ -197,20 +198,20 @@ export function ProactivePreparation() {
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 16 }}>
           {[
             {
-              title: t('interview.dashboard.snapshot'),
-              description: t('interview.dashboard.snapshotDesc'),
+              title: 'If You Interviewed Today',
+              description: 'Your top strengths and critical risks in this interview.',
             },
             {
-              title: t('interview.dashboard.optimizedAnswers'),
-              description: t('interview.dashboard.answersDesc'),
+              title: 'Your Optimized Answer Pack',
+              description: '5 calibrated answers ranked by relevance to this role.',
             },
             {
-              title: t('interview.dashboard.trainingLab'),
-              description: t('interview.dashboard.trainingDesc'),
+              title: 'Structured Training Lab',
+              description: 'Master key competencies through focused practice sessions.',
             },
             {
-              title: t('interview.dashboard.dossier'),
-              description: t('interview.dashboard.dossierDesc'),
+              title: 'Interview Strategy Brief',
+              description: '30-second narrative, unique signals, and risk mitigation.',
             },
           ].map((cardItem, i) => (
             <div
@@ -223,14 +224,11 @@ export function ProactivePreparation() {
               }}
             >
               <h3 style={{ fontSize: 14, fontWeight: 600, color: '#0F172A', margin: '0 0 8px 0' }}>
-                {cardItem.title}
+                🔒 {cardItem.title}
               </h3>
               <p style={{ fontSize: 12, color: '#64748B', margin: 0 }}>
                 {cardItem.description}
               </p>
-              <div style={{ marginTop: 12, fontSize: 11, color: '#CBD5E1' }}>
-                {t('interview.locked.lockMessage')}
-              </div>
             </div>
           ))}
         </div>
