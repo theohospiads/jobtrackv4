@@ -543,7 +543,6 @@ export function ProactivePreparation({
     </div>
   )
 }
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
           <h3 style={{ fontSize: 11, fontWeight: 600, color: '#64748B', margin: 0, textTransform: 'uppercase', letterSpacing: '0.5px' }}>
             {t('prep.readinessOverview')}
           </h3>
