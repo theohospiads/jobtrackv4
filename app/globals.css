@@ -6,76 +6,88 @@
 :root {
   /* Backgrounds */
   --background: #F8FAFC;
-  --foreground: #0F172A;
+  --foreground: #111827;
   --card: #FFFFFF;
-  --card-foreground: #0F172A;
+  --card-foreground: #111827;
   --popover: #FFFFFF;
-  --popover-foreground: #0F172A;
+  --popover-foreground: #111827;
   
-  /* Brand / Action */
-  --primary: #1A73E8;
+  /* Primary Brand Blue - Unified Elite System */
+  --primary: #2F5BFF;
   --primary-foreground: #FFFFFF;
-  --primary-hover: #1669D2;
+  --primary-hover: #2448D8;
+  --primary-light: #EEF2FF;
   
   /* Secondary / Neutral */
-  --secondary: #F1F5F9;
-  --secondary-foreground: #0F172A;
-  --muted: #F1F5F9;
-  --muted-foreground: #64748B;
-  --accent: #F1F5F9;
-  --accent-foreground: #0F172A;
+  --secondary: #F8FAFC;
+  --secondary-foreground: #111827;
+  --muted: #F8FAFC;
+  --muted-foreground: #6B7280;
+  --accent: #F8FAFC;
+  --accent-foreground: #111827;
   
-  /* Text */
-  --text-primary: #0F172A;
-  --text-secondary: #475569;
-  --text-muted: #64748B;
+  /* Text - Semantic Hierarchy */
+  --text-primary: #111827;
+  --text-secondary: #6B7280;
+  --text-muted: #9CA3AF;
+  
+  /* Success - Strategic Green */
+  --success-bg: #DCFCE7;
+  --success-border: #16A34A;
+  --success-text: #16A34A;
+  
+  /* Danger - Muted Red */
+  --danger-bg: #FEE2E2;
+  --danger-border: #DC2626;
+  --danger-text: #DC2626;
   
   /* Warning */
-  --warning-bg: #FFF7ED;
-  --warning-border: #FDBA74;
-  --warning-text: #C2410C;
+  --warning-bg: #FEF3C7;
+  --warning-border: #F59E0B;
+  --warning-text: #92400E;
   
-  /* Success */
-  --success-bg: #ECFDF5;
-  --success-border: #34D399;
-  --success-text: #047857;
+  /* Neutral UI - Unified */
+  --neutral-bg: #F8FAFC;
+  --neutral-border: #E5E7EB;
+  --neutral-text: #111827;
   
-  /* Neutral UI */
-  --neutral-bg: #F1F5F9;
-  --neutral-border: #CBD5E1;
-  --neutral-text: #0F172A;
-  
-  /* Borders & Dividers */
+  /* Borders & Dividers - Consistent */
   --border: #E5E7EB;
   --border-default: #E5E7EB;
-  --border-subtle: rgba(15,23,42,0.06);
-  --divider: rgba(15,23,42,0.05);
+  --border-subtle: rgba(17,24,39,0.06);
+  --divider: rgba(17,24,39,0.05);
   --input: #E5E7EB;
-  --ring: #1A73E8;
+  --ring: #2F5BFF;
   
-  /* Primary shades for nav */
-  --primary-100: #E8F2FD;
-  --primary-600: #1A73E8;
+  /* Shades */
+  --primary-100: #EEF2FF;
+  --primary-600: #2F5BFF;
+  --success-100: #DCFCE7;
+  --success-600: #16A34A;
+  --danger-100: #FEE2E2;
+  --danger-600: #DC2626;
+  --neutral-300: #D1D5DB;
   
-  /* Background aliases for nav */
+  /* Background aliases */
   --bg-card: #FFFFFF;
-  --bg-muted: #F1F5F9;
+  --bg-muted: #F8FAFC;
   
-  /* Shadow for nav on scroll */
-  --shadow-nav: 0 1px 3px rgba(0,0,0,0.06), 0 4px 12px rgba(0,0,0,0.04);
+  /* Unified Shadow System */
+  --shadow-sm: 0 1px 2px rgba(0,0,0,0.04);
+  --shadow-nav: 0 1px 2px rgba(0,0,0,0.04);
   
   --destructive: #DC2626;
   --destructive-foreground: #FFFFFF;
-  --radius: 0.625rem;
+  --radius: 12px;
   
   --sidebar: #FFFFFF;
-  --sidebar-foreground: #0F172A;
-  --sidebar-primary: #1A73E8;
+  --sidebar-foreground: #111827;
+  --sidebar-primary: #2F5BFF;
   --sidebar-primary-foreground: #FFFFFF;
-  --sidebar-accent: #F1F5F9;
-  --sidebar-accent-foreground: #0F172A;
+  --sidebar-accent: #F8FAFC;
+  --sidebar-accent-foreground: #111827;
   --sidebar-border: #E5E7EB;
-  --sidebar-ring: #1A73E8;
+  --sidebar-ring: #2F5BFF;
 }
 
 @theme inline {

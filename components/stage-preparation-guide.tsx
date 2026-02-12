@@ -18,14 +18,7 @@ const STAGE_ITEMS_CONFIG: Record<number, Array<{ key: string; labelKey: string; 
     { key: 'addToCalendar', labelKey: 'action.addToCalendar', impactKey: 'impact.addToCalendar' },
     { key: 'confirmEmail', labelKey: 'action.confirmEmail', impactKey: 'impact.confirmEmail' },
   ],
-  1: [
-    { key: 'researchCompany', labelKey: 'action.researchCompanyDetails', impactKey: 'impact.researchCompany' },
-    { key: 'readRecentNews', labelKey: 'action.readRecentNews', impactKey: 'impact.readRecentNews' },
-    { key: 'identifyLinkedInRecruiter', labelKey: 'action.identifyLinkedInRecruiter', impactKey: 'impact.linkedIn' },
-    { key: 'studyJobDescription', labelKey: 'action.studyJobDescription', impactKey: 'impact.studyJobDescription' },
-    { key: 'prepareSTARStories', labelKey: 'action.prepareSTARStories', impactKey: 'impact.prepareSTAR' },
-    { key: 'practiceIntroduction', labelKey: 'action.practiceIntroduction', impactKey: 'impact.practiceIntroduction' },
-  ],
+  1: [],
   2: [
     { key: 'recordMockInterview', labelKey: 'action.recordMockInterview', impactKey: 'impact.recordMockInterview' },
     { key: 'reviewTechStack', labelKey: 'action.reviewTechStack', impactKey: 'impact.reviewTechStack' },
@@ -46,13 +39,22 @@ const STAGE_ITEMS_CONFIG: Record<number, Array<{ key: string; labelKey: string; 
     { key: 'prepareStartDate', labelKey: 'action.prepareStartDate', impactKey: 'impact.prepareStartDate' },
     { key: 'finalReview', labelKey: 'action.finalReview', impactKey: 'impact.finalReview' },
   ],
+  4: [
+    { key: 'celebrateWin', labelKey: 'action.celebrateWin', impactKey: 'impact.celebrateWin' },
+    { key: 'updateLinkedIn', labelKey: 'action.updateLinkedIn', impactKey: 'impact.updateLinkedIn' },
+    { key: 'notifyReferences', labelKey: 'action.notifyReferences', impactKey: 'impact.notifyReferences' },
+    { key: 'archiveApplications', labelKey: 'action.archiveApplications', impactKey: 'impact.archiveApplications' },
+  ],
 }
 
-const STAGE_NAMES = ['stage.applicationSubmitted', 'stage.applicationReview', 'stage.interview', 'stage.decision']
+const STAGE_NAMES = ['stage.applicationSubmitted', 'stage.proactivePrep', 'stage.interview', 'stage.decisionPending', 'stage.finalResult']
 
 export function StagePrepGuide({ currentStageIndex, stageName, stageStatus }: StagePrepGuideProps) {
   // Early return BEFORE any hooks
   if (stageStatus !== 'current') return null
+  
+  // Skip rendering tips for Stage 1 (Application Submitted)
+  if (currentStageIndex === 0) return null
 
   const { t } = useLanguage()
   const [checkedItems, setCheckedItems] = useState<Record<string, boolean>>({})
@@ -92,13 +94,13 @@ export function StagePrepGuide({ currentStageIndex, stageName, stageStatus }: St
             </h3>
           </div>
           <span style={{ fontSize: 11, fontWeight: 600, color: '#2563EB', background: '#EFF6FF', padding: '6px 12px', borderRadius: 6, whiteSpace: 'nowrap' }}>
-            {currentStageIndex + 1} / 4
+            {currentStageIndex + 1} / 5
           </span>
         </div>
 
         {/* Stage Progress Dots */}
         <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
-          {[0, 1, 2, 3].map((index) => (
+          {[0, 1, 2, 3, 4].map((index) => (
             <div key={index} style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
               <div
                 style={{
@@ -109,7 +111,7 @@ export function StagePrepGuide({ currentStageIndex, stageName, stageStatus }: St
                   transition: 'all 0.3s ease',
                 }}
               />
-              {index < 3 && (
+              {index < 4 && (
                 <div
                   style={{
                     width: 20,

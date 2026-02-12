@@ -5,6 +5,8 @@ import { useLanguage } from "@/components/language-provider"
 import { useState } from "react"
 import { TopNav } from "@/components/top-nav"
 import { StagePrepGuide } from "@/components/stage-preparation-guide"
+import { ApplicationInsightsHub } from "@/components/application-insights-hub"
+import { ProactivePreparation } from "@/components/proactive-preparation"
 
 interface ActionJobData {
   id: string
@@ -54,14 +56,15 @@ const actionJobsData: Record<string, ActionJobData> = {
     locationKey: "opp.data.location.paris",
     workTypeKey: "opp.data.workStyle.hybrid",
     appliedDateKey: "opp.data.3daysAgo",
-    currentStage: 1,
-    totalStages: 4,
+    currentStage: 0,
+    totalStages: 5,
     salary: "$65,000 - $75,000",
     stages: [
-      { nameKey: "actionDetail.data.applicationSubmitted", status: "completed", date: "Jan 28, 2026" },
-      { nameKey: "actionDetail.data.applicationReview", status: "current" },
+      { nameKey: "actionDetail.data.applicationSubmitted", status: "current", date: "Jan 28, 2026" },
+      { nameKey: "actionDetail.data.proactivePrep", status: "upcoming" },
       { nameKey: "actionDetail.data.interview", status: "upcoming" },
-      { nameKey: "actionDetail.data.decision", status: "upcoming" }
+      { nameKey: "actionDetail.data.decisionPending", status: "upcoming" },
+      { nameKey: "actionDetail.data.finalResult", status: "upcoming" }
     ],
     interviewStages: [
       { id: 1, status: "upcoming", notes: "" },
@@ -93,13 +96,14 @@ const actionJobsData: Record<string, ActionJobData> = {
     workTypeKey: "opp.data.workStyle.remote",
     appliedDateKey: "opp.data.5daysAgo",
     currentStage: 2,
-    totalStages: 4,
+    totalStages: 5,
     salary: "$72,000 - $88,000",
     stages: [
       { nameKey: "actionDetail.data.applicationSubmitted", status: "completed", date: "Jan 26, 2026" },
-      { nameKey: "actionDetail.data.applicationReview", status: "completed", date: "Jan 28, 2026" },
-      { nameKey: "actionDetail.data.technicalAssessment", status: "current" },
-      { nameKey: "actionDetail.data.finalInterview", status: "upcoming" }
+      { nameKey: "actionDetail.data.proactivePrep", status: "completed", date: "Jan 28, 2026" },
+      { nameKey: "actionDetail.data.interview", status: "current" },
+      { nameKey: "actionDetail.data.decisionPending", status: "upcoming" },
+      { nameKey: "actionDetail.data.finalResult", status: "upcoming" }
     ],
     interviewStages: [
       { id: 1, status: "completed", notes: "Discussed project architecture. Asked about scalability and performance optimization. Strong technical foundation required.", interviewer: "Sarah Chen", date: "2026-01-30" },
@@ -128,12 +132,14 @@ const actionJobsData: Record<string, ActionJobData> = {
     workTypeKey: "opp.data.workStyle.onSite",
     appliedDateKey: "opp.data.2daysAgo",
     currentStage: 1,
-    totalStages: 3,
+    totalStages: 5,
     salary: "$78,000 - $95,000",
     stages: [
       { nameKey: "actionDetail.data.applicationSubmitted", status: "completed", date: "Jan 29, 2026" },
-      { nameKey: "actionDetail.data.screeningCall", status: "current" },
-      { nameKey: "actionDetail.data.finalRound", status: "upcoming" }
+      { nameKey: "actionDetail.data.proactivePrep", status: "current" },
+      { nameKey: "actionDetail.data.interview", status: "upcoming" },
+      { nameKey: "actionDetail.data.decisionPending", status: "upcoming" },
+      { nameKey: "actionDetail.data.finalResult", status: "upcoming" }
     ],
     interviewStages: [
       { id: 1, status: "current", notes: "" },
@@ -444,7 +450,7 @@ export default function ActionDetailPage() {
                           background: "#2563EB",
                           borderRadius: 2,
                           zIndex: 1,
-                          width: `${((currentStage + 0.7) / (job.stages.length - 1)) * 100}%`,
+                          width: `${((currentStage) / (job.stages.length - 1)) * 100}%`,
                           transition: "width 0.5s ease",
                         }}
                       />
@@ -465,6 +471,8 @@ export default function ActionDetailPage() {
                           const isInterviewStage = stage.nameKey.toLowerCase().includes("interview") || 
                                                    stage.nameKey.toLowerCase().includes("screening")
                           const displayInterviewStages = isInterviewStage && interviewStages.length > 0
+                          const isCompleted = index < currentStage
+                          const isCurrent = index === currentStage
                           
                           return (
                             <div
@@ -487,17 +495,17 @@ export default function ActionDetailPage() {
                                   justifyContent: "center",
                                   flexShrink: 0,
                                   background:
-                                    stage.status === "completed" ? "#2563EB" : "#FFFFFF",
+                                    isCompleted ? "#2563EB" : isCurrent ? "#FFFFFF" : "#FFFFFF",
                                   border:
-                                    stage.status === "completed"
+                                    isCompleted
                                       ? "2px solid #2563EB"
-                                      : stage.status === "current"
+                                      : isCurrent
                                         ? "2px solid #2563EB"
                                         : "2px solid #E5E7EB",
                                   color:
-                                    stage.status === "completed"
+                                    isCompleted
                                       ? "#FFFFFF"
-                                      : stage.status === "current"
+                                      : isCurrent
                                         ? "#2563EB"
                                         : "#94A3B8",
                                   fontSize: 13,
@@ -540,13 +548,12 @@ export default function ActionDetailPage() {
                                   style={{
                                     fontSize: 12,
                                     color:
-                                      stage.status === "upcoming" ? "#94A3B8" : "#0F172A",
+                                      !isCompleted && !isCurrent ? "#94A3B8" : "#0F172A",
                                     margin: 0,
-                                    fontWeight: stage.status === "current" ? 600 : 400,
+                                    fontWeight: isCurrent ? 600 : 400,
                                     lineHeight: 1.4,
                                   }}
                                 >
-                                  {stage.status === "completed" && `${t("actionDetail.your")} `}
                                   {t(stage.nameKey)}
                                 </p>
                                 {stage.date && (
@@ -560,7 +567,7 @@ export default function ActionDetailPage() {
                                     {stage.date}
                                   </p>
                                 )}
-                                {stage.status === "current" && (
+                                {isCurrent && (
                                   <p
                                     style={{
                                       fontSize: 11,
@@ -592,65 +599,106 @@ export default function ActionDetailPage() {
           stageStatus={job.stages[currentStage]?.status || 'current'}
         />
 
-        {/* Application Insights Hub section removed pending component fix */}
+        <ApplicationInsightsHub
+          currentStage={currentStage}
+          jobTitle={t(job.titleKey)}
+          companyName={job.companyName}
+          submittedDate={job.appliedDateKey || 'Recently'}
+          salaryRange={job.salary || 'Not specified'}
+        />
 
-        {/* Bottom Section — Cleaner hierarchy: Follow-up timing left, Primary CTA right */}
-        <div style={{ marginBottom: 32, display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: 24, gap: 24 }}>
-          {/* Follow-up Timing State (Left) */}
-          <div
-            style={{
-              background: "#F0F9FF",
-              border: "1px solid #BFDBFE",
-              borderRadius: 8,
-              padding: "12px 16px",
-              fontSize: 13,
-              color: "#1E40AF",
-              fontWeight: 500,
-              flexShrink: 0,
-            }}
-          >
-            Follow-up window opens in 3 days
-          </div>
+        <ProactivePreparation
+          currentStage={currentStage}
+          jobTitle={t(job.titleKey)}
+          companyName={job.companyName}
+        />
 
-          {/* Send a Follow-up Button (Right) */}
-          <button
-            type="button"
-            onClick={() => {
-              router.push(`/actions/${id}/send-follow-up`)
-            }}
-            style={{
-              background: "#2563EB",
-              color: "#FFFFFF",
-              fontSize: 15,
-              fontWeight: 400,
-              padding: "12px 24px",
-              borderRadius: 8,
-              border: "none",
-              cursor: "pointer",
-              transition: "all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)",
-              boxShadow: "0 4px 12px rgba(37, 99, 235, 0.25), 0 1px 3px rgba(0, 0, 0, 0.08)",
-              display: "flex",
-              alignItems: "center",
-              gap: 8,
-              flexShrink: 0,
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.background = "#1E40AF"
-              e.currentTarget.style.boxShadow = "0 12px 24px rgba(37, 99, 235, 0.35), 0 4px 8px rgba(0, 0, 0, 0.1)"
-              e.currentTarget.style.transform = "translateY(-2px)"
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.background = "#2563EB"
-              e.currentTarget.style.boxShadow = "0 4px 12px rgba(37, 99, 235, 0.25), 0 1px 3px rgba(0, 0, 0, 0.08)"
-              e.currentTarget.style.transform = "translateY(0)"
-            }}
-          >
-            {t("actionDetail.sendFollowUp")}
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M6 12L10 8L6 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
-          </button>
-        </div>
+        {/* Follow-up CTA — full-width card, locked/unlocked states */}
+        {(() => {
+          const followUpReady = currentStage >= 2
+          const daysRemaining = Math.max(0, 3 - currentStage)
+          return (
+            <div
+              style={{
+                marginBottom: 32, marginTop: 24,
+                background: followUpReady ? "#2563EB" : "#FFFFFF",
+                border: followUpReady ? "none" : "1px solid #E5E7EB",
+                borderRadius: 16,
+                boxShadow: followUpReady
+                  ? "0 4px 12px rgba(37, 99, 235, 0.25), 0 1px 3px rgba(0, 0, 0, 0.08)"
+                  : "0 4px 12px rgba(0, 0, 0, 0.08), 0 1px 3px rgba(0, 0, 0, 0.04)",
+                padding: "20px 24px",
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                cursor: followUpReady ? "pointer" : "default",
+                transition: "all 0.3s ease",
+              }}
+              onClick={() => {
+                if (followUpReady) router.push(`/actions/${id}/send-follow-up`)
+              }}
+              onMouseEnter={(e) => {
+                if (followUpReady) {
+                  e.currentTarget.style.background = "#1E40AF"
+                  e.currentTarget.style.boxShadow = "0 12px 24px rgba(37, 99, 235, 0.35), 0 4px 8px rgba(0, 0, 0, 0.1)"
+                  e.currentTarget.style.transform = "translateY(-2px)"
+                }
+              }}
+              onMouseLeave={(e) => {
+                if (followUpReady) {
+                  e.currentTarget.style.background = "#2563EB"
+                  e.currentTarget.style.boxShadow = "0 4px 12px rgba(37, 99, 235, 0.25), 0 1px 3px rgba(0, 0, 0, 0.08)"
+                  e.currentTarget.style.transform = "translateY(0)"
+                }
+              }}
+            >
+              {followUpReady ? (
+                <>
+                  <div>
+                    <p style={{ fontSize: 15, fontWeight: 600, color: "#FFFFFF", margin: 0 }}>
+                      {t("actionDetail.sendFollowUpReady")}
+                    </p>
+                  </div>
+                  <svg width="20" height="20" viewBox="0 0 16 16" fill="none">
+                    <path d="M6 12L10 8L6 4" stroke="#FFFFFF" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                </>
+              ) : (
+                <>
+                  <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+                    {/* Lock icon */}
+                    <div style={{
+                      width: 36, height: 36, borderRadius: 10,
+                      background: "#F8FAFC", border: "1px solid #E5E7EB",
+                      display: "flex", alignItems: "center", justifyContent: "center",
+                      flexShrink: 0,
+                    }}>
+                      <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                        <path d="M12 7V5C12 2.79 10.21 1 8 1S4 2.79 4 5V7M3 7H13C13.55 7 14 7.45 14 8V14C14 14.55 13.55 15 13 15H3C2.45 15 2 14.55 2 14V8C2 7.45 2.45 7 3 7Z" stroke="#94A3B8" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/>
+                      </svg>
+                    </div>
+                    <div>
+                      <p style={{ fontSize: 14, fontWeight: 600, color: "#0F172A", margin: 0 }}>
+                        {t("actionDetail.followUpLockedDays").replace("{days}", String(daysRemaining))}
+                      </p>
+                      <p style={{ fontSize: 12, color: "#94A3B8", margin: "2px 0 0 0" }}>
+                        {t("insights.optimalFollowUp")}
+                      </p>
+                    </div>
+                  </div>
+                  {/* Countdown badge */}
+                  <div style={{
+                    background: "#F1F5F9", borderRadius: 8,
+                    padding: "6px 14px", display: "flex", alignItems: "center", gap: 6,
+                  }}>
+                    <span style={{ fontSize: 18, fontWeight: 700, color: "#64748B" }}>{daysRemaining}</span>
+                    <span style={{ fontSize: 11, color: "#94A3B8", fontWeight: 500 }}>jours</span>
+                  </div>
+                </>
+              )}
+            </div>
+          )
+        })()}
       </main>
     </div>
   )
