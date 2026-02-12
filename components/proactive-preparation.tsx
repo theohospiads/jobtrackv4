@@ -116,8 +116,8 @@ export function ProactivePreparation() {
     return (
       <div style={{ marginBottom: 32 }}>
         {/* PROCESS FRAMING LABEL */}
-        <div style={{ marginBottom: 16 }}>
-          <p style={{ fontSize: 11, fontWeight: 600, color: '#64748B', margin: 0, textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+        <div style={{ marginBottom: 20 }}>
+          <p style={{ fontSize: 11, fontWeight: 700, color: '#475569', margin: 0, textTransform: 'uppercase', letterSpacing: '0.75px' }}>
             Step 1 — Interview Calibration
           </p>
         </div>
@@ -137,7 +137,7 @@ export function ProactivePreparation() {
             Build Your Interview Advantage for This Role
           </h2>
           <p style={{ fontSize: 15, color: '#475569', margin: '0 0 32px 0', lineHeight: 1.7 }}>
-            Complete a short calibration to model how this role is likely to evaluate you. We analyze ownership depth, impact clarity, and response structure against hiring patterns.
+            Complete a short calibration to model how this role evaluates candidates. We assess ownership depth, measurable impact, and response structure.
           </p>
 
           <div
@@ -191,20 +191,6 @@ export function ProactivePreparation() {
             >
               {t('interview.calibration.startButton')}
             </button>
-            <button
-              style={{
-                padding: '14px 32px',
-                background: 'transparent',
-                color: '#2563EB',
-                border: '1px solid #2563EB',
-                borderRadius: 6,
-                fontSize: 14,
-                fontWeight: 600,
-                cursor: 'pointer',
-              }}
-            >
-              {t('interview.calibration.learnMore')}
-            </button>
             <span style={{ fontSize: 11, color: '#94A3B8', marginLeft: 'auto' }}>
               Estimated completion: 8 minutes | Unlocks full preparation system
             </span>
@@ -212,6 +198,11 @@ export function ProactivePreparation() {
         </div>
 
         {/* PREVIEW CARDS - LOCKED */}
+        <div style={{ marginBottom: 16 }}>
+          <p style={{ fontSize: 10, fontWeight: 600, color: '#94A3B8', margin: 0, textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+            Unlocked After Calibration
+          </p>
+        </div>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 16 }}>
           {[
             {
