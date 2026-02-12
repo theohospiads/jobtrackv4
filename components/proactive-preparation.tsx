@@ -543,7 +543,6 @@ export function ProactivePreparation({
     </div>
   )
 }
-            {t('prep.readinessOverview')}
           </h3>
           <span style={{ fontSize: 11, color: '#64748B' }}>
             {t('prep.nextMilestone')}
