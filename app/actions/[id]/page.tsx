@@ -6,6 +6,7 @@ import { useState } from "react"
 import { TopNav } from "@/components/top-nav"
 import { StagePrepGuide } from "@/components/stage-preparation-guide"
 import { ApplicationInsightsHub } from "@/components/application-insights-hub"
+import { ProactivePreparation } from "@/components/proactive-preparation"
 
 interface ActionJobData {
   id: string
@@ -604,6 +605,12 @@ export default function ActionDetailPage() {
           companyName={job.companyName}
           submittedDate={job.appliedDateKey || 'Recently'}
           salaryRange={job.salary || 'Not specified'}
+        />
+
+        <ProactivePreparation
+          currentStage={currentStage}
+          jobTitle={t(job.titleKey)}
+          companyName={job.companyName}
         />
 
         {/* Follow-up CTA — full-width card, locked/unlocked states */}
