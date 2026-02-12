@@ -115,60 +115,74 @@ export function ProactivePreparation() {
   if (calibrationState === 'required') {
     return (
       <div style={{ marginBottom: 32 }}>
+        {/* PROCESS FRAMING LABEL */}
+        <div style={{ marginBottom: 16 }}>
+          <p style={{ fontSize: 11, fontWeight: 600, color: '#64748B', margin: 0, textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+            Step 1 — Interview Calibration
+          </p>
+        </div>
+
         {/* PRIMARY MODULE - CALIBRATION CTA */}
         <div
           style={{
             ...card,
-            padding: 40,
+            padding: 48,
             marginBottom: 24,
             background: 'linear-gradient(135deg, #EFF6FF 0%, #F0F9FF 100%)',
-            border: '1px solid #BFDBFE',
+            border: '1px solid #DBEAFE',
+            borderRadius: 8,
           }}
         >
-          <h2 style={{ fontSize: 22, fontWeight: 700, color: '#0F172A', margin: '0 0 12px 0' }}>
+          <h2 style={{ fontSize: 24, fontWeight: 700, color: '#0F172A', margin: '0 0 16px 0' }}>
             Build Your Interview Advantage for This Role
           </h2>
-          <p style={{ fontSize: 14, color: '#475569', margin: '0 0 24px 0', lineHeight: 1.6 }}>
-            Answer 5 targeted questions to unlock your role-specific preparation. Analysis includes: ownership depth, measurable impact clarity, and response structure modeling.
+          <p style={{ fontSize: 15, color: '#475569', margin: '0 0 32px 0', lineHeight: 1.7 }}>
+            Complete a short calibration to model how this role is likely to evaluate you. We analyze ownership depth, impact clarity, and response structure against hiring patterns.
           </p>
 
           <div
             style={{
               display: 'grid',
               gridTemplateColumns: 'repeat(3, 1fr)',
-              gap: 24,
-              marginBottom: 28,
+              gap: 32,
+              marginBottom: 32,
+              paddingBottom: 32,
+              borderBottom: '1px solid rgba(219, 234, 254, 0.5)',
             }}
           >
             <div style={{ fontSize: 12, color: '#64748B' }}>
-              <span style={{ fontWeight: 600, color: '#0F172A', display: 'block', marginBottom: 4 }}>
+              <span style={{ fontWeight: 600, color: '#0F172A', display: 'block', marginBottom: 6 }}>
                 5 {t('interview.calibration.questions')}
               </span>
               ~8 {t('interview.calibration.minutes')}
             </div>
             <div style={{ fontSize: 12, color: '#64748B' }}>
-              <span style={{ fontWeight: 600, color: '#0F172A', display: 'block', marginBottom: 4 }}>
+              <span style={{ fontWeight: 600, color: '#0F172A', display: 'block', marginBottom: 6 }}>
                 {t('interview.calibration.instantResults')}
               </span>
               {t('interview.calibration.personalizedPlan')}
             </div>
             <div style={{ fontSize: 12, color: '#64748B' }}>
-              <span style={{ fontWeight: 600, color: '#0F172A', display: 'block', marginBottom: 4 }}>
+              <span style={{ fontWeight: 600, color: '#0F172A', display: 'block', marginBottom: 6 }}>
                 {t('interview.calibration.encrypted')}
               </span>
               {t('interview.calibration.privateOnly')}
             </div>
           </div>
 
-          <div style={{ display: 'flex', gap: 12 }}>
+          <p style={{ fontSize: 11, color: '#64748B', margin: '0 0 24px 0', fontStyle: 'italic' }}>
+            Based on hiring patterns from comparable roles and structured interview frameworks.
+          </p>
+
+          <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
             <button
               onClick={handleStartCalibration}
               style={{
-                padding: '14px 28px',
+                padding: '14px 32px',
                 background: '#2563EB',
                 color: '#FFFFFF',
                 border: 'none',
-                borderRadius: 8,
+                borderRadius: 6,
                 fontSize: 14,
                 fontWeight: 600,
                 cursor: 'pointer',
@@ -179,11 +193,11 @@ export function ProactivePreparation() {
             </button>
             <button
               style={{
-                padding: '14px 28px',
+                padding: '14px 32px',
                 background: 'transparent',
                 color: '#2563EB',
                 border: '1px solid #2563EB',
-                borderRadius: 8,
+                borderRadius: 6,
                 fontSize: 14,
                 fontWeight: 600,
                 cursor: 'pointer',
@@ -191,6 +205,9 @@ export function ProactivePreparation() {
             >
               {t('interview.calibration.learnMore')}
             </button>
+            <span style={{ fontSize: 11, color: '#94A3B8', marginLeft: 'auto' }}>
+              Estimated completion: 8 minutes | Unlocks full preparation system
+            </span>
           </div>
         </div>
 
@@ -198,19 +215,19 @@ export function ProactivePreparation() {
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 16 }}>
           {[
             {
-              title: 'If You Interviewed Today',
+              title: 'Interview Risk Assessment',
               description: 'Your top strengths and critical risks in this interview.',
             },
             {
-              title: 'Your Optimized Answer Pack',
+              title: 'Role-Calibrated Answer Frameworks',
               description: '5 calibrated answers ranked by relevance to this role.',
             },
             {
-              title: 'Structured Training Lab',
+              title: 'Competency Mastery Lab',
               description: 'Master key competencies through focused practice sessions.',
             },
             {
-              title: 'Interview Strategy Brief',
+              title: 'Executive Interview Briefing',
               description: '30-second narrative, unique signals, and risk mitigation.',
             },
           ].map((cardItem, i) => (
@@ -221,6 +238,7 @@ export function ProactivePreparation() {
                 padding: 20,
                 opacity: 0.65,
                 pointerEvents: 'none',
+                borderRadius: 8,
               }}
             >
               <h3 style={{ fontSize: 14, fontWeight: 600, color: '#0F172A', margin: '0 0 8px 0' }}>
