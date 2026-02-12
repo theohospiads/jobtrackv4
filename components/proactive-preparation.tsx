@@ -117,8 +117,8 @@ export function ProactivePreparation() {
       <div style={{ marginBottom: 32 }}>
         {/* PROCESS FRAMING LABEL */}
         <div style={{ marginBottom: 20 }}>
-          <p style={{ fontSize: 11, fontWeight: 700, color: '#475569', margin: 0, textTransform: 'uppercase', letterSpacing: '0.75px' }}>
-            Step 1 — Interview Calibration
+          <p style={{ fontSize: 10, fontWeight: 700, color: '#475569', margin: 0, textTransform: 'uppercase', letterSpacing: '0.75px' }}>
+            Step 1 — Role Evaluation Model
           </p>
         </div>
 
@@ -126,116 +126,106 @@ export function ProactivePreparation() {
         <div
           style={{
             ...card,
-            padding: 56,
+            padding: 48,
             marginBottom: 24,
-            background: 'linear-gradient(135deg, #E8F2FF 0%, #EDF5FF 100%)',
-            border: '1px solid #C7E0FE',
+            background: '#FFFFFF',
+            border: '1px solid #E5E7EB',
             borderRadius: 6,
           }}
         >
-          <h2 style={{ fontSize: 24, fontWeight: 700, color: '#0F172A', margin: '0 0 16px 0' }}>
-            Build Your Interview Advantage for This Role
+          <h2 style={{ fontSize: 22, fontWeight: 700, color: '#0F172A', margin: '0 0 12px 0' }}>
+            Role Evaluation Model — This Position
           </h2>
-          <p style={{ fontSize: 15, color: '#475569', margin: '0 0 32px 0', lineHeight: 1.7 }}>
-            Complete a short calibration to model how this role evaluates candidates. We assess ownership depth, measurable impact, and response structure.
+          <p style={{ fontSize: 13, color: '#64748B', margin: '0 0 24px 0', lineHeight: 1.6 }}>
+            This module simulates how this role is likely to assess candidates based on structured hiring signals and comparable role data.
           </p>
 
           <div
             style={{
               display: 'grid',
               gridTemplateColumns: 'repeat(3, 1fr)',
-              gap: 32,
-              marginBottom: 32,
-              paddingBottom: 32,
-              borderBottom: '1px solid rgba(219, 234, 254, 0.5)',
+              gap: 24,
+              marginBottom: 24,
+              paddingBottom: 24,
+              borderBottom: '1px solid #E5E7EB',
             }}
           >
             <div style={{ fontSize: 12, color: '#64748B' }}>
-              <span style={{ fontWeight: 600, color: '#0F172A', display: 'block', marginBottom: 6 }}>
-                5 {t('interview.calibration.questions')}
+              <span style={{ fontWeight: 600, color: '#0F172A', display: 'block', marginBottom: 4, fontSize: 11 }}>
+                OBJECTIVE
               </span>
-              ~8 {t('interview.calibration.minutes')}
+              Model evaluation criteria for this role
             </div>
             <div style={{ fontSize: 12, color: '#64748B' }}>
-              <span style={{ fontWeight: 600, color: '#0F172A', display: 'block', marginBottom: 6 }}>
-                Instant Output
+              <span style={{ fontWeight: 600, color: '#0F172A', display: 'block', marginBottom: 4, fontSize: 11 }}>
+                METHOD
               </span>
-              Role-specific evaluation and preparation roadmap
+              Structured signal simulation (5 variables)
             </div>
             <div style={{ fontSize: 12, color: '#64748B' }}>
-              <span style={{ fontWeight: 600, color: '#0F172A', display: 'block', marginBottom: 6 }}>
-                {t('interview.calibration.encrypted')}
+              <span style={{ fontWeight: 600, color: '#0F172A', display: 'block', marginBottom: 4, fontSize: 11 }}>
+                OUTPUT
               </span>
-              {t('interview.calibration.privateOnly')}
+              Risk profile + answer frameworks + roadmap
             </div>
           </div>
 
-          <p style={{ fontSize: 11, color: '#64748B', margin: '0 0 24px 0', fontStyle: 'italic' }}>
-            Based on hiring patterns from comparable roles and structured interview frameworks.
-          </p>
-
-          <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
-            <button
-              onClick={handleStartCalibration}
-              style={{
-                padding: '14px 32px',
-                background: '#2563EB',
-                color: '#FFFFFF',
-                border: 'none',
-                borderRadius: 6,
-                fontSize: 14,
-                fontWeight: 600,
-                cursor: 'pointer',
-                boxShadow: '0 2px 8px rgba(37, 99, 235, 0.2)',
-              }}
-            >
-              {t('interview.calibration.startButton')}
-            </button>
-            <span style={{ fontSize: 11, color: '#94A3B8', marginLeft: 'auto' }}>
-              Estimated completion: 8 minutes | Unlocks full preparation system
-            </span>
-          </div>
+          <button
+            onClick={handleStartCalibration}
+            style={{
+              padding: '12px 28px',
+              background: '#2563EB',
+              color: '#FFFFFF',
+              border: 'none',
+              borderRadius: 4,
+              fontSize: 13,
+              fontWeight: 600,
+              cursor: 'pointer',
+            }}
+          >
+            Begin Evaluation
+          </button>
         </div>
 
         {/* PREVIEW CARDS - LOCKED */}
         <div style={{ marginBottom: 16 }}>
           <p style={{ fontSize: 10, fontWeight: 600, color: '#94A3B8', margin: 0, textTransform: 'uppercase', letterSpacing: '0.5px' }}>
-            Full Preparation System (Unlocked After Calibration)
+            Execution Modules (Unlocked)
           </p>
         </div>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 16 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 12 }}>
           {[
             {
               title: 'Interview Risk Assessment',
-              description: 'Your top strengths and critical risks in this interview.',
+              description: 'Projected outcome, signal weighting, and risk analysis.',
             },
             {
               title: 'Role-Calibrated Answer Frameworks',
-              description: '5 calibrated answers ranked by relevance to this role.',
+              description: 'Answer models ranked by relevance and hiring weight.',
             },
             {
               title: 'Competency Mastery Lab',
-              description: 'Master key competencies through focused practice sessions.',
+              description: 'Targeted practice with real hiring criteria.',
             },
             {
               title: 'Executive Interview Briefing',
-              description: '30-second narrative, unique signals, and risk mitigation.',
+              description: 'Strategy summary, signal map, and execution plan.',
             },
           ].map((cardItem, i) => (
             <div
               key={i}
               style={{
                 ...card,
-                padding: 20,
-                opacity: 0.65,
+                padding: 16,
+                opacity: 0.55,
                 pointerEvents: 'none',
-                borderRadius: 8,
+                borderRadius: 4,
               }}
             >
-              <h3 style={{ fontSize: 14, fontWeight: 600, color: '#0F172A', margin: '0 0 8px 0' }}>
+              <h3 style={{ fontSize: 12, fontWeight: 600, color: '#0F172A', margin: '0 0 6px 0' }}>
                 🔒 {cardItem.title}
               </h3>
-              <p style={{ fontSize: 12, color: '#64748B', margin: 0 }}>
+              <p style={{ fontSize: 11, color: '#64748B', margin: 0 }}>
                 {cardItem.description}
               </p>
             </div>
@@ -388,159 +378,165 @@ export function ProactivePreparation() {
     )
   }
 
-  // STATE 3: PREPARATION ENGINE UNLOCKED
+  // STATE 3: EVALUATION OUTPUT
   if (calibrationState === 'complete') {
     return (
       <div style={{ marginBottom: 32 }}>
-        {/* CALIBRATION STATUS BAR */}
-        <div style={{ ...card, padding: 16, marginBottom: 24, background: '#F0FDF4' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        {/* EVALUATION OUTPUT HEADER */}
+        <div style={{ marginBottom: 24 }}>
+          <p style={{ fontSize: 10, fontWeight: 700, color: '#475569', margin: '0 0 16px 0', textTransform: 'uppercase', letterSpacing: '0.75px' }}>
+            Evaluation Output
+          </p>
+        </div>
+
+        {/* A. PROJECTED INTERVIEW OUTCOME */}
+        <div style={{ ...card, padding: 24, marginBottom: 20, borderRadius: 4 }}>
+          <h3 style={{ fontSize: 11, fontWeight: 700, color: '#0F172A', margin: '0 0 20px 0', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+            Projected Interview Outcome
+          </h3>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 32 }}>
             <div>
-              <span style={{ fontSize: 12, fontWeight: 600, color: '#166534' }}>
-                ✓ {t('interview.dashboard.calibrationComplete')}
-              </span>
-              <p style={{ fontSize: 11, color: '#4B7C0F', margin: '4px 0 0 0' }}>
-                {t('interview.dashboard.calibrationDate')}
-              </p>
+              <p style={{ fontSize: 10, color: '#94A3B8', margin: '0 0 8px 0', fontWeight: 600 }}>Current Position</p>
+              <p style={{ fontSize: 18, fontWeight: 700, color: '#0F172A', margin: 0 }}>42% <span style={{ fontSize: 12, color: '#64748B', fontWeight: 500 }}>Moderate</span></p>
             </div>
-            <button
-              onClick={() => setCalibrationState('required')}
-              style={{
-                padding: '6px 12px',
-                background: '#FFFFFF',
-                border: '1px solid #86EFAC',
-                borderRadius: 4,
-                fontSize: 11,
-                fontWeight: 500,
-                cursor: 'pointer',
-                color: '#166534',
-              }}
-            >
-              {t('interview.dashboard.recalibrate')}
-            </button>
+            <div>
+              <p style={{ fontSize: 10, color: '#94A3B8', margin: '0 0 8px 0', fontWeight: 600 }}>Projected Position (If Execution Plan Complete)</p>
+              <p style={{ fontSize: 18, fontWeight: 700, color: '#0F172A', margin: 0 }}>58% <span style={{ fontSize: 12, color: '#10B981', fontWeight: 500 }}>Strong</span></p>
+            </div>
+          </div>
+          <div style={{ marginTop: 16, paddingTop: 16, borderTop: '1px solid #E5E7EB' }}>
+            <p style={{ fontSize: 12, color: '#475569', margin: '0 0 8px 0' }}>
+              <span style={{ fontWeight: 600 }}>Delta Potential:</span> +16% if execution plan completed
+            </p>
+            <p style={{ fontSize: 12, color: '#475569', margin: 0 }}>
+              <span style={{ fontWeight: 600 }}>Peer Benchmark:</span> 68th percentile vs similar applicants
+            </p>
           </div>
         </div>
 
-        {/* OPTIMIZED ANSWER PACK - PRIMARY SECTION */}
-        <div style={{ marginBottom: 24 }}>
-          <h2 style={{ fontSize: 16, fontWeight: 700, color: '#0F172A', marginBottom: 16 }}>
-            {t('interview.dashboard.optimizedAnswers')}
-          </h2>
+        {/* B. HIRING SIGNAL WEIGHTING */}
+        <div style={{ ...card, padding: 24, marginBottom: 20, borderRadius: 4 }}>
+          <h3 style={{ fontSize: 11, fontWeight: 700, color: '#0F172A', margin: '0 0 20px 0', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+            Hiring Signal Distribution (This Role)
+          </h3>
           <div style={{ display: 'grid', gap: 16 }}>
-            {mockOptimizedAnswers.map((answer, i) => (
-              <div key={i} style={{ ...card, padding: 20 }}>
-                <h3 style={{ fontSize: 13, fontWeight: 600, color: '#0F172A', marginBottom: 8 }}>
-                  {answer.question}
-                </h3>
-                <p style={{ fontSize: 11, color: '#64748B', margin: '0 0 12px 0' }}>
-                  {t('interview.dashboard.whyAsked')}: {answer.whyAsked}
-                </p>
-
-                <div style={{ background: '#F8FAFC', padding: 12, borderRadius: 6, marginBottom: 12 }}>
-                  <p style={{ fontSize: 11, color: '#475569', margin: 0, fontWeight: 500 }}>
-                    {t('interview.dashboard.structure')}: {answer.structure}
-                  </p>
+            {[
+              { label: 'Ownership Depth', percent: 31 },
+              { label: 'Impact Quantification', percent: 24 },
+              { label: 'Stakeholder Influence', percent: 18 },
+              { label: 'Communication Clarity', percent: 17 },
+              { label: 'Domain Relevance', percent: 10 },
+            ].map((item, i) => (
+              <div key={i}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 6 }}>
+                  <span style={{ fontSize: 11, fontWeight: 500, color: '#0F172A' }}>{item.label}</span>
+                  <span style={{ fontSize: 11, fontWeight: 600, color: '#475569' }}>{item.percent}%</span>
                 </div>
-
-                <p style={{ fontSize: 11, color: '#64748B', marginBottom: 12 }}>
-                  {t('interview.dashboard.strengths')}: {answer.strengths.join(', ')}
-                </p>
-
-                <div
-                  style={{
-                    background: '#F1F5F9',
-                    padding: 12,
-                    borderRadius: 6,
-                    borderLeft: '3px solid #2563EB',
-                  }}
-                >
-                  <p style={{ fontSize: 11, color: '#475569', margin: 0 }}>
-                    {answer.editable}
-                  </p>
+                <div style={{ width: '100%', height: 6, background: '#E5E7EB', borderRadius: 2 }}>
+                  <div
+                    style={{
+                      height: '100%',
+                      width: `${item.percent}%`,
+                      background: '#64748B',
+                      borderRadius: 2,
+                    }}
+                  />
                 </div>
               </div>
             ))}
           </div>
         </div>
 
-        {/* TRAINING LAB ENTRY */}
-        <div style={{ ...card, padding: 24, marginBottom: 24, background: 'linear-gradient(135deg, #F8FAFC 0%, #F1F5F9 100%)' }}>
-          <h2 style={{ fontSize: 16, fontWeight: 700, color: '#0F172A', marginBottom: 12 }}>
-            {t('interview.dashboard.trainingLab')}
-          </h2>
-          <p style={{ fontSize: 13, color: '#475569', margin: '0 0 16px 0' }}>
-            {t('interview.dashboard.trainingDescription')}
-          </p>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <div>
-              <p style={{ fontSize: 12, color: '#64748B', margin: 0 }}>
-                {t('interview.dashboard.masterySnapshot')}: 64% / 75%
-              </p>
-              <div style={{ marginTop: 8, width: 200, height: 4, background: '#E5E7EB', borderRadius: 2 }}>
-                <div
-                  style={{
-                    height: '100%',
-                    width: '64%',
-                    background: '#2563EB',
-                  }}
-                />
-              </div>
-            </div>
-            <button
-              style={{
-                padding: '10px 20px',
-                background: '#2563EB',
-                color: '#FFFFFF',
-                border: 'none',
-                borderRadius: 6,
-                fontSize: 13,
-                fontWeight: 600,
-                cursor: 'pointer',
-              }}
-            >
-              {t('interview.dashboard.startSession')}
-            </button>
+        {/* C. RISK ASSESSMENT PANEL */}
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 16, marginBottom: 20 }}>
+          <div style={{ ...card, padding: 20, borderRadius: 4 }}>
+            <h3 style={{ fontSize: 11, fontWeight: 700, color: '#0F172A', margin: '0 0 16px 0', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+              Positive Signals
+            </h3>
+            <ul style={{ fontSize: 11, color: '#475569', margin: 0, paddingLeft: 16, lineHeight: 1.6 }}>
+              <li>Strong foundational match</li>
+              <li>Referral vector available</li>
+            </ul>
+          </div>
+          <div style={{ ...card, padding: 20, borderRadius: 4, background: '#FEF8F0' }}>
+            <h3 style={{ fontSize: 11, fontWeight: 700, color: '#0F172A', margin: '0 0 16px 0', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+              Signal Deficiencies
+            </h3>
+            <ul style={{ fontSize: 11, color: '#7C3A0F', margin: 0, paddingLeft: 16, lineHeight: 1.6 }}>
+              <li>Limited quantified outcomes</li>
+              <li>Experience depth gap in role type</li>
+            </ul>
           </div>
         </div>
 
-        {/* STRATEGY DOSSIER FOOTER */}
-        <div style={{ ...card, padding: 20 }}>
-          <h3 style={{ fontSize: 13, fontWeight: 600, color: '#0F172A', marginBottom: 12 }}>
-            {t('interview.dashboard.dossier')}
+        {/* EXECUTION PLAN SECTION */}
+        <div style={{ marginBottom: 24 }}>
+          <p style={{ fontSize: 10, fontWeight: 700, color: '#475569', margin: '0 0 16px 0', textTransform: 'uppercase', letterSpacing: '0.75px' }}>
+            Execution Plan — Signal Optimization
+          </p>
+          <div style={{ display: 'grid', gap: 12 }}>
+            {[
+              { action: 'Activate referral outreach', impact: '+12%', rationale: 'Improves recruiter shortlist probability' },
+              { action: 'Document 3 quantified outcomes', impact: '+8%', rationale: 'Addresses signal deficiency directly' },
+              { action: 'Practice cross-functional stories', impact: '+6%', rationale: 'Strengthens influence signal clarity' },
+            ].map((item, i) => (
+              <div key={i} style={{ ...card, padding: 16, borderRadius: 4 }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start', marginBottom: 8 }}>
+                  <h4 style={{ fontSize: 12, fontWeight: 600, color: '#0F172A', margin: 0 }}>{item.action}</h4>
+                  <span style={{ fontSize: 11, fontWeight: 600, color: '#10B981' }}>Signal Impact: {item.impact}</span>
+                </div>
+                <p style={{ fontSize: 11, color: '#64748B', margin: 0 }}>Rationale: {item.rationale}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* ROLE-CALIBRATED ANSWER FRAMEWORKS */}
+        <div style={{ marginBottom: 24 }}>
+          <p style={{ fontSize: 10, fontWeight: 700, color: '#475569', margin: '0 0 16px 0', textTransform: 'uppercase', letterSpacing: '0.75px' }}>
+            Role-Calibrated Answer Frameworks
+          </p>
+          <div style={{ display: 'grid', gap: 12 }}>
+            {mockOptimizedAnswers.map((answer, i) => (
+              <div key={i} style={{ ...card, padding: 16, borderRadius: 4 }}>
+                <h3 style={{ fontSize: 12, fontWeight: 600, color: '#0F172A', marginBottom: 8, margin: 0 }}>
+                  {answer.question}
+                </h3>
+                <p style={{ fontSize: 10, color: '#94A3B8', margin: '8px 0', fontWeight: 600 }}>
+                  Signal Alignment: {answer.whyAsked}
+                </p>
+                <div style={{ background: '#F8FAFC', padding: 10, borderRadius: 3, marginBottom: 8 }}>
+                  <p style={{ fontSize: 10, color: '#475569', margin: 0, fontWeight: 500 }}>
+                    {answer.structure}
+                  </p>
+                </div>
+                <p style={{ fontSize: 10, color: '#64748B', margin: 0 }}>
+                  {answer.strengths.join(' • ')}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* EXECUTIVE INTERVIEW BRIEFING */}
+        <div style={{ ...card, padding: 20, borderRadius: 4 }}>
+          <h3 style={{ fontSize: 11, fontWeight: 700, color: '#0F172A', margin: '0 0 16px 0', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+            Executive Interview Briefing
           </h3>
-          <div style={{ display: 'grid', gap: 8, marginBottom: 16 }}>
+          <div style={{ display: 'grid', gap: 12, fontSize: 11 }}>
             <div>
-              <p style={{ fontSize: 11, color: '#64748B', fontWeight: 600, margin: '0 0 4px 0' }}>
-                {t('interview.dashboard.keyNarrative')}
-              </p>
-              <p style={{ fontSize: 12, color: '#475569', margin: 0 }}>
-                {'"I drive measurable outcomes through structured problem-solving and clear communication of impact."'}
+              <p style={{ color: '#94A3B8', fontWeight: 600, margin: '0 0 6px 0' }}>30-Second Narrative</p>
+              <p style={{ color: '#475569', margin: 0 }}>
+                {'"I drive measurable outcomes through structured problem-solving and clear cross-functional communication of impact."'}
               </p>
             </div>
             <div>
-              <p style={{ fontSize: 11, color: '#64748B', fontWeight: 600, margin: '0 0 4px 0' }}>
-                {t('interview.dashboard.uniqueSignals')}
-              </p>
-              <p style={{ fontSize: 12, color: '#475569', margin: 0 }}>
-                Quantified impact claims, cross-functional influence, structured problem-solving
+              <p style={{ color: '#94A3B8', fontWeight: 600, margin: '0 0 6px 0' }}>Unique Signals</p>
+              <p style={{ color: '#475569', margin: 0 }}>
+                Quantified impact claims, cross-functional influence capability, structured problem-solving framework
               </p>
             </div>
           </div>
-          <button
-            style={{
-              width: '100%',
-              padding: '10px 12px',
-              background: '#F1F5F9',
-              border: '1px solid #E2E8F0',
-              borderRadius: 6,
-              fontSize: 12,
-              fontWeight: 600,
-              cursor: 'pointer',
-              color: '#0F172A',
-            }}
-          >
-            {t('interview.dashboard.exportPDF')}
-          </button>
         </div>
       </div>
     )
