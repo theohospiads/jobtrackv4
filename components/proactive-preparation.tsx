@@ -121,7 +121,7 @@ export function ProactivePreparation({ currentStage = 1 }: { currentStage?: numb
         {/* PROCESS FRAMING LABEL */}
         <div style={{ marginBottom: 20 }}>
           <p style={{ fontSize: 10, fontWeight: 700, color: '#475569', margin: 0, textTransform: 'uppercase', letterSpacing: '0.75px' }}>
-            Step 1 — Role Evaluation Model
+            Step 1 — Strategic Role Modeling
           </p>
         </div>
 
@@ -137,7 +137,7 @@ export function ProactivePreparation({ currentStage = 1 }: { currentStage?: numb
           }}
         >
           <h2 style={{ fontSize: 22, fontWeight: 700, color: '#0F172A', margin: '0 0 12px 0' }}>
-            Role Evaluation Model — This Position
+            Strategic Role Model — How This Company Evaluates Candidates
           </h2>
           <p style={{ fontSize: 13, color: '#64748B', margin: '0 0 24px 0', lineHeight: 1.6 }}>
             This module simulates how this role is likely to assess candidates based on structured hiring signals and comparable role data.
@@ -175,23 +175,36 @@ export function ProactivePreparation({ currentStage = 1 }: { currentStage?: numb
 
           {/* HIRING SIGNALS PREVIEW */}
           <div style={{ marginBottom: 24, paddingBottom: 24, borderBottom: '1px solid #E5E7EB' }}>
-            <p style={{ fontSize: 10, fontWeight: 600, color: '#94A3B8', margin: '0 0 16px 0', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
-              Hiring Signals Preview
-            </p>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
+              <p style={{ fontSize: 10, fontWeight: 600, color: '#94A3B8', margin: 0, textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+                Hiring Signals Preview
+              </p>
+              <span style={{ fontSize: 9, fontWeight: 500, color: '#CBD5E1', fontStyle: 'italic' }}>
+                Weighted by historical hiring data
+              </span>
+            </div>
             <div style={{ display: 'grid', gap: 12 }}>
               {[
-                { label: 'Ownership Depth', percent: 31 },
-                { label: 'Impact Quantification', percent: 24 },
-                { label: 'Stakeholder Influence', percent: 18 },
-                { label: 'Communication Clarity', percent: 17 },
-                { label: 'Domain Relevance', percent: 10 },
+                { label: 'Ownership Depth', percent: 31, tooltip: 'Measures autonomy, scope of responsibility, and initiative.' },
+                { label: 'Impact Quantification', percent: 24, tooltip: 'Ability to articulate measurable business outcomes.' },
+                { label: 'Stakeholder Influence', percent: 18, tooltip: 'Capacity to drive decisions across organizational boundaries.' },
+                { label: 'Communication Clarity', percent: 17, tooltip: 'Structured communication and narrative coherence.' },
+                { label: 'Domain Relevance', percent: 10, tooltip: 'Depth of expertise in relevant technical or functional areas.' },
               ].map((item, i) => (
-                <div key={i}>
+                <div key={i} style={{ position: 'relative' }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 4 }}>
-                    <span style={{ fontSize: 10, fontWeight: 500, color: '#64748B' }}>{item.label}</span>
+                    <span 
+                      style={{ fontSize: 10, fontWeight: 500, color: '#64748B', cursor: 'help' }}
+                      title={item.tooltip}
+                    >
+                      {item.label}
+                    </span>
                     <span style={{ fontSize: 10, fontWeight: 600, color: '#94A3B8' }}>{item.percent}%</span>
                   </div>
-                  <div style={{ width: '100%', height: 4, background: '#E5E7EB', borderRadius: 2 }}>
+                  <div 
+                    style={{ width: '100%', height: 4, background: '#E5E7EB', borderRadius: 2, cursor: 'help' }}
+                    title={item.tooltip}
+                  >
                     <div
                       style={{
                         height: '100%',
@@ -229,14 +242,14 @@ export function ProactivePreparation({ currentStage = 1 }: { currentStage?: numb
               (e.target as HTMLButtonElement).style.boxShadow = '0 1px 3px rgba(30, 64, 175, 0.25)';
             }}
           >
-            Begin Evaluation
+            Generate My Strategic Interview Model
           </button>
         </div>
 
         {/* PREVIEW CARDS - LOCKED */}
         <div style={{ marginBottom: 16 }}>
           <p style={{ fontSize: 10, fontWeight: 600, color: '#94A3B8', margin: 0, textTransform: 'uppercase', letterSpacing: '0.5px' }}>
-            Preparation Modules
+            Strategic Execution Modules (Unlocked After Modeling)
           </p>
         </div>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 12 }}>
