@@ -449,7 +449,7 @@ export default function ActionDetailPage() {
                           background: "#2563EB",
                           borderRadius: 2,
                           zIndex: 1,
-                          width: `${((currentStage) / (job.stages.length - 1)) * 100}%`,
+                          width: `${((currentStage + 1) / (job.stages.length - 1)) * 100}%`,
                           transition: "width 0.5s ease",
                         }}
                       />
