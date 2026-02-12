@@ -543,7 +543,6 @@ export function ProactivePreparation({
     </div>
   )
 }
-          <h3 style={{ fontSize: 11, fontWeight: 600, color: '#64748B', margin: 0, textTransform: 'uppercase', letterSpacing: '0.5px' }}>
             {t('prep.readinessOverview')}
           </h3>
           <span style={{ fontSize: 11, color: '#64748B' }}>
