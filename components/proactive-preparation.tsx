@@ -129,7 +129,7 @@ export function ProactivePreparation({ currentStage = 1 }: { currentStage?: numb
         <div
           style={{
             ...card,
-            padding: 48,
+            padding: 40,
             marginBottom: 24,
             background: '#FFFFFF',
             border: '1px solid #E5E7EB',
@@ -173,17 +173,60 @@ export function ProactivePreparation({ currentStage = 1 }: { currentStage?: numb
             </div>
           </div>
 
+          {/* HIRING SIGNALS PREVIEW */}
+          <div style={{ marginBottom: 24, paddingBottom: 24, borderBottom: '1px solid #E5E7EB' }}>
+            <p style={{ fontSize: 10, fontWeight: 600, color: '#94A3B8', margin: '0 0 16px 0', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+              Hiring Signals Preview
+            </p>
+            <div style={{ display: 'grid', gap: 12 }}>
+              {[
+                { label: 'Ownership Depth', percent: 31 },
+                { label: 'Impact Quantification', percent: 24 },
+                { label: 'Stakeholder Influence', percent: 18 },
+                { label: 'Communication Clarity', percent: 17 },
+                { label: 'Domain Relevance', percent: 10 },
+              ].map((item, i) => (
+                <div key={i}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 4 }}>
+                    <span style={{ fontSize: 10, fontWeight: 500, color: '#64748B' }}>{item.label}</span>
+                    <span style={{ fontSize: 10, fontWeight: 600, color: '#94A3B8' }}>{item.percent}%</span>
+                  </div>
+                  <div style={{ width: '100%', height: 4, background: '#E5E7EB', borderRadius: 2 }}>
+                    <div
+                      style={{
+                        height: '100%',
+                        width: `${item.percent}%`,
+                        background: '#CBD5E1',
+                        borderRadius: 2,
+                      }}
+                    />
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
           <button
             onClick={handleStartCalibration}
             style={{
-              padding: '12px 28px',
-              background: '#2563EB',
+              padding: '14px 32px',
+              background: '#1E40AF',
               color: '#FFFFFF',
               border: 'none',
               borderRadius: 4,
               fontSize: 13,
               fontWeight: 600,
               cursor: 'pointer',
+              boxShadow: '0 1px 3px rgba(30, 64, 175, 0.25)',
+              transition: 'all 0.2s ease',
+            }}
+            onMouseOver={(e) => {
+              (e.target as HTMLButtonElement).style.background = '#1E3A8A';
+              (e.target as HTMLButtonElement).style.boxShadow = '0 2px 6px rgba(30, 64, 175, 0.35)';
+            }}
+            onMouseOut={(e) => {
+              (e.target as HTMLButtonElement).style.background = '#1E40AF';
+              (e.target as HTMLButtonElement).style.boxShadow = '0 1px 3px rgba(30, 64, 175, 0.25)';
             }}
           >
             Begin Evaluation
@@ -193,7 +236,7 @@ export function ProactivePreparation({ currentStage = 1 }: { currentStage?: numb
         {/* PREVIEW CARDS - LOCKED */}
         <div style={{ marginBottom: 16 }}>
           <p style={{ fontSize: 10, fontWeight: 600, color: '#94A3B8', margin: 0, textTransform: 'uppercase', letterSpacing: '0.5px' }}>
-            Execution Modules (Unlocked)
+            Preparation Modules
           </p>
         </div>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 12 }}>
