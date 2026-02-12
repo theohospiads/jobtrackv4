@@ -22,8 +22,12 @@ interface OptimizedAnswer {
   editable: string
 }
 
-export function ProactivePreparation() {
+export function ProactivePreparation({ currentStage = 1 }: { currentStage?: number }) {
   const { t } = useLanguage()
+  
+  // Only show during Proactive Preparation stage (stage 1)
+  if (currentStage !== 1) return null
+  
   const [calibrationState, setCalibrationState] = useState<'required' | 'calibrating' | 'complete'>('required')
   const [currentQuestion, setCurrentQuestion] = useState(0)
   const [responses, setResponses] = useState<CalibrationResponse[]>([])
