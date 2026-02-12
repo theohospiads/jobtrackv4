@@ -56,6 +56,9 @@ export function ProactivePreparation({
     ],
   }
 
+  // Flat array for grid rendering
+  const competencies = Object.values(competenciesByCategory).flat()
+
   const skillGaps = [
     { requirement: 'Quantified Impact', evidence: '1 example', gap: 'Medium' },
     { requirement: 'Stakeholder Influence', evidence: '2 examples', gap: 'Low' },
@@ -540,40 +543,6 @@ export function ProactivePreparation({
     </div>
   )
 }
-  )
-}
-
-  const skillGaps = [
-    { requirement: 'Quantified Impact', evidence: '1 example', gap: 'Medium' },
-    { requirement: 'Stakeholder Influence', evidence: '2 examples', gap: 'Low' },
-    { requirement: 'Data Interpretation', evidence: 'Strong', gap: 'Low' },
-  ]
-
-  const performanceLog = [
-    { day: 1, action: 'Completed Leadership Training', before: 58, after: 63 },
-    { day: 2, action: 'Improved Quantification Example', before: 63, after: 64 },
-  ]
-
-  const getRiskColor = (risk: string) => {
-    switch (risk) {
-      case 'high': return { bg: '#FEE2E2', text: '#991B1B' }
-      case 'medium': return { bg: '#FEF3C7', text: '#92400E' }
-      case 'low': return { bg: '#DCFCE7', text: '#166534' }
-      default: return { bg: '#F1F5F9', text: '#64748B' }
-    }
-  }
-
-  return (
-    <div style={{ marginBottom: 32 }}>
-      {/* SECTION HEADER */}
-      <div style={{ marginBottom: 24 }}>
-        <h2 style={{ fontSize: 14, fontWeight: 600, color: '#0F172A', margin: '0 0 6px 0', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
-          {t('prep.sectionTitle')}
-        </h2>
-        <p style={{ fontSize: 13, color: '#94A3B8', margin: 0 }}>
-          {t('prep.sectionSubtitle')}
-        </p>
-      </div>
 
       {/* 1. READINESS OVERVIEW STRIP */}
       <div style={{ ...card, padding: 20, marginBottom: 24 }}>
